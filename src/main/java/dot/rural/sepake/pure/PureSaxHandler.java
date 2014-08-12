@@ -59,21 +59,21 @@ public final class PureSaxHandler extends DefaultHandler {
         localNames.push(qName);
         text = new StringBuffer();
         if ("core:content".equals(qName)) {// This defines a new project
-            project = String.format(":Project#%s",
+            project = String.format("<http://dot.rural/sepake/Project#%s>",
                     attributes.getValue("uuid"));
-            triples.addTriple(project, "a", "prov:Organization");
+            triples.addTriple(project, "rdf:type", "prov:Organization");
         }
         if ("stab1:owner".equals(qName)) {// This defines a new department
-            dept = String.format(":Department#%s",
+            dept = String.format("<http://dot.rural/sepake/Department#%s>",
                     attributes.getValue("uuid"));
-            triples.addTriple(dept, "a", "prov:Organization");
-            triples.addTriple(dept, ":owns", project);
+            triples.addTriple(dept, "rdf:type", "prov:Organization");
+            triples.addTriple(dept, "<http://dot.rural/sepake/owns>", project);
         }
         if ("person-template:person".equals(qName)) {// This defines a new person
-            person = String.format(":Person#%s",
+            person = String.format("<http://dot.rural/sepake/Person#%s>",
                     attributes.getValue("uuid"));
-            triples.addTriple(person, "a", "prov:Person");
-            triples.addTriple(person, "a", "foaf:Person");
+            triples.addTriple(person, "rdf:type", "prov:Person");
+            triples.addTriple(person, "rdf:type", "foaf:Person");
             triples.addTriple(person, "prov:memberOf", project);
         }
     }
@@ -92,7 +92,7 @@ public final class PureSaxHandler extends DefaultHandler {
         //Update parser field
         String fullText = text.toString().trim();
         if (fullText.length() > 0) {// If there was actual text, use it if the tag was relevant
-            fullText = String.format("\"%s\"", fullText);//Quote as SPARQL constant
+            fullText = String.format("'%s'", fullText);//Quote as SPARQL constant
             if ("stab1:title".equals(qName)) {// Title of a project
                 triples.addTriple(project, "rdfs:label", fullText);
             }
