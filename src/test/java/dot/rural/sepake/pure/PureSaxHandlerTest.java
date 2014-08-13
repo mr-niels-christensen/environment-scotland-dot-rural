@@ -9,8 +9,6 @@ import javax.xml.parsers.SAXParserFactory;
 import org.junit.Assert;
 import org.junit.Test;
 
-import dot.rural.sepake.fuseki.LocalhostFusekiUpdater;
-
 public class PureSaxHandlerTest {
     @Test
     public void testProjectRural() throws Exception {
@@ -28,18 +26,5 @@ public class PureSaxHandlerTest {
         }
         Assert.assertEquals(65, output.size());
         Assert.assertTrue(output.contains("<Person#0606734d-5693-49ea-9ee3-cd4b8ddad60b> foaf:givenName 'Peter'"));
-    }
-    
-
-    @Test
-    public void testFuseki() throws Exception {
-        final InputStream is = getClass().getResourceAsStream("search-projects-for-rural.xml");
-        final LocalhostFusekiUpdater fuseki = new LocalhostFusekiUpdater();
-        try {
-            SAXParserFactory.newInstance().newSAXParser().parse(is, new PureSaxHandler(fuseki));
-        } finally {
-            is.close();
-        }
-        fuseki.flush();
     }
 }
