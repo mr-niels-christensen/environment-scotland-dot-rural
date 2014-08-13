@@ -59,18 +59,18 @@ public final class PureSaxHandler extends DefaultHandler {
         localNames.push(qName);
         text = new StringBuffer();
         if ("core:content".equals(qName)) {// This defines a new project
-            project = String.format("<http://dot.rural/sepake/Project#%s>",
+            project = String.format("<Project#%s>",
                     attributes.getValue("uuid"));
             triples.addTriple(project, "rdf:type", "prov:Organization");
         }
         if ("stab1:owner".equals(qName)) {// This defines a new department
-            dept = String.format("<http://dot.rural/sepake/Department#%s>",
+            dept = String.format("<Department#%s>",
                     attributes.getValue("uuid"));
             triples.addTriple(dept, "rdf:type", "prov:Organization");
-            triples.addTriple(dept, "<http://dot.rural/sepake/owns>", project);
+            triples.addTriple(dept, "<owns>", project);
         }
         if ("person-template:person".equals(qName)) {// This defines a new person
-            person = String.format("<http://dot.rural/sepake/Person#%s>",
+            person = String.format("<Person#%s>",
                     attributes.getValue("uuid"));
             triples.addTriple(person, "rdf:type", "prov:Person");
             triples.addTriple(person, "rdf:type", "foaf:Person");

@@ -32,7 +32,6 @@ public final class LocalhostFusekiUpdater implements
                 stmts.append(triple);
             }
             final String updateRequest = String.format(this.sparulFormatString, stmts);
-            System.out.println(updateRequest);
             UpdateProcessor upp = UpdateExecutionFactory.createRemote(
                     UpdateFactory.create(updateRequest), 
                     "http://localhost:3030/ds/update");

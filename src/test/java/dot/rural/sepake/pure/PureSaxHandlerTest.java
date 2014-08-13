@@ -27,7 +27,7 @@ public class PureSaxHandlerTest {
             is.close();
         }
         Assert.assertEquals(65, output.size());
-        Assert.assertTrue(output.contains("<http://dot.rural/sepake/Person#0606734d-5693-49ea-9ee3-cd4b8ddad60b> foaf:givenName \"Peter\""));
+        Assert.assertTrue(output.contains("<Person#0606734d-5693-49ea-9ee3-cd4b8ddad60b> foaf:givenName 'Peter'"));
     }
     
 
