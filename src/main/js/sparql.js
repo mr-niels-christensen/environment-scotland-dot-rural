@@ -20,13 +20,10 @@ $( document ).ready( function() {
       [
        "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>",
        "SELECT * WHERE {",
-       "  { BIND (<--IRI--> AS ?focus) .",
-       "    {?focus ?relation ?object} . FILTER ( isLiteral( ?object ) )",
-       "  }",
-       "  UNION",
-       "  { {?subject ?relation ?focus} .",
-       "    OPTIONAL {?subject rdfs:label ?subjectLabel}",
-       "  }",
+       "    BIND (<--IRI--> AS ?focus) .",
+       "    {?subject ?relation ?focus} .",
+       "    {?subject ?labelType ?subjectLabel} .",
+       "    FILTER ( isLiteral ( ?subjectLabel ) )",
        "}",
       ].join("\n"));
   updateFromIri( "http://dot.rural/sepake/Project#e963d657-b41f-44eb-a85d-7639346b378d" );
