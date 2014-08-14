@@ -11,6 +11,7 @@ function updateFromIri(iri) {
 
 function updateFromData( data ) {
   bindings = data.results.bindings;
+  console.log(bindings);
   for (index in bindings) {
     if (bindings[index].relation.value === "http://www.w3.org/2000/01/rdf-schema#label") {
       $( "#labelOfFocus" ).text(bindings[index].value.value)
@@ -31,10 +32,10 @@ $( document ).ready( function() {
       ].join("\n"));
   $( "body" ).data("metadata", 
       [
-       "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>",
        "SELECT * WHERE {",
        "    BIND (<--IRI--> AS ?focus) .",
        "    {?focus ?relation ?value} .",
+       "    FILTER ( isLiteral ( ?value ) )",
        "}",
       ].join("\n"));
   updateFromIri( "http://dot.rural/sepake/Project#e963d657-b41f-44eb-a85d-7639346b378d" );
