@@ -31,6 +31,7 @@ repositories {
 dependencies {
     compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
     compile group: 'org.apache.jena', name: 'jena-fuseki', version: '1.1.0'
+    compile group: 'org.apache.metamodel', name: 'MetaModel-full', version: '4.2.0-incubating'
     testCompile group: 'junit', name: 'junit', version: '4.+'
 }
 
