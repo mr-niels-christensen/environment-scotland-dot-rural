@@ -12,10 +12,17 @@ jar {
 
 mainClassName = "dot.rural.sepake.cli.DataServer3030"
 
-task toWww(type: Copy) {
+task wireframe(type: Copy) {
     from 'src/wireframe'
     into 'build/www'
 }
+
+task frontend(type: Copy) {
+    from 'src/main/js'
+    into 'build/www/alpha'
+}
+
+run.dependsOn 'wireframe', 'frontend'
 
 repositories {
     mavenCentral()
