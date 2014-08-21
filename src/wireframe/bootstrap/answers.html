@@ -76,30 +76,30 @@
                 <footer>Niels Christensen, 3 days ago</footer>
               </blockquote>
               <p><strong>Related to</strong> <a href="paper.html">Optimizing Carbon Storage Within a Spatially Heterogeneous Upland Grassland Through Sheep Grazing Management</a></p>
-              <form action="#" role="form">
+              <form action="#" class="form-horizontal" role="form">
                 <div class="radio">
                   <label>
                     <input type="radio" name="optionsRadios" id="optionsRadiosIgnore" value="ignore">
                     Ignore question
                   </label>
                 </div>                
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="optionsRadios" id="optionsRadiosForward" value="forward">
-                    Forward this question to
-                  </label>
+                <div class="form-group">
+                  <div class="radio">
+                    <label>
+                      <input type="radio" name="optionsRadios" id="optionsRadiosForward" value="forward">
+                      Forward this question to
+                      <input type="email" class="form-control" placeholder="colleague@uni.ac.uk" size="35">
+                    </label>
+                  </div>                
                 </div>                
                 <div class="radio">
                   <label>
                     <input type="radio" name="optionsRadios" id="optionsRadiosAnswer" value="answer" checked>
                     Answer this question
+                    <textarea rows="6" class="form-control" id="inputAnswer" placeholder="Type your answer here"></textarea>
                   </label>
-                </div>                
-                <div class="form-group">
-                  <label for="inputQuestion">Answer this question</label>
-                  <textarea style="width:100%;height:36em" id="inputQuestion" placeholder="Type your answer here"></textarea>
-               </div>
-              <button type="submit" class="btn btn-primary btn-lg btn-block">Post you answer</button>
+                </div>
+                <button type="submit" class="btn btn-success btn-lg">OK</button>
               </form>
             </div>
           </div>
