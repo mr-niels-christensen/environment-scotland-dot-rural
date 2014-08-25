@@ -6,7 +6,7 @@ function updateFromIri(iri) {
 function fuseki(template_key, iri) {
   var q = $( "body" ).data(template_key).query.replace(/--IRI--/g, iri);
   $.ajax({
-    url: "http://localhost:3030/ds/query",
+    url: "http://seweb.abdn.ac.uk/fuseki/ds/query",//TODO Add "timeout" and "error" to handle offline testing
     data: {
       "query" : q},
     dataType: 'json',
