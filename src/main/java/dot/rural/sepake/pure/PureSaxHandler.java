@@ -96,6 +96,9 @@ public final class PureSaxHandler extends DefaultHandler {
             if ("stab1:title".equals(qName)) {// Title of a project
                 triples.addTriple(project, "rdfs:label", fullText);
             }
+            if ("stab1:description".equals(qName)) {// Summary of a project
+                triples.addTriple(project, "rdfs:comment", fullText);
+            }
             if ("organisation-template:name".equals(qName)
                     && (localNames.contains("stab1:owner"))) {// Name of a department
                 triples.addTriple(dept, "rdfs:label", fullText);

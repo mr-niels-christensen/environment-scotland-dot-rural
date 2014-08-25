@@ -6,8 +6,8 @@ function updateFromIri(iri) {
 
 function fuseki(template_key, iri) {
   var q = $( "body" ).data(template_key).query.replace(/--IRI--/g, iri);
-  $.ajax({
-    url: "http://seweb.abdn.ac.uk/fuseki/ds/query",//TODO Add "timeout" and "error" to handle offline testing
+  $.ajax({//TODO Add "timeout" and "error" to handle network failiures and offline testing
+    url: "http://seweb.abdn.ac.uk/fuseki/ds/query",//Local testing with "http://localhost:3030/ds/query"
     data: {
       "query" : q},
     dataType: 'json',
@@ -36,14 +36,16 @@ function register_all_sparql_queries() {
 register(
       "metadata", 
       [
-       "SELECT ?label WHERE {",
+       "SELECT ?label ?comment WHERE {",
        "    BIND (<--IRI--> AS ?focus) .",
-       "    {?focus rdfs:label ?label}",
+       "    {?focus rdfs:label ?label} .",
+       "    {?focus rdfs:comment ?comment}",
        "}",
        "LIMIT 1",
       ],
       function (response) {
         $( "#labelOfFocus" ).text(response.results.bindings[0].label.value);
+        $( "#commentOfFocus" ).text(response.results.bindings[0].comment.value);
       });
   register(
       "owner",
