@@ -42,8 +42,8 @@ register(
        "}",
        "LIMIT 1",
       ],
-      function (data) {
-        $( "#labelOfFocus" ).text(data.results.bindings[0].label.value);
+      function (response) {
+        $( "#labelOfFocus" ).text(response.results.bindings[0].label.value);
       });
   register(
       "owner",
@@ -55,8 +55,8 @@ register(
        "}",
        "LIMIT 1",
       ],
-      function (data) {
-        $( "#labelOfOwner" ).text(data.results.bindings[0].label.value);
+      function (response) {
+        $( "#labelOfOwner" ).text(response.results.bindings[0].label.value);
       });
   register(
       "people",
@@ -70,9 +70,20 @@ register(
        "    {?person foaf:familyName ?family} .",
        "    BIND (CONCAT(?given, ' ', ?family) AS ?label)",
        "}",
-       "LIMIT 1",
+       "LIMIT 10",
       ],
-      function (data) {
-        $( "#listOfPeople .person" ).text(data.results.bindings[0].label.value);
+      function (response) {
+        $( "#listOfPeople .person" ).each(function(index, dom_elem) {
+          var bindings = response.results.bindings;
+          $(dom_elem).data( bindings[index] );
+          if (index < bindings.length) {
+            $(dom_elem).addClass("hasData");      
+            $(dom_elem).removeClass("noData");
+            $(dom_elem).text($(dom_elem).data().label.value)
+          } else {
+            $(dom_elem).removeClass("hasData");      
+            $(dom_elem).addClass("noData");                  
+          }
+        });
       });
 }
