@@ -14,15 +14,19 @@ function fuseki(template_key, iri) {
   });  
 }
 
+_PREAMBLE = [
+  "BASE <http://dot.rural/sepake/>",
+  "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>",
+  ];
+
 function register(templateName, lines, callback) {
-  $( "body" ).data(templateName, {"query": lines.join("\n"), "callback": callback});
+  $( "body" ).data(templateName, {"query": _PREAMBLE.concat(lines).join("\n"), "callback": callback});
 }
 
 $( document ).ready( function() {
   register(
       "metadata", 
       [
-       "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>",
        "SELECT ?label WHERE {",
        "    BIND (<--IRI--> AS ?focus) .",
        "    {?focus rdfs:label ?label}",
@@ -33,10 +37,8 @@ $( document ).ready( function() {
         $( "#labelOfFocus" ).text(data.results.bindings[0].label.value);
       });
   register(
-      "owner", 
+      "owner",
       [
-       "BASE <http://dot.rural/sepake/>",
-       "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>",
        "SELECT ?label WHERE {",
        "    BIND (<--IRI--> AS ?focus) .",
        "    {?owner <owns> ?focus} .",
