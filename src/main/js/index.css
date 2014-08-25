@@ -1,3 +1,7 @@
 .variableDataView .noData {
   display: none;
 }
+
+.noMore .moreAction {
+  display: none;
+}

@@ -75,16 +75,23 @@ register(
       ],
       function (response) {
         var bindings = response.results.bindings;
-        $( "#personList .personWrapper" ).each( function(index, dom_elem) {
-          $( dom_elem ).data( bindings[index] );
-          if (index < bindings.length) {
+        $( "#personList .personWrapper" ).each( function(index, dom_elem) {//TODO: #personList -> .personList to allow several
+          if (bindings.length > 0) {
+            $( dom_elem ).data( bindings.shift() );
+            $( dom_elem ).find( ".personLink" ).text( $( dom_elem ).data().label.value );
             $( dom_elem ).addClass( "hasData" );      
             $( dom_elem ).removeClass( "noData" );
-            $( dom_elem ).find( ".personLink" ).text( $( dom_elem ).data().label.value );
           } else {
             $( dom_elem ).removeClass( "hasData" );      
             $( dom_elem ).addClass( "noData" );                  
           }
         });
+        if (bindings.length > 0) { //More results to display
+          $( "#personList" ).addClass( "hasMore" );
+          $( "#personList" ).removeClass( "noMore" );
+        } else {
+          $( "#personList" ).removeClass( "hasMore" );
+          $( "#personList" ).addClass( "noMore" );          
+        }
       });
 }
