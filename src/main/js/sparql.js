@@ -70,19 +70,20 @@ register(
        "    {?person foaf:familyName ?family} .",
        "    BIND (CONCAT(?given, ' ', ?family) AS ?label)",
        "}",
-       "LIMIT 10",
+       "ORDER BY ASC(?family)",
+       "LIMIT 11",
       ],
       function (response) {
-        $( "#listOfPeople .person" ).each(function(index, dom_elem) {
-          var bindings = response.results.bindings;
-          $(dom_elem).data( bindings[index] );
+        var bindings = response.results.bindings;
+        $( "#personList .personWrapper" ).each( function(index, dom_elem) {
+          $( dom_elem ).data( bindings[index] );
           if (index < bindings.length) {
-            $(dom_elem).addClass("hasData");      
-            $(dom_elem).removeClass("noData");
-            $(dom_elem).text($(dom_elem).data().label.value)
+            $( dom_elem ).addClass( "hasData" );      
+            $( dom_elem ).removeClass( "noData" );
+            $( dom_elem ).find( ".personLink" ).text( $( dom_elem ).data().label.value );
           } else {
-            $(dom_elem).removeClass("hasData");      
-            $(dom_elem).addClass("noData");                  
+            $( dom_elem ).removeClass( "hasData" );      
+            $( dom_elem ).addClass( "noData" );                  
           }
         });
       });
