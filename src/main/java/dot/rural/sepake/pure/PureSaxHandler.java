@@ -62,6 +62,7 @@ public final class PureSaxHandler extends DefaultHandler {
             project = String.format("<Project#%s>",
                     attributes.getValue("uuid"));
             triples.addTriple(project, "rdf:type", "prov:Organization");
+            triples.addTriple(project, "rdf:type", "prov:Activity");
             triples.addTriple(project, "rdf:type", "foaf:Organization");
         }
         if ("stab1:owner".equals(qName)) {// This defines a new department
@@ -103,6 +104,10 @@ public final class PureSaxHandler extends DefaultHandler {
             if ("stab1:projectURL".equals(qName)) {// Link to a project
                 triples.addTriple(project, "foaf:homepage", fullText);
             }
+            if ("extensions-core:endDate".equals(qName) 
+                    && localNames.peek().equals("stab1:startFinishDate")) {// End-date of a project
+                triples.addTriple(project, "prov:endedAtTime", reformatDate(fullText));
+            }
             if ("organisation-template:name".equals(qName)
                     && (localNames.contains("stab1:owner"))) {// Name of a department
                 triples.addTriple(dept, "rdfs:label", fullText);
@@ -122,6 +127,11 @@ public final class PureSaxHandler extends DefaultHandler {
         }
     }
 
+    private String reformatDate(final String pureDate) {
+        return String.format(
+                "%s'^^xsd:dateTime",
+                pureDate.split("\\+")[0]);
+    }
     @Override
     public void characters(char ch[], int start, int length)
             throws SAXException {
