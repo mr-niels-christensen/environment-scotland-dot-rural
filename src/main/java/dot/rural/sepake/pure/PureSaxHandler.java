@@ -62,6 +62,7 @@ public final class PureSaxHandler extends DefaultHandler {
             project = String.format("<Project#%s>",
                     attributes.getValue("uuid"));
             triples.addTriple(project, "rdf:type", "prov:Organization");
+            triples.addTriple(project, "rdf:type", "foaf:Organization");
         }
         if ("stab1:owner".equals(qName)) {// This defines a new department
             dept = String.format("<Department#%s>",
@@ -98,6 +99,9 @@ public final class PureSaxHandler extends DefaultHandler {
             }
             if ("stab1:description".equals(qName)) {// Summary of a project
                 triples.addTriple(project, "rdfs:comment", fullText);
+            }
+            if ("stab1:projectURL".equals(qName)) {// Link to a project
+                triples.addTriple(project, "foaf:homepage", fullText);
             }
             if ("organisation-template:name".equals(qName)
                     && (localNames.contains("stab1:owner"))) {// Name of a department

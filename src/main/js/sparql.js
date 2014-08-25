@@ -36,16 +36,19 @@ function register_all_sparql_queries() {
 register(
       "metadata", 
       [
-       "SELECT ?label ?comment WHERE {",
+       "SELECT ?label ?comment ?homepage WHERE {",
        "    BIND (<--IRI--> AS ?focus) .",
        "    {?focus rdfs:label ?label} .",
        "    {?focus rdfs:comment ?comment}",
+       "    {?focus foaf:homepage ?homepage} .",
        "}",
        "LIMIT 1",
       ],
       function (response) {
         $( "#labelOfFocus" ).text(response.results.bindings[0].label.value);
         $( "#commentOfFocus" ).text(response.results.bindings[0].comment.value);
+        $( "#homepageOfFocus" ).text(response.results.bindings[0].homepage.value);
+        $( "#homepageOfFocus" ).attr("href", response.results.bindings[0].homepage.value);
       });
   register(
       "owner",
