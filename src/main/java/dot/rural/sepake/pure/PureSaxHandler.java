@@ -104,6 +104,10 @@ public final class PureSaxHandler extends DefaultHandler {
             if ("stab1:projectURL".equals(qName)) {// Link to a project
                 triples.addTriple(project, "foaf:homepage", fullText);
             }
+            if ("extensions-core:startDate".equals(qName) 
+                    && localNames.peek().equals("stab1:startFinishDate")) {// Start-date of a project
+                triples.addTriple(project, "prov:startedAtTime", reformatDate(fullText));
+            }
             if ("extensions-core:endDate".equals(qName) 
                     && localNames.peek().equals("stab1:startFinishDate")) {// End-date of a project
                 triples.addTriple(project, "prov:endedAtTime", reformatDate(fullText));

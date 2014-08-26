@@ -7,7 +7,7 @@ function updateFromIri(iri) {
 function fuseki(template_key, iri) {
   var q = $( "body" ).data(template_key).query.replace(/--IRI--/g, iri);
   $.ajax({//TODO Add "timeout" and "error" to handle network failiures and offline testing
-    url: "http://seweb.abdn.ac.uk/fuseki/ds/query",//Local testing with "http://localhost:3030/ds/query",
+    url: "http://localhost:3030/ds/query",//"http://seweb.abdn.ac.uk/fuseki/ds/query",//Local testing with "http://localhost:3030/ds/query",
     data: {
       "query" : q},
     dataType: 'json',
@@ -36,11 +36,12 @@ function register_all_sparql_queries() {
 register(
       "metadata", 
       [
-       "SELECT ?label ?comment ?homepage ?endedAtTime WHERE {",
+       "SELECT ?label ?comment ?homepage ?startedAtTime ?endedAtTime WHERE {",
        "    BIND (<--IRI--> AS ?focus) .",
        "    {?focus rdfs:label ?label} .",
        "    {?focus rdfs:comment ?comment} .",
        "    {?focus foaf:homepage ?homepage} .",
+       "    {?focus prov:startedAtTime ?startedAtTime} .",
        "    {?focus prov:endedAtTime ?endedAtTime} .",
        "}",
        "LIMIT 1",
@@ -50,6 +51,7 @@ register(
         $( "#commentOfFocus" ).text(response.results.bindings[0].comment.value);
         $( "#homepageOfFocus" ).text(response.results.bindings[0].homepage.value);
         $( "#homepageOfFocus" ).attr("href", response.results.bindings[0].homepage.value);
+        $( "#startedAtTime" ).text(response.results.bindings[0].startedAtTime.value);
         $( "#endedAtTime" ).text(response.results.bindings[0].endedAtTime.value);
       });
   register(
