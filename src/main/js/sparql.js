@@ -83,15 +83,17 @@ register(
   register(
       "owner",
       [
-       "SELECT ?label WHERE {",
+       "SELECT ?label ?homepage WHERE {",
        "    BIND (<--IRI--> AS ?focus) .",
        "    {?owner <owns> ?focus} .",
-       "    {?owner rdfs:label ?label}",
+       "    {?owner rdfs:label ?label} .",
+       "    {?owner foaf:homepage ?homepage}",
        "}",
        "LIMIT 1",
       ],
       function (response) {
         $( "#labelOfOwner" ).text(response.results.bindings[0].label.value);
+        $( "#labelOfOwner" ).attr('href', response.results.bindings[0].homepage.value);
       });
   register(
       "people",
