@@ -1,6 +1,5 @@
 function updateFromIri(iri) {
   fuseki( "metadata", iri );
-  fuseki( "owner", iri);
   fuseki( "people", iri);
 }
 
@@ -62,13 +61,16 @@ function register_all_sparql_queries() {
 register(
       "metadata", 
       [
-       "SELECT ?label ?comment ?homepage ?startedAtTime ?endedAtTime WHERE {",
+       "SELECT * WHERE {",
        "    BIND (<--IRI--> AS ?focus) .",
        "    {?focus rdfs:label ?label} .",
        "    {?focus rdfs:comment ?comment} .",
        "    {?focus foaf:homepage ?homepage} .",
        "    {?focus prov:startedAtTime ?startedAtTime} .",
        "    {?focus prov:endedAtTime ?endedAtTime} .",
+       "    {?owner <owns> ?focus} .",
+       "    {?owner rdfs:label ?ownerLabel} .",
+       "    {?owner foaf:homepage ?ownerHomepage} .",
        "}",
        "LIMIT 1",
       ],
@@ -79,21 +81,8 @@ register(
         $( "#homepageOfFocus" ).attr("href", response.results.bindings[0].homepage.value);
         $( "#startedAtTime" ).text(response.results.bindings[0].startedAtTime.value);
         $( "#endedAtTime" ).text(response.results.bindings[0].endedAtTime.value);
-      });
-  register(
-      "owner",
-      [
-       "SELECT ?label ?homepage WHERE {",
-       "    BIND (<--IRI--> AS ?focus) .",
-       "    {?owner <owns> ?focus} .",
-       "    {?owner rdfs:label ?label} .",
-       "    {?owner foaf:homepage ?homepage}",
-       "}",
-       "LIMIT 1",
-      ],
-      function (response) {
-        $( "#labelOfOwner" ).text(response.results.bindings[0].label.value);
-        $( "#labelOfOwner" ).attr('href', response.results.bindings[0].homepage.value);
+        $( "#labelOfOwner" ).text(response.results.bindings[0].ownerLabel.value);
+        $( "#labelOfOwner" ).attr('href', response.results.bindings[0].ownerHomepage.value);
       });
   register(
       "people",
