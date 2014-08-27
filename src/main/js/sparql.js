@@ -4,15 +4,40 @@ function updateFromIri(iri) {
   fuseki( "people", iri);
 }
 
-function fuseki(template_key, iri) {
+var _FUSEKI_URLS = ["http://seweb.abdn.ac.uk/fuseki/ds/query", "http://localhost:3030/ds/query"];
+var fuseki = function(template_key, iri) { console.log("Error - not initialized"); };
+
+function initFuseki() {
+  if ("file:" === $(location).attr('protocol')) { //Local testing
+    _FUSEKI_URLS.reverse(); //Prefer localhost to server
+  }
+  fuseki = function(template_key, iri) {
+    fusekiCall(
+        _FUSEKI_URLS[0],
+        template_key, 
+        iri,
+        function () { 
+          fusekiCall( 
+              _FUSEKI_URLS[1], 
+              template_key, 
+              iri, 
+              function () { console.log( "No response to " + template_key + " query for " + iri ); }
+          ); 
+        });
+  };
+}
+
+function fusekiCall(fusekiUrl, template_key, iri, errorCallback) {
   var q = $( "body" ).data(template_key).query.replace(/--IRI--/g, iri);
-  $.ajax({//TODO Add "timeout" and "error" to handle network failiures and offline testing
-    url: "http://seweb.abdn.ac.uk/fuseki/ds/query",//Local testing with "http://localhost:3030/ds/query",
+  $.ajax({
+    url: fusekiUrl,
     data: {
       "query" : q},
     dataType: 'json',
-    success: $( "body" ).data(template_key).callback
-  });  
+    success: $( "body" ).data(template_key).callback,
+    timeout: 2500,
+    error: errorCallback,
+  });
 }
 
 function register(templateName, lines, callback) {
@@ -20,6 +45,7 @@ function register(templateName, lines, callback) {
 }
 
 $( document ).ready( function() {
+  initFuseki();
   register_all_sparql_queries();
   updateFromIri( "http://dot.rural/sepake/Project#e963d657-b41f-44eb-a85d-7639346b378d" );
 });
