@@ -87,13 +87,14 @@ register(
   register(
       "people",
       [
-       "SELECT ?label WHERE {",
+       "SELECT * WHERE {",
        "    BIND (<--IRI--> AS ?focus) .",
        "    {?person prov:memberOf ?focus} .",
        "    {?person rdf:type prov:Person} .",
        "    {?person rdf:type foaf:Person} .",
        "    {?person foaf:givenName ?given} .",
        "    {?person foaf:familyName ?family} .",
+       "    {?person foaf:mbox ?mbox} .",
        "    BIND (CONCAT(?given, ' ', ?family) AS ?label)",
        "}",
        "ORDER BY ASC(?family)",
@@ -105,18 +106,15 @@ register(
           if (bindings.length > 0) {
             $( dom_elem ).data( bindings.shift() );
             $( dom_elem ).find( ".personLink" ).text( $( dom_elem ).data().label.value );
-            $( dom_elem ).addClass( "hasData" );      
+            $( dom_elem ).find( ".personLink" ).attr('title', $( dom_elem ).data().mbox.value );
             $( dom_elem ).removeClass( "noData" );
           } else {
-            $( dom_elem ).removeClass( "hasData" );      
             $( dom_elem ).addClass( "noData" );                  
           }
         });
         if (bindings.length > 0) { //More results to display
-          $( "#personList" ).addClass( "hasMore" );
           $( "#personList" ).removeClass( "noMore" );
         } else {
-          $( "#personList" ).removeClass( "hasMore" );
           $( "#personList" ).addClass( "noMore" );          
         }
       });
