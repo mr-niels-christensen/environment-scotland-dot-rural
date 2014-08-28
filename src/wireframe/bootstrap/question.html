@@ -27,8 +27,22 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <style>
-    #chart_panel .google-visualization-orgchart-node {
-      border: none;
+    #popup {
+    position:fixed;
+    top: 50%;
+    left: 50%;
+    width:30em;
+    height:20em;
+    margin-top: -10em; /*set to a negative number 1/2 of your height*/
+    margin-left: -15em; /*set to a negative number 1/2 of your width*/
+    border: 5px solid black;
+    background-color: aquamarine;
+    display: none;
+    }
+    .centerplease {
+    display: block;
+    margin-left: auto;
+    margin-right: auto
     }
     </style>
   </head>
@@ -96,7 +110,16 @@
                 <label for="inputRelated">Related to</label>
                 <p class="form-control-static" id="inputRelated">Optimizing Carbon Storage Within a Spatially Heterogeneous Upland Grassland Through Sheep Grazing Management</p>
              </div>
-            <button type="submit" class="btn btn-primary btn-lg btn-block">Post your question</button>
+            <input id="postbutton" type="button" class="btn btn-primary btn-lg btn-block" value="Post your question"/>
+            <div id="popup">
+              <p class="lead text-justify">
+                The system would now verify the email of the inquirer.
+                Once that had been confirmed, the most relevant expert(s) is identified
+                and notified on email.
+                We continue by showing the page linked in the email to the expert(s). 
+              </p>
+              <button type="submit" class="btn btn-lg centerplease">Continue</button>
+            </div>
           </div>
           </form>
 
@@ -106,5 +129,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script src="https://www.google.com/jsapi"></script>
+    <script>
+$( "#postbutton" ).click(function() {
+  $( "#popup" ).slideDown( "slow", function() {
+    // Animation complete.
+  });
+});    </script>
   </body>
 </html>
