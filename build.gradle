@@ -10,7 +10,7 @@ jar {
     }
 }
 
-mainClassName = "dot.rural.sepake.cli.DataServer3030"
+mainClassName = "dot.rural.sepake.cli.Loader3030"
 
 task wireframe(type: Copy) {
     from 'src/wireframe'
@@ -23,6 +23,11 @@ task frontend(type: Copy) {
 }
 
 run.dependsOn 'wireframe', 'frontend'
+
+task( fuseki, dependsOn: jar, type: JavaExec ) {
+    main = 'dot.rural.sepake.cli.DataServer3030'
+    classpath = sourceSets.main.runtimeClasspath
+}
 
 repositories {
     mavenCentral()
