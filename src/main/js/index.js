@@ -1,15 +1,28 @@
-//TODO: Initialize all below from $( document ).ready
+function indexJsInit() {
+  $('#search').one( "preloaded", initSearch);
+  fuseki( "searchables", "");
+  $( ".x10" ).each( function(index, dom_element) {
+    var new_elems = [];
+    var n_copies = 9;
+    for (i = 0; i < n_copies; i++) {
+      new_elems.push($(dom_element).children().clone());
+    }
+    for (i = 0; i < n_copies; i++) {
+      $(dom_element).append(new_elems[i]);
+    }
+  });
+}
 
-$( ".x10" ).each( function(index, dom_element) {
-  var new_elems = [];
-  var n_copies = 9;
-  for (i = 0; i < n_copies; i++) {
-    new_elems.push($(dom_element).children().clone());
-  }
-  for (i = 0; i < n_copies; i++) {
-    $(dom_element).append(new_elems[i]);
-  }
-});
+function initSearch(event, data) {
+  $('#search').typeahead({},
+      {
+        source: substringMatcher(data.items),//TODO: Use Bloodhound
+        displayKey: "label",
+        templates: {
+          suggestion: function (proj) { return "<p class='searchsuggestion'>" + proj.label + "</p>"; },
+        },
+      });  
+}
 
 var substringMatcher = function(projs) {
   return function findMatches(q, cb) {
@@ -35,16 +48,3 @@ var substringMatcher = function(projs) {
   };
 };
 
-var projects = [{
-  label: 'RURAL DIGITAL ECONOMY RESEARCH HUB'.toLowerCase(), 
-  summary: 'One of the three RCUK Digital Economy Research Hubs. Exploring how digital technologies can have a transformational impact on rural communities and business. User-centric activity is based around four interconnecting themes: Accessibility & Mobilities, Healthcare, Enterprise & Culture, and Natural Resource Conservation.',
-}];
-
-$('#search').typeahead({},
-{
-  source: substringMatcher(projects),//TODO: Use Bloodhound
-  displayKey: "label",
-  templates: {
-    suggestion: function (proj) { return "<p class='searchsuggestion'>" + proj.label + "</p>"; },
-  },
-});

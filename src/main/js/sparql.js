@@ -27,25 +27,26 @@ function initFuseki() {
 }
 
 function fusekiCall(fusekiUrl, template_key, iri, errorCallback) {
-  var q = $( "body" ).data(template_key).query.replace(/--IRI--/g, iri);
+  var q = $( "body" ).data( "sparql-" + template_key).query.replace(/--IRI--/g, iri);
   $.ajax({
     url: fusekiUrl,
     data: {
       "query" : q},
     dataType: 'json',
-    success: $( "body" ).data(template_key).callback,
+    success: $( "body" ).data( "sparql-" + template_key).callback,
     timeout: 2500,
     error: errorCallback,
   });
 }
 
 function register(templateName, lines, callback) {
-  $( "body" ).data(templateName, {"query": _PREAMBLE.concat(lines).join("\n"), "callback": callback});
+  $( "body" ).data( "sparql-" + templateName, {"query": _PREAMBLE.concat(lines).join("\n"), "callback": callback});
 }
 
 $( document ).ready( function() {
   initFuseki();
   register_all_sparql_queries();
+  indexJsInit();
   updateFromIri( "http://dot.rural/sepake/Project#e963d657-b41f-44eb-a85d-7639346b378d" );
 });
 
@@ -58,7 +59,7 @@ _PREAMBLE = [
              ];
 
 function register_all_sparql_queries() {
-register(
+  register(
       "metadata", 
       [
        "SELECT * WHERE {",
@@ -121,5 +122,22 @@ register(
         } else {
           $( "#personList" ).addClass( "noMore" );          
         }
+      });
+  register(
+      "searchables", 
+      [
+       "SELECT * WHERE {",//TODO: Get type, but only one record per id, maybe using #3
+       "    {?id rdfs:label ?label} .",
+       "    {?id rdfs:comment ?comment} .",
+       "}",
+      ],
+      function (response) {
+        $( "#search" ).trigger( "preloaded", {items: $.map( response.results.bindings, function(binding, index) {
+          return {
+            label: binding.label.value.toLowerCase(), 
+            comment: binding.comment.value.slice(0, 160),
+            id: binding.id.value,
+          };
+        })});
       });
 }
