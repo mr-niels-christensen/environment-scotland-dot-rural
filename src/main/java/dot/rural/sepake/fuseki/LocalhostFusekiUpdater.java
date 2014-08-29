@@ -32,7 +32,6 @@ public final class LocalhostFusekiUpdater implements
                 stmts.append(triple);
             }
             final String updateRequest = String.format(this.sparulFormatString, stmts);
-            System.out.println(updateRequest);
             UpdateProcessor upp = UpdateExecutionFactory.createRemote(
                     UpdateFactory.create(updateRequest), 
                     "http://localhost:3030/ds/update");
@@ -44,7 +43,7 @@ public final class LocalhostFusekiUpdater implements
     @Override
     public void addTriple(String object, String predicate, String subject,
             String xsdType) {
-        subject = subject.replace('\'', '\"');
+        subject = subject.replace('\'', '\"').replace('\n', ' ');//TODO: Better encoding handling
         if (null != xsdType) {
             this.triples.add(String.format("%s %s '%s'^^%s .\n", object, predicate, subject, xsdType));
         } else {
