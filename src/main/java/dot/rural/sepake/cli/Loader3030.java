@@ -19,7 +19,7 @@ public final class Loader3030 {
     private static void loadData() {
         final LocalhostFusekiUpdater fusekiUpdater = new LocalhostFusekiUpdater();
         log("Reading data...");
-        try (final InputStream is = Loader3030.class.getResourceAsStream("search-projects-for-rural.xml");)
+        try (final InputStream is = Loader3030.class.getResourceAsStream("all-abdn-projects.xml");)//"search-projects-for-rural.xml");)
         {
             SAXParserFactory.newInstance().newSAXParser().parse(is, new PureSaxHandler(fusekiUpdater));
             log("OK, data read. Loading data into Fuseki...");

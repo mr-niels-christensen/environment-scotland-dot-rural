@@ -32,12 +32,25 @@ public final class LocalhostFusekiUpdater implements
                 stmts.append(triple);
             }
             final String updateRequest = String.format(this.sparulFormatString, stmts);
+            System.out.println(updateRequest);
             UpdateProcessor upp = UpdateExecutionFactory.createRemote(
                     UpdateFactory.create(updateRequest), 
                     "http://localhost:3030/ds/update");
             upp.execute();
             triples.clear();
         }
+    }
+
+    @Override
+    public void addTriple(String object, String predicate, String subject,
+            String xsdType) {
+        subject = subject.replace('\'', '\"');
+        if (null != xsdType) {
+            this.triples.add(String.format("%s %s '%s'^^%s .\n", object, predicate, subject, xsdType));
+        } else {
+            this.triples.add(String.format("%s %s '%s' .\n", object, predicate, subject));            
+        }
+        
     }
 
 }
