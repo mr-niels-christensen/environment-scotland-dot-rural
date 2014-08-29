@@ -1,3 +1,5 @@
+//TODO: Initialize all below from $( document ).ready
+
 $( ".x10" ).each( function(index, dom_element) {
   var new_elems = [];
   var n_copies = 9;
@@ -22,7 +24,7 @@ var substringMatcher = function(projs) {
     // iterate through the pool of strings and for any string that
     // contains the substring `q`, add it to the `matches` array
     $.each(projs, function(i, proj) {
-      if ((substrRegex.test(proj.label)) || (substrRegex.test(proj.summary))) {
+      if (substrRegex.test(proj.label)) {
         // the typeahead jQuery plugin expects suggestions to a
         // JavaScript object, refer to typeahead docs for more info
         matches.push(proj);
@@ -34,12 +36,15 @@ var substringMatcher = function(projs) {
 };
 
 var projects = [{
-  label: 'RURAL DIGITAL ECONOMY RESEARCH HUB', 
+  label: 'RURAL DIGITAL ECONOMY RESEARCH HUB'.toLowerCase(), 
   summary: 'One of the three RCUK Digital Economy Research Hubs. Exploring how digital technologies can have a transformational impact on rural communities and business. User-centric activity is based around four interconnecting themes: Accessibility & Mobilities, Healthcare, Enterprise & Culture, and Natural Resource Conservation.',
 }];
 
 $('#search').typeahead({},
 {
-  source: substringMatcher(projects),
+  source: substringMatcher(projects),//TODO: Use Bloodhound
   displayKey: "label",
+  templates: {
+    suggestion: function (proj) { return "<p class='searchsuggestion'>" + proj.label + "</p>"; },
+  },
 });
