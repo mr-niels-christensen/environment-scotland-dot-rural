@@ -75,14 +75,18 @@ register(
        "LIMIT 1",
       ],
       function (response) {
-        $( "#labelOfFocus" ).text(response.results.bindings[0].label.value);
-        $( "#commentOfFocus" ).text(response.results.bindings[0].comment.value);
-        $( "#homepageOfFocus" ).text(response.results.bindings[0].homepage.value);
-        $( "#homepageOfFocus" ).attr("href", response.results.bindings[0].homepage.value);
-        $( "#startedAtTime" ).text(response.results.bindings[0].startedAtTime.value);
-        $( "#endedAtTime" ).text(response.results.bindings[0].endedAtTime.value);
-        $( "#labelOfOwner" ).text(response.results.bindings[0].ownerLabel.value);
-        $( "#labelOfOwner" ).attr('href', response.results.bindings[0].ownerHomepage.value);
+        try{
+          $( "#labelOfFocus" ).text(response.results.bindings[0].label.value);
+          $( "#commentOfFocus" ).text(response.results.bindings[0].comment.value);
+          $( "#homepageOfFocus" ).text(response.results.bindings[0].homepage.value);
+          $( "#homepageOfFocus" ).attr("href", response.results.bindings[0].homepage.value);
+          $( "#startedAtTime" ).text(response.results.bindings[0].startedAtTime.value);
+          $( "#endedAtTime" ).text(response.results.bindings[0].endedAtTime.value);
+          $( "#labelOfOwner" ).text(response.results.bindings[0].ownerLabel.value);
+          $( "#labelOfOwner" ).attr('href', response.results.bindings[0].ownerHomepage.value);
+        } catch (err) {
+          console.dir( err );
+        }
       });
   register(
       "people",
