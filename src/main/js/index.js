@@ -16,17 +16,18 @@ function indexJsInit() {
 function initSearch(event, data) {
   $( '#search' ).typeahead({},
       {
+        name: "projects",
         source: substringMatcher(data.items),//TODO: Use Bloodhound
         displayKey: "label",
-        templates: {
-          suggestion: function (proj) { return "<p class='searchsuggestion'>" + proj.label + "</p>"; },
-        },
       }).on( 'typeahead:selected', function(jQueryEvent, suggestionObject, nameOfDataset) {
         updateFromIri( suggestionObject.id );
   });
 }
 
 var substringMatcher = function(projs) {
+  $.each(projs, function(i, proj) {
+    proj.label = proj.label.toLowerCase();
+  });
   return function findMatches(q, cb) {
     var matches, substrRegex;
  
