@@ -14,7 +14,11 @@ function indexJsInit() {
 }
 
 function initSearch(event, data) {
-  $( '#search' ).typeahead({},
+  $( '#search' ).typeahead(
+      {
+        highlight: true,
+        hint: false,
+      },
       {
         name: "projects",
         source: substringMatcher(data.items),//TODO: Use Bloodhound

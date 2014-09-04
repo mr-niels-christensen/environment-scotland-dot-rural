@@ -22,7 +22,11 @@
     text-transform: capitalize;
     padding: 3px 20px;
     font-size: 12px;
-    line-height: 15px;
+    line-height: 18px;
+}
+
+.tt-dataset-projects .tt-highlight {
+    background-color: yellow;
 }
 
 .tt-dataset-projects .tt-cursor {
