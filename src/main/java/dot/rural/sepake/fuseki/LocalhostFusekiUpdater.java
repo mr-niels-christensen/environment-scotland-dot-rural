@@ -32,10 +32,19 @@ public final class LocalhostFusekiUpdater implements
                 stmts.append(triple);
             }
             final String updateRequest = String.format(this.sparulFormatString, stmts);
-            UpdateProcessor upp = UpdateExecutionFactory.createRemote(
-                    UpdateFactory.create(updateRequest), 
-                    "http://localhost:3030/ds/update");
-            upp.execute();
+            try {
+                UpdateProcessor upp = UpdateExecutionFactory.createRemote(
+                        UpdateFactory.create(updateRequest), 
+                        "http://localhost:3030/ds/update");
+                upp.execute();
+            } catch (RuntimeException e) {
+                System.err.println("Exception occurred while performing the following SPARQL query.");
+                final String[] sparqlSplit = updateRequest.split("\\n");
+                for (int i = 0; i < sparqlSplit.length; i++) {
+                    System.err.println(String.format("<%4d>%s", i + 1, sparqlSplit[i]));
+                }
+                throw e;
+            }
             triples.clear();
         }
     }
