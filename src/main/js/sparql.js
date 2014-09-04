@@ -50,6 +50,14 @@ $( document ).ready( function() {
   updateFromIri( "http://dot.rural/sepake/Project#e963d657-b41f-44eb-a85d-7639346b378d" );
 });
 
+function _valuesOfSparqlBinding( sparqlBinding ) {
+  var result = {};
+  for (key in sparqlBinding) {
+    result[key] = sparqlBinding[key].value;
+  }
+  return result;
+}
+
 _PREAMBLE = [
              "BASE <http://dot.rural/sepake/>",
              "PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>",
@@ -65,28 +73,29 @@ function register_all_sparql_queries() {
        "SELECT * WHERE {",
        "    BIND (<--IRI--> AS ?focus) .",
        "    {?focus rdfs:label ?label} .",
-       "    {?focus rdfs:comment ?comment} .",
-       "    {?focus foaf:homepage ?homepage} .",
-       "    {?focus prov:startedAtTime ?startedAtTime} .",
-       "    {?focus prov:endedAtTime ?endedAtTime} .",
-       "    {?owner <owns> ?focus} .",
-       "    {?owner rdfs:label ?ownerLabel} .",
-       "    {?owner foaf:homepage ?ownerHomepage} .",
+       "    OPTIONAL {?focus rdfs:comment ?comment} .",
+       "    OPTIONAL {?focus foaf:homepage ?homepage} .",
+       "    OPTIONAL {?focus prov:startedAtTime ?startedAtTime} .",
+       "    OPTIONAL {?focus prov:endedAtTime ?endedAtTime} .",
+       "    OPTIONAL {?owner <owns> ?focus} .",
+       "    OPTIONAL {?owner rdfs:label ?ownerLabel} .",
+       "    OPTIONAL {?owner foaf:homepage ?ownerHomepage} .",
        "}",
        "LIMIT 1",
       ],
       function (response) {
         try{
-          $( "#labelOfFocus" ).text(response.results.bindings[0].label.value);
-          $( "#commentOfFocus" ).text(response.results.bindings[0].comment.value);
-          $( "#homepageOfFocus" ).text(response.results.bindings[0].homepage.value);
-          $( "#homepageOfFocus" ).attr("href", response.results.bindings[0].homepage.value);
-          $( "#startedAtTime" ).text(response.results.bindings[0].startedAtTime.value);
-          $( "#endedAtTime" ).text(response.results.bindings[0].endedAtTime.value);
-          $( "#labelOfOwner" ).text(response.results.bindings[0].ownerLabel.value);
-          $( "#labelOfOwner" ).attr('href', response.results.bindings[0].ownerHomepage.value);
+          var values = _valuesOfSparqlBinding(response.results.bindings[0]);
+          $( "#labelOfFocus" ).text(values.label);
+          $( "#commentOfFocus" ).text(values.comment || "(No summary)");
+          $( "#homepageOfFocus" ).text(values.homepage || "");
+          $( "#homepageOfFocus" ).attr("href", values.homepage || "");
+          $( "#startedAtTime" ).text(values.startedAtTime || "(unknown)");
+          $( "#endedAtTime" ).text(values.endedAtTime || "(unknown)");
+          $( "#labelOfOwner" ).text(values.ownerLabel || "");
+          $( "#labelOfOwner" ).attr('href', values.ownerHomepage || "");
         } catch (err) {
-          console.dir( err );
+          console.log( err );
         }
       });
   register(
@@ -133,11 +142,7 @@ function register_all_sparql_queries() {
       ],
       function (response) {
         $( "#search" ).trigger( "preloaded", {items: $.map( response.results.bindings, function(binding, index) {
-          return {
-            label: binding.label.value.toLowerCase(), 
-            comment: binding.comment.value.slice(0, 160),
-            id: binding.id.value,
-          };
+          return _valuesOfSparqlBinding(binding);
         })});
       });
 }
