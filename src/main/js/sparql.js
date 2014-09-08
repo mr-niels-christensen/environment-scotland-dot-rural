@@ -20,7 +20,10 @@ function initFuseki() {
               _FUSEKI_URLS[1], 
               template_key, 
               iri, 
-              function () { console.log( "No response to " + template_key + " query for " + iri ); }
+              function () { 
+                console.log( "No response to " + template_key + " query for " + iri );
+                $( "#myAjaxAlert" ).removeClass( "hide" );
+              }
           ); 
         });
   };
