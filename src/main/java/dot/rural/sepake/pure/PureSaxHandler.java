@@ -94,15 +94,15 @@ public final class PureSaxHandler extends DefaultHandler {
         }
         //Update parser field
         String fullText = text.toString().trim();
+        if ("stab1:title".equals(qName)) {// Title of a project
+            triples.addTriple(project, "rdfs:label", or(fullText, "(No title)"), null);
+        }
+        if ("stab1:description".equals(qName)) {// Summary of a project
+            triples.addTriple(project, "rdfs:comment", or(fullText, "(No summary)"), null);
+        }
         if (fullText.length() > 0) {// If there was actual text, use it if the tag was relevant
-            if ("stab1:title".equals(qName)) {// Title of a project
-                triples.addTriple(project, "rdfs:label", fullText, null);
-            }
-            if ("stab1:description".equals(qName)) {// Summary of a project
-                triples.addTriple(project, "rdfs:comment", fullText, null);
-            }
             if ("stab1:projectURL".equals(qName)) {// Link to a project
-                triples.addTriple(project, "foaf:homepage", fullText, null);
+                triples.addTriple(project, "foaf:homepage", fullText, "xsd:QName");
             }
             if ("extensions-core:startDate".equals(qName) 
                     && localNames.peek().equals("stab1:startFinishDate")) {// Start-date of a project
@@ -133,6 +133,10 @@ public final class PureSaxHandler extends DefaultHandler {
                 triples.addTriple(person, "foaf:mbox", fullText, null);
             }
         }
+    }
+    
+    private static String or(final String fullText, final String defaultIfEmpty) {
+        return (fullText.length() > 0) ? fullText : defaultIfEmpty;
     }
 
     /**

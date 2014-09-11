@@ -14,14 +14,16 @@ function indexJsInit() {
 }
 
 function initSearch(event, data) {
-  $('#search').typeahead({},
+  $( '#search' ).typeahead({},
       {
         source: substringMatcher(data.items),//TODO: Use Bloodhound
         displayKey: "label",
         templates: {
           suggestion: function (proj) { return "<p class='searchsuggestion'>" + proj.label + "</p>"; },
         },
-      });  
+      }).on( 'typeahead:selected', function(jQueryEvent, suggestionObject, nameOfDataset) {
+        updateFromIri( suggestionObject.id );
+  });
 }
 
 var substringMatcher = function(projs) {
