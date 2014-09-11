@@ -15,6 +15,8 @@ import dot.rural.sepake.pure.TripleSink;
 public final class LocalhostFusekiUpdater implements
         TripleSink<String, String, String>,
         Flushable {
+    /** Number of triples to collect before flushing */
+    private final static int _FLUSH_SIZE = 50;
     private final String sparulFormatString = 
             new Scanner(getClass().getResourceAsStream("sparul-format-string.txt"), "UTF-8")
                 .useDelimiter("\\A")
@@ -23,6 +25,13 @@ public final class LocalhostFusekiUpdater implements
     
     public void addTriple(String object, String predicate, String subject) {
         this.triples.add(String.format("%s %s %s .\n", object, predicate, subject));
+        if (this.triples.size() > _FLUSH_SIZE) {
+            try {
+                this.flush();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     public void flush() throws IOException {
