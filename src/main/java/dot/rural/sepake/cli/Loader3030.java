@@ -4,7 +4,7 @@ import java.io.InputStream;
 
 import javax.xml.parsers.SAXParserFactory;
 
-import dot.rural.sepake.fuseki.LocalhostFusekiUpdater;
+import dot.rural.sepake.fuseki.FusekiUpdater;
 import dot.rural.sepake.pure.PureSaxHandler;
 
 public final class Loader3030 {
@@ -17,7 +17,7 @@ public final class Loader3030 {
     }
 
     private static void loadData() {
-        final LocalhostFusekiUpdater fusekiUpdater = new LocalhostFusekiUpdater();
+        final FusekiUpdater fusekiUpdater = new FusekiUpdater("http://localhost:3030/ds/update");
         log("Reading data...");
         try (final InputStream is = Loader3030.class.getResourceAsStream("all-abdn-projects.xml");)//"search-projects-for-rural.xml");)
         {

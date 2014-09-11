@@ -34,6 +34,11 @@ task( clearData, dependsOn: jar, type: JavaExec ) {
     classpath = sourceSets.main.runtimeClasspath
 }
 
+task( loaderRemote, dependsOn: jar, type: JavaExec ) {
+    main = 'dot.rural.sepake.cli.LoaderRemote'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
 repositories {
     mavenCentral()
 }
