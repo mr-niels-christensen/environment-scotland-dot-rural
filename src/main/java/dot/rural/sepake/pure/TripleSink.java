@@ -13,4 +13,7 @@ public interface TripleSink<First, Second, Third> {
      * @param third Third element in the triple
      */
     void addTriple(First first, Second second, Third third);
+
+    void addTriple(String project, String string, String reformatDate,
+            String string2);
 }

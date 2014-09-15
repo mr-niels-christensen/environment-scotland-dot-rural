@@ -3,14 +3,14 @@ apply plugin: 'eclipse'
 apply plugin:'application'
 
 sourceCompatibility = 1.7
-version = '0.1'
+version = '0.2'
 jar {
     manifest {
         attributes 'Implementation-Title': "Academic search tool, Scotland's environment web", 'Implementation-Version': version
     }
 }
 
-mainClassName = "dot.rural.sepake.cli.DataServer3030"
+mainClassName = "dot.rural.sepake.cli.Loader3030"
 
 task wireframe(type: Copy) {
     from 'src/wireframe'
@@ -23,6 +23,16 @@ task frontend(type: Copy) {
 }
 
 run.dependsOn 'wireframe', 'frontend'
+
+task( fuseki, dependsOn: jar, type: JavaExec ) {// TODO: Spawn, see https://issues.gradle.org/browse/GRADLE-1254
+    main = 'dot.rural.sepake.cli.DataServer3030'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task( clearData, dependsOn: jar, type: JavaExec ) {
+    main = 'dot.rural.sepake.cli.Clearer3030'
+    classpath = sourceSets.main.runtimeClasspath
+}
 
 repositories {
     mavenCentral()

@@ -15,6 +15,8 @@ import dot.rural.sepake.pure.TripleSink;
 public final class LocalhostFusekiUpdater implements
         TripleSink<String, String, String>,
         Flushable {
+    /** Number of triples to collect before flushing */
+    private final static int _FLUSH_SIZE = 50;
     private final String sparulFormatString = 
             new Scanner(getClass().getResourceAsStream("sparul-format-string.txt"), "UTF-8")
                 .useDelimiter("\\A")
@@ -23,6 +25,13 @@ public final class LocalhostFusekiUpdater implements
     
     public void addTriple(String object, String predicate, String subject) {
         this.triples.add(String.format("%s %s %s .\n", object, predicate, subject));
+        if (this.triples.size() > _FLUSH_SIZE) {
+            try {
+                this.flush();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     public void flush() throws IOException {
@@ -32,12 +41,33 @@ public final class LocalhostFusekiUpdater implements
                 stmts.append(triple);
             }
             final String updateRequest = String.format(this.sparulFormatString, stmts);
-            UpdateProcessor upp = UpdateExecutionFactory.createRemote(
-                    UpdateFactory.create(updateRequest), 
-                    "http://localhost:3030/ds/update");
-            upp.execute();
+            try {
+                UpdateProcessor upp = UpdateExecutionFactory.createRemote(
+                        UpdateFactory.create(updateRequest), 
+                        "http://localhost:3030/ds/update");
+                upp.execute();
+            } catch (RuntimeException e) {
+                System.err.println("Exception occurred while performing the following SPARQL query.");
+                final String[] sparqlSplit = updateRequest.split("\\n");
+                for (int i = 0; i < sparqlSplit.length; i++) {
+                    System.err.println(String.format("<%4d>%s", i + 1, sparqlSplit[i]));
+                }
+                throw e;
+            }
             triples.clear();
         }
+    }
+
+    @Override
+    public void addTriple(String object, String predicate, String subject,
+            String xsdType) {
+        subject = subject.replace('\'', '\"').replace('\n', ' ');//TODO: Better encoding handling
+        if (null != xsdType) {
+            this.triples.add(String.format("%s %s '%s'^^%s .\n", object, predicate, subject, xsdType));
+        } else {
+            this.triples.add(String.format("%s %s '%s' .\n", object, predicate, subject));            
+        }
+        
     }
 
 }

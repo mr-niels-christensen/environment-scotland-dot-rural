@@ -62,11 +62,14 @@ public final class PureSaxHandler extends DefaultHandler {
             project = String.format("<Project#%s>",
                     attributes.getValue("uuid"));
             triples.addTriple(project, "rdf:type", "prov:Organization");
+            triples.addTriple(project, "rdf:type", "prov:Activity");
+            triples.addTriple(project, "rdf:type", "foaf:Organization");
         }
         if ("stab1:owner".equals(qName)) {// This defines a new department
             dept = String.format("<Department#%s>",
                     attributes.getValue("uuid"));
             triples.addTriple(dept, "rdf:type", "prov:Organization");
+            triples.addTriple(dept, "rdf:type", "foaf:Organization");
             triples.addTriple(dept, "<owns>", project);
         }
         if ("person-template:person".equals(qName)) {// This defines a new person
@@ -91,30 +94,58 @@ public final class PureSaxHandler extends DefaultHandler {
         }
         //Update parser field
         String fullText = text.toString().trim();
+        if ("stab1:title".equals(qName)) {// Title of a project
+            triples.addTriple(project, "rdfs:label", or(fullText, "(No title)"), null);
+        }
+        if ("stab1:description".equals(qName)) {// Summary of a project
+            triples.addTriple(project, "rdfs:comment", or(fullText, "(No summary)"), null);
+        }
         if (fullText.length() > 0) {// If there was actual text, use it if the tag was relevant
-            fullText = String.format("'%s'", fullText);//Quote as SPARQL constant
-            if ("stab1:title".equals(qName)) {// Title of a project
-                triples.addTriple(project, "rdfs:label", fullText);
+            if ("stab1:projectURL".equals(qName)) {// Link to a project
+                triples.addTriple(project, "foaf:homepage", fullText, "xsd:QName");
+            }
+            if ("extensions-core:startDate".equals(qName) 
+                    && localNames.peek().equals("stab1:startFinishDate")) {// Start-date of a project
+                triples.addTriple(project, "prov:startedAtTime", reformatDate(fullText), "xsd:dateTime");
+            }
+            if ("extensions-core:endDate".equals(qName) 
+                    && localNames.peek().equals("stab1:startFinishDate")) {// End-date of a project
+                triples.addTriple(project, "prov:endedAtTime", reformatDate(fullText), "xsd:dateTime");
             }
             if ("organisation-template:name".equals(qName)
                     && (localNames.contains("stab1:owner"))) {// Name of a department
-                triples.addTriple(dept, "rdfs:label", fullText);
+                triples.addTriple(dept, "rdfs:label", fullText, null);
+            }
+            if ("core:portalUrl".equals(qName)
+                    && (localNames.contains("stab1:owner"))) {// Link to a department
+                triples.addTriple(dept, "foaf:homepage", fullText, null);
             }
             if ("core:firstName".equals(qName)
                     && (localNames.contains("person-template:person"))) {// Name of a person
-                triples.addTriple(person, "foaf:givenName", fullText);
+                triples.addTriple(person, "foaf:givenName", fullText, null);
             }
             if ("core:lastName".equals(qName)
                     && (localNames.contains("person-template:person"))) {// Name of a person
-                triples.addTriple(person, "foaf:familyName", fullText);
+                triples.addTriple(person, "foaf:familyName", fullText, null);
             }
             if ("person-template:email".equals(qName)
                     && (localNames.contains("person-template:person"))) {// Email of a person
-                triples.addTriple(person, "foaf:mbox", fullText);
+                triples.addTriple(person, "foaf:mbox", fullText, null);
             }
         }
     }
+    
+    private static String or(final String fullText, final String defaultIfEmpty) {
+        return (fullText.length() > 0) ? fullText : defaultIfEmpty;
+    }
 
+    /**
+     * @param pureDate Known example formats: '2010-10-01+01:00' and '2011-11-21Z'
+     * @return
+     */
+    private String reformatDate(final String pureDate) {
+        return pureDate.split("Z|\\+")[0];
+    }
     @Override
     public void characters(char ch[], int start, int length)
             throws SAXException {

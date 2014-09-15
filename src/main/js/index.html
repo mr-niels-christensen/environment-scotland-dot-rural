@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="author" content="Niels Christensen">
 
     <title>Discover Research</title>
 
@@ -28,6 +28,8 @@
     <![endif]-->
   </head>
 
+  <link href="index.css" rel="stylesheet">
+
   <body>
 
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -43,7 +45,7 @@
         </div>
         <div class="navbar-collapse collapse">
           <form class="navbar-form navbar-right">
-            <input type="text" class="form-control" placeholder="Search...">
+            <input type="text" id="search" size="40" placeholder="Search..." class="typeahead form-control">
           </form>
         </div>
       </div>
@@ -53,16 +55,27 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <h4>People</h4>
-          <ul class="nav nav-sidebar x10">
-            <li><a href="#">Qwerty</a></li>
-          </ul>
+          <div class="variableDataView noMore" id="personList">
+            <ul class="nav nav-sidebar x10">
+              <li class="personWrapper noData"><a class="personLink" href="#">Qwerty</a></li>
+            </ul>
+            <a class="moreAction" href="#">More...</a>
+          </div>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <div id="myAjaxAlert" class="alert alert-danger alert-dismissible fade in hide" role="alert">
+            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <strong>Sorry!</strong> We failed to load your data. Please try reloading this page, or send an angry email to the developer.
+          </div>
+      
           <h1 id="labelOfFocus" class="page-header">Qwerty</h1>
           <div class="row">
             <div class="col-xs-12 col-sm-6">
               <h4>Summary</h4>
+              <p id="commentOfFocus" class="text-justify">Qwerty</p>
               <p><strong>Owned by</strong> <a id="labelOfOwner" href="#">Qwerty</a></p>
+              <p><strong>Period</strong> <span id="startedAtTime">Qwerty</span> to <span id="endedAtTime">Qwerty</span></p>
+              <p><strong>Homepage</strong> <a id="homepageOfFocus" href="#">Qwerty</a>
             </div>
             <div class="col-xs-12 col-sm-6">
               <h4>Ask an expert</h4>
@@ -76,6 +89,8 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="typeahead.bundle.min.js"></script>
+    <script src="index.js"></script>
     <script src="sparql.js"></script>
   </body>
 </html>
