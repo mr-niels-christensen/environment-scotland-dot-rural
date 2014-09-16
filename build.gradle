@@ -34,6 +34,14 @@ task( clearData, dependsOn: jar, type: JavaExec ) {
     classpath = sourceSets.main.runtimeClasspath
 }
 
+task( gae, dependsOn: jar, type: JavaExec ) {
+    main = 'dot.rural.sepake.cli.GaeLoader'
+    classpath = sourceSets.main.runtimeClasspath
+    systemProperties = [
+            app: System.getProperty('app')
+    ]
+}
+
 repositories {
     mavenCentral()
 }
