@@ -102,7 +102,7 @@ public final class PureSaxHandler extends DefaultHandler {
         }
         if (fullText.length() > 0) {// If there was actual text, use it if the tag was relevant
             if ("stab1:projectURL".equals(qName)) {// Link to a project
-                triples.addTriple(project, "foaf:homepage", fullText, "xsd:QName");
+                triples.addTriple(project, "foaf:homepage", httpify(fullText), "xsd:QName");
             }
             if ("extensions-core:startDate".equals(qName) 
                     && localNames.peek().equals("stab1:startFinishDate")) {// Start-date of a project
@@ -118,7 +118,7 @@ public final class PureSaxHandler extends DefaultHandler {
             }
             if ("core:portalUrl".equals(qName)
                     && (localNames.contains("stab1:owner"))) {// Link to a department
-                triples.addTriple(dept, "foaf:homepage", fullText, null);
+                triples.addTriple(dept, "foaf:homepage", httpify(fullText), null);
             }
             if ("core:firstName".equals(qName)
                     && (localNames.contains("person-template:person"))) {// Name of a person
@@ -135,6 +135,10 @@ public final class PureSaxHandler extends DefaultHandler {
         }
     }
     
+    private static String httpify(final String fullText) {
+        return (fullText.contains("://")) ? fullText : String.format("http://%s", fullText);
+    }
+
     private static String or(final String fullText, final String defaultIfEmpty) {
         return (fullText.length() > 0) ? fullText : defaultIfEmpty;
     }
