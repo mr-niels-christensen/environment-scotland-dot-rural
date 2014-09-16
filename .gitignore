@@ -6,3 +6,4 @@ build/
 repos/
 .classpath
 .project
+.pydevproject
