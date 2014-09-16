@@ -9,5 +9,5 @@ import urllib2
 
     
 if __name__ == '__main__':
-    for row in csv.reader(urllib2.urlopen('https://catalogue.ukeof.org.uk/api/documents?format=csv')):
+    for row in csv.DictReader(urllib2.urlopen('https://catalogue.ukeof.org.uk/api/documents?format=csv')):
         print row
