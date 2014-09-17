@@ -71,6 +71,42 @@ def _date_literal(str_date):
     '''
     return Literal(datetime.datetime.strptime(str_date, '%Y-%m-%d').date())
 
+def _activity(row):
+    return URIRef(row['Link to full record'])
+
+def _org(row):
+    _SEPAKE.term('ukoef-org#%s' % urllib2.quote(row['Lead organisation']))
+
+def _comment(row):
+    comment = row['Description']
+    if len(row['Objectives']) > 0:
+        comment += '\nObjectives: ' + row['Objectives']
+    if len(row['Reasons for collection']) > 0:
+        comment += '\nReasons for collection: ' + row['Reasons for collection']
+    return Literal(comment)
+
+def _or_None(f):
+    return lambda value: None if len(value) == 0 else f(value)
+
+def _get(key):
+    return _convert(key, Literal)
+
+def _convert(key, f):
+    return lambda row: _or_None(f)(row.get(key, None))
+
+def _const(value):
+    return lambda _ : value
+
+_TRIPLES_FOR_ROW = [(_activity, RDF.type, _const(_SEPAKE.project)),
+                    (_activity, RDFS.label, _get('Title')),
+                    (_activity, RDFS.comment, _comment),
+                    (_activity, _PROV.startedAtTime, _convert('Lifespan start', _date_literal)),
+                    (_activity, _PROV.endedAtTime, _convert('Lifespan end', _date_literal)),
+                    (_activity, FOAF.homepage, _activity),
+                    (_org, _SEPAKE.owns, _activity),
+                    (_org, RDFS.label, _get('Lead organisation')),
+                    ]
+
 class UKEOFtoRDF:
     '''Class for creating RDF triples from UKEOF rows.
     '''
@@ -80,24 +116,24 @@ class UKEOFtoRDF:
     def flush(self):
         print self._graph.serialize(format='turtle')
     
-    def add_activity(self, simple_row):
-        activity = URIRef(simple_row['Link to full record'])
-        self._graph.add((activity, RDF.type, _SEPAKE.project))
-        self._graph.add((activity, RDFS.label, Literal(simple_row['label'])))
-        self._graph.add((activity, RDFS.comment, Literal(simple_row['comment'])))
-        self._graph.add((activity, _PROV.startedAtTime, _date_literal(simple_row['Lifespan start'])))
-        self._graph.add((activity, _PROV.endedAtTime, _date_literal(simple_row['Lifespan end'])))
-        self._graph.add((activity, FOAF.homepage, activity))
-        org = _SEPAKE.term('ukoef-org#%s' % urllib2.quote(simple_row['Lead organisation']))
-        self._graph.add((org, _SEPAKE.owns, activity))
-        self._graph.add((org, RDFS.label, Literal(simple_row['Lead organisation'])))
+    def add_rows(self, rows):
+        for row in rows:
+            if row['Type'] == 'Activity':
+                self._add_activity(row)
+    
+    def _add_activity(self, row):
+        for (sf, p, of) in _TRIPLES_FOR_ROW:
+            (s, o) = (sf(row), of(row))
+            if not None in [s, p, o]:
+                self._graph.add((s, p, o))
     
 if __name__ == '__main__':
-    rows = [_simplify(row) for row in csv.DictReader(urllib2.urlopen('https://catalogue.ukeof.org.uk/api/documents?format=csv'))]
+    rows = [row for row in csv.DictReader(urllib2.urlopen('https://catalogue.ukeof.org.uk/api/documents?format=csv'))]
     g = UKEOFtoRDF()
-    for simple_row in [row for row in rows if row['Type'] == 'Activity'][:1]:
-        g.add_activity(simple_row)
+    g.add_rows(rows)
     g.flush()
+    for row in rows:
+        _simplify(row)
     _stats(rows)
     _sample(rows, 'Type', 'Activity')
     
