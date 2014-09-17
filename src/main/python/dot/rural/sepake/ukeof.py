@@ -8,7 +8,6 @@ import csv
 import urllib2
 import pprint
 from rdflib import Graph, Literal,  Namespace, RDF, RDFS, URIRef
-from rdflib.plugins.memory import Memory
 from rdflib.plugins.stores.sparqlstore import SPARQLUpdateStore
 from rdflib.namespace import FOAF
 import datetime
@@ -116,7 +115,7 @@ class UKEOFtoRDF:
         self._graph = Graph()
         
     def flush(self, other):
-        #TODO Use += but it does not seem to work unless context_aware...which does not work with Fuseki
+        #TODO Use += but it does not seem to work unless context_aware...which does not seem to work with Fuseki
         print 'Flushing...'
         for triple in self._graph:
             print '.',
