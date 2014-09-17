@@ -7,3 +7,5 @@ repos/
 .classpath
 .project
 .pydevproject
+.*.made
+.venv/
