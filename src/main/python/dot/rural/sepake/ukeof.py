@@ -7,6 +7,9 @@ Created on 16 Sep 2014
 import csv
 import urllib2
 import pprint
+from rdflib import Graph, Literal, BNode, Namespace, RDF, RDFS, URIRef
+from rdflib.namespace import DC, FOAF
+import datetime
 
 def stats(rows):
     acc = dict()
@@ -30,8 +33,15 @@ def sample(rows, key, value, n=2):
         pprint.pprint(row)
 
 def simplify(row):
+    '''Updates the given row.
+       Removes the fields that are globally not in use.
+       Centralizes other fields in RDF-friendly fields.
+       @return: The updated row
+    '''
+    #Rename Title to label
     row['label'] = row['Title']
     del row['Title']
+    #Collect free text descriptions in comment
     row['comment'] = row['Description']
     if len(row['Objectives']) > 0:
         row['comment']  += '\nObjectives: ' + row['Objectives']
@@ -40,17 +50,45 @@ def simplify(row):
     del row['Description']
     del row['Objectives']
     del row['Reasons for collection']
+    #Remove unused fields
     del row['GMES codings']
     del row['GEOSS codings']
     del row['ECV codings']
     del row['Legal background']
+    #Return the updated row (to allow use in list comprehension)
     return row
+
+_SEPAKE = Namespace('http://dot.rural/sepake/')
+_PROV  = Namespace('http://www.w3.org/ns/prov#')
+
+def _date_literal(str_date):
+    return Literal(datetime.datetime.strptime(str_date, '%Y-%m-%d').date())
+
+class UKEOFtoRDF:
+    def __init__(self):
+        self._graph = Graph()
+        
+    def flush(self):
+        print self._graph.serialize(format='turtle')
+    
+    def add_activity(self, simple_row):
+        activity = URIRef(simple_row['Link to full record'])
+        self._graph.add((activity, RDF.type, _SEPAKE.project))
+        self._graph.add((activity, RDFS.label, Literal(simple_row['label'])))
+        self._graph.add((activity, RDFS.comment, Literal(simple_row['comment'])))
+        self._graph.add((activity, _PROV.startedAtTime, _date_literal(simple_row['Lifespan start'])))
+        self._graph.add((activity, _PROV.endedAtTime, _date_literal(simple_row['Lifespan end'])))
+        self._graph.add((activity, FOAF.homepage, activity))
+        org = _SEPAKE.term('ukoef-org#%s' % urllib2.quote(simple_row['Lead organisation']))
+        self._graph.add((org, _SEPAKE.owns, activity))
+        self._graph.add((org, RDFS.label, Literal(simple_row['Lead organisation'])))
     
 if __name__ == '__main__':
     rows = [simplify(row) for row in csv.DictReader(urllib2.urlopen('https://catalogue.ukeof.org.uk/api/documents?format=csv'))]
+    g = UKEOFtoRDF()
+    for simple_row in [row for row in rows if row['Type'] == 'Activity'][:1]:
+        g.add_activity(simple_row)
+    g.flush()
     stats(rows)
     sample(rows, 'Type', 'Activity')
-    sample(rows, 'Type', 'Facility')
-    sample(rows, 'Type', 'Network')
-    sample(rows, 'Type', 'Programme')
     
