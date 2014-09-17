@@ -117,9 +117,11 @@ class UKEOFtoRDF:
         
     def flush(self, other):
         #TODO Use += but it does not seem to work unless context_aware...which does not work with Fuseki
+        print 'Flushing...'
         for triple in self._graph:
-            print triple
+            print '.',
             other.add(triple)
+        print 'Flushed'
     
     def dump(self):
         print self._graph.serialize(format='turtle')
@@ -138,7 +140,7 @@ class UKEOFtoRDF:
 if __name__ == '__main__':
     rows = [row for row in csv.DictReader(urllib2.urlopen('https://catalogue.ukeof.org.uk/api/documents?format=csv'))]
     g = UKEOFtoRDF()
-    g.add_rows(rows[:1])
+    g.add_rows(rows)
     remote = SPARQLUpdateStore(context_aware = False)
     remote.open(("http://localhost:3030/ds/query", "http://localhost:3030/ds/update"))
     g.flush(remote)
