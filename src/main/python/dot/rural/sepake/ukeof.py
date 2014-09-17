@@ -8,6 +8,8 @@ import csv
 import urllib2
 import pprint
 from rdflib import Graph, Literal,  Namespace, RDF, RDFS, URIRef
+from rdflib.plugins.memory import Memory
+from rdflib.plugins.stores.sparqlstore import SPARQLUpdateStore
 from rdflib.namespace import FOAF
 import datetime
 
@@ -113,7 +115,13 @@ class UKEOFtoRDF:
     def __init__(self):
         self._graph = Graph()
         
-    def flush(self):
+    def flush(self, other):
+        #TODO Use += but it does not seem to work unless context_aware...which does not work with Fuseki
+        for triple in self._graph:
+            print triple
+            other.add(triple)
+    
+    def dump(self):
         print self._graph.serialize(format='turtle')
     
     def add_rows(self, rows):
@@ -130,8 +138,10 @@ class UKEOFtoRDF:
 if __name__ == '__main__':
     rows = [row for row in csv.DictReader(urllib2.urlopen('https://catalogue.ukeof.org.uk/api/documents?format=csv'))]
     g = UKEOFtoRDF()
-    g.add_rows(rows)
-    g.flush()
+    g.add_rows(rows[:1])
+    remote = SPARQLUpdateStore(context_aware = False)
+    remote.open(("http://localhost:3030/ds/query", "http://localhost:3030/ds/update"))
+    g.flush(remote)
     for row in rows:
         _simplify(row)
     _stats(rows)
