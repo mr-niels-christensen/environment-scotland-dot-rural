@@ -7,11 +7,13 @@ Created on 16 Sep 2014
 import csv
 import urllib2
 import pprint
-from rdflib import Graph, Literal, BNode, Namespace, RDF, RDFS, URIRef
-from rdflib.namespace import DC, FOAF
+from rdflib import Graph, Literal,  Namespace, RDF, RDFS, URIRef
+from rdflib.namespace import FOAF
 import datetime
 
-def stats(rows):
+def _stats(rows):
+    '''Reads a list of rows and prints out stats on the use of field
+    '''
     acc = dict()
     total = 0
     for row in rows:
@@ -27,12 +29,15 @@ def stats(rows):
         else:
             print '%s: %s' % (key, acc[key])
 
-def sample(rows, key, value, n=2):
+def _sample(rows, key, value, n=2):
+    '''Reads a list of rows and prints out sample row for which
+       key is mapped to value.
+    '''
     print '%s=%s' % (key, value)
     for row in [row for row in rows if row[key] == value][:n]:
         pprint.pprint(row)
 
-def simplify(row):
+def _simplify(row):
     '''Updates the given row.
        Removes the fields that are globally not in use.
        Centralizes other fields in RDF-friendly fields.
@@ -62,9 +67,13 @@ _SEPAKE = Namespace('http://dot.rural/sepake/')
 _PROV  = Namespace('http://www.w3.org/ns/prov#')
 
 def _date_literal(str_date):
+    '''Converts a date from UKEOF into an rdflib Literal
+    '''
     return Literal(datetime.datetime.strptime(str_date, '%Y-%m-%d').date())
 
 class UKEOFtoRDF:
+    '''Class for creating RDF triples from UKEOF rows.
+    '''
     def __init__(self):
         self._graph = Graph()
         
@@ -84,11 +93,11 @@ class UKEOFtoRDF:
         self._graph.add((org, RDFS.label, Literal(simple_row['Lead organisation'])))
     
 if __name__ == '__main__':
-    rows = [simplify(row) for row in csv.DictReader(urllib2.urlopen('https://catalogue.ukeof.org.uk/api/documents?format=csv'))]
+    rows = [_simplify(row) for row in csv.DictReader(urllib2.urlopen('https://catalogue.ukeof.org.uk/api/documents?format=csv'))]
     g = UKEOFtoRDF()
     for simple_row in [row for row in rows if row['Type'] == 'Activity'][:1]:
         g.add_activity(simple_row)
     g.flush()
-    stats(rows)
-    sample(rows, 'Type', 'Activity')
+    _stats(rows)
+    _sample(rows, 'Type', 'Activity')
     
