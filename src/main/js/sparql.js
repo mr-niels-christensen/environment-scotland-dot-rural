@@ -3,28 +3,21 @@ function updateFromIri(iri) {
   fuseki( "people", iri);
 }
 
-var _FUSEKI_URLS = ["http://seweb.abdn.ac.uk/fuseki/ds/query", "http://localhost:3030/ds/query"];
+var _FUSEKI_URLS = {
+    "http:" : "http://seweb.abdn.ac.uk/fuseki/ds/query", 
+    "file:" : "http://localhost:3030/ds/query"};
+
 var fuseki = function(template_key, iri) { console.log("Error - not initialized"); };
 
 function initFuseki() {
-  if ("file:" === $(location).attr('protocol')) { //Local testing
-    _FUSEKI_URLS.reverse(); //Prefer localhost to server
-  }
   fuseki = function(template_key, iri) {
     fusekiCall(
-        _FUSEKI_URLS[0],
+        _FUSEKI_URLS[$(location).attr('protocol')],
         template_key, 
         iri,
         function () { 
-          fusekiCall( 
-              _FUSEKI_URLS[1], 
-              template_key, 
-              iri, 
-              function () { 
-                console.log( "No response to " + template_key + " query for " + iri );
-                $( "#myAjaxAlert" ).removeClass( "hide" );
-              }
-          ); 
+          console.log( "No response to " + template_key + " query for " + iri );
+          $( "#myAjaxAlert" ).removeClass( "hide" );
         });
   };
 }
