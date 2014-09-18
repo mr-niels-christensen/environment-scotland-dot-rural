@@ -50,7 +50,7 @@ $( document ).ready( function() {
   initFuseki();
   register_all_sparql_queries();
   indexJsInit();
-  updateFromIri( "http://dot.rural/sepake/Project#e963d657-b41f-44eb-a85d-7639346b378d" );
+  updateFromIri( "https://catalogue.ukeof.org.uk/id/412d0ac7-5b16-4ba9-b72f-4b6da92310eb" );
 });
 
 function _valuesOfSparqlBinding( sparqlBinding ) {
