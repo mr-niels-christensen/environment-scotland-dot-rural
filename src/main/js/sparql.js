@@ -90,7 +90,7 @@ function register_all_sparql_queries() {
         try{
           var values = _valuesOfSparqlBinding(response.results.bindings[0]);
           $( "#labelOfFocus" ).text(values.label);
-          $( "#commentOfFocus" ).text(values.comment || "(No summary)");
+          $( "#commentOfFocus" ).html(values.comment.split("\n").join("</p><p>") || "(No summary)");
           $( "#homepageOfFocus" ).text(values.homepage || "");
           $( "#homepageOfFocus" ).attr("href", values.homepage || "");
           $( "#startedAtTime" ).text(values.startedAtTime || "(unknown)");
