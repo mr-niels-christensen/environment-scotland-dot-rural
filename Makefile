@@ -8,7 +8,7 @@ all: .pythonrun.made
 .venv/bin/activate:
 	virtualenv .venv
 
-.install.deps.made:
+.install.deps.made: .venv/bin/activate
 	source .venv/bin/activate && pip install rdflib
 	touch .install.deps.made
 
