@@ -14,6 +14,7 @@ PROV  = Namespace('http://www.w3.org/ns/prov#')
 
 class OntologyLoader(Graph):
     '''Class for creating RDF triples for this project's ontology.
+       TODO: Discuss use of singleton properties? http://mor.nlm.nih.gov/pubs/pdf/2014-www-vn.pdf
     '''
     def __init__(self):
         super(OntologyLoader, self).__init__()
@@ -25,7 +26,10 @@ class OntologyLoader(Graph):
         self.add((SEPAKE.PurePerson, RDFS.subClassOf, PROV.Person))
         self.add((SEPAKE.PurePerson, RDFS.subClassOf, FOAF.Person))
         self.add((SEPAKE.UKEOFActivity, RDFS.subClassOf, PROV.Activity))
-        
+        self.add((SEPAKE.UKEOFOrganisation, RDFS.subClassOf, PROV.Organization))
+        self.add((SEPAKE.UKEOFOrganisation, RDFS.subClassOf, FOAF.Organization))
+        self.add((SEPAKE.Crawl, RDFS.subClassOf, PROV.Activity))
+        self.add((SEPAKE.singleProperytOf, RDFS.subPropertyOf, RDF.type))
         
     def flush(self, other):
         #TODO Use += but it does not seem to work unless context_aware...which does not seem to work with Fuseki
