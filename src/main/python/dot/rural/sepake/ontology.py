@@ -4,11 +4,19 @@ Created on 16 Sep 2014
 @author: s05nc4
 '''
 
-from rdflib import Graph, Literal,  Namespace, RDF, RDFS, URIRef
+from rdflib import Graph, Namespace, RDF, RDFS, URIRef
 from rdflib.plugins.stores.sparqlstore import SPARQLUpdateStore
-from rdflib.namespace import FOAF
+from rdflib.namespace import FOAF, ClosedNamespace
 
-SEPAKE = Namespace('http://dot.rural/sepake/')
+SEPAKE = ClosedNamespace(uri = URIRef('http://dot.rural/sepake/'),
+                         terms = ["PureProject", 
+                                  "PureDepartment", 
+                                  "PurePerson", 
+                                  "UKEOFActivity", 
+                                  "UKEOFOrganisation", 
+                                  "CrawlOperation",
+                                  "contextualStatementOf",
+                                  ])
 PROV  = Namespace('http://www.w3.org/ns/prov#')
 
 
@@ -28,8 +36,8 @@ class OntologyLoader(Graph):
         self.add((SEPAKE.UKEOFActivity, RDFS.subClassOf, PROV.Activity))
         self.add((SEPAKE.UKEOFOrganisation, RDFS.subClassOf, PROV.Organization))
         self.add((SEPAKE.UKEOFOrganisation, RDFS.subClassOf, FOAF.Organization))
-        self.add((SEPAKE.Crawl, RDFS.subClassOf, PROV.Activity))
-        self.add((SEPAKE.singleProperytOf, RDFS.subPropertyOf, RDF.type))
+        self.add((SEPAKE.CrawlOperation, RDFS.subClassOf, PROV.Activity))
+        self.add((SEPAKE.contextualStatementOf, RDFS.subPropertyOf, RDF.type))
         
     def flush(self, other):
         #TODO Use += but it does not seem to work unless context_aware...which does not seem to work with Fuseki
@@ -42,7 +50,7 @@ class OntologyLoader(Graph):
 if __name__ == '__main__':
     ont = OntologyLoader()
     print ont.serialize(format='turtle')
-    #remote = SPARQLUpdateStore(context_aware = False)
-    #remote.open(("http://localhost:3030/ds/query", "http://localhost:3030/ds/update"))
-    #ont.flush(remote)
+    remote = SPARQLUpdateStore(context_aware = False)
+    remote.open(("http://localhost:3030/ds/query", "http://localhost:3030/ds/update"))
+    ont.flush(remote)
     
