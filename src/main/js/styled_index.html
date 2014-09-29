@@ -23,12 +23,12 @@
 <!-- #main-menu config - instance specific stuff not covered in the theme -->
 <style type="text/css">
 #main-menu {
-	position: relative;
-	z-index: 9999;
-	width: auto;
+  position: relative;
+  z-index: 9999;
+  width: auto;
 }
 #main-menu ul {
-	width: 12em; /* fixed width only please - you can use the "subMenusMinWidth"/"subMenusMaxWidth" script options to override this if you like */
+  width: 12em; /* fixed width only please - you can use the "subMenusMinWidth"/"subMenusMaxWidth" script options to override this if you like */
 }
 </style>
 
@@ -111,7 +111,7 @@
           <h1>Page Title</h1>
           <div id="topicToolkitTable">
             <ul>
-				<!-- <li><a title="Get Informed - State of the Environment" href="/get-informed/"><img alt="Get Informed - State of the Environment" src="/media/63696/state-of-the-environment.jpg"></a></li>
+        <!-- <li><a title="Get Informed - State of the Environment" href="/get-informed/"><img alt="Get Informed - State of the Environment" src="/media/63696/state-of-the-environment.jpg"></a></li>
               <li><a title="Indicators and data" href="/get-informed/indicators-and-data/"><img alt="Indicators and data" src="/media/34654/trends.jpg"></a></li>-->
               <li><a target="_blank" title="Give us your feedback" href="http://www.environment.scotland.gov.uk/get-communicating/contact-us/"><img alt="Give us your feedback" src="images/comment-on-this-page.jpg"></a></li>
             </ul>
@@ -164,13 +164,13 @@
 
 <!-- SmartMenus jQuery init --> 
 <script type="text/javascript">
-	$(function() {
-		$('#main-menu').smartmenus({
-			subMenusSubOffsetX: 1,
-			subMenusSubOffsetY: -8
-		});
-		
-	});
+  $(function() {
+    $('#main-menu').smartmenus({
+      subMenusSubOffsetX: 1,
+      subMenusSubOffsetY: -8
+    });
+    
+  });
 </script> 
 
 <!-- Sub Menu --> 
@@ -178,9 +178,9 @@
 <script type="text/javascript">
 $(function(){
   $('#editmenu').toolbar({
-	  content: '#user-options',
-	  position: 'bottom',
-	  hideOnClick: true
+    content: '#user-options',
+    position: 'bottom',
+    hideOnClick: true
   });
   $('#editmenu').on('toolbarItemClick', function(event){
     // when the user clicks an icon we call this function
