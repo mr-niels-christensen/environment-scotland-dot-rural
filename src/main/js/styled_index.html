@@ -9,26 +9,26 @@
 <title>Scotland's Environment Web</title>
 
 <!-- FavIcon CSS -->
-<link href="images-sepa/favicon.ico" type="image/png" rel="shortcut icon">
+<link href="images/favicon.ico" type="image/png" rel="shortcut icon">
 <!-- Core CSS -->
-<link type="text/css" rel="stylesheet" href="css-sepa/template.css">
+<link type="text/css" rel="stylesheet" href="css/template.css">
 <!-- Print CSS -->
-<link media="print" type="text/css" rel="stylesheet" href="css-sepa/print.css">
+<link media="print" type="text/css" rel="stylesheet" href="css/print.css">
 <!-- Custom style -->
-<link type="text/css" rel="stylesheet" href="css-sepa/sticky-footer.css">
-<link type="text/css" rel="stylesheet" href="css-sepa/navbar.css">
-<link rel="stylesheet" type="text/css" href="css-sepa/style.css">
-<link type="text/css" rel="stylesheet" href="css-sepa/bootstrapgrid.css">
+<link type="text/css" rel="stylesheet" href="css/sticky-footer.css">
+<link type="text/css" rel="stylesheet" href="css/navbar.css">
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<link type="text/css" rel="stylesheet" href="css/bootstrapgrid.css">
 
 <!-- #main-menu config - instance specific stuff not covered in the theme -->
 <style type="text/css">
 #main-menu {
-  position: relative;
-  z-index: 9999;
-  width: auto;
+	position: relative;
+	z-index: 9999;
+	width: auto;
 }
 #main-menu ul {
-  width: 12em; /* fixed width only please - you can use the "subMenusMinWidth"/"subMenusMaxWidth" script options to override this if you like */
+	width: 12em; /* fixed width only please - you can use the "subMenusMinWidth"/"subMenusMaxWidth" script options to override this if you like */
 }
 </style>
 
@@ -98,16 +98,22 @@
         <!-- /.headerSearch --> 
         
         <!-- Search End --> 
-
+        <!-- BREADCRUMBS -->
+        <ul id="breadcrumb">
+          <!--<li><a title="Home" href="/"><img class="home" alt="Home" src="/images/home-icon.gif"></a></li>
+          <li><a title="Get Involved" href="/get-involved/">Get Involved</a></li>
+          <li>Using your information</li>-->
+        </ul> <!-- / #breadcrumb -->        
+        
       </div>
       <div class="row">
         <div class="headerBox">
           <h1>Page Title</h1>
           <div id="topicToolkitTable">
             <ul>
-        <!-- <li><a title="Get Informed - State of the Environment" href="http://www.environment.scotland.gov.uk/get-informed/"><img alt="Get Informed - State of the Environment" src="images-sepa/state-of-the-environment.jpg"></a></li>
-              <li><a title="Indicators and data" href="http://www.environment.scotland.gov.uk/get-informed/indicators-and-data/"><img alt="Indicators and data" src="images-sepa/trends.jpg"></a></li>-->
-              <li><a target="_blank" title="Give us your feedback" href="http://www.environment.scotland.gov.uk/get-communicating/contact-us/"><img alt="Give us your feedback" src="images-sepa/comment-on-this-page.jpg"></a></li>
+				<!-- <li><a title="Get Informed - State of the Environment" href="/get-informed/"><img alt="Get Informed - State of the Environment" src="/media/63696/state-of-the-environment.jpg"></a></li>
+              <li><a title="Indicators and data" href="/get-informed/indicators-and-data/"><img alt="Indicators and data" src="/media/34654/trends.jpg"></a></li>-->
+              <li><a target="_blank" title="Give us your feedback" href="http://www.environment.scotland.gov.uk/get-communicating/contact-us/"><img alt="Give us your feedback" src="images/comment-on-this-page.jpg"></a></li>
             </ul>
           </div>
         </div>
@@ -140,46 +146,41 @@
         </form>
       </div>
       <!--End mc_embed_signup-->
-      <div id="ScotGovLogo"> <a target="_blank" title="Scottish Government" href="http://home.scotland.gov.uk/home"><img alt="Scottish Government" src="images-sepa/ScotGov-Logo.png"></a> </div>
+      <div id="ScotGovLogo"> <a target="_blank" title="Scottish Government" href="http://home.scotland.gov.uk/home"><img alt="Scottish Government" src="images/ScotGov-Logo.png"></a> </div>
     </div>
   </div>
 </footer>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script async src="//www.google-analytics.com/analytics.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 
-<!-- Bootstrap core CSS -->
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-
-<!-- Optional theme -->
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-
-<!-- Analytics -->
-<script async src="http://www.google-analytics.com/analytics.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed --> 
+<script type="text/javascript" src="/js/bootstrap.min.js"></script>
 
 <!-- SmartMenus jQuery plugin --> 
-<script src="js-sepa/jquery.smartmenus.js" type="text/javascript"></script>
+<script src="/js/jquery.smartmenus.js" type="text/javascript"></script>
 
 <!-- SmartMenus jQuery init --> 
 <script type="text/javascript">
-  $(function() {
-    $('#main-menu').smartmenus({
-      subMenusSubOffsetX: 1,
-      subMenusSubOffsetY: -8
-    });
-    
-  });
+	$(function() {
+		$('#main-menu').smartmenus({
+			subMenusSubOffsetX: 1,
+			subMenusSubOffsetY: -8
+		});
+		
+	});
 </script> 
 
 <!-- Sub Menu --> 
-<script src="js-sepa/jquery.toolbar.min.js" type="text/javascript"></script> 
+<script src="/js/SubMenu/jquery.toolbar.min.js" type="text/javascript"></script> 
 <script type="text/javascript">
 $(function(){
   $('#editmenu').toolbar({
-    content: '#user-options',
-    position: 'bottom',
-    hideOnClick: true
+	  content: '#user-options',
+	  position: 'bottom',
+	  hideOnClick: true
   });
   $('#editmenu').on('toolbarItemClick', function(event){
     // when the user clicks an icon we call this function

@@ -218,13 +218,13 @@ body {
 	font-size: 12px;
 }
 #innerWrapper {
-	background: url("../images-sepa/body.jpg") repeat-x;
+	background: url("../images/body.jpg") repeat-x;
 	margin-left: auto;
 	margin-right: auto;
 	position: relative;
 }
 #innerWrap {
-	background: url("../images-sepa/body.jpg") repeat-x #e8ecf5;
+	background: url("../images/body.jpg") repeat-x #e8ecf5;
 	margin-left: auto;
 	margin-right: auto;
 	position: relative;
@@ -612,7 +612,7 @@ pre code {
 	margin: 0 auto -85px;
 }
 #innerWrap {
-    background: url("../images-sepa/body-small-tablet-landscape.jpg") repeat-x scroll 0 0 #E8ECF5;
+    background: url("../images/body-small-tablet-landscape.jpg") repeat-x scroll 0 0 #E8ECF5;
     margin-left: auto;
     margin-right: auto;
     position: relative;
@@ -1019,8 +1019,8 @@ pre code {
     height: 30px;
     cursor: pointer;
     z-index: 10;
-    background: url('../images-sepa/arrow.png') no-repeat 0 0 #333; /* fallback for older browsers */
-    background: url('../images-sepa/arrow.png') no-repeat 0 0 rgba(0,0,0,0.7);
+    background: url('../images/arrow.png') no-repeat 0 0 #333; /* fallback for older browsers */
+    background: url('../images/arrow.png') no-repeat 0 0 rgba(0,0,0,0.7);
     border-radius: 5px;
 }
 /* /CONTENT STYLING */
@@ -1882,10 +1882,10 @@ a.showLink, a.hideLink {
 	text-decoration: none;
 	color: #0079c0;
 	padding-left: 10px;
-	background: transparent url(../images-sepa/down.gif) no-repeat left; 
+	background: transparent url(../images/down.gif) no-repeat left; 
 }
 a.hideLink {
-	background: transparent url(../images-sepa/up.gif) no-repeat left; 
+	background: transparent url(../images/up.gif) no-repeat left; 
 }
 a.showLink:hover, a.hideLink:hover {
 	border-bottom: 1px dotted #36f; 
@@ -2233,7 +2233,7 @@ a.showLink:hover, a.hideLink:hover {
 /* /GET INFORMED I&D STYLING */
 /* SITE HEADER STYLING */
 #logo {
-	background: url("../images-sepa/Logo-Small-Tablet-Landscape.png") no-repeat;
+	background: url("../images/Logo-Small-Tablet-Landscape.png") no-repeat;
     height: 95px;
     left: 10px;
     position: absolute;
@@ -2251,7 +2251,7 @@ a.showLink:hover, a.hideLink:hover {
     top: 38px;
 }
 #facebookIcon {
-	background: url("../images-sepa/Facebook-logo-30x30.png") no-repeat;
+	background: url("../images/Facebook-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 174px;
@@ -2270,7 +2270,7 @@ a.showLink:hover, a.hideLink:hover {
 	z-index: 10;
 }
 #twitterIcon {
-	background: url("../images-sepa/Twitter-logo-30x30.png") no-repeat;
+	background: url("../images/Twitter-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 140px;
@@ -2289,7 +2289,7 @@ a.showLink:hover, a.hideLink:hover {
 	z-index: 20;
 }
 #linkedinIcon {
-	background: url("../images-sepa/Google-logo-30x30.png") no-repeat;
+	background: url("../images/Google-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 106px;
@@ -2308,7 +2308,7 @@ a.showLink:hover, a.hideLink:hover {
 	z-index: 30;
 }
 #instagramIcon {
-	background: url("../images-sepa/Instagram-logo-30x30.png") no-repeat;
+	background: url("../images/Instagram-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 73px;
@@ -2327,7 +2327,7 @@ a.showLink:hover, a.hideLink:hover {
 	z-index: 40;
 }
 #youtubeIcon {
-	background: url("../images-sepa/YouTube-logo-30x30.png") no-repeat;
+	background: url("../images/YouTube-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 39px;
@@ -2358,7 +2358,7 @@ a.showLink:hover, a.hideLink:hover {
     z-index: -1;
 }
 #lifeIcon {
-	background: url("../images-sepa/Life-logo.png") no-repeat;
+	background: url("../images/Life-logo.png") no-repeat;
 	height: 38px;
 	position: absolute;
 	right: 41px;
@@ -2909,8 +2909,8 @@ footer .container #rightColumn #ScotGovLogo {
     height: 30px;
     cursor: pointer;
     z-index: 10;
-    background: url('../images-sepa/arrow.png') no-repeat 0 0 #333; /* fallback for older browsers */
-    background: url('../images-sepa/arrow.png') no-repeat 0 0 rgba(0,0,0,0.7);
+    background: url('../images/arrow.png') no-repeat 0 0 #333; /* fallback for older browsers */
+    background: url('../images/arrow.png') no-repeat 0 0 rgba(0,0,0,0.7);
     border-radius: 5px;
 }
 /* /CONTENT STYLING */
@@ -3774,10 +3774,10 @@ a.showLink, a.hideLink {
 	text-decoration: none;
 	color: #0079c0;
 	padding-left: 10px;
-	background: transparent url(../images-sepa/down.gif) no-repeat left; 
+	background: transparent url(../images/down.gif) no-repeat left; 
 }
 a.hideLink {
-	background: transparent url(../images-sepa/up.gif) no-repeat left; 
+	background: transparent url(../images/up.gif) no-repeat left; 
 }
 a.showLink:hover, a.hideLink:hover {
 	border-bottom: 1px dotted #36f; 
@@ -4132,7 +4132,7 @@ a.showLink:hover, a.hideLink:hover {
 	background: #1b417d;
 }
 #logo {
-	background: url("../images-sepa/Logo-Tablet-Landscape.png") no-repeat;
+	background: url("../images/Logo-Tablet-Landscape.png") no-repeat;
     height: 95px;
     left: 10px;
     position: absolute;
@@ -4150,7 +4150,7 @@ a.showLink:hover, a.hideLink:hover {
     top: 38px;
 }
 #facebookIcon {
-	background: url("../images-sepa/Facebook-logo-30x30.png") no-repeat;
+	background: url("../images/Facebook-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 160px;
@@ -4169,7 +4169,7 @@ a.showLink:hover, a.hideLink:hover {
 	z-index: 10;
 }
 #twitterIcon {
-	background: url("../images-sepa/Twitter-logo-30x30.png") no-repeat;
+	background: url("../images/Twitter-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 124px;
@@ -4188,7 +4188,7 @@ a.showLink:hover, a.hideLink:hover {
 	z-index: 20;
 }
 #linkedinIcon {
-	background: url("../images-sepa/Google-logo-30x30.png") no-repeat;
+	background: url("../images/Google-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 88px;
@@ -4207,7 +4207,7 @@ a.showLink:hover, a.hideLink:hover {
 	z-index: 30;
 }
 #instagramIcon {
-	background: url("../images-sepa/Instagram-logo-30x30.png") no-repeat;
+	background: url("../images/Instagram-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 52px;
@@ -4226,7 +4226,7 @@ a.showLink:hover, a.hideLink:hover {
 	z-index: 40;
 }
 #youtubeIcon {
-	background: url("../images-sepa/YouTube-logo-30x30.png") no-repeat;
+	background: url("../images/YouTube-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 16px;
@@ -4256,7 +4256,7 @@ a.showLink:hover, a.hideLink:hover {
     z-index: -1;
 }
 #lifeIcon {
-	background: url("../images-sepa/Life-logo.png") no-repeat;
+	background: url("../images/Life-logo.png") no-repeat;
 	height: 38px;
 	position: absolute;
 	right: 16px;
@@ -4814,8 +4814,8 @@ footer .container #rightColumn #ScotGovLogo {
     height: 30px;
     cursor: pointer;
     z-index: 10;
-    background: url('../images-sepa/arrow.png') no-repeat 0 0 #333; /* fallback for older browsers */
-    background: url('../images-sepa/arrow.png') no-repeat 0 0 rgba(0,0,0,0.7);
+    background: url('../images/arrow.png') no-repeat 0 0 #333; /* fallback for older browsers */
+    background: url('../images/arrow.png') no-repeat 0 0 rgba(0,0,0,0.7);
     border-radius: 5px;
 }
 /* /CONTENT STYLING */
@@ -5678,10 +5678,10 @@ a.showLink, a.hideLink {
 	text-decoration: none;
 	color: #0079c0;
 	padding-left: 10px;
-	background: transparent url(../images-sepa/down.gif) no-repeat left; 
+	background: transparent url(../images/down.gif) no-repeat left; 
 }
 a.hideLink {
-	background: transparent url(../images-sepa/up.gif) no-repeat left; 
+	background: transparent url(../images/up.gif) no-repeat left; 
 }
 a.showLink:hover, a.hideLink:hover {
 	border-bottom: 1px dotted #36f; 
@@ -6036,7 +6036,7 @@ a.showLink:hover, a.hideLink:hover {
 	background: #1b417d;
 }
 #logo {
-	background: url("../images-sepa/Logo-Tablet-Landscape.png") no-repeat;
+	background: url("../images/Logo-Tablet-Landscape.png") no-repeat;
     height: 95px;
     left: 10px;
     position: absolute;
@@ -6054,7 +6054,7 @@ a.showLink:hover, a.hideLink:hover {
     top: 38px;
 }
 #facebookIcon {
-	background: url("../images-sepa/Facebook-logo-30x30.png") no-repeat;
+	background: url("../images/Facebook-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 160px;
@@ -6073,7 +6073,7 @@ a.showLink:hover, a.hideLink:hover {
 	z-index: 10;
 }
 #twitterIcon {
-	background: url("../images-sepa/Twitter-logo-30x30.png") no-repeat;
+	background: url("../images/Twitter-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 124px;
@@ -6092,7 +6092,7 @@ a.showLink:hover, a.hideLink:hover {
 	z-index: 20;
 }
 #linkedinIcon {
-	background: url("../images-sepa/Google-logo-30x30.png") no-repeat;
+	background: url("../images/Google-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 88px;
@@ -6111,7 +6111,7 @@ a.showLink:hover, a.hideLink:hover {
 	z-index: 30;
 }
 #instagramIcon {
-	background: url("../images-sepa/Instagram-logo-30x30.png") no-repeat;
+	background: url("../images/Instagram-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 52px;
@@ -6130,7 +6130,7 @@ a.showLink:hover, a.hideLink:hover {
 	z-index: 40;
 }
 #youtubeIcon {
-	background: url("../images-sepa/YouTube-logo-30x30.png") no-repeat;
+	background: url("../images/YouTube-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 16px;
@@ -6160,7 +6160,7 @@ a.showLink:hover, a.hideLink:hover {
     z-index: -1;
 }
 #lifeIcon {
-	background: url("../images-sepa/Life-logo.png") no-repeat;
+	background: url("../images/Life-logo.png") no-repeat;
 	height: 38px;
 	position: absolute;
 	right: 16px;
@@ -6739,8 +6739,8 @@ footer .container #rightColumn #ScotGovLogo {
     height: 30px;
     cursor: pointer;
     z-index: 10;
-    background: url('../images-sepa/arrow.png') no-repeat 0 0 #333; /* fallback for older browsers */
-    background: url('../images-sepa/arrow.png') no-repeat 0 0 rgba(0,0,0,0.7);
+    background: url('../images/arrow.png') no-repeat 0 0 #333; /* fallback for older browsers */
+    background: url('../images/arrow.png') no-repeat 0 0 rgba(0,0,0,0.7);
     border-radius: 5px;
 }
 /* /CONTENT STYLING */
@@ -7614,10 +7614,10 @@ a.showLink, a.hideLink {
 	text-decoration: none;
 	color: #0079c0;
 	padding-left: 10px;
-	background: transparent url(../images-sepa/down.gif) no-repeat left; 
+	background: transparent url(../images/down.gif) no-repeat left; 
 }
 a.hideLink {
-	background: transparent url(../images-sepa/up.gif) no-repeat left; 
+	background: transparent url(../images/up.gif) no-repeat left; 
 }
 a.showLink:hover, a.hideLink:hover {
 	border-bottom: 1px dotted #36f; 
@@ -7973,7 +7973,7 @@ a.showLink:hover, a.hideLink:hover {
 	background: #1b417d;
 }
 #logo {
-	background: url("../images-sepa/Logo-Tablet-Landscape.png") no-repeat;
+	background: url("../images/Logo-Tablet-Landscape.png") no-repeat;
 	height: 95px;
 	left: 9px;
 	position: absolute;
@@ -7991,7 +7991,7 @@ a.showLink:hover, a.hideLink:hover {
     top: 38px;
 }
 #facebookIcon {
-	background: url("../images-sepa/Facebook-logo-30x30.png") no-repeat;
+	background: url("../images/Facebook-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 160px;
@@ -8010,7 +8010,7 @@ a.showLink:hover, a.hideLink:hover {
 	z-index: 10;
 }
 #twitterIcon {
-	background: url("../images-sepa/Twitter-logo-30x30.png") no-repeat;
+	background: url("../images/Twitter-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 124px;
@@ -8029,7 +8029,7 @@ a.showLink:hover, a.hideLink:hover {
 	z-index: 20;
 }
 #linkedinIcon {
-	background: url("../images-sepa/Google-logo-30x30.png") no-repeat;
+	background: url("../images/Google-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 88px;
@@ -8048,7 +8048,7 @@ a.showLink:hover, a.hideLink:hover {
 	z-index: 30;
 }
 #instagramIcon {
-	background: url("../images-sepa/Instagram-logo-30x30.png") no-repeat;
+	background: url("../images/Instagram-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 52px;
@@ -8067,7 +8067,7 @@ a.showLink:hover, a.hideLink:hover {
 	z-index: 40;
 }
 #youtubeIcon {
-	background: url("../images-sepa/YouTube-logo-30x30.png") no-repeat;
+	background: url("../images/YouTube-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 16px;
@@ -8097,7 +8097,7 @@ a.showLink:hover, a.hideLink:hover {
     z-index: -1;
 }
 #lifeIcon {
-	background: url("../images-sepa/Life-logo.png") no-repeat;
+	background: url("../images/Life-logo.png") no-repeat;
 	height: 38px;
 	position: absolute;
 	right: 16px;
@@ -8820,8 +8820,8 @@ footer .container #rightColumn #ScotGovLogo {
     height: 30px;
     cursor: pointer;
     z-index: 10;
-    background: url('../images-sepa/arrow.png') no-repeat 0 0 #333; /* fallback for older browsers */
-    background: url('../images-sepa/arrow.png') no-repeat 0 0 rgba(0,0,0,0.7);
+    background: url('../images/arrow.png') no-repeat 0 0 #333; /* fallback for older browsers */
+    background: url('../images/arrow.png') no-repeat 0 0 rgba(0,0,0,0.7);
     border-radius: 5px;
 }
 /* /CONTENT STYLING */
@@ -9793,10 +9793,10 @@ a.showLink, a.hideLink {
 	text-decoration: none;
 	color: #0079c0;
 	padding-left: 10px;
-	background: transparent url(../images-sepa/down.gif) no-repeat left; 
+	background: transparent url(../images/down.gif) no-repeat left; 
 }
 a.hideLink {
-	background: transparent url(../images-sepa/up.gif) no-repeat left; 
+	background: transparent url(../images/up.gif) no-repeat left; 
 }
 a.showLink:hover, a.hideLink:hover {
 	border-bottom: 1px dotted #36f; 
@@ -10236,7 +10236,7 @@ a.showLink:hover, a.hideLink:hover {
 	background: #1b417d;
 }
 #logo {
-	background: url("../images-sepa/Logo-Tablet-Landscape.png") no-repeat;
+	background: url("../images/Logo-Tablet-Landscape.png") no-repeat;
     height: 95px;
     left: 10px;
     position: absolute;
@@ -10254,7 +10254,7 @@ a.showLink:hover, a.hideLink:hover {
     top: 38px;
 }
 #facebookIcon {
-	background: url("../images-sepa/Facebook-logo-30x30.png") no-repeat;
+	background: url("../images/Facebook-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 160px;
@@ -10273,7 +10273,7 @@ a.showLink:hover, a.hideLink:hover {
 	z-index: 10;
 }
 #twitterIcon {
-	background: url("../images-sepa/Twitter-logo-30x30.png") no-repeat;
+	background: url("../images/Twitter-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 124px;
@@ -10292,7 +10292,7 @@ a.showLink:hover, a.hideLink:hover {
 	z-index: 20;
 }
 #linkedinIcon {
-	background: url("../images-sepa/Google-logo-30x30.png") no-repeat;
+	background: url("../images/Google-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 88px;
@@ -10311,7 +10311,7 @@ a.showLink:hover, a.hideLink:hover {
 	z-index: 30;
 }
 #instagramIcon {
-	background: url("../images-sepa/Instagram-logo-30x30.png") no-repeat;
+	background: url("../images/Instagram-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 52px;
@@ -10330,7 +10330,7 @@ a.showLink:hover, a.hideLink:hover {
 	z-index: 40;
 }
 #youtubeIcon {
-	background: url("../images-sepa/YouTube-logo-30x30.png") no-repeat;
+	background: url("../images/YouTube-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 16px;
@@ -10360,7 +10360,7 @@ a.showLink:hover, a.hideLink:hover {
     z-index: -1;
 }
 #lifeIcon {
-	background: url("../images-sepa/Life-logo.png") no-repeat;
+	background: url("../images/Life-logo.png") no-repeat;
 	height: 38px;
 	position: absolute;
 	right: 16px;
@@ -14534,13 +14534,13 @@ th.hidden-print, td.hidden-print {
 	margin-top: 20px;
 }
 #innerWrap {
-	background: url("../images-sepa/body-small-tablet-portrait.jpg") repeat-x scroll 0 0 #e8ecf5;
+	background: url("../images/body-small-tablet-portrait.jpg") repeat-x scroll 0 0 #e8ecf5;
 	color: #090909;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 12px;
 }
 #innerWrapper {
-	background: url("../images-sepa/body-small-tablet-portrait.jpg") repeat-x;
+	background: url("../images/body-small-tablet-portrait.jpg") repeat-x;
 	color: #090909;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 12px;
@@ -14943,8 +14943,8 @@ th.hidden-print, td.hidden-print {
     height: 30px;
     cursor: pointer;
     z-index: 10;
-    background: url('../images-sepa/arrow.png') no-repeat 0 0 #333; /* fallback for older browsers */
-    background: url('../images-sepa/arrow.png') no-repeat 0 0 rgba(0,0,0,0.7);
+    background: url('../images/arrow.png') no-repeat 0 0 #333; /* fallback for older browsers */
+    background: url('../images/arrow.png') no-repeat 0 0 rgba(0,0,0,0.7);
     border-radius: 5px;
 }
 /* /CONTENT STYLING */
@@ -15806,10 +15806,10 @@ a.showLink, a.hideLink {
 	text-decoration: none;
 	color: #0079c0;
 	padding-left: 10px;
-	background: transparent url(../images-sepa/down.gif) no-repeat left; 
+	background: transparent url(../images/down.gif) no-repeat left; 
 }
 a.hideLink {
-	background: transparent url(../images-sepa/up.gif) no-repeat left; 
+	background: transparent url(../images/up.gif) no-repeat left; 
 }
 a.showLink:hover, a.hideLink:hover {
 	border-bottom: 1px dotted #36f; 
@@ -16166,7 +16166,7 @@ a.showLink:hover, a.hideLink:hover {
 	background: #1b417d;
 }
 #logo {
-	background: url("../images-sepa/Logo-Small-Tablet-Portrait.png") no-repeat;
+	background: url("../images/Logo-Small-Tablet-Portrait.png") no-repeat;
 	height: 80px;
 	left: 10px;
 	position: absolute;
@@ -16184,7 +16184,7 @@ a.showLink:hover, a.hideLink:hover {
     top: 38px;
 }
 #facebookIcon {
-	background: url("../images-sepa/Facebook-logo-30x30.png") no-repeat;
+	background: url("../images/Facebook-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 160px;
@@ -16203,7 +16203,7 @@ a.showLink:hover, a.hideLink:hover {
 	z-index: 10;
 }
 #twitterIcon {
-	background: url("../images-sepa/Twitter-logo-30x30.png") no-repeat;
+	background: url("../images/Twitter-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 124px;
@@ -16222,7 +16222,7 @@ a.showLink:hover, a.hideLink:hover {
 	z-index: 20;
 }
 #linkedinIcon {
-	background: url("../images-sepa/Google-logo-30x30.png") no-repeat;
+	background: url("../images/Google-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 88px;
@@ -16241,7 +16241,7 @@ a.showLink:hover, a.hideLink:hover {
 	z-index: 30;
 }
 #instagramIcon {
-	background: url("../images-sepa/Instagram-logo-30x30.png") no-repeat;
+	background: url("../images/Instagram-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 52px;
@@ -16260,7 +16260,7 @@ a.showLink:hover, a.hideLink:hover {
 	z-index: 40;
 }
 #youtubeIcon {
-	background: url("../images-sepa/YouTube-logo-30x30.png") no-repeat;
+	background: url("../images/YouTube-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 16px;
@@ -16290,7 +16290,7 @@ a.showLink:hover, a.hideLink:hover {
     z-index: -1;
 }
 #lifeIcon {
-	background: url("../images-sepa/Life-logo.png") no-repeat;
+	background: url("../images/Life-logo.png") no-repeat;
 	height: 38px;
 	position: absolute;
 	right: 16px;
@@ -16349,7 +16349,7 @@ a.showLink:hover, a.hideLink:hover {
 /* Kindle Fire (600x800) STYLING */
 @media only screen and (max-width: 650px) {
 #facebookIcon {
-	background: url("../images-sepa/Facebook-logo-30x30.png") no-repeat;
+	background: url("../images/Facebook-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 88px;
@@ -16368,7 +16368,7 @@ a.showLink:hover, a.hideLink:hover {
 	z-index: 10;
 }
 #twitterIcon {
-	background: url("../images-sepa/Twitter-logo-30x30.png") no-repeat;
+	background: url("../images/Twitter-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 52px;
@@ -16387,7 +16387,7 @@ a.showLink:hover, a.hideLink:hover {
 	z-index: 20;
 }
 #linkedinIcon {
-	background: url("../images-sepa/Google-logo-30x30.png") no-repeat;
+	background: url("../images/Google-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 16px;
@@ -16406,7 +16406,7 @@ a.showLink:hover, a.hideLink:hover {
 	z-index: 30;
 }
 #instagramIcon {
-	background: url("../images-sepa/Instagram-logo-30x30.png") no-repeat;
+	background: url("../images/Instagram-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 52px;
@@ -16425,7 +16425,7 @@ a.showLink:hover, a.hideLink:hover {
 	z-index: 40;
 }
 #youtubeIcon {
-	background: url("../images-sepa/YouTube-logo-30x30.png") no-repeat;
+	background: url("../images/YouTube-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 16px;
@@ -16455,7 +16455,7 @@ a.showLink:hover, a.hideLink:hover {
     z-index: -1;
 }
 #lifeIcon {
-	background: url("../images-sepa/Life-logo.png") no-repeat;
+	background: url("../images/Life-logo.png") no-repeat;
 	height: 38px;
 	position: absolute;
 	right: 16px;
@@ -16613,13 +16613,13 @@ a.showLink:hover, a.hideLink:hover {
 	margin-top: 20px;
 }
 #innerWrap {
-	background: url("../images-sepa/body-mobile-landscape.jpg") repeat-x scroll 0 0 #e8ecf5;
+	background: url("../images/body-mobile-landscape.jpg") repeat-x scroll 0 0 #e8ecf5;
 	color: #090909;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 12px;
 }
 #innerWrapper {
-	background: url("../images-sepa/body-mobile-landscape.jpg") repeat-x;
+	background: url("../images/body-mobile-landscape.jpg") repeat-x;
 	color: #090909;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 12px;
@@ -17026,8 +17026,8 @@ a.showLink:hover, a.hideLink:hover {
     height: 30px;
     cursor: pointer;
     z-index: 10;
-    background: url('../images-sepa/arrow.png') no-repeat 0 0 #333; /* fallback for older browsers */
-    background: url('../images-sepa/arrow.png') no-repeat 0 0 rgba(0,0,0,0.7);
+    background: url('../images/arrow.png') no-repeat 0 0 #333; /* fallback for older browsers */
+    background: url('../images/arrow.png') no-repeat 0 0 rgba(0,0,0,0.7);
     border-radius: 5px;
 }
 /* /CONTENT STYLING */
@@ -17894,10 +17894,10 @@ a.showLink, a.hideLink {
 	text-decoration: none;
 	color: #0079c0;
 	padding-left: 10px;
-	background: transparent url(../images-sepa/down.gif) no-repeat left; 
+	background: transparent url(../images/down.gif) no-repeat left; 
 }
 a.hideLink {
-	background: transparent url(../images-sepa/up.gif) no-repeat left; 
+	background: transparent url(../images/up.gif) no-repeat left; 
 }
 a.showLink:hover, a.hideLink:hover {
 	border-bottom: 1px dotted #36f; 
@@ -18255,7 +18255,7 @@ a.showLink:hover, a.hideLink:hover {
     height: 150px;
 }
 #logo {
-	background: url("../images-sepa/Logo-Mobile-Landscape.png") no-repeat;
+	background: url("../images/Logo-Mobile-Landscape.png") no-repeat;
 	height: 75px;
 	left: 11px;
 	position: absolute;
@@ -18273,7 +18273,7 @@ a.showLink:hover, a.hideLink:hover {
     top: 38px;
 }
 #facebookIcon {
-	background: url("../images-sepa/Facebook-logo-30x30.png") no-repeat;
+	background: url("../images/Facebook-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 160px;
@@ -18292,7 +18292,7 @@ a.showLink:hover, a.hideLink:hover {
 	z-index: 10;
 }
 #twitterIcon {
-	background: url("../images-sepa/Twitter-logo-30x30.png") no-repeat;
+	background: url("../images/Twitter-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 124px;
@@ -18311,7 +18311,7 @@ a.showLink:hover, a.hideLink:hover {
 	z-index: 20;
 }
 #linkedinIcon {
-	background: url("../images-sepa/Google-logo-30x30.png") no-repeat;
+	background: url("../images/Google-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 88px;
@@ -18330,7 +18330,7 @@ a.showLink:hover, a.hideLink:hover {
 	z-index: 30;
 }
 #instagramIcon {
-	background: url("../images-sepa/Instagram-logo-30x30.png") no-repeat;
+	background: url("../images/Instagram-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 52px;
@@ -18349,7 +18349,7 @@ a.showLink:hover, a.hideLink:hover {
 	z-index: 40;
 }
 #youtubeIcon {
-	background: url("../images-sepa/YouTube-logo-30x30.png") no-repeat;
+	background: url("../images/YouTube-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 16px;
@@ -18380,7 +18380,7 @@ a.showLink:hover, a.hideLink:hover {
     z-index: -1;
 }
 #lifeIcon {
-	background: url("../images-sepa/Life-logo.png") no-repeat;
+	background: url("../images/Life-logo.png") no-repeat;
 	height: 38px;
 	position: absolute;
 	right: 16px;
@@ -18446,13 +18446,13 @@ a.showLink:hover, a.hideLink:hover {
 	white-space: nowrap;
 }
 #innerWrap {
-	background: url("../images-sepa/body-mobile-portrait.jpg") repeat-x #e8ecf5;
+	background: url("../images/body-mobile-portrait.jpg") repeat-x #e8ecf5;
 	color: #090909;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 12px;
 }
 #innerWrapper {
-	background: url("../images-sepa/body-mobile-portrait.jpg") repeat-x;
+	background: url("../images/body-mobile-portrait.jpg") repeat-x;
 	color: #090909;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 12px;
@@ -18856,8 +18856,8 @@ a.showLink:hover, a.hideLink:hover {
     height: 30px;
     cursor: pointer;
     z-index: 10;
-    background: url('../images-sepa/arrow.png') no-repeat 0 0 #333; /* fallback for older browsers */
-    background: url('../images-sepa/arrow.png') no-repeat 0 0 rgba(0,0,0,0.7);
+    background: url('../images/arrow.png') no-repeat 0 0 #333; /* fallback for older browsers */
+    background: url('../images/arrow.png') no-repeat 0 0 rgba(0,0,0,0.7);
     border-radius: 5px;
 }
 /* /CONTENT STYLING */
@@ -19720,10 +19720,10 @@ a.showLink, a.hideLink {
 	text-decoration: none;
 	color: #0079c0;
 	padding-left: 10px;
-	background: transparent url(../images-sepa/down.gif) no-repeat left; 
+	background: transparent url(../images/down.gif) no-repeat left; 
 }
 a.hideLink {
-	background: transparent url(../images-sepa/up.gif) no-repeat left; 
+	background: transparent url(../images/up.gif) no-repeat left; 
 }
 a.showLink:hover, a.hideLink:hover {
 	border-bottom: 1px dotted #36f; 
@@ -20081,7 +20081,7 @@ a.showLink:hover, a.hideLink:hover {
     height: 180px;
 }
 #logo {
-	background: url("../images-sepa/Logo-Mobile-Portrait.png") no-repeat;
+	background: url("../images/Logo-Mobile-Portrait.png") no-repeat;
 	height: 100px;
 	left: 5px;
 	position: absolute;
@@ -20099,7 +20099,7 @@ a.showLink:hover, a.hideLink:hover {
     top: 1px;
 }
 #facebookIcon {
-	background: url("../images-sepa/Facebook-logo-30x30.png") no-repeat;
+	background: url("../images/Facebook-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 88px;
@@ -20118,7 +20118,7 @@ a.showLink:hover, a.hideLink:hover {
 	z-index: 100;
 }
 #twitterIcon {
-	background: url("../images-sepa/Twitter-logo-30x30.png") no-repeat;
+	background: url("../images/Twitter-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 52px;
@@ -20137,7 +20137,7 @@ a.showLink:hover, a.hideLink:hover {
 	z-index: 200;
 }
 #linkedinIcon {
-	background: url("../images-sepa/Google-logo-30x30.png") no-repeat;
+	background: url("../images/Google-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 16px;
@@ -20157,7 +20157,7 @@ a.showLink:hover, a.hideLink:hover {
 	z-index: 30;
 }
 #instagramIcon {
-	background: url("../images-sepa/Instagram-logo-30x30.png") no-repeat;
+	background: url("../images/Instagram-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 52px;
@@ -20176,7 +20176,7 @@ a.showLink:hover, a.hideLink:hover {
 	z-index: 40;
 }
 #youtubeIcon {
-	background: url("../images-sepa/YouTube-logo-30x30.png") no-repeat;
+	background: url("../images/YouTube-logo-30x30.png") no-repeat;
 	height: 30px;
 	position: absolute;
 	right: 16px;
@@ -20208,7 +20208,7 @@ a.showLink:hover, a.hideLink:hover {
 	display: none;
 }
 #lifeIcon {
-	background: url("../images-sepa/Life-logo.png") no-repeat;
+	background: url("../images/Life-logo.png") no-repeat;
 	height: 38px;
 	position: absolute;
 	right: 16px;
