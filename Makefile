@@ -1,15 +1,15 @@
 SHELL := /bin/bash
-all: .pythonrun.made
+all: .python.run.made
 
 PYTHON_FILES = $(shell find src -name "*.py")
 
-.PHONY: foo
-foo:
-	echo $(PYTHON_FILES)
-
-.pythonrun.made: .venv/bin/activate .install.deps.made $(PYTHON_FILES)
+.python.run.made: .venv/bin/activate .install.deps.made $(PYTHON_FILES) .python.test.made
 	source .venv/bin/activate && cd src/main/python/ && python dot/rural/sepake/ukeof.py
 	touch .pythonrun.made
+
+.python.test.made: .venv/bin/activate .install.deps.made $(PYTHON_FILES)
+	source .venv/bin/activate && PYTHON_PATH=./src/main/python/ && echo $$PYTHON_PATH && python -m unittest discover -s src/test/python/dot/
+	touch .python.test.made
 
 .venv/bin/activate:
 	virtualenv .venv
