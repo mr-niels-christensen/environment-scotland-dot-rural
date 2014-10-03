@@ -103,25 +103,17 @@ class CsvGraph(Graph):
         self.add((self._ROOT_ID, RDFS.member, row_id))
         for heading, value in row.iteritems():
             #ID of this cell
-            cell_node = BNode()
+            cell_id = BNode()
             #Type of a CSV cell
-            self.add((row_id, RDF.type, CSV.Cell))
+            self.add((cell_id, RDF.type, CSV.Cell))
             #row_id --> cell_id
-            self.add((row_id, RDFS.member, cell_node))
+            self.add((row_id, RDFS.member, cell_id))
             #cell_id --> Heading
-            self.add((cell_node, CSV.fieldName, Literal(heading)))
+            self.add((cell_id, CSV.fieldName, Literal(heading)))
             #cell_id --> Value
-            self.add((cell_node, CSV.fieldValue, Literal(value)))
+            try:
+                value = int(value)
+            except ValueError:
+                pass #TODO Parse floats and dates
+            self.add((cell_id, CSV.fieldValue, Literal(value)))
 
-EXAMPLE = '''"A","B","C"
-1,2,3
-4,5,6
-'''
-if __name__ == '__main__':
-    import StringIO
-    g = CsvGraph()
-    g.read(StringIO.StringIO(EXAMPLE))
-    for row in g.query('SELECT ?member ?h ?v WHERE {?root <%s> <%s> . ?root <%s>+ ?member. ?member <%s> ?h . ?member <%s> ?v}' % (RDF.type, CSV.Import, RDFS.member, CSV.fieldName, CSV.fieldValue)):
-        print row
-        
-        
