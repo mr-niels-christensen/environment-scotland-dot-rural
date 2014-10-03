@@ -3,9 +3,15 @@ all: .python.run.made
 
 PYTHON_FILES = $(shell find src -name "*.py")
 
+#TODO
 .python.run.made: .venv/bin/activate .install.deps.made $(PYTHON_FILES) .python.test.made
 	source .venv/bin/activate && cd src/main/python/ && python dot/rural/sepake/ukeof.py
 	touch .pythonrun.made
+
+#TODO
+.PHONY: dist
+dist:
+	(cd src/main/python/ && ./setup.py sdist --dist-dir=../../../build --manifest=../../../build/MANIFEST; )
 
 .python.test.made: .venv/bin/activate .install.deps.made $(PYTHON_FILES)
 	source .venv/bin/activate && PYTHON_PATH=./src/main/python/ && echo $$PYTHON_PATH && python -m unittest discover -s src/test/python/dot/

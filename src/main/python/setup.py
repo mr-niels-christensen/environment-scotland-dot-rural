@@ -2,9 +2,8 @@
 
 from distutils.core import setup
 
-setup(name='dot.rural SEPAKE',
+setup(name='dot.rural.sepake',
       version='0.1',
       description='SEPAKE Python distributible',
-      author='Niels Christensen',
       packages=['dot.rural.sepake'],
      )
