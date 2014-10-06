@@ -6,7 +6,7 @@ Created on 3 Oct 2014
 import unittest
 import StringIO
 from dot.rural.sepake.csv_to_rdf import CSV, CsvGraph, PROV
-from rdflib import RDF, RDFS, Literal
+from rdflib import RDF, RDFS
 from rdflib.query import ResultRow
 
 EXAMPLE = '''"A","B","C"
@@ -51,8 +51,6 @@ class Test(unittest.TestCase):
         return [transformation(tupl) for tupl in self.g.query(query)]
         
     def testCells(self):
-            g = CsvGraph()
-            g.read(StringIO.StringIO(EXAMPLE))
             self.assertEquals(set([('A', 1), ('A', 4),
                                    ('B', 2), ('B', 5),
                                    ('C', 3), ('C', 6),
