@@ -18,19 +18,21 @@ SELECT ?h ?v
 WHERE {{
     ?cell <{rdf.type}> <{csv.Cell}> .
     ?cell <{csv.fieldName}> ?h . 
-    ?cell <{csv.fieldValue}> ?v}}
+    ?cell <{csv.fieldValue}> ?v .
+}}
 '''
 
-STURCTURE_QUERY = '''
+STRUCTURE_QUERY = '''
 SELECT *
 WHERE {{
     ?cell <{rdf.type}> <{csv.Cell}> .
     ?row <{rdfs.member}> ?cell . 
-    ?row <{rdf.type}> <{csv.Row}>}} .
+    ?row <{rdf.type}> <{csv.Row}> .
     ?file <{rdfs.member}> ?row . 
-    ?file <{rdf.type}> <{csv.File}>}} .
+    ?file <{rdf.type}> <{csv.File}> .
     ?import <{prov.generated}> ?file . 
-    ?import <{rdf.type}> <{prov.Activity}>}} .
+    ?import <{rdf.type}> <{csv.Import}> .
+}}
 '''
 
 def _pythonify(result_row):
@@ -59,7 +61,8 @@ class Test(unittest.TestCase):
     def testStructure(self):
             g = CsvGraph()
             g.read(StringIO.StringIO(EXAMPLE))
-            #result = [tpl for tpl in g.query(STURCTURE_QUERY)]
+            result = self._query(STRUCTURE_QUERY)
+            self.assertEquals(6, len(result), repr(result))
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
