@@ -7,6 +7,7 @@ import unittest
 import StringIO
 from dot.rural.sepake.csv_to_rdf import CSV, CsvGraph, PROV
 from rdflib import RDF, RDFS, Literal
+from rdflib.query import ResultRow
 
 EXAMPLE = '''"A","B","C"
 1,2,3
@@ -45,9 +46,9 @@ class Test(unittest.TestCase):
             self.g = CsvGraph()
             self.g.read(StringIO.StringIO(EXAMPLE))
     
-    def _query(self, template):
+    def _query(self, template, transformation = _pythonify):
         query = template.format(csv = CSV, rdf = RDF, rdfs = RDFS, prov = PROV)
-        return [_pythonify(tupl) for tupl in self.g.query(query)]
+        return [transformation(tupl) for tupl in self.g.query(query)]
         
     def testCells(self):
             g = CsvGraph()
@@ -59,10 +60,12 @@ class Test(unittest.TestCase):
                               set(self._query(ALL_CELLS_QUERY)))
 
     def testStructure(self):
-            g = CsvGraph()
-            g.read(StringIO.StringIO(EXAMPLE))
-            result = self._query(STRUCTURE_QUERY)
+            result = self._query(STRUCTURE_QUERY, transformation = ResultRow.asdict)
             self.assertEquals(6, len(result), repr(result))
+            found_csv_rows = {result_row['row'] for result_row in result}
+            self.assertEquals(2, len(found_csv_rows), repr(result))
+            found_csv_files = {result_row['file'] for result_row in result}
+            self.assertEquals(1, len(found_csv_files), repr(result))
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
