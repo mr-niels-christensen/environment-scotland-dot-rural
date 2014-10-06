@@ -19,7 +19,7 @@ WHERE {{
     ?cell <{rdf.type}> <{csv.Cell}> .
     ?cell <{csv.fieldName}> ?h . 
     ?cell <{csv.fieldValue}> ?v}}
-'''.format(csv = CSV, rdf = RDF, rdfs = RDFS)
+'''
 
 STURCTURE_QUERY = '''
 SELECT *
@@ -31,7 +31,7 @@ WHERE {{
     ?file <{rdf.type}> <{csv.File}>}} .
     ?import <{prov.generated}> ?file . 
     ?import <{rdf.type}> <{prov.Activity}>}} .
-'''.format(csv = CSV, rdf = RDF, rdfs = RDFS, prov = PROV)
+'''
 
 def _pythonify(result_row):
     '''@param result_row Row from a query result, instance of rdflib.query.ResultRow 
@@ -43,8 +43,9 @@ class Test(unittest.TestCase):
             self.g = CsvGraph()
             self.g.read(StringIO.StringIO(EXAMPLE))
     
-    def _query(self, query):
-            return [_pythonify(tupl) for tupl in self.g.query(query)]
+    def _query(self, template):
+        query = template.format(csv = CSV, rdf = RDF, rdfs = RDFS, prov = PROV)
+        return [_pythonify(tupl) for tupl in self.g.query(query)]
         
     def testCells(self):
             g = CsvGraph()
