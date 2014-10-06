@@ -10,5 +10,5 @@ repos/
 .*.made
 .venv/
 .venv-test/
-**/*.pyc
+*.pyc
 src/main/python/MANIFEST
