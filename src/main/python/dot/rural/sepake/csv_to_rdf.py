@@ -83,9 +83,9 @@ class CsvGraph(Graph):
         self.add((self._ROOT_ID, PROV.generated, file_id))
         #TODO add more PROV
         for row in csv.DictReader(csv_input):
-            self._add_csv_row(row)
+            self._add_csv_row(file_id, row)
             
-    def _add_csv_row(self, row):
+    def _add_csv_row(self, file_id, row):
         '''Adds a CSV row to the graph in the following style:
            file_id  -->  row_id --> cell_id_0 --> Heading_0
                               |              \--> Value_0
@@ -99,8 +99,8 @@ class CsvGraph(Graph):
         row_id = BNode()
         #Type of a CSV row
         self.add((row_id, RDF.type, CSV.Row))
-        #ROOT_ID  -->  row_id 
-        self.add((self._ROOT_ID, RDFS.member, row_id))
+        #file_id  -->  row_id 
+        self.add((file_id, RDFS.member, row_id))
         for heading, value in row.iteritems():
             #ID of this cell
             cell_id = BNode()

@@ -9,4 +9,6 @@ repos/
 .pydevproject
 .*.made
 .venv/
-**/*.pyc
+.venv-test/
+*.pyc
+src/main/python/MANIFEST
