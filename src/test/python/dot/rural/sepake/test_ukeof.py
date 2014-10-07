@@ -26,6 +26,7 @@ QUERY = '''
 CONSTRUCT {{
     ?link <{rdf.type}> <{sepake.UKEOFActivity}> .
     ?link <{rdfs.label}> ?title .
+    ?link <{rdfs.comment}> ?desc .
     ?link <{foaf.homepage}> ?link .
     ?leadorglink <{rdfs.label}> ?leadorg .
     ?leadorglink <{sepake.owns}> ?link .
@@ -44,10 +45,18 @@ WHERE {{
     ?linkcell <{rdf.type}> <{csv.Cell}> .
     ?linkcell <{csv.fieldName}> "Link to full record" .
     ?linkcell <{csv.fieldValue}> ?link . 
+    ?desccell <{rdf.type}> <{csv.Cell}> .
+    ?desccell <{csv.fieldName}> "Description" .
+    ?desccell <{csv.fieldValue}> ?desc . 
+    #?objectivecell <{rdf.type}> <{csv.Cell}> .
+    #?objectivecell <{csv.fieldName}> "Objectives" .
+    #?reasoncell <{csv.fieldName}> "Reasons for collection" .
+    #?objectivecell <{csv.fieldValue}> ?objective . 
     ?leadcell <{rdf.type}> <{csv.Cell}> .
     ?leadcell <{csv.fieldName}> "Lead organisation" .
     ?leadcell <{csv.fieldValue}> ?leadorg . 
     BIND (URI(CONCAT(str(<{sepake.UKEOFOrganisation}>), "#", ENCODE_FOR_URI(?leadorg))) AS ?leadorglink) 
+    #BIND (IF(STRLEN(?objective) > 0, CONCAT(?desc, "<br>Objective: ", ?objective), ?desc) AS ?comment)
 }}
 '''
 
