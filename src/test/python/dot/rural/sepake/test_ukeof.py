@@ -46,14 +46,32 @@ ADD_TYPE = '''
 CONSTRUCT {{
     ?link <{rdf.type}> <{sepake.UKEOFActivity}> .
 }}
-WHERE {{''' + ACTIVITY_CLAUSES + '''
+WHERE {{
+    ?row <{rdf.type}> <{csv.Row}> .
+    ?row <{rdfs.member}> ?typecell .
+    ?typecell <{rdf.type}> <{csv.Cell}> .
+    ?typecell <{csv.fieldName}> "Type" . 
+    ?typecell <{csv.fieldValue}> "Activity" .
+    ?row <{rdfs.member}> ?linkcell .
+    ?linkcell <{rdf.type}> <{csv.Cell}> .
+    ?linkcell <{csv.fieldName}> "Link to full record" .
+    ?linkcell <{csv.fieldValue}> ?link . 
 }}
 '''
 REAL_ADD_TYPE = '''
 INSERT {{
     ?link <{rdf.type}> <{sepake.UKEOFActivity}> .
 }}
-WHERE {{''' + ACTIVITY_CLAUSES + '''
+WHERE {{
+    ?row <{rdf.type}> <{csv.Row}> .
+    ?row <{rdfs.member}> ?typecell .
+    ?typecell <{rdf.type}> <{csv.Cell}> .
+    ?typecell <{csv.fieldName}> "Type" . 
+    ?typecell <{csv.fieldValue}> "Activity" .
+    ?row <{rdfs.member}> ?linkcell .
+    ?linkcell <{rdf.type}> <{csv.Cell}> .
+    ?linkcell <{csv.fieldName}> "Link to full record" .
+    ?linkcell <{csv.fieldValue}> ?link . 
 }}
 '''
 
@@ -61,7 +79,7 @@ ADD_LABEL = '''
 CONSTRUCT {{
     ?link <{rdfs.label}> ?title .
 }}
-WHERE {{''' + ACTIVITY_CLAUSES + '''
+WHERE {{''' + ALT_ACTIVITY_CLAUSES + '''
     ?row <{rdfs.member}> ?titlecell .
     ?titlecell <{rdf.type}> <{csv.Cell}> .
     ?titlecell <{csv.fieldName}> "Title" .
@@ -73,7 +91,7 @@ ADD_HOMEPAGE = '''
 CONSTRUCT {{
     ?link <{foaf.homepage}> ?link .
 }}
-WHERE {{''' + ACTIVITY_CLAUSES + '''
+WHERE {{''' + ALT_ACTIVITY_CLAUSES + '''
 }}
 '''
 
@@ -82,7 +100,7 @@ CONSTRUCT {{
     ?leadorglink <{rdfs.label}> ?leadorg .
     ?leadorglink <{sepake.owns}> ?link .
 }}
-WHERE {{''' + ACTIVITY_CLAUSES + '''
+WHERE {{''' + ALT_ACTIVITY_CLAUSES + '''
     ?row <{rdfs.member}> ?leadcell .
     ?leadcell <{rdf.type}> <{csv.Cell}> .
     ?leadcell <{csv.fieldName}> "Lead organisation" .
@@ -149,18 +167,21 @@ class Test(unittest.TestCase):
     def testAddType(self):
         self._update(REAL_ADD_TYPE)
         activities = set(self.g.subjects(RDF.type, ONTOLOGY.UKEOFActivity))
-        self.assertEquals(7, len(activities), activities)
+        self.assertEquals(7, len(activities), repr(activities))
         for subject in activities:
             known = set(self.g.triples((subject, None, None)))
             self.assertEquals(1, len(known), known)
 
     def testAddLabel(self):
+        self._update(REAL_ADD_TYPE)
         self._testUpdate(ADD_LABEL)
 
     def testAddHomepage(self):
+        self._update(REAL_ADD_TYPE)
         self._testUpdate(ADD_HOMEPAGE)
 
     def testAddLeadorg(self):
+        self._update(REAL_ADD_TYPE)
         self._testUpdate(ADD_LEAD_ORG)
 
     def testAddComment(self):
