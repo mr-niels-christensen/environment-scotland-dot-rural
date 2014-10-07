@@ -22,6 +22,18 @@ Activity,CCW Lagoon soft sediment survey,"Saline lagoons are identified as an An
 Facility,FAUGHAN RIVER AT DRUMAHOE,River monitoring stationAltitude: ,https://catalogue.ukeof.org.uk/id/00bc6172-9e06-42fa-8bc6-d9fcd0647f5a,,,,,,Northern Ireland Environment Agency,,,,,,2014-06-04 11:12:20,,,,,,,,POINT(-7.2805 54.9794)
 '''
 
+ACTIVITY_CLAUSES = '''
+    ?row <{rdf.type}> <{csv.Row}> .
+    ?row <{rdfs.member}> ?typecell .
+    ?row <{rdfs.member}> ?linkcell .
+    ?typecell <{rdf.type}> <{csv.Cell}> .
+    ?typecell <{csv.fieldName}> "Type" . 
+    ?typecell <{csv.fieldValue}> "Activity" .
+    ?linkcell <{rdf.type}> <{csv.Cell}> .
+    ?linkcell <{csv.fieldName}> "Link to full record" .
+    ?linkcell <{csv.fieldValue}> ?link . 
+'''
+
 QUERY = '''
 CONSTRUCT {{
     ?link <{rdf.type}> <{sepake.UKEOFActivity}> .
@@ -31,20 +43,11 @@ CONSTRUCT {{
     ?leadorglink <{rdfs.label}> ?leadorg .
     ?leadorglink <{sepake.owns}> ?link .
 }}
-WHERE {{
-    ?row <{rdf.type}> <{csv.Row}> .
-    ?row <{rdfs.member}> ?typecell .
+WHERE {{''' + ACTIVITY_CLAUSES + '''
     ?row <{rdfs.member}> ?titlecell .
-    ?row <{rdfs.member}> ?linkcell .
-    ?typecell <{rdf.type}> <{csv.Cell}> .
-    ?typecell <{csv.fieldName}> "Type" . 
-    ?typecell <{csv.fieldValue}> "Activity" .
     ?titlecell <{rdf.type}> <{csv.Cell}> .
     ?titlecell <{csv.fieldName}> "Title" .
     ?titlecell <{csv.fieldValue}> ?title . 
-    ?linkcell <{rdf.type}> <{csv.Cell}> .
-    ?linkcell <{csv.fieldName}> "Link to full record" .
-    ?linkcell <{csv.fieldValue}> ?link . 
     ?desccell <{rdf.type}> <{csv.Cell}> .
     ?desccell <{csv.fieldName}> "Description" .
     ?desccell <{csv.fieldValue}> ?desc . 
