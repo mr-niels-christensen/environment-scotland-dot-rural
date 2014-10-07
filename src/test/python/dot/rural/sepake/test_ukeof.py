@@ -42,22 +42,6 @@ ALT_ACTIVITY_CLAUSES = '''
     ?linkcell <{csv.fieldValue}> ?link . 
 '''
 
-ADD_TYPE = '''
-CONSTRUCT {{
-    ?link <{rdf.type}> <{sepake.UKEOFActivity}> .
-}}
-WHERE {{
-    ?row <{rdf.type}> <{csv.Row}> .
-    ?row <{rdfs.member}> ?typecell .
-    ?typecell <{rdf.type}> <{csv.Cell}> .
-    ?typecell <{csv.fieldName}> "Type" . 
-    ?typecell <{csv.fieldValue}> "Activity" .
-    ?row <{rdfs.member}> ?linkcell .
-    ?linkcell <{rdf.type}> <{csv.Cell}> .
-    ?linkcell <{csv.fieldName}> "Link to full record" .
-    ?linkcell <{csv.fieldValue}> ?link . 
-}}
-'''
 REAL_ADD_TYPE = '''
 INSERT {{
     ?link <{rdf.type}> <{sepake.UKEOFActivity}> .
