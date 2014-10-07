@@ -25,29 +25,63 @@ Facility,FAUGHAN RIVER AT DRUMAHOE,River monitoring stationAltitude: ,https://ca
 ACTIVITY_CLAUSES = '''
     ?row <{rdf.type}> <{csv.Row}> .
     ?row <{rdfs.member}> ?typecell .
-    ?row <{rdfs.member}> ?linkcell .
     ?typecell <{rdf.type}> <{csv.Cell}> .
     ?typecell <{csv.fieldName}> "Type" . 
     ?typecell <{csv.fieldValue}> "Activity" .
+    ?row <{rdfs.member}> ?linkcell .
     ?linkcell <{rdf.type}> <{csv.Cell}> .
     ?linkcell <{csv.fieldName}> "Link to full record" .
     ?linkcell <{csv.fieldValue}> ?link . 
 '''
 
-QUERY = '''
+ADD_TYPE = '''
 CONSTRUCT {{
     ?link <{rdf.type}> <{sepake.UKEOFActivity}> .
+}}
+WHERE {{''' + ACTIVITY_CLAUSES + '''
+}}
+'''
+
+ADD_LABEL = '''
+CONSTRUCT {{
     ?link <{rdfs.label}> ?title .
-    ?link <{rdfs.comment}> ?desc .
-    ?link <{foaf.homepage}> ?link .
-    ?leadorglink <{rdfs.label}> ?leadorg .
-    ?leadorglink <{sepake.owns}> ?link .
 }}
 WHERE {{''' + ACTIVITY_CLAUSES + '''
     ?row <{rdfs.member}> ?titlecell .
     ?titlecell <{rdf.type}> <{csv.Cell}> .
     ?titlecell <{csv.fieldName}> "Title" .
     ?titlecell <{csv.fieldValue}> ?title . 
+}}
+'''
+
+ADD_HOMEPAGE = '''
+CONSTRUCT {{
+    ?link <{foaf.homepage}> ?link .
+}}
+WHERE {{''' + ACTIVITY_CLAUSES + '''
+}}
+'''
+
+ADD_LEAD_ORG = '''
+CONSTRUCT {{
+    ?leadorglink <{rdfs.label}> ?leadorg .
+    ?leadorglink <{sepake.owns}> ?link .
+}}
+WHERE {{''' + ACTIVITY_CLAUSES + '''
+    ?row <{rdfs.member}> ?leadcell .
+    ?leadcell <{rdf.type}> <{csv.Cell}> .
+    ?leadcell <{csv.fieldName}> "Lead organisation" .
+    ?leadcell <{csv.fieldValue}> ?leadorg . 
+    BIND (URI(CONCAT(str(<{sepake.UKEOFOrganisation}>), "#", ENCODE_FOR_URI(?leadorg))) AS ?leadorglink) 
+}}
+'''
+
+ADD_COMMENT = '''
+CONSTRUCT {{
+    ?link <{rdfs.comment}> ?desc .
+}}
+WHERE {{''' + ACTIVITY_CLAUSES + '''
+    ?row <{rdfs.member}> ?desccell .
     ?desccell <{rdf.type}> <{csv.Cell}> .
     ?desccell <{csv.fieldName}> "Description" .
     ?desccell <{csv.fieldValue}> ?desc . 
@@ -55,10 +89,6 @@ WHERE {{''' + ACTIVITY_CLAUSES + '''
     #?objectivecell <{csv.fieldName}> "Objectives" .
     #?reasoncell <{csv.fieldName}> "Reasons for collection" .
     #?objectivecell <{csv.fieldValue}> ?objective . 
-    ?leadcell <{rdf.type}> <{csv.Cell}> .
-    ?leadcell <{csv.fieldName}> "Lead organisation" .
-    ?leadcell <{csv.fieldValue}> ?leadorg . 
-    BIND (URI(CONCAT(str(<{sepake.UKEOFOrganisation}>), "#", ENCODE_FOR_URI(?leadorg))) AS ?leadorglink) 
     #BIND (IF(STRLEN(?objective) > 0, CONCAT(?desc, "<br>Objective: ", ?objective), ?desc) AS ?comment)
 }}
 '''
@@ -81,10 +111,25 @@ class Test(unittest.TestCase):
                                 foaf = FOAF,
                                 sepake = ONTOLOGY)
         return [transformation(tupl) for tupl in self.g.query(query)]
-        
-    def testFoo(self):
-            for row in self._query(QUERY):
-                print repr(row)
+    
+    def _testUpdate(self, template):
+        for row in self._query(template):
+            print repr(row)
+            
+    def testAddType(self):
+        self._testUpdate(ADD_TYPE)
+
+    def testAddLabel(self):
+        self._testUpdate(ADD_LABEL)
+
+    def testAddHomepage(self):
+        self._testUpdate(ADD_HOMEPAGE)
+
+    def testAddLeadorg(self):
+        self._testUpdate(ADD_LEAD_ORG)
+
+    def testAddComment(self):
+        self._testUpdate(ADD_COMMENT)
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
