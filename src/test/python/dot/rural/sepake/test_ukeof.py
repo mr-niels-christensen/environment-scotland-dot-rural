@@ -10,6 +10,7 @@ from rdflib import RDF, RDFS
 from rdflib.namespace import FOAF
 from dot.rural.sepake.ontology import ONTOLOGY
 from rdflib.query import ResultRow
+import csv
 
 EXAMPLE = '''Type,Title,Description,Link to full record,Objectives,Keywords,Reasons for collection,Environmental domains,Parameters measured,Lead organisation,Online resources,Links to data,Lifespan start,Lifespan end,Funding categories,Last edited,UKEOF Identifier,Envirobase codings,GMES codings,GEOSS codings,ECV codings,Measurement regime,Legal background,Location (bounding boxes or points)
 Activity,"Agri-environment scheme monitoring in England (ESA, CSS and ASPS schemes) - Monitoring of Cereal Field Margin Options",This three-year programme of work aimed to undertake a comprehensive and comparative evaluation of the effectiveness of a range of field margin management options used within various agri-environment schemes in conserving arable plants and providing resources for foraging bumblebees. The project looked at (i) 5-year old margins provided in two areas under the Arable Stewardship Pilot Scheme; (ii) Cultivated margins for Rare Arable Plants established and previously monitored under the Breckland ESA Scheme; and (iii) Arable margins established nationally under the expansion of the Countryside Stewardship Scheme to accommodate a wider range of Arable Options. The project as a whole was intended to provide a comprehensive picture of the contribution being made by agri-environment schemes to delivery of the Habitat Action Plan for Cereal Field Margins.,https://catalogue.ukeof.org.uk/id/00329c57-7e1e-401e-8804-bc71a1aa0a59,"Agri-environment monitoring activities are designed to enable an assessment of the impact of each Scheme on target features of environmental interest. They also provide information about the performance of management prescriptions. Monitoring activities are co-ordinated, rather than carried out in isolation, to ensure that an overall assessment of the effectiveness of the scheme can be made. Most monitoring protocols allow for repeat surveys capable of detecting significant real change and provide baseline and resurvey data. Due to the nature of sampling and the use of common methods, sample sites within the monitoring programme can be used to provide data or a sampling framework to address other policy and scientific needs. The main objective of this activity is: a) to undertake a comprehensive and comparative evaluation of the effectiveness of a range of field margin management options used within various agri-environment schemes in conserving arable plants and providing resources for foraging bumblebees.",Agri-environment scheme;Cereal field margin;Cereal headlands;Conservation headlands;Bumblebees;Sown Margins;Field Margins;Margins;Cultivated Margins;Countryside Stewardship;Arable margins;Biodiversity;Arable Opti;Biodiversity Action Plan;BAP,Data collection;Policy;Strategic goals;Ministerial commitment,Biosphere,land use;Site condition,Natural England,,,2003-01-01,2005-01-01,public,2014-05-15 14:18:49,641313,"A4, B2, C1, D5.4, C13.9, C2.1, E1.2.2, E5.A.1, E5.A.2, E5.B.4.1, E5.B.4.2, E5.C.3.9, G2.2.1.1, D2.1.4, D5.2.6, D5.2.8, E5.C.2, S3.6, S3.8, S3.10, S3.11",,,,,,-6.4526 49.8638 1.7675 55.8121
@@ -37,14 +38,13 @@ ACTIVITY_CLAUSES = '''
 
 ALT_ACTIVITY_CLAUSES = '''
     ?link <{rdf.type}> <{sepake.UKEOFActivity}> .
-    ?row <{rdf.type}> <{csv.Row}> .
-    ?row <{rdfs.member}> ?linkcell .
-    ?linkcell <{csv.fieldValue}> ?link . 
+    ?link <{prov.wasDerivedFrom}> ?row . 
 '''
 
-REAL_ADD_TYPE = '''
+INSERT_TYPE = '''
 INSERT {{
-    ?link <{rdf.type}> <{sepake.UKEOFActivity}> .
+    ?urilink <{rdf.type}> <{sepake.UKEOFActivity}> .
+    ?urilink <{prov.wasDerivedFrom}> ?row .
 }}
 WHERE {{
     ?row <{rdf.type}> <{csv.Row}> .
@@ -56,11 +56,12 @@ WHERE {{
     ?linkcell <{rdf.type}> <{csv.Cell}> .
     ?linkcell <{csv.fieldName}> "Link to full record" .
     ?linkcell <{csv.fieldValue}> ?link . 
+    BIND (URI(?link) AS ?urilink)
 }}
 '''
 
-ADD_LABEL = '''
-CONSTRUCT {{
+INSERT_LABEL = '''
+INSERT {{
     ?link <{rdfs.label}> ?title .
 }}
 WHERE {{''' + ALT_ACTIVITY_CLAUSES + '''
@@ -123,6 +124,7 @@ class Test(unittest.TestCase):
     def setUp(self):
             self.g = CsvGraph()
             self.g.read(StringIO.StringIO(EXAMPLE))
+            self.csv = csv.DictReader(StringIO.StringIO(EXAMPLE))
     
     def _query(self, template, transformation = _pythonify):
         query = template.format(csv = CSV, 
@@ -149,27 +151,32 @@ class Test(unittest.TestCase):
             i += 1
             
     def testAddType(self):
-        self._update(REAL_ADD_TYPE)
+        self._update(INSERT_TYPE)
         activities = set(self.g.subjects(RDF.type, ONTOLOGY.UKEOFActivity))
         self.assertEquals(7, len(activities), repr(activities))
         for subject in activities:
             known = set(self.g.triples((subject, None, None)))
-            self.assertEquals(1, len(known), known)
+            self.assertEquals(2, len(known), known) #TODO test wasDerivedFrom
 
     def testAddLabel(self):
-        self._update(REAL_ADD_TYPE)
-        self._testUpdate(ADD_LABEL)
+        self._update(INSERT_TYPE)
+        self._update(INSERT_LABEL)
+        labels = [_pythonify(r) for r in self.g.subject_objects(RDFS.label)]
+        self.assertEquals(7, len(labels), repr(labels))
+        self.assertEquals({(csv_row['Link to full record'], csv_row['Title']) 
+                           for csv_row in self.csv if csv_row['Type'] == 'Activity'},
+                          set(labels))
 
     def testAddHomepage(self):
-        self._update(REAL_ADD_TYPE)
+        self._update(INSERT_TYPE)
         self._testUpdate(ADD_HOMEPAGE)
 
     def testAddLeadorg(self):
-        self._update(REAL_ADD_TYPE)
+        self._update(INSERT_TYPE)
         self._testUpdate(ADD_LEAD_ORG)
 
     def testAddComment(self):
-        self._update(REAL_ADD_TYPE)
+        self._update(INSERT_TYPE)
         self._testUpdate(ADD_COMMENT)
         r = self._query(ADD_COMMENT, transformation = ResultRow.asdict)
         print len(r)
