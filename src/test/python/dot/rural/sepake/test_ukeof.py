@@ -131,6 +131,15 @@ class Test(unittest.TestCase):
                                 sepake = ONTOLOGY)
         return [transformation(tupl) for tupl in self.g.query(query)]
     
+    def _update(self, template):
+        query = template.format(csv = CSV, 
+                                rdf = RDF, 
+                                rdfs = RDFS, 
+                                prov = PROV, 
+                                foaf = FOAF,
+                                sepake = ONTOLOGY)
+        self.g.update(query)
+    
     def _testUpdate(self, template):
         i = 0
         for row in self._query(template):
@@ -138,7 +147,12 @@ class Test(unittest.TestCase):
             i += 1
             
     def testAddType(self):
-        self._testUpdate(ADD_TYPE)
+        self._update(REAL_ADD_TYPE)
+        activities = set(self.g.subjects(RDF.type, ONTOLOGY.UKEOFActivity))
+        self.assertEquals(7, len(activities), activities)
+        for subject in activities:
+            known = set(self.g.triples((subject, None, None)))
+            self.assertEquals(1, len(known), known)
 
     def testAddLabel(self):
         self._testUpdate(ADD_LABEL)
@@ -150,12 +164,7 @@ class Test(unittest.TestCase):
         self._testUpdate(ADD_LEAD_ORG)
 
     def testAddComment(self):
-        self.g.update(REAL_ADD_TYPE.format(csv = CSV, 
-                                rdf = RDF, 
-                                rdfs = RDFS, 
-                                prov = PROV, 
-                                foaf = FOAF,
-                                sepake = ONTOLOGY))
+        self._update(REAL_ADD_TYPE)
         self._testUpdate(ADD_COMMENT)
         r = self._query(ADD_COMMENT, transformation = ResultRow.asdict)
         print len(r)
