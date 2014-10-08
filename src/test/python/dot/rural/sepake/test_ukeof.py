@@ -24,23 +24,6 @@ Activity,CCW Lagoon soft sediment survey,"Saline lagoons are identified as an An
 Facility,FAUGHAN RIVER AT DRUMAHOE,River monitoring stationAltitude: ,https://catalogue.ukeof.org.uk/id/00bc6172-9e06-42fa-8bc6-d9fcd0647f5a,,,,,,Northern Ireland Environment Agency,,,,,,2014-06-04 11:12:20,,,,,,,,POINT(-7.2805 54.9794)
 '''
 
-ACTIVITY_CLAUSES = '''
-    ?row <{rdf.type}> <{csv.Row}> .
-    ?row <{rdfs.member}> ?typecell .
-    ?typecell <{rdf.type}> <{csv.Cell}> .
-    ?typecell <{csv.fieldName}> "Type" . 
-    ?typecell <{csv.fieldValue}> "Activity" .
-    ?row <{rdfs.member}> ?linkcell .
-    ?linkcell <{rdf.type}> <{csv.Cell}> .
-    ?linkcell <{csv.fieldName}> "Link to full record" .
-    ?linkcell <{csv.fieldValue}> ?link . 
-'''
-
-ALT_ACTIVITY_CLAUSES = '''
-    ?link <{rdf.type}> <{sepake.UKEOFActivity}> .
-    ?link <{prov.wasDerivedFrom}> ?row . 
-'''
-
 INSERT_TYPE = '''
 INSERT {{
     ?urilink <{rdf.type}> <{sepake.UKEOFActivity}> .
@@ -60,11 +43,16 @@ WHERE {{
 }}
 '''
 
+ACTIVITY_CLAUSES = '''
+    ?link <{rdf.type}> <{sepake.UKEOFActivity}> .
+    ?link <{prov.wasDerivedFrom}> ?row . 
+'''
+
 INSERT_LABEL = '''
 INSERT {{
     ?link <{rdfs.label}> ?title .
 }}
-WHERE {{''' + ALT_ACTIVITY_CLAUSES + '''
+WHERE {{''' + ACTIVITY_CLAUSES + '''
     ?row <{rdfs.member}> ?titlecell .
     ?titlecell <{rdf.type}> <{csv.Cell}> .
     ?titlecell <{csv.fieldName}> "Title" .
@@ -76,7 +64,7 @@ ADD_HOMEPAGE = '''
 CONSTRUCT {{
     ?link <{foaf.homepage}> ?link .
 }}
-WHERE {{''' + ALT_ACTIVITY_CLAUSES + '''
+WHERE {{''' + ACTIVITY_CLAUSES + '''
 }}
 '''
 
@@ -85,7 +73,7 @@ CONSTRUCT {{
     ?leadorglink <{rdfs.label}> ?leadorg .
     ?leadorglink <{sepake.owns}> ?link .
 }}
-WHERE {{''' + ALT_ACTIVITY_CLAUSES + '''
+WHERE {{''' + ACTIVITY_CLAUSES + '''
     ?row <{rdfs.member}> ?leadcell .
     ?leadcell <{rdf.type}> <{csv.Cell}> .
     ?leadcell <{csv.fieldName}> "Lead organisation" .
@@ -102,7 +90,7 @@ CONSTRUCT {{
 '''
 ADD_COMMENT = '''
 SELECT *
-WHERE {{''' + ALT_ACTIVITY_CLAUSES + '''
+WHERE {{''' + ACTIVITY_CLAUSES + '''
     ?row <{rdfs.member}> ?desccell .
     ?row <{rdfs.member}> ?objectivecell .
     ?desccell <{rdf.type}> <{csv.Cell}> .
