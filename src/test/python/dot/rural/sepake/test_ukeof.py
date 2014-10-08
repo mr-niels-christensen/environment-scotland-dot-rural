@@ -67,7 +67,7 @@ WHERE {{''' + ACTIVITY_CLAUSES + '''
 }}
 '''
 
-ADD_LEAD_ORG = '''
+INSERT_LEAD_ORG = '''
 INSERT {{
     ?leadorglink <{rdfs.label}> ?leadorg .
     ?leadorglink <{sepake.owns}> ?link .
@@ -166,7 +166,7 @@ class Test(unittest.TestCase):
 
     def testInsertLeadorg(self):
         self._update(INSERT_TYPE)
-        self._update(ADD_LEAD_ORG)
+        self._update(INSERT_LEAD_ORG)
         self.assertEquals(7, len(list(self.g[:ONTOLOGY.owns])))
         for (owner, _) in self.g[:ONTOLOGY.owns]:
             self.assertIn((owner, RDF.type, ONTOLOGY.UKEOFOrganisation), self.g)
