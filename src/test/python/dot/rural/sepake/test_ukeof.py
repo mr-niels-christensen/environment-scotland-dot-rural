@@ -144,11 +144,11 @@ class Test(unittest.TestCase):
     def setUp(self):
             self.g = CsvGraph()
             self.g.read(StringIO.StringIO(EXAMPLE))
-            self.original_len = len(self.g)
+            self.len_before_update = len(self.g)
             self.csv = csv.DictReader(StringIO.StringIO(EXAMPLE))
     
-    def assertGraphGrownBy(self, n):
-        self.assertEquals(n, len(self.g) - self.original_len)
+    def assertLastUpdateAdded(self, n):
+        self.assertEquals(n, len(self.g) - self.len_before_update)
         
     def _update(self, template):
         query = template.format(csv = CSV,
@@ -158,11 +158,12 @@ class Test(unittest.TestCase):
                                 prov = PROV, 
                                 foaf = FOAF,
                                 sepake = ONTOLOGY)
+        self.len_before_update = len(self.g)
         self.g.update(query)
 
     def testInsertType(self):
         self._update(INSERT_TYPE)
-        self.assertGraphGrownBy(14)
+        self.assertLastUpdateAdded(14)
         for activity_uri in self.g[: RDF.type : ONTOLOGY.UKEOFActivity]:
             self.assertIn(Literal(activity_uri),
                           self.g[activity_uri : PROV.wasDerivedFrom / RDFS.member / CSV.fieldValue])
@@ -170,11 +171,11 @@ class Test(unittest.TestCase):
     def testInsertLabel(self):
         self._update(INSERT_TYPE)
         self._update(INSERT_LABEL)
-        labels = [_pythonify(r) for r in self.g.subject_objects(RDFS.label)]
-        self.assertEquals(7, len(labels), repr(labels))
-        self.assertEquals({(csv_row['Link to full record'], csv_row['Title']) 
-                           for csv_row in self.csv if csv_row['Type'] == 'Activity'},
-                          set(labels))
+        self.assertLastUpdateAdded(7)
+        for csv_row in self.csv:
+            if csv_row['Type'] == 'Activity':
+                self.assertIn((uri(csv_row), RDFS.label, Literal(csv_row['Title'])),
+                              self.g)
 
     def testInsertHomepage(self):
         self._update(INSERT_TYPE)
