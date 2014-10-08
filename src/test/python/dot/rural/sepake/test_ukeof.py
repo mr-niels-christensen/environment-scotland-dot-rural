@@ -89,13 +89,18 @@ CONSTRUCT {{
 WHERE {{''' + ACTIVITY_CLAUSES + '''
     ?row <{rdfs.member}> ?desccell .
     ?row <{rdfs.member}> ?objectivecell .
+    ?row <{rdfs.member}> ?reasoncell .
     ?desccell <{rdf.type}> <{csv.Cell}> .
     ?desccell <{csv.fieldName}> "Description" .
     ?desccell <{csv.fieldValue}> ?desc . 
     ?objectivecell <{rdf.type}> <{csv.Cell}> .
     ?objectivecell <{csv.fieldName}> "Objectives" .
     ?objectivecell <{csv.fieldValue}> ?objective . 
-    BIND (IF(STRLEN(?objective) > 0, CONCAT(?desc, "<br>Objective: ", ?objective), ?desc) AS ?comment)
+    ?reasoncell <{rdf.type}> <{csv.Cell}> .
+    ?reasoncell <{csv.fieldName}> "Reasons for collection" .
+    ?reasoncell <{csv.fieldValue}> ?reason . 
+    BIND (IF(STRLEN(?objective) > 0, CONCAT(?desc, "<br>Objective: ", ?objective), ?desc) AS ?withob)
+    BIND (IF(STRLEN(?objective) > 0, CONCAT(?withob, "<br>Reasons for collection: ", ?reason), ?withob) AS ?comment)
 }}
 '''
 
