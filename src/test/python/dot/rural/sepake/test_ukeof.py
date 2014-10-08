@@ -82,14 +82,10 @@ WHERE {{''' + ACTIVITY_CLAUSES + '''
 }}
 '''
 
-'''
+ADD_COMMENT = '''
 CONSTRUCT {{
     ?link <{rdfs.comment}> ?comment .
 }}
-
-'''
-ADD_COMMENT = '''
-SELECT *
 WHERE {{''' + ACTIVITY_CLAUSES + '''
     ?row <{rdfs.member}> ?desccell .
     ?row <{rdfs.member}> ?objectivecell .
@@ -166,11 +162,6 @@ class Test(unittest.TestCase):
     def testAddComment(self):
         self._update(INSERT_TYPE)
         self._testUpdate(ADD_COMMENT)
-        r = self._query(ADD_COMMENT, transformation = ResultRow.asdict)
-        print len(r)
-        for f in ['link', 'comment', 'row', 'desccell', 'objectivecell']:
-            s = {rr[f] for rr in r}
-            print '%s(%d): %s' % (f, len(s), repr(s))
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
