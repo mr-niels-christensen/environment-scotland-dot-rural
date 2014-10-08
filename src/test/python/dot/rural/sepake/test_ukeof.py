@@ -6,7 +6,7 @@ Created on 3 Oct 2014
 import unittest
 import StringIO
 from dot.rural.sepake.csv_to_rdf import CSV, CsvGraph, PROV
-from rdflib import RDF, RDFS
+from rdflib import RDF, RDFS, URIRef
 from rdflib.namespace import FOAF
 from dot.rural.sepake.ontology import ONTOLOGY
 import csv
@@ -82,8 +82,8 @@ WHERE {{''' + ACTIVITY_CLAUSES + '''
 }}
 '''
 
-ADD_COMMENT = '''
-CONSTRUCT {{
+INSERT_COMMENT = '''
+INSERT {{
     ?link <{rdfs.comment}> ?comment .
 }}
 WHERE {{''' + ACTIVITY_CLAUSES + '''
@@ -100,7 +100,7 @@ WHERE {{''' + ACTIVITY_CLAUSES + '''
     ?reasoncell <{csv.fieldName}> "Reasons for collection" .
     ?reasoncell <{csv.fieldValue}> ?reason . 
     BIND (IF(STRLEN(?objective) > 0, CONCAT(?desc, "<br>Objective: ", ?objective), ?desc) AS ?withob)
-    BIND (IF(STRLEN(?objective) > 0, CONCAT(?withob, "<br>Reasons for collection: ", ?reason), ?withob) AS ?comment)
+    BIND (IF(STRLEN(?reason) > 0, CONCAT(?withob, "<br>Reasons for collection: ", ?reason), ?withob) AS ?comment)
 }}
 '''
 
@@ -171,10 +171,15 @@ class Test(unittest.TestCase):
         for (owner, _) in self.g[:ONTOLOGY.owns]:
             self.assertIn((owner, RDF.type, ONTOLOGY.UKEOFOrganisation), self.g)
 
-    def testAddComment(self):
+    def testInsertComment(self):
         self._update(INSERT_TYPE)
-        self._testUpdate(ADD_COMMENT)
-
+        self._update(INSERT_COMMENT)
+        for csv_row in self.csv:
+            if csv_row['Type'] == 'Activity':
+                desc = self.g.value(URIRef(csv_row['Link to full record']), RDFS.comment)
+                for key in ['Description', 'Objectives', 'Reasons for collection']:
+                    self.assertGreater(desc.find(csv_row[key]), -1, 'Failed to find %s="%s" in "%s"' % (key, csv_row[key], desc))
+                    
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()
