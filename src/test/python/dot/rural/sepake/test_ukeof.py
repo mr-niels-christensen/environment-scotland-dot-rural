@@ -118,6 +118,19 @@ WHERE {{''' + ACTIVITY_CLAUSES + '''
 }}
 '''
 
+INSERT_END_DATE = '''
+INSERT {{
+    ?link <{prov.endedAtTime}> ?enddate .
+}}
+WHERE {{''' + ACTIVITY_CLAUSES + '''
+    ?row <{rdfs.member}> ?enddatecell .
+    ?enddatecell <{rdf.type}> <{csv.Cell}> .
+    ?enddatecell <{csv.fieldName}> "Lifespan end" .
+    ?enddatecell <{csv.fieldValue}> ?enddatestr . 
+    BIND (STRDT(?enddatestr, <{xsd.date}>) AS ?enddate)
+}}
+'''
+
 def _pythonify(result_row):
     '''@param result_row Row from a query result, instance of rdflib.query.ResultRow 
     '''
@@ -202,6 +215,15 @@ class Test(unittest.TestCase):
             if csv_row['Type'] == 'Activity' and len(csv_row['Lifespan start']) > 0:
                 self.assertEquals(datetime.datetime.strptime(csv_row['Lifespan start'], '%Y-%m-%d').date(),
                                   self.g.value(URIRef(csv_row['Link to full record']), PROV.startedAtTime).value
+                                  )
+                
+    def testInsertEndDate(self):
+        self._update(INSERT_TYPE)
+        self._update(INSERT_END_DATE)
+        for csv_row in self.csv:
+            if csv_row['Type'] == 'Activity' and len(csv_row['Lifespan end']) > 0:
+                self.assertEquals(datetime.datetime.strptime(csv_row['Lifespan end'], '%Y-%m-%d').date(),
+                                  self.g.value(URIRef(csv_row['Link to full record']), PROV.endedAtTime).value
                                   )
                 
 if __name__ == "__main__":
