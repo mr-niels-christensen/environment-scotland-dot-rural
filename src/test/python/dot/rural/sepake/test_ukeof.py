@@ -9,7 +9,6 @@ from dot.rural.sepake.csv_to_rdf import CSV, CsvGraph, PROV
 from rdflib import RDF, RDFS
 from rdflib.namespace import FOAF
 from dot.rural.sepake.ontology import ONTOLOGY
-from rdflib.query import ResultRow
 import csv
 
 EXAMPLE = '''Type,Title,Description,Link to full record,Objectives,Keywords,Reasons for collection,Environmental domains,Parameters measured,Lead organisation,Online resources,Links to data,Lifespan start,Lifespan end,Funding categories,Last edited,UKEOF Identifier,Envirobase codings,GMES codings,GEOSS codings,ECV codings,Measurement regime,Legal background,Location (bounding boxes or points)
@@ -60,8 +59,8 @@ WHERE {{''' + ACTIVITY_CLAUSES + '''
 }}
 '''
 
-ADD_HOMEPAGE = '''
-CONSTRUCT {{
+INSERT_HOMEPAGE = '''
+INSERT {{
     ?link <{foaf.homepage}> ?link .
 }}
 WHERE {{''' + ACTIVITY_CLAUSES + '''
@@ -139,7 +138,7 @@ class Test(unittest.TestCase):
             print '%0d: %s' % (i, repr(row))
             i += 1
             
-    def testAddType(self):
+    def testInsertType(self):
         self._update(INSERT_TYPE)
         activities = set(self.g.subjects(RDF.type, ONTOLOGY.UKEOFActivity))
         self.assertEquals(7, len(activities), repr(activities))
@@ -147,7 +146,7 @@ class Test(unittest.TestCase):
             known = set(self.g.triples((subject, None, None)))
             self.assertEquals(2, len(known), known) #TODO test wasDerivedFrom
 
-    def testAddLabel(self):
+    def testInsertLabel(self):
         self._update(INSERT_TYPE)
         self._update(INSERT_LABEL)
         labels = [_pythonify(r) for r in self.g.subject_objects(RDFS.label)]
@@ -156,9 +155,13 @@ class Test(unittest.TestCase):
                            for csv_row in self.csv if csv_row['Type'] == 'Activity'},
                           set(labels))
 
-    def testAddHomepage(self):
+    def testInsertHomepage(self):
         self._update(INSERT_TYPE)
-        self._testUpdate(ADD_HOMEPAGE)
+        self._update(INSERT_HOMEPAGE)
+        homepages = list(self.g.subject_objects(FOAF.homepage))
+        self.assertEquals(7, len(homepages), repr(homepages))
+        for (sub, obj) in homepages:
+            self.assertEquals(sub, obj)
 
     def testAddLeadorg(self):
         self._update(INSERT_TYPE)
