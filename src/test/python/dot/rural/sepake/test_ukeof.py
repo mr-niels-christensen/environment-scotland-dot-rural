@@ -132,11 +132,6 @@ WHERE {{''' + ACTIVITY_CLAUSES + '''
 }}
 '''
 
-def _pythonify(result_row):
-    '''@param result_row Row from a query result, instance of rdflib.query.ResultRow 
-    '''
-    return tuple([v.toPython() for v in result_row])
-
 def uri(csv_row):
     return URIRef(csv_row['Link to full record'])
 
@@ -174,27 +169,34 @@ class Test(unittest.TestCase):
         self.assertLastUpdateAdded(7)
         for csv_row in self.csv:
             if csv_row['Type'] == 'Activity':
-                self.assertIn((uri(csv_row), RDFS.label, Literal(csv_row['Title'])),
-                              self.g)
+                self.assertEquals(csv_row['Title'],
+                                  self.g.value(uri(csv_row), RDFS.label).value)
 
     def testInsertHomepage(self):
         self._update(INSERT_TYPE)
         self._update(INSERT_HOMEPAGE)
-        homepages = list(self.g.subject_objects(FOAF.homepage))
-        self.assertEquals(7, len(homepages), repr(homepages))
-        for (sub, obj) in homepages:
-            self.assertEquals(sub, obj)
+        self.assertLastUpdateAdded(7)
+        for csv_row in self.csv:
+            if csv_row['Type'] == 'Activity':
+                self.assertEquals(self.g.value(uri(csv_row), FOAF.homepage), 
+                                  uri(csv_row))
 
     def testInsertLeadorg(self):
         self._update(INSERT_TYPE)
         self._update(INSERT_LEAD_ORG)
-        self.assertEquals(7, len(list(self.g[:ONTOLOGY.owns])))
-        for (owner, _) in self.g[:ONTOLOGY.owns]:
-            self.assertIn((owner, RDF.type, ONTOLOGY.UKEOFOrganisation), self.g)
+        self.assertLastUpdateAdded(21)
+        for csv_row in self.csv:
+            if csv_row['Type'] == 'Activity':
+                lead = self.g.value(predicate = ONTOLOGY.owns, object = uri(csv_row))
+                self.assertEquals(ONTOLOGY.UKEOFOrganisation, 
+                                  self.g.value(lead, RDF.type))
+                self.assertEquals(csv_row['Lead organisation'],
+                                  self.g.value(lead, RDFS.label).value)
 
     def testInsertComment(self):
         self._update(INSERT_TYPE)
         self._update(INSERT_COMMENT)
+        self.assertLastUpdateAdded(7)
         for csv_row in self.csv:
             if csv_row['Type'] == 'Activity':
                 desc = self.g.value(URIRef(csv_row['Link to full record']), RDFS.comment)
@@ -204,6 +206,7 @@ class Test(unittest.TestCase):
     def testInsertStartDate(self):
         self._update(INSERT_TYPE)
         self._update(INSERT_START_DATE)
+        self.assertLastUpdateAdded(7)
         for csv_row in self.csv:
             if csv_row['Type'] == 'Activity' and len(csv_row['Lifespan start']) > 0:
                 self.assertEquals(datetime.datetime.strptime(csv_row['Lifespan start'], '%Y-%m-%d').date(),
@@ -213,6 +216,7 @@ class Test(unittest.TestCase):
     def testInsertEndDate(self):
         self._update(INSERT_TYPE)
         self._update(INSERT_END_DATE)
+        self.assertLastUpdateAdded(7)
         for csv_row in self.csv:
             if csv_row['Type'] == 'Activity' and len(csv_row['Lifespan end']) > 0:
                 self.assertEquals(datetime.datetime.strptime(csv_row['Lifespan end'], '%Y-%m-%d').date(),
