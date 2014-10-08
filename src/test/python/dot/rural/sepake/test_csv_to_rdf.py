@@ -8,6 +8,8 @@ import StringIO
 from dot.rural.sepake.csv_to_rdf import CSV, CsvGraph, PROV
 from rdflib import RDF, RDFS
 from rdflib.query import ResultRow
+import csv
+from rdflib.term import Literal
 
 EXAMPLE = '''"A","B","C"
 1,2,3
@@ -45,17 +47,17 @@ class Test(unittest.TestCase):
     def setUp(self):
             self.g = CsvGraph()
             self.g.read(StringIO.StringIO(EXAMPLE))
-    
+            self.csv = csv.DictReader(StringIO.StringIO(EXAMPLE))
+            
     def _query(self, template, transformation = _pythonify):
         query = template.format(csv = CSV, rdf = RDF, rdfs = RDFS, prov = PROV)
         return [transformation(tupl) for tupl in self.g.query(query)]
         
     def testCells(self):
-            self.assertEquals(set([('A', 1), ('A', 4),
-                                   ('B', 2), ('B', 5),
-                                   ('C', 3), ('C', 6),
-                                  ]),
-                              set(self._query(ALL_CELLS_QUERY)))
+        for csv_row in self.csv:
+            for key, value in csv_row.items():
+                self.assertIn(Literal(int(value)),
+                              list(self.g[Literal(key) : ~CSV.fieldName / CSV.fieldValue]))
 
     def testStructure(self):
             result = self._query(STRUCTURE_QUERY, transformation = ResultRow.asdict)
