@@ -12,6 +12,7 @@ from dot.rural.sepake.ontology import ONTOLOGY
 import csv
 import datetime
 from rdflib.term import Literal
+from dot.rural.sepake import ukeof
 
 EXAMPLE = '''Type,Title,Description,Link to full record,Objectives,Keywords,Reasons for collection,Environmental domains,Parameters measured,Lead organisation,Online resources,Links to data,Lifespan start,Lifespan end,Funding categories,Last edited,UKEOF Identifier,Envirobase codings,GMES codings,GEOSS codings,ECV codings,Measurement regime,Legal background,Location (bounding boxes or points)
 Activity,"Agri-environment scheme monitoring in England (ESA, CSS and ASPS schemes) - Monitoring of Cereal Field Margin Options",This three-year programme of work aimed to undertake a comprehensive and comparative evaluation of the effectiveness of a range of field margin management options used within various agri-environment schemes in conserving arable plants and providing resources for foraging bumblebees. The project looked at (i) 5-year old margins provided in two areas under the Arable Stewardship Pilot Scheme; (ii) Cultivated margins for Rare Arable Plants established and previously monitored under the Breckland ESA Scheme; and (iii) Arable margins established nationally under the expansion of the Countryside Stewardship Scheme to accommodate a wider range of Arable Options. The project as a whole was intended to provide a comprehensive picture of the contribution being made by agri-environment schemes to delivery of the Habitat Action Plan for Cereal Field Margins.,https://catalogue.ukeof.org.uk/id/00329c57-7e1e-401e-8804-bc71a1aa0a59,"Agri-environment monitoring activities are designed to enable an assessment of the impact of each Scheme on target features of environmental interest. They also provide information about the performance of management prescriptions. Monitoring activities are co-ordinated, rather than carried out in isolation, to ensure that an overall assessment of the effectiveness of the scheme can be made. Most monitoring protocols allow for repeat surveys capable of detecting significant real change and provide baseline and resurvey data. Due to the nature of sampling and the use of common methods, sample sites within the monitoring programme can be used to provide data or a sampling framework to address other policy and scientific needs. The main objective of this activity is: a) to undertake a comprehensive and comparative evaluation of the effectiveness of a range of field margin management options used within various agri-environment schemes in conserving arable plants and providing resources for foraging bumblebees.",Agri-environment scheme;Cereal field margin;Cereal headlands;Conservation headlands;Bumblebees;Sown Margins;Field Margins;Margins;Cultivated Margins;Countryside Stewardship;Arable margins;Biodiversity;Arable Opti;Biodiversity Action Plan;BAP,Data collection;Policy;Strategic goals;Ministerial commitment,Biosphere,land use;Site condition,Natural England,,,2003-01-01,2005-01-01,public,2014-05-15 14:18:49,641313,"A4, B2, C1, D5.4, C13.9, C2.1, E1.2.2, E5.A.1, E5.A.2, E5.B.4.1, E5.B.4.2, E5.C.3.9, G2.2.1.1, D2.1.4, D5.2.6, D5.2.8, E5.C.2, S3.6, S3.8, S3.10, S3.11",,,,,,-6.4526 49.8638 1.7675 55.8121
@@ -23,25 +24,6 @@ Activity,Lowland grassland restoration monitoring (Twyford),"Field surveys. Bota
 Activity,Noble chafer beetles (specialist invertebrate survey),Targeted survey by entomologists for noble chafer beetles in orchard habitats in known historic range.,https://catalogue.ukeof.org.uk/id/0081d712-4af3-4b83-bd70-d62746193f92,Identify presence of noble chafers,NBN;Biodiversity;Coleoptera;Noble chafer beetles,Data series,Biosphere,Noble chafer beetles,Peoples Trust for Endangered Species,,https://data.nbn.org.uk/Datasets/GA000738,1999-01-01,,voluntary,2014-06-03 15:40:08,465995,"A4, B7, C1, C13.9, E1.2.2, E5.A.1, E5.A.2, E5.B.4.2, D2.1.4, D5.2.6, E5.C.2, G2.2.1, S3.8, S3.10",,,,,,-6.4526 49.8638 1.7675 55.8121
 Activity,CCW Lagoon soft sediment survey,"Saline lagoons are identified as an Annex 1 feature under the Habitats directive. 3 SACs in Wales have Saline Lagoons listed as a feature; Cemlyn Bay SAC (Cemlyn lagoon), Pen Llyn a''r Sarnau SAC (Morfa Gwyllt Lagoon) and Pembrokeshire Marine SAC (Pickleridge Lagoon). Work is undertaken at each of the lagoons to monitoring and make a condition assessment of the annex 1 feature Within Cemlyn and Pickleridge Lagoon, benthic samples are collected at 3 fixed stations using either an Eckman grab or hand-held core. At Morfa Gwyllt a minimum of 10 random samples are taken within the lagoon using a hand-held core. For all three lagoons, sampling tales place in the winter on an annual basis. All samples are sieved over a 0.5mm mesh and granulometry samples are also collected. Benthic invertebrate samples are processed by laboratories that are members of the National Marine Biological Analytical Quality Control (NMBAQC) scheme and random samples from each survey are also selected for audit by an independent third party under the NMBAQC's Own Sample module. At each lagoon, temperature and salinity measures are taken continuously using in-situ loggers. http://www.jncc.gov.uk/protectedsites/sacselection/sac.asp?EUCode=UK0030114",https://catalogue.ukeof.org.uk/id/00a1aab5-3e82-498a-a78f-b41e1955248b,,Biodiversity;sediment;NBN;lagoon;Benthic invertebrates,Legislative,Marine;Biosphere,Sediment grain size parameters;Salinity of the water column;Temperature of the water column;Zoobenthos taxonomy-related counts,Natural Resources Wales,http://www.jncc.gov.uk/protectedsites/sacselection/sac.asp?EUCode=UK0030114,https://data.nbn.org.uk/Datasets/GA000789,2006-01-01,,,2014-06-25 09:23:09,511870,"A4, B2, C1, D5.4, G5, E1.2.2, D2.2.2, G2.2.1.4, D3.3.3, D5.2.10, D5.2.6, D5.2.7, S3.11",,,,,,
 Facility,FAUGHAN RIVER AT DRUMAHOE,River monitoring stationAltitude: ,https://catalogue.ukeof.org.uk/id/00bc6172-9e06-42fa-8bc6-d9fcd0647f5a,,,,,,Northern Ireland Environment Agency,,,,,,2014-06-04 11:12:20,,,,,,,,POINT(-7.2805 54.9794)
-'''
-
-INSERT_TYPE = '''
-INSERT {{
-    ?urilink <{rdf.type}> <{sepake.UKEOFActivity}> .
-    ?urilink <{prov.wasDerivedFrom}> ?row .
-}}
-WHERE {{
-    ?row <{rdf.type}> <{csv.Row}> .
-    ?row <{rdfs.member}> ?typecell .
-    ?typecell <{rdf.type}> <{csv.Cell}> .
-    ?typecell <{csv.fieldName}> "Type" . 
-    ?typecell <{csv.fieldValue}> "Activity" .
-    ?row <{rdfs.member}> ?linkcell .
-    ?linkcell <{rdf.type}> <{csv.Cell}> .
-    ?linkcell <{csv.fieldName}> "Link to full record" .
-    ?linkcell <{csv.fieldValue}> ?link . 
-    BIND (URI(?link) AS ?urilink)
-}}
 '''
 
 ACTIVITY_CLAUSES = '''
@@ -156,15 +138,19 @@ class Test(unittest.TestCase):
         self.len_before_update = len(self.g)
         self.g.update(query)
 
+    def _upd(self, query):
+        self.len_before_update = len(self.g)
+        self.g.update(query)
+        
     def testInsertType(self):
-        self._update(INSERT_TYPE)
+        self._upd(ukeof.INSERT_TYPE())
         self.assertLastUpdateAdded(14)
         for activity_uri in self.g[: RDF.type : ONTOLOGY.UKEOFActivity]:
             self.assertIn(Literal(activity_uri),
                           self.g[activity_uri : PROV.wasDerivedFrom / RDFS.member / CSV.fieldValue])
 
     def testInsertLabel(self):
-        self._update(INSERT_TYPE)
+        self._upd(ukeof.INSERT_TYPE())
         self._update(INSERT_LABEL)
         self.assertLastUpdateAdded(7)
         for csv_row in self.csv:
@@ -173,7 +159,7 @@ class Test(unittest.TestCase):
                                   self.g.value(uri(csv_row), RDFS.label).value)
 
     def testInsertHomepage(self):
-        self._update(INSERT_TYPE)
+        self._upd(ukeof.INSERT_TYPE())
         self._update(INSERT_HOMEPAGE)
         self.assertLastUpdateAdded(7)
         for csv_row in self.csv:
@@ -182,7 +168,7 @@ class Test(unittest.TestCase):
                                   uri(csv_row))
 
     def testInsertLeadorg(self):
-        self._update(INSERT_TYPE)
+        self._upd(ukeof.INSERT_TYPE())
         self._update(INSERT_LEAD_ORG)
         self.assertLastUpdateAdded(21)
         for csv_row in self.csv:
@@ -194,7 +180,7 @@ class Test(unittest.TestCase):
                                   self.g.value(lead, RDFS.label).value)
 
     def testInsertComment(self):
-        self._update(INSERT_TYPE)
+        self._upd(ukeof.INSERT_TYPE())
         self._update(INSERT_COMMENT)
         self.assertLastUpdateAdded(7)
         for csv_row in self.csv:
@@ -204,7 +190,7 @@ class Test(unittest.TestCase):
                     self.assertGreater(desc.find(csv_row[key]), -1, 'Failed to find %s="%s" in "%s"' % (key, csv_row[key], desc))
     
     def testInsertStartDate(self):
-        self._update(INSERT_TYPE)
+        self._upd(ukeof.INSERT_TYPE())
         self._update(INSERT_START_DATE)
         self.assertLastUpdateAdded(7)
         for csv_row in self.csv:
@@ -214,7 +200,7 @@ class Test(unittest.TestCase):
                                   )
                 
     def testInsertEndDate(self):
-        self._update(INSERT_TYPE)
+        self._upd(ukeof.INSERT_TYPE())
         self._update(INSERT_END_DATE)
         self.assertLastUpdateAdded(7)
         for csv_row in self.csv:
