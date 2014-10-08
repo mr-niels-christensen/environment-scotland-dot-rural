@@ -68,9 +68,10 @@ WHERE {{''' + ACTIVITY_CLAUSES + '''
 '''
 
 ADD_LEAD_ORG = '''
-CONSTRUCT {{
+INSERT {{
     ?leadorglink <{rdfs.label}> ?leadorg .
     ?leadorglink <{sepake.owns}> ?link .
+    ?leadorglink <{rdf.type}> <{sepake.UKEOFOrganisation}> .
 }}
 WHERE {{''' + ACTIVITY_CLAUSES + '''
     ?row <{rdfs.member}> ?leadcell .
@@ -163,9 +164,12 @@ class Test(unittest.TestCase):
         for (sub, obj) in homepages:
             self.assertEquals(sub, obj)
 
-    def testAddLeadorg(self):
+    def testInsertLeadorg(self):
         self._update(INSERT_TYPE)
-        self._testUpdate(ADD_LEAD_ORG)
+        self._update(ADD_LEAD_ORG)
+        self.assertEquals(7, len(list(self.g[:ONTOLOGY.owns])))
+        for (owner, _) in self.g[:ONTOLOGY.owns]:
+            self.assertIn((owner, RDF.type, ONTOLOGY.UKEOFOrganisation), self.g)
 
     def testAddComment(self):
         self._update(INSERT_TYPE)
