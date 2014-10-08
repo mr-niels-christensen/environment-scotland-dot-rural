@@ -7,7 +7,7 @@ import unittest
 import StringIO
 from dot.rural.sepake.csv_to_rdf import CSV, CsvGraph, PROV
 from rdflib import RDF, RDFS, URIRef
-from rdflib.namespace import FOAF, XSD
+from rdflib.namespace import FOAF
 from dot.rural.sepake.ontology import ONTOLOGY
 import csv
 import datetime
@@ -26,94 +26,6 @@ Activity,CCW Lagoon soft sediment survey,"Saline lagoons are identified as an An
 Facility,FAUGHAN RIVER AT DRUMAHOE,River monitoring stationAltitude: ,https://catalogue.ukeof.org.uk/id/00bc6172-9e06-42fa-8bc6-d9fcd0647f5a,,,,,,Northern Ireland Environment Agency,,,,,,2014-06-04 11:12:20,,,,,,,,POINT(-7.2805 54.9794)
 '''
 
-ACTIVITY_CLAUSES = '''
-    ?link <{rdf.type}> <{sepake.UKEOFActivity}> .
-    ?link <{prov.wasDerivedFrom}> ?row . 
-'''
-
-INSERT_LABEL = '''
-INSERT {{
-    ?link <{rdfs.label}> ?title .
-}}
-WHERE {{''' + ACTIVITY_CLAUSES + '''
-    ?row <{rdfs.member}> ?titlecell .
-    ?titlecell <{rdf.type}> <{csv.Cell}> .
-    ?titlecell <{csv.fieldName}> "Title" .
-    ?titlecell <{csv.fieldValue}> ?title . 
-}}
-'''
-
-INSERT_HOMEPAGE = '''
-INSERT {{
-    ?link <{foaf.homepage}> ?link .
-}}
-WHERE {{''' + ACTIVITY_CLAUSES + '''
-}}
-'''
-
-INSERT_LEAD_ORG = '''
-INSERT {{
-    ?leadorglink <{rdfs.label}> ?leadorg .
-    ?leadorglink <{sepake.owns}> ?link .
-    ?leadorglink <{rdf.type}> <{sepake.UKEOFOrganisation}> .
-}}
-WHERE {{''' + ACTIVITY_CLAUSES + '''
-    ?row <{rdfs.member}> ?leadcell .
-    ?leadcell <{rdf.type}> <{csv.Cell}> .
-    ?leadcell <{csv.fieldName}> "Lead organisation" .
-    ?leadcell <{csv.fieldValue}> ?leadorg . 
-    BIND (URI(CONCAT(str(<{sepake.UKEOFOrganisation}>), "#", ENCODE_FOR_URI(?leadorg))) AS ?leadorglink) 
-}}
-'''
-
-INSERT_COMMENT = '''
-INSERT {{
-    ?link <{rdfs.comment}> ?comment .
-}}
-WHERE {{''' + ACTIVITY_CLAUSES + '''
-    ?row <{rdfs.member}> ?desccell .
-    ?row <{rdfs.member}> ?objectivecell .
-    ?row <{rdfs.member}> ?reasoncell .
-    ?desccell <{rdf.type}> <{csv.Cell}> .
-    ?desccell <{csv.fieldName}> "Description" .
-    ?desccell <{csv.fieldValue}> ?desc . 
-    ?objectivecell <{rdf.type}> <{csv.Cell}> .
-    ?objectivecell <{csv.fieldName}> "Objectives" .
-    ?objectivecell <{csv.fieldValue}> ?objective . 
-    ?reasoncell <{rdf.type}> <{csv.Cell}> .
-    ?reasoncell <{csv.fieldName}> "Reasons for collection" .
-    ?reasoncell <{csv.fieldValue}> ?reason . 
-    BIND (IF(STRLEN(?objective) > 0, CONCAT(?desc, "<br>Objective: ", ?objective), ?desc) AS ?withob)
-    BIND (IF(STRLEN(?reason) > 0, CONCAT(?withob, "<br>Reasons for collection: ", ?reason), ?withob) AS ?comment)
-}}
-'''
-
-INSERT_START_DATE = '''
-INSERT {{
-    ?link <{prov.startedAtTime}> ?startdate .
-}}
-WHERE {{''' + ACTIVITY_CLAUSES + '''
-    ?row <{rdfs.member}> ?startdatecell .
-    ?startdatecell <{rdf.type}> <{csv.Cell}> .
-    ?startdatecell <{csv.fieldName}> "Lifespan start" .
-    ?startdatecell <{csv.fieldValue}> ?startdatestr . 
-    BIND (STRDT(?startdatestr, <{xsd.date}>) AS ?startdate)
-}}
-'''
-
-INSERT_END_DATE = '''
-INSERT {{
-    ?link <{prov.endedAtTime}> ?enddate .
-}}
-WHERE {{''' + ACTIVITY_CLAUSES + '''
-    ?row <{rdfs.member}> ?enddatecell .
-    ?enddatecell <{rdf.type}> <{csv.Cell}> .
-    ?enddatecell <{csv.fieldName}> "Lifespan end" .
-    ?enddatecell <{csv.fieldValue}> ?enddatestr . 
-    BIND (STRDT(?enddatestr, <{xsd.date}>) AS ?enddate)
-}}
-'''
-
 def uri(csv_row):
     return URIRef(csv_row['Link to full record'])
 
@@ -127,31 +39,20 @@ class Test(unittest.TestCase):
     def assertLastUpdateAdded(self, n):
         self.assertEquals(n, len(self.g) - self.len_before_update)
         
-    def _update(self, template):
-        query = template.format(csv = CSV,
-                                xsd = XSD,
-                                rdf = RDF, 
-                                rdfs = RDFS, 
-                                prov = PROV, 
-                                foaf = FOAF,
-                                sepake = ONTOLOGY)
-        self.len_before_update = len(self.g)
-        self.g.update(query)
-
-    def _upd(self, query):
+    def _update(self, query):
         self.len_before_update = len(self.g)
         self.g.update(query)
         
     def testInsertType(self):
-        self._upd(ukeof.INSERT_TYPE())
+        self._update(ukeof.INSERT_TYPE())
         self.assertLastUpdateAdded(14)
         for activity_uri in self.g[: RDF.type : ONTOLOGY.UKEOFActivity]:
             self.assertIn(Literal(activity_uri),
                           self.g[activity_uri : PROV.wasDerivedFrom / RDFS.member / CSV.fieldValue])
 
     def testInsertLabel(self):
-        self._upd(ukeof.INSERT_TYPE())
-        self._update(INSERT_LABEL)
+        self._update(ukeof.INSERT_TYPE())
+        self._update(ukeof.INSERT_LABEL())
         self.assertLastUpdateAdded(7)
         for csv_row in self.csv:
             if csv_row['Type'] == 'Activity':
@@ -159,8 +60,8 @@ class Test(unittest.TestCase):
                                   self.g.value(uri(csv_row), RDFS.label).value)
 
     def testInsertHomepage(self):
-        self._upd(ukeof.INSERT_TYPE())
-        self._update(INSERT_HOMEPAGE)
+        self._update(ukeof.INSERT_TYPE())
+        self._update(ukeof.INSERT_HOMEPAGE())
         self.assertLastUpdateAdded(7)
         for csv_row in self.csv:
             if csv_row['Type'] == 'Activity':
@@ -168,8 +69,8 @@ class Test(unittest.TestCase):
                                   uri(csv_row))
 
     def testInsertLeadorg(self):
-        self._upd(ukeof.INSERT_TYPE())
-        self._update(INSERT_LEAD_ORG)
+        self._update(ukeof.INSERT_TYPE())
+        self._update(ukeof.INSERT_LEAD_ORG())
         self.assertLastUpdateAdded(21)
         for csv_row in self.csv:
             if csv_row['Type'] == 'Activity':
@@ -180,8 +81,8 @@ class Test(unittest.TestCase):
                                   self.g.value(lead, RDFS.label).value)
 
     def testInsertComment(self):
-        self._upd(ukeof.INSERT_TYPE())
-        self._update(INSERT_COMMENT)
+        self._update(ukeof.INSERT_TYPE())
+        self._update(ukeof.INSERT_COMMENT())
         self.assertLastUpdateAdded(7)
         for csv_row in self.csv:
             if csv_row['Type'] == 'Activity':
@@ -190,8 +91,8 @@ class Test(unittest.TestCase):
                     self.assertGreater(desc.find(csv_row[key]), -1, 'Failed to find %s="%s" in "%s"' % (key, csv_row[key], desc))
     
     def testInsertStartDate(self):
-        self._upd(ukeof.INSERT_TYPE())
-        self._update(INSERT_START_DATE)
+        self._update(ukeof.INSERT_TYPE())
+        self._update(ukeof.INSERT_START_DATE())
         self.assertLastUpdateAdded(7)
         for csv_row in self.csv:
             if csv_row['Type'] == 'Activity' and len(csv_row['Lifespan start']) > 0:
@@ -200,8 +101,8 @@ class Test(unittest.TestCase):
                                   )
                 
     def testInsertEndDate(self):
-        self._upd(ukeof.INSERT_TYPE())
-        self._update(INSERT_END_DATE)
+        self._update(ukeof.INSERT_TYPE())
+        self._update(ukeof.INSERT_END_DATE())
         self.assertLastUpdateAdded(7)
         for csv_row in self.csv:
             if csv_row['Type'] == 'Activity' and len(csv_row['Lifespan end']) > 0:
