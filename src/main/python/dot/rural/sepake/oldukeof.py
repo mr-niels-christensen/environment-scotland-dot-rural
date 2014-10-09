@@ -140,9 +140,9 @@ if __name__ == '__main__':
     rows = [row for row in csv.DictReader(urllib2.urlopen('https://catalogue.ukeof.org.uk/api/documents?format=csv'))]
     g = UKEOFtoRDF()
     g.add_rows(rows)
-    #remote = SPARQLUpdateStore(context_aware = False)
-    #remote.open(("http://localhost:3030/ds/query", "http://localhost:3030/ds/update"))
-    #g.flush(remote)
+    remote = SPARQLUpdateStore(context_aware = False)
+    remote.open(("http://localhost:3030/ds/query", "http://localhost:3030/ds/update"))
+    g.flush(remote)
     for row in rows:
         _simplify(row)
     _stats(rows)

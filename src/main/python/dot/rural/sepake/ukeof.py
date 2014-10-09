@@ -17,6 +17,7 @@ class UKEOFGraph(Graph):
         if include_ontology:
             self += SEPAKEOntologyGraph()
         csv = CSVGraph(include_ontology)
+        print 'Downloading data from UKEOF...'
         csv.read_url('https://catalogue.ukeof.org.uk/api/documents?format=csv')
         self += csv
         for sparql in [INSERT_TYPE(), 
@@ -26,6 +27,7 @@ class UKEOFGraph(Graph):
                        INSERT_START_DATE(), 
                        INSERT_END_DATE(),
                        INSERT_COMMENT()]:
+            print 'Updating with %s...' % sparql
             self.update(sparql)
         
 def _expand(template_func):

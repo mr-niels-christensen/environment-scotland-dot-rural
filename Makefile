@@ -6,8 +6,8 @@ VERSION = $(shell grep version src/main/python/setup.py | cut -d "'" -f 2)
 NAME = $(shell grep name src/main/python/setup.py | cut -d "'" -f 2)
 DISTFILE = build/$(NAME)-$(VERSION).tar.gz
 
-.python.run.made: .venv/bin/activate .install.deps.made $(PYTHON_FILES) test
-	source .venv/bin/activate && cd src/main/python/ && python dot/rural/sepake/ukeof.py
+.python.run.made: .venv-test/bin/activate .install.deps.test.made $(PYTHON_FILES) test
+	source .venv-test/bin/activate && import_ukeof.py
 	touch .pythonrun.made
 
 .PHONY: test
