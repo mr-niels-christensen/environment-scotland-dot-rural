@@ -21,6 +21,7 @@ class CSV(object):
 @namespace('http://www.w3.org/ns/prov')
 class PROV(object):
     Activity = RDF_NAME
+    generated = RDF_NAME
     
 class CSVOntologyGraph(Graph):
     def __init__(self):

@@ -19,11 +19,14 @@ class _URIRefCreator(type):
         '''This method will be called when you access MYCLASS.MYSTATICMEMBER if
            MYCLASS.__metaclass__ == _URIRefCreator
         '''
-        x = type.__getattribute__(self, name) #This is the default lookup operation
-        if x is RDF_NAME: #Replace the dummy value with a URIRef based on name
-            return URIRef(type.__getattribute__(self, 'BASE_URI') + '#' + name)
-        else:
-            return x
+        try:
+            x = type.__getattribute__(self, name) #This is the default lookup operation
+            if x is RDF_NAME: #Replace the dummy value with a URIRef based on name
+                return URIRef(type.__getattribute__(self, 'BASE_URI') + '#' + name)
+            else:
+                return x
+        except AttributeError:
+            raise AttributeError('Attribute "%s" missing. You may want to add "%s = RDF_NAME" to your namespace class' % (name, name))
         
 def namespace(base_uri):
     '''Usage: @namespace('http://example.com')

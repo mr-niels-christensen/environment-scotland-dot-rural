@@ -5,10 +5,10 @@ Created on 3 Oct 2014
 '''
 import unittest
 import StringIO
-from dot.rural.sepake.csv_to_rdf import CSV, CSVGraph, PROV
+from dot.rural.sepake.csv_to_rdf import CSV, CSVGraph
 from rdflib import RDF, RDFS, URIRef
 from rdflib.namespace import FOAF
-from dot.rural.sepake.ontology import ONTOLOGY
+from dot.rural.sepake.ontology import ONTOLOGY, PROV
 import csv
 import datetime
 from rdflib.term import Literal
