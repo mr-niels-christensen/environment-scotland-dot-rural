@@ -7,6 +7,7 @@ Created on 16 Sep 2014
 from rdflib import Graph, Namespace, RDFS, URIRef
 from rdflib.plugins.stores.sparqlstore import SPARQLUpdateStore
 from rdflib.namespace import FOAF, ClosedNamespace
+from ns_utils import RDF_NAME, namespace
 
 ONTOLOGY = ClosedNamespace(uri = URIRef('http://dot.rural/sepake/'),
                          terms = ["PureProject", 
@@ -19,11 +20,18 @@ ONTOLOGY = ClosedNamespace(uri = URIRef('http://dot.rural/sepake/'),
                                   "owns",
                                   "htmlDescription",
                                   ])
-PROV  = Namespace('http://www.w3.org/ns/prov#')
+
+@namespace('http://www.w3.org/ns/prov')
+class PROV(object):
+    Activity = RDF_NAME
+    Organization = RDF_NAME
+    Person = RDF_NAME
+    startedAtTime = RDF_NAME
+    endedAtTime = RDF_NAME
+    wasDerivedFrom = RDF_NAME
 
 class OntologyGraph(Graph):
     '''Class for creating RDF triples for this project's ontology.
-       TODO: Discuss use of singleton properties? http://mor.nlm.nih.gov/pubs/pdf/2014-www-vn.pdf
     '''
     def __init__(self):
         super(OntologyGraph, self).__init__()
