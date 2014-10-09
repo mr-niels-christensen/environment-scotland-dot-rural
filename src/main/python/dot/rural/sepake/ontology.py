@@ -17,6 +17,7 @@ ONTOLOGY = ClosedNamespace(uri = URIRef('http://dot.rural/sepake/'),
                                   "CrawlOperation",
                                   "contextualStatementOf",
                                   "owns",
+                                  "htmlDescription",
                                   ])
 PROV  = Namespace('http://www.w3.org/ns/prov#')
 

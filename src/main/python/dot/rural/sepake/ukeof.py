@@ -92,7 +92,7 @@ WHERE {{''' + ACTIVITY_CLAUSES + '''
 def INSERT_COMMENT():
     return '''
 INSERT {{
-    ?link <{rdfs.comment}> ?comment .
+    ?link <{sepake.htmlDescription}> ?htmldesc .
 }}
 WHERE {{''' + ACTIVITY_CLAUSES + '''
     ?row <{rdfs.member}> ?desccell .
@@ -107,8 +107,8 @@ WHERE {{''' + ACTIVITY_CLAUSES + '''
     ?reasoncell <{rdf.type}> <{csv.Cell}> .
     ?reasoncell <{csv.fieldName}> "Reasons for collection" .
     ?reasoncell <{csv.fieldValue}> ?reason . 
-    BIND (IF(STRLEN(?objective) > 0, CONCAT(?desc, "<br>Objective: ", ?objective), ?desc) AS ?withob)
-    BIND (IF(STRLEN(?reason) > 0, CONCAT(?withob, "<br>Reasons for collection: ", ?reason), ?withob) AS ?comment)
+    BIND (IF(STRLEN(?objective) > 0, CONCAT(?desc, "</p><p>Objective: ", ?objective), ?desc) AS ?withob)
+    BIND (IF(STRLEN(?reason) > 0, CONCAT(?withob, "</p><p>Reasons for collection: ", ?reason), ?withob) AS ?htmldesc)
 }}
 '''
 
