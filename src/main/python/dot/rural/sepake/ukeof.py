@@ -6,9 +6,28 @@ Created on 16 Sep 2014
 
 from dot.rural.sepake.csv_to_rdf import CSV
 from rdflib.namespace import FOAF, XSD
-from dot.rural.sepake.ontology import SEPAKE, PROV
+from dot.rural.sepake.ontology import SEPAKE, SEPAKEOntologyGraph, PROV
 from rdflib import RDF, RDFS
+from rdflib import Graph
+from csv_to_rdf import CSVGraph
 
+class UKEOFGraph(Graph):
+    def __init__(self, include_ontology = True):
+        super(UKEOFGraph, self).__init__()
+        if include_ontology:
+            self += SEPAKEOntologyGraph()
+        csv = CSVGraph(include_ontology)
+        csv.read_url('https://catalogue.ukeof.org.uk/api/documents?format=csv')
+        self += csv
+        for sparql in [INSERT_TYPE(), 
+                       INSERT_LABEL(), 
+                       INSERT_HOMEPAGE(), 
+                       INSERT_LEAD_ORG(), 
+                       INSERT_START_DATE(), 
+                       INSERT_END_DATE(),
+                       INSERT_COMMENT()]:
+            self.update(sparql)
+        
 def _expand(template_func):
     def expanded():
         template = template_func()
