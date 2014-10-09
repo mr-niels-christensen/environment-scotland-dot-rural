@@ -17,9 +17,11 @@ class UKEOFGraph(Graph):
         if include_ontology:
             self += SEPAKEOntologyGraph()
         csv = CSVGraph(include_ontology)
+        self._log_len()
         print 'Downloading data from UKEOF...'
         csv.read_url('https://catalogue.ukeof.org.uk/api/documents?format=csv')
         self += csv
+        self._log_len()
         for sparql in [INSERT_TYPE(), 
                        INSERT_LABEL(), 
                        INSERT_HOMEPAGE(), 
@@ -29,6 +31,10 @@ class UKEOFGraph(Graph):
                        INSERT_COMMENT()]:
             print 'Updating with %s...' % sparql
             self.update(sparql)
+            self._log_len()
+        
+    def _log_len(self):
+        print 'Accumulated %d triples' % len(self)
         
 def _expand(template_func):
     def expanded():
