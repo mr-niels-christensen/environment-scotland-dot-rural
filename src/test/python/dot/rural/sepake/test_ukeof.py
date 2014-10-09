@@ -8,7 +8,7 @@ import StringIO
 from dot.rural.sepake.csv_to_rdf import CSV, CSVGraph
 from rdflib import RDF, RDFS, URIRef
 from rdflib.namespace import FOAF
-from dot.rural.sepake.ontology import ONTOLOGY, PROV
+from dot.rural.sepake.ontology import SEPAKE, PROV
 import csv
 import datetime
 from rdflib.term import Literal
@@ -46,7 +46,7 @@ class Test(unittest.TestCase):
     def testInsertType(self):
         self._update(ukeof.INSERT_TYPE())
         self.assertLastUpdateAdded(14)
-        for activity_uri in self.g[: RDF.type : ONTOLOGY.UKEOFActivity]:
+        for activity_uri in self.g[: RDF.type : SEPAKE.UKEOFActivity]:
             self.assertIn(Literal(activity_uri),
                           self.g[activity_uri : PROV.wasDerivedFrom / RDFS.member / CSV.fieldValue])
 
@@ -74,8 +74,8 @@ class Test(unittest.TestCase):
         self.assertLastUpdateAdded(21)
         for csv_row in self.csv:
             if csv_row['Type'] == 'Activity':
-                lead = self.g.value(predicate = ONTOLOGY.owns, object = uri(csv_row))
-                self.assertEquals(ONTOLOGY.UKEOFOrganisation, 
+                lead = self.g.value(predicate = SEPAKE.owns, object = uri(csv_row))
+                self.assertEquals(SEPAKE.UKEOFOrganisation, 
                                   self.g.value(lead, RDF.type))
                 self.assertEquals(csv_row['Lead organisation'],
                                   self.g.value(lead, RDFS.label).value)
@@ -86,7 +86,7 @@ class Test(unittest.TestCase):
         self.assertLastUpdateAdded(7)
         for csv_row in self.csv:
             if csv_row['Type'] == 'Activity':
-                desc = self.g.value(uri(csv_row), ONTOLOGY.htmlDescription)
+                desc = self.g.value(uri(csv_row), SEPAKE.htmlDescription)
                 for key in ['Description', 'Objectives', 'Reasons for collection']:
                     self.assertGreater(desc.find(csv_row[key]), -1, 'Failed to find %s="%s" in "%s"' % (key, csv_row[key], desc))
     

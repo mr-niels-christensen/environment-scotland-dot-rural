@@ -6,7 +6,7 @@ Created on 16 Sep 2014
 
 from dot.rural.sepake.csv_to_rdf import CSV
 from rdflib.namespace import FOAF, XSD
-from dot.rural.sepake.ontology import ONTOLOGY, PROV
+from dot.rural.sepake.ontology import SEPAKE, PROV
 from rdflib import RDF, RDFS
 
 def _expand(template_func):
@@ -18,7 +18,7 @@ def _expand(template_func):
                                rdfs = RDFS, 
                                prov = PROV, 
                                foaf = FOAF,
-                               sepake = ONTOLOGY)
+                               sepake = SEPAKE)
     return expanded
 
 @_expand

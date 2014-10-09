@@ -22,13 +22,13 @@ class _URIRefCreator(type):
         try:
             x = type.__getattribute__(self, name) #This is the default lookup operation
             if x is RDF_NAME: #Replace the dummy value with a URIRef based on name
-                return URIRef(type.__getattribute__(self, 'BASE_URI') + '#' + name)
+                return URIRef(type.__getattribute__(self, 'BASE_URI') + name)
             else:
                 return x
         except AttributeError:
             raise AttributeError('Attribute "%s" missing. You may want to add "%s = RDF_NAME" to your namespace class' % (name, name))
         
-def namespace(base_uri):
+def namespace(base_uri, separator = '#'):
     '''Usage: @namespace('http://example.com')
               class MyClass:
                   myRdfName = RDF_NAME
@@ -38,7 +38,7 @@ def namespace(base_uri):
     def class_rebuilder(cls):
         class NamespaceClass(cls):
             __metaclass__ = _URIRefCreator
-            BASE_URI = base_uri
+            BASE_URI = base_uri + separator
         return NamespaceClass
     return class_rebuilder
         
