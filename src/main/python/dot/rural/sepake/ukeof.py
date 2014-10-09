@@ -4,9 +4,9 @@ Created on 16 Sep 2014
 @author: s05nc4
 '''
 
-from dot.rural.sepake.csv_to_rdf import CSV, PROV
+from dot.rural.sepake.csv_to_rdf import CSV
 from rdflib.namespace import FOAF, XSD
-from dot.rural.sepake.ontology import ONTOLOGY
+from dot.rural.sepake.ontology import ONTOLOGY, PROV
 from rdflib import RDF, RDFS
 
 def _expand(template_func):

@@ -5,7 +5,7 @@ Created on 3 Oct 2014
 '''
 import unittest
 import StringIO
-from dot.rural.sepake.csv_to_rdf import CSV, CsvGraph, PROV
+from dot.rural.sepake.csv_to_rdf import CSV, CSVGraph, PROV
 from rdflib import RDF, RDFS, URIRef
 from rdflib.namespace import FOAF
 from dot.rural.sepake.ontology import ONTOLOGY
@@ -31,7 +31,7 @@ def uri(csv_row):
 
 class Test(unittest.TestCase):
     def setUp(self):
-            self.g = CsvGraph()
+            self.g = CSVGraph()
             self.g.read(StringIO.StringIO(EXAMPLE))
             self.len_before_update = len(self.g)
             self.csv = csv.DictReader(StringIO.StringIO(EXAMPLE))

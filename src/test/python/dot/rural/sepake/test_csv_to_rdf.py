@@ -5,7 +5,7 @@ Created on 3 Oct 2014
 '''
 import unittest
 import StringIO
-from dot.rural.sepake.csv_to_rdf import CSV, CsvGraph, PROV
+from dot.rural.sepake.csv_to_rdf import CSV, CSVGraph, PROV
 from rdflib import RDF, RDFS
 import csv
 from rdflib.term import Literal
@@ -17,7 +17,7 @@ EXAMPLE = '''"A","B","C"
 
 class Test(unittest.TestCase):
     def setUp(self):
-            self.g = CsvGraph()
+            self.g = CSVGraph()
             self.g.read(StringIO.StringIO(EXAMPLE))
             self.csv = csv.DictReader(StringIO.StringIO(EXAMPLE))
         
