@@ -10,18 +10,21 @@ from dot.rural.sepake.ontology import SEPAKE, SEPAKEOntologyGraph, PROV
 from rdflib import RDF, RDFS
 from rdflib import Graph
 from csv_to_rdf import CSVGraph
+import time
+from rdflib.plugins.memory import Memory
 
 class UKEOFGraph(Graph):
     def __init__(self, include_ontology = True):
-        super(UKEOFGraph, self).__init__()
+        super(UKEOFGraph, self).__init__(store = Memory())
+        self._start = time.time()
         if include_ontology:
             self += SEPAKEOntologyGraph()
         csv = CSVGraph(include_ontology)
-        self._log_len()
+        self._log()
         print 'Downloading data from UKEOF...'
         csv.read_url('https://catalogue.ukeof.org.uk/api/documents?format=csv')
         self += csv
-        self._log_len()
+        self._log()
         for sparql in [INSERT_TYPE(), 
                        INSERT_LABEL(), 
                        INSERT_HOMEPAGE(), 
@@ -31,10 +34,10 @@ class UKEOFGraph(Graph):
                        INSERT_COMMENT()]:
             print 'Updating with %s...' % sparql
             self.update(sparql)
-            self._log_len()
+            self._log()
         
-    def _log_len(self):
-        print 'Accumulated %d triples' % len(self)
+    def _log(self):
+        print 'Accumulated %d triples, total time %d seconds' % (len(self), time.time() - self._start)
         
 def _expand(template_func):
     def expanded():
