@@ -9,9 +9,27 @@ from rdflib.namespace import FOAF, XSD
 from dot.rural.sepake.ontology import SEPAKE, SEPAKEOntologyGraph, PROV
 from rdflib import RDF, RDFS
 from rdflib import Graph
-from csv_to_rdf import CSVGraph
+from csv_to_rdf import CSVGraph, row_graphs
 import time
 from rdflib.plugins.memory import IOMemory
+
+def ukeof_graphs():
+    print 'Getting data from UKEOF...'
+    (meta, row_adders) = row_graphs('https://catalogue.ukeof.org.uk/api/documents?format=csv',
+                                    keep = lambda row: 'Activity' in row.values())
+    yield meta
+    for row_add in row_adders:
+        g = Graph()
+        row_add(g)
+        for sparql in [INSERT_TYPE(), 
+                       INSERT_LABEL(), 
+                       INSERT_HOMEPAGE(), 
+                       INSERT_LEAD_ORG(), 
+                       INSERT_START_DATE(), 
+                       INSERT_END_DATE(),
+                       INSERT_COMMENT()]:
+            g.update(sparql)
+        yield g
 
 class UKEOFGraph(Graph):
     def __init__(self, include_ontology = False, store = IOMemory()):

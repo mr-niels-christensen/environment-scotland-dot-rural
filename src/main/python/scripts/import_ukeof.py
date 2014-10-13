@@ -5,17 +5,20 @@ import sys
 import os
 from optparse import OptionParser
 from rdflib.plugins.stores.sparqlstore import SPARQLUpdateStore
-from dot.rural.sepake.ukeof import UKEOFGraph
+from dot.rural.sepake.ukeof import UKEOFGraph, ukeof_graphs
 from rdflib.plugins.memory import IOMemory
 
 _PERCENTAGES = [1, 10, 20, 30, 40, 50, 60, 70, 80, 90, 101]
 
 def _import(baseurl):
-    print 'Importing data from UKEOF...'
     remote = SPARQLUpdateStore(context_aware = False)
     remote.open(("%s/query" % baseurl, "%s/update" % baseurl))
-    g = UKEOFGraph(store = IOMemory())
-    _flush(g, remote)
+    total = 0
+    for g in ukeof_graphs():
+        l = len(g)
+        total += l
+        print '+%d --> %d' % (l, total)
+        #_flush(g, remote)
     
 def _flush(g, remote):
     length = len(g)
