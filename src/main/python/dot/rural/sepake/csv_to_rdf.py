@@ -46,12 +46,12 @@ class CSVGraph(Graph):
         #Type of this import operation
         self.add((self._ROOT_ID, RDF.type, CSV.Import))
     
-    def read_url(self, url):
+    def read_url(self, url, keep = lambda row: True):
         '''Loads a CSV file from a URL and adds each row
         '''
-        self.read(urllib2.urlopen(url)) #TODO add PROV
+        self.read(urllib2.urlopen(url), keep = keep) #TODO add PROV
         
-    def read(self, csv_input):
+    def read(self, csv_input, keep = lambda row: True):
         '''Parses a CSV file and adds each row
         '''
         #ID of this file object
@@ -62,7 +62,8 @@ class CSVGraph(Graph):
         self.add((self._ROOT_ID, PROV.generated, file_id))
         #TODO add more PROV
         for row in csv.DictReader(csv_input):
-            self._add_csv_row(file_id, row)
+            if keep(row):
+                self._add_csv_row(file_id, row)
             
     def _add_csv_row(self, file_id, row):
         '''Adds a CSV row to the graph in the following style:

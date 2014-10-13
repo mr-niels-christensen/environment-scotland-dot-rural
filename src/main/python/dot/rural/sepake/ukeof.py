@@ -22,7 +22,8 @@ class UKEOFGraph(Graph):
         csv = CSVGraph(include_ontology, store = store)
         self._log()
         print 'Downloading data from UKEOF...'
-        csv.read_url('https://catalogue.ukeof.org.uk/api/documents?format=csv')
+        csv.read_url('https://catalogue.ukeof.org.uk/api/documents?format=csv',
+                     keep = lambda row: 'Activity' in row.values())
         self += csv
         self._log()
         for sparql in [INSERT_TYPE(), 
