@@ -15,8 +15,11 @@ def _import(baseurl):
     remote = SPARQLUpdateStore(context_aware = False)
     remote.open(("%s/query" % baseurl, "%s/update" % baseurl))
     g = UKEOFGraph(store = IOMemory())
+    _flush(g, remote)
+    
+def _flush(g, remote):
     length = len(g)
-    print 'Flushing %d triples to %s/update...' % (length, baseurl)
+    print 'Flushing %d triples to %s/update...' % (length, remote.update_endpoint)
     checkpoints = [((x * length) / 100, '%0d%%' % x) for x in _PERCENTAGES]
     flushed = 0
     for triple in g:

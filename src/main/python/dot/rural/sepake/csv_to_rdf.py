@@ -11,7 +11,7 @@ import urllib2
 from rdflib.plugins.memory import IOMemory
 from uuid import uuid4
 
-@namespace('http://dot.rural/sepake/csv')
+@namespace('http://dot.rural/sepake/csv', separator = '/')
 class CSV(object):
     Import = RDF_NAME
     File = RDF_NAME
