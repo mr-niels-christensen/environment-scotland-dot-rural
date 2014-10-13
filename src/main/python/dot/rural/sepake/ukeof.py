@@ -23,7 +23,7 @@ class UKEOFGraph(Graph):
         self._log()
         print 'Downloading data from UKEOF...'
         csv.read_url('https://catalogue.ukeof.org.uk/api/documents?format=csv')
-        #self += csv
+        self += csv
         self._log()
         for sparql in [INSERT_TYPE(), 
                        INSERT_LABEL(), 
