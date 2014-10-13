@@ -8,6 +8,7 @@ from ns_utils import RDF_NAME, namespace
 from rdflib import Graph, RDF, RDFS, BNode, Literal
 import csv
 import urllib2
+from rdflib.plugins.memory import IOMemory
 
 @namespace('http://dot.rural/sepake/csv')
 class CSV(object):
@@ -32,8 +33,8 @@ class CSVOntologyGraph(Graph):
         self.add((CSV.Cell,   RDF.type, RDFS.Resource))
 
 class CSVGraph(Graph):
-    def __init__(self, include_ontology = True):
-        super(CSVGraph, self).__init__()
+    def __init__(self, include_ontology = True, store = IOMemory()):
+        super(CSVGraph, self).__init__(store = store)
         if include_ontology:
             self += CSVOntologyGraph()
         #ID of this import operation
