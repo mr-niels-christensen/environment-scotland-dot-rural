@@ -6,7 +6,6 @@ import os
 from optparse import OptionParser
 from rdflib.plugins.stores.sparqlstore import SPARQLUpdateStore
 from dot.rural.sepake.ukeof import ukeof_graphs
-from rdflib.plugins.memory import IOMemory
 
 _PERCENTAGES = [1, 10, 20, 30, 40, 50, 60, 70, 80, 90, 101]
 

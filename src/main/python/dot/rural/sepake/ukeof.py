@@ -6,12 +6,10 @@ Created on 16 Sep 2014
 
 from dot.rural.sepake.csv_to_rdf import CSV
 from rdflib.namespace import FOAF, XSD
-from dot.rural.sepake.ontology import SEPAKE, SEPAKEOntologyGraph, PROV
+from dot.rural.sepake.ontology import SEPAKE, PROV
 from rdflib import RDF, RDFS
 from rdflib import Graph
 from csv_to_rdf import row_graphs_from_url
-import time
-from rdflib.plugins.memory import IOMemory
 from rdflib.plugins.sparql.parser import parseUpdate
 from rdflib.plugins.sparql.algebra import translateUpdate
 
