@@ -15,12 +15,15 @@ from rdflib.plugins.memory import IOMemory
 
 def ukeof_graphs():
     print 'Getting data from UKEOF...'
-    (meta, row_adders) = row_graphs('https://catalogue.ukeof.org.uk/api/documents?format=csv',
-                                    keep = lambda row: 'Activity' in row.values())
+    (meta, rows) = row_graphs('https://catalogue.ukeof.org.uk/api/documents?format=csv',
+                              keep = lambda row: 'Activity' in row.values())
+    return (1 + len(rows), _generate_graphs(meta, rows))
+    
+def _generate_graphs(meta, rows):
     yield meta
-    for row_add in row_adders:
+    for row in rows:
         g = Graph()
-        row_add(g)
+        g += row
         for sparql in [INSERT_TYPE(), 
                        INSERT_LABEL(), 
                        INSERT_HOMEPAGE(), 
@@ -29,6 +32,7 @@ def ukeof_graphs():
                        INSERT_END_DATE(),
                        INSERT_COMMENT()]:
             g.update(sparql)
+        g -= row
         yield g
 
 class UKEOFGraph(Graph):

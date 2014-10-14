@@ -13,26 +13,22 @@ _PERCENTAGES = [1, 10, 20, 30, 40, 50, 60, 70, 80, 90, 101]
 def _import(baseurl):
     remote = SPARQLUpdateStore(context_aware = False)
     remote.open(("%s/query" % baseurl, "%s/update" % baseurl))
-    total = 0
-    for g in ukeof_graphs():
-        l = len(g)
-        total += l
-        print '+%d --> %d' % (l, total)
-        #_flush(g, remote)
-    
-def _flush(g, remote):
-    length = len(g)
-    print 'Flushing %d triples to %s/update...' % (length, remote.update_endpoint)
+    (length, graphs) = ukeof_graphs()
+    print 'Processing %d graphs' % length
     checkpoints = [((x * length) / 100, '%0d%%' % x) for x in _PERCENTAGES]
-    flushed = 0
-    for triple in g:
-        remote.add(triple)
-        flushed += 1
-        if flushed > checkpoints[0][0]:
-            print checkpoints[0][1]
-            checkpoints = checkpoints[1:]
+    total = 0
+    for g in graphs:
+        _flush(g, remote)
+        total += 1
+        if total > checkpoints[0][0]:
+                print checkpoints[0][1]
+                checkpoints = checkpoints[1:]
     print 'Done'
     return 0
+    
+def _flush(g, remote):
+    for triple in g:
+        remote.add(triple)
         
 def main():
     program_name = os.path.basename(sys.argv[0])
