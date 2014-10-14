@@ -1,7 +1,10 @@
 '''
 Created on 16 Sep 2014
 
-@author: s05nc4
+@author: Niels Christensen
+
+Code for downloading the UKEOF catalogue and transforming selected parts into RDF.
+The main interface is ukeof_graphs()
 '''
 
 from dot.rural.sepake.csv_to_rdf import CSV
@@ -14,30 +17,51 @@ from rdflib.plugins.sparql.parser import parseUpdate
 from rdflib.plugins.sparql.algebra import translateUpdate
 
 def ukeof_graphs():
-    print 'Getting data from UKEOF...'
+    '''Downloads the UKEOF catalogue and transforms each Activity into RDF.
+       Note that part of the transformation on request as the client traverses the returned Graphs.
+       @return: A 2-tuple (length, graphs).
+                length is the number of elements in graphs
+                graphs is a generator yielding one Graph containing triples regarding the import itself
+                                               plus one Graph per Activity in the UKEOF catalogue
+    '''
     (meta, rows) = row_graphs_from_url('https://catalogue.ukeof.org.uk/api/documents?format=csv',
                                        keep = lambda row: 'Activity' in row.values())
     return (1 + len(rows), _generate_graphs(meta, rows))
 
 
 def _generate_graphs(meta, rows):
-    _UPDATES = [INSERT_TYPE(), 
-            INSERT_LABEL(), 
-            INSERT_HOMEPAGE(), 
-            INSERT_LEAD_ORG(), 
-            INSERT_START_DATE(), 
-            INSERT_END_DATE(),
-            INSERT_COMMENT()]
+    '''Generator function yielding meta (unchanged)
+       plus one per Graph in rows.
+       Each of these Graphs will be transformed using the SPARQL statements
+       in this file, and then all original triples (from the CSV file)
+       will be removed.
+    '''
     yield meta
+    _UPDATES = [INSERT_TYPE(), 
+                INSERT_LABEL(), 
+                INSERT_HOMEPAGE(), 
+                INSERT_LEAD_ORG(), 
+                INSERT_START_DATE(), 
+                INSERT_END_DATE(),
+                INSERT_COMMENT()]
     for row in rows:
         g = Graph()
+        #Add CSV triples
         g += row
+        #Add triples from SPARQL statements
         for sparql in _UPDATES:
             g.update(sparql)
+        #Remove CSV triples
         g -= row
+        #Yield resulting graph
         yield g
         
 def _expand_and_parse(template_func):
+    '''Decorates a function which returns a Python format string.
+       The format string must be SPARQL update with namespaces referenced dict-style like this:
+       "INSERT {{ ?x <{rdfs.label}> "Hello" }} WHERE {{ ?x <{rdf.type}> <{sepake.HelloType}> }}"
+       The decorated function will expand namespaces and return a preparsed SPARQL update.
+    '''
     def expanded():
         template = template_func()
         updateString = template.format(csv = CSV,
