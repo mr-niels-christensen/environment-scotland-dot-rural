@@ -15,6 +15,8 @@ EXAMPLE = '''"A","B","C"
 4,5,6
 '''
 
+#TODO test single row graphs, not just the union
+
 class Test(unittest.TestCase):
     def setUp(self):
             self.g = Graph()

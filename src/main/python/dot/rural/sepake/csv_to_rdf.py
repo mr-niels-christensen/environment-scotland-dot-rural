@@ -8,7 +8,6 @@ from ns_utils import RDF_NAME, namespace
 from rdflib import Graph, RDF, RDFS, URIRef, Literal
 import csv
 import urllib2
-from rdflib.plugins.memory import IOMemory
 from uuid import uuid4
 
 @namespace('http://dot.rural/sepake/csv', separator = '/')
