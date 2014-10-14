@@ -38,33 +38,6 @@ def _generate_graphs(meta, rows):
             g.update(sparql)
         g -= row
         yield g
-
-class UKEOFGraph(Graph):
-    def __init__(self, include_ontology = False, store = IOMemory()):
-        super(UKEOFGraph, self).__init__(store = store)
-        self._start = time.time()
-        if include_ontology:
-            self += SEPAKEOntologyGraph()
-        csv = CSVGraph(include_ontology, store = store)
-        self._log()
-        print 'Downloading data from UKEOF...'
-        csv.read_url('https://catalogue.ukeof.org.uk/api/documents?format=csv',
-                     keep = lambda row: 'Activity' in row.values())
-        self += csv
-        self._log()
-        for sparql in [INSERT_TYPE(), 
-                       INSERT_LABEL(), 
-                       INSERT_HOMEPAGE(), 
-                       INSERT_LEAD_ORG(), 
-                       INSERT_START_DATE(), 
-                       INSERT_END_DATE(),
-                       INSERT_COMMENT()]:
-            print 'Updating with %s...' % sparql
-            self.update(sparql)
-            self._log()
-        
-    def _log(self):
-        print 'Accumulated %d triples, total time %d seconds' % (len(self), time.time() - self._start)
         
 def _expand_and_parse(template_func):
     def expanded():
