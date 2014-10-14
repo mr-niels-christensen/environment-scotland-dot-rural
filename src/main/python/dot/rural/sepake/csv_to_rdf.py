@@ -36,8 +36,11 @@ class CSVOntologyGraph(Graph):
         self.add((CSV.Row,    RDF.type, RDF.Bag))
         self.add((CSV.Cell,   RDF.type, RDFS.Resource))
 
-def row_graphs(url, keep):
+def row_graphs_from_url(url, keep = lambda row: True):
     csv_input = urllib2.urlopen(url)
+    return row_graphs_from_file(csv_input, keep = keep)
+
+def row_graphs_from_file(csv_input, keep = lambda row: True):
     main_graph = Graph()        
     #ID of this import operation
     ROOT_ID = _instance(CSV.Import)

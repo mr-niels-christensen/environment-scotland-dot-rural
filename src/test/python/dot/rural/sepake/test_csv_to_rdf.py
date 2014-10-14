@@ -5,8 +5,8 @@ Created on 3 Oct 2014
 '''
 import unittest
 import StringIO
-from dot.rural.sepake.csv_to_rdf import CSV, CSVGraph, PROV
-from rdflib import RDF, RDFS
+from dot.rural.sepake.csv_to_rdf import CSV, PROV, row_graphs_from_file
+from rdflib import RDF, RDFS, Graph
 import csv
 from rdflib.term import Literal
 
@@ -17,8 +17,11 @@ EXAMPLE = '''"A","B","C"
 
 class Test(unittest.TestCase):
     def setUp(self):
-            self.g = CSVGraph()
-            self.g.read(StringIO.StringIO(EXAMPLE))
+            self.g = Graph()
+            (main_graph, row_graphs) = row_graphs_from_file(StringIO.StringIO(EXAMPLE))
+            self.g += main_graph
+            for rg in row_graphs:
+                self.g += rg
             self.csv = csv.DictReader(StringIO.StringIO(EXAMPLE))
         
     def testCells(self):
