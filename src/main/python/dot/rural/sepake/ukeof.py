@@ -12,25 +12,29 @@ from rdflib import Graph
 from csv_to_rdf import CSVGraph, row_graphs
 import time
 from rdflib.plugins.memory import IOMemory
+from rdflib.plugins.sparql.parser import parseUpdate
+from rdflib.plugins.sparql.algebra import translateUpdate
 
 def ukeof_graphs():
     print 'Getting data from UKEOF...'
     (meta, rows) = row_graphs('https://catalogue.ukeof.org.uk/api/documents?format=csv',
                               keep = lambda row: 'Activity' in row.values())
     return (1 + len(rows), _generate_graphs(meta, rows))
-    
+
+
 def _generate_graphs(meta, rows):
+    _UPDATES = [INSERT_TYPE(), 
+            INSERT_LABEL(), 
+            INSERT_HOMEPAGE(), 
+            INSERT_LEAD_ORG(), 
+            INSERT_START_DATE(), 
+            INSERT_END_DATE(),
+            INSERT_COMMENT()]
     yield meta
     for row in rows:
         g = Graph()
         g += row
-        for sparql in [INSERT_TYPE(), 
-                       INSERT_LABEL(), 
-                       INSERT_HOMEPAGE(), 
-                       INSERT_LEAD_ORG(), 
-                       INSERT_START_DATE(), 
-                       INSERT_END_DATE(),
-                       INSERT_COMMENT()]:
+        for sparql in _UPDATES:
             g.update(sparql)
         g -= row
         yield g
@@ -62,19 +66,20 @@ class UKEOFGraph(Graph):
     def _log(self):
         print 'Accumulated %d triples, total time %d seconds' % (len(self), time.time() - self._start)
         
-def _expand(template_func):
+def _expand_and_parse(template_func):
     def expanded():
         template = template_func()
-        return template.format(csv = CSV,
-                               xsd = XSD,
-                               rdf = RDF, 
-                               rdfs = RDFS, 
-                               prov = PROV, 
-                               foaf = FOAF,
-                               sepake = SEPAKE)
+        updateString = template.format(csv = CSV,
+                                       xsd = XSD,
+                                       rdf = RDF, 
+                                       rdfs = RDFS, 
+                                       prov = PROV, 
+                                       foaf = FOAF,
+                                       sepake = SEPAKE)
+        return translateUpdate(parseUpdate(updateString), None, {})
     return expanded
 
-@_expand
+@_expand_and_parse
 def INSERT_TYPE():
     return '''
 INSERT {{
@@ -100,7 +105,7 @@ ACTIVITY_CLAUSES = '''
     ?link <{prov.wasDerivedFrom}> ?row . 
 '''
 
-@_expand
+@_expand_and_parse
 def INSERT_LABEL():
     return '''
 INSERT {{
@@ -114,7 +119,7 @@ WHERE {{''' + ACTIVITY_CLAUSES + '''
 }}
 '''
 
-@_expand
+@_expand_and_parse
 def INSERT_HOMEPAGE():
     return '''
 INSERT {{
@@ -124,7 +129,7 @@ WHERE {{''' + ACTIVITY_CLAUSES + '''
 }}
 '''
 
-@_expand
+@_expand_and_parse
 def INSERT_LEAD_ORG():
     return '''
 INSERT {{
@@ -141,7 +146,7 @@ WHERE {{''' + ACTIVITY_CLAUSES + '''
 }}
 '''
 
-@_expand
+@_expand_and_parse
 def INSERT_COMMENT():
     return '''
 INSERT {{
@@ -165,7 +170,7 @@ WHERE {{''' + ACTIVITY_CLAUSES + '''
 }}
 '''
 
-@_expand
+@_expand_and_parse
 def INSERT_START_DATE():
     return '''
 INSERT {{
@@ -180,7 +185,7 @@ WHERE {{''' + ACTIVITY_CLAUSES + '''
 }}
 '''
 
-@_expand
+@_expand_and_parse
 def INSERT_END_DATE():
     return '''
 INSERT {{
