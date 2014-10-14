@@ -9,7 +9,7 @@ from rdflib.namespace import FOAF, XSD
 from dot.rural.sepake.ontology import SEPAKE, SEPAKEOntologyGraph, PROV
 from rdflib import RDF, RDFS
 from rdflib import Graph
-from csv_to_rdf import CSVGraph, row_graphs_from_url
+from csv_to_rdf import row_graphs_from_url
 import time
 from rdflib.plugins.memory import IOMemory
 from rdflib.plugins.sparql.parser import parseUpdate
