@@ -13,5 +13,6 @@ setup(name='dot.rural.sepake',
                 ],
       install_requires=[
           'rdflib',
+          'lxml'
       ],
      )
