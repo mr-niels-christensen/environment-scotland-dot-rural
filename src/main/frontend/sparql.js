@@ -69,7 +69,7 @@ function register_all_sparql_queries() {
        "SELECT * WHERE {",
        "    BIND (<--IRI--> AS ?focus) .",
        "    {?focus rdfs:label ?label} .",
-       "    OPTIONAL {?focus rdfs:comment ?comment} .",
+       "    OPTIONAL {?focus <htmlDescription> ?description} .",
        "    OPTIONAL {?focus foaf:homepage ?homepage} .",
        "    OPTIONAL {?focus prov:startedAtTime ?startedAtTime} .",
        "    OPTIONAL {?focus prov:endedAtTime ?endedAtTime} .",
@@ -83,7 +83,7 @@ function register_all_sparql_queries() {
         try{
           var values = _valuesOfSparqlBinding(response.results.bindings[0]);
           $( "#labelOfFocus" ).text(values.label);
-          $( "#commentOfFocus" ).html(values.comment.split("\n").join("</p><p>") || "(No summary)");
+          $( "#descriptionOfFocus" ).html(values.description || "(No summary)");
           $( "#homepageOfFocus" ).text(values.homepage || "");
           $( "#homepageOfFocus" ).attr("href", values.homepage || "");
           $( "#startedAtTime" ).text(values.startedAtTime || "(unknown)");
@@ -133,7 +133,7 @@ function register_all_sparql_queries() {
       [
        "SELECT * WHERE {",//TODO: Get type, but only one record per id, maybe using #3
        "    {?id rdfs:label ?label} .",
-       "    {?id rdfs:comment ?comment} .",
+       "    {?id <htmlDescription> ?description} .",
        "}",
       ],
       function (response) {
