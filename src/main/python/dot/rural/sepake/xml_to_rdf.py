@@ -14,18 +14,36 @@ from lxml import etree
 class XMLGraph(Graph):
     '''Loads any XML input and transforms it into RDF using http://www.gac-grid.org/project-products/Software/XML2RDF.html
     '''
-    def __init__(self, xml_input, pre_process_xslt = None):
+    def __init__(self, xml_input, delete_nodes = None, namespaces = {}):
         super(XMLGraph, self).__init__()
         doc = etree.parse(xml_input)
-        print 'XML parsed'
-        if pre_process_xslt is not None:
-            doc = etree.XSLT(etree.XML(pre_process_xslt))(doc)
-        print 'Preprocessed'
+        if delete_nodes is not None:
+            xslt = _XSLT_IGNORE_SUB_TREES_TEMPLATE % (' '.join('xmlns:%s="%s"' % ns_url for ns_url in namespaces.items()),
+                                                      '|'.join(delete_nodes))
+            print xslt
+            doc = etree.XSLT(etree.XML(xslt))(doc)
         xslt_root = etree.XML(_XSLT_XML2RDF)
         transform = etree.XSLT(xslt_root)
         result_tree = transform(doc)
         self.parse(data = str(result_tree))
-        
+
+_XSLT_IGNORE_SUB_TREES_TEMPLATE = '''
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+%s>
+<xsl:output method="xml" indent="yes"/>
+<xsl:strip-space elements="*" />
+
+<xsl:template match="@*|node()">
+ <xsl:copy>
+  <xsl:apply-templates select="@*|node()"/>
+ </xsl:copy>
+</xsl:template>
+
+<xsl:template match="%s" />
+
+</xsl:stylesheet>
+'''
+     
 _XSLT_XML2RDF = '''<?xml version="1.0" encoding="UTF-8"?>
 <!-- xml2rdf3.xsl        XSLT stylesheet to transform XML into RDF/XML
 
