@@ -34,7 +34,7 @@ $(DISTFILE): $(PYTHON_FILES)
 	touch .install.deps.made
 
 .install.deps.test.made: .venv-test/bin/activate $(DISTFILE)
-	source .venv-test/bin/activate && pip install -I $(DISTFILE)
+	source .venv-test/bin/activate && pip install $(DISTFILE)
 	touch .install.deps.test.made
 
 .PHONY: clean

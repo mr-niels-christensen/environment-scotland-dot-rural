@@ -14,16 +14,19 @@ from lxml import etree
 class XMLGraph(Graph):
     '''Loads any XML input and transforms it into RDF using http://www.gac-grid.org/project-products/Software/XML2RDF.html
     '''
-    def __init__(self, xml_input):
+    def __init__(self, xml_input, pre_process_xslt = None):
         super(XMLGraph, self).__init__()
-        xslt_root = etree.XML(_XSLT_SRC)
-        transform = etree.XSLT(xslt_root)
         doc = etree.parse(xml_input)
+        print 'XML parsed'
+        if pre_process_xslt is not None:
+            doc = etree.XSLT(etree.XML(pre_process_xslt))(doc)
+        print 'Preprocessed'
+        xslt_root = etree.XML(_XSLT_XML2RDF)
+        transform = etree.XSLT(xslt_root)
         result_tree = transform(doc)
         self.parse(data = str(result_tree))
         
-        
-_XSLT_SRC = '''<?xml version="1.0" encoding="UTF-8"?>
+_XSLT_XML2RDF = '''<?xml version="1.0" encoding="UTF-8"?>
 <!-- xml2rdf3.xsl        XSLT stylesheet to transform XML into RDF/XML
 
      Version             3.0  (2009-05-28)

@@ -46,11 +46,41 @@ EXAMPLE = '''<?xml version="1.0" encoding="UTF-8"?>
 class Test(unittest.TestCase):
     def setUp(self):
         self.g = XMLGraph(StringIO.StringIO(EXAMPLE))
-            
-    def testFoo(self):
+         
+    def testREST(self):
+        g = []
+        print 'Reading large file'
+        import time
+        start = time.time()
+        with open('/Users/s05nc4/git/environment-scotland-dot-rural/src/main/resources/dot/rural/sepake/cli/search-projects-for-rural.xml') as f:
+            g = XMLGraph(f, pre_process_xslt=_XSLT_IGNORE_SUB_TREES)
+        print 'Reading and converting took %d seconds' % (time.time() - start)
+        print 'Triples in large file: %d' % len(g)
+        print 'Total time: %d seconds' % (time.time() - start)
+           
+    def testOai(self):
         self.assertEquals(60, len(self.g))
-        print self.g.serialize(format = 'nt')
+        #print self.g.serialize(format = 'nt')
 
+_XSLT_IGNORE_SUB_TREES = '''
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+xmlns:stab="http://atira.dk/schemas/pure4/model/base_uk/project/stable"
+xmlns:personstab="http://atira.dk/schemas/pure4/model/base_uk/person/stable"
+xmlns:person-template="http://atira.dk/schemas/pure4/model/template/abstractperson/stable">
+<xsl:output method="xml" indent="yes"/>
+<xsl:strip-space elements="*" />
+
+<xsl:template match="@*|node()">
+ <xsl:copy>
+  <xsl:apply-templates select="@*|node()"/>
+ </xsl:copy>
+</xsl:template>
+
+<xsl:template match="stab:associatedPublications|stab:associatedActivities|stab:personsUK|personstab:staffOrganisationAssociations|person-template:nameVariants|person-template:callName" />
+
+</xsl:stylesheet>
+'''
+        
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()
