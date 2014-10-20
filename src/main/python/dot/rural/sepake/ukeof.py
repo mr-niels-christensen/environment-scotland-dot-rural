@@ -7,7 +7,7 @@ Code for downloading the UKEOF catalogue and transforming selected parts into RD
 The main interface is ukeof_graphs()
 '''
 
-from dot.rural.sepake.ns_utils import expand_and_parse
+from dot.rural.sepake.sparql_utils import expand_and_parse
 from rdflib import Graph
 from csv_to_rdf import row_graphs_from_url
 

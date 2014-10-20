@@ -7,6 +7,9 @@ import unittest
 import StringIO
 from dot.rural.sepake.xml_to_rdf import XMLGraph
 from rdflib.term import URIRef, Literal
+from dot.rural.sepake.pure import INSERT_PROJECT
+from rdflib.namespace import RDF
+from dot.rural.sepake.ontology import SEPAKE
 
 EXAMPLE_OAI = '''<?xml version="1.0" encoding="UTF-8"?>
 <OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
@@ -77,8 +80,8 @@ class Test(unittest.TestCase):
                                                 any = False))
         
     def testREST(self):
-        with open('/Users/s05nc4/git/environment-scotland-dot-rural/src/main/resources/dot/rural/sepake/cli/all-abdn-projects.xml') as f:
-            _ = XMLGraph(f, 
+        with open('/Users/s05nc4/git/environment-scotland-dot-rural/src/main/resources/dot/rural/sepake/cli/search-projects-for-rural.xml') as f:
+            g = XMLGraph(f, 
                          delete_nodes = ['stab:associatedPublications',
                                          'stab:associatedActivities',
                                          'stab:personsUK',
@@ -88,6 +91,10 @@ class Test(unittest.TestCase):
                          namespaces = {'stab' : 'http://atira.dk/schemas/pure4/model/base_uk/project/stable',
                                        'personstab' : 'http://atira.dk/schemas/pure4/model/base_uk/person/stable',
                                        'person-template' : 'http://atira.dk/schemas/pure4/model/template/abstractperson/stable'})
+            print list(g.subject_objects(URIRef('http://atira.dk/schemas/pure4/model/core/stable#content')))
+            g.update(INSERT_PROJECT())
+            for s in g.subjects(RDF.type, SEPAKE.PureProject):
+                print s
             
            
     def testOAI(self):
