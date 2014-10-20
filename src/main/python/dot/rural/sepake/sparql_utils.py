@@ -26,5 +26,5 @@ def expand_and_parse(template_func):
                                        prov = PROV, 
                                        foaf = FOAF,
                                        sepake = SEPAKE)
-        return translateUpdate(parseUpdate(updateString), None, {})
+        return updateString#translateUpdate(parseUpdate(updateString), None, {})
     return expanded

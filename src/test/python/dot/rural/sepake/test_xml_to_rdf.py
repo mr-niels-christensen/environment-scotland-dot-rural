@@ -7,7 +7,7 @@ import unittest
 import StringIO
 from dot.rural.sepake.xml_to_rdf import XMLGraph
 from rdflib.term import URIRef, Literal
-from dot.rural.sepake.pure import INSERT_PROJECT
+from dot.rural.sepake.pure import CONSTRUCT_PROJECT
 from rdflib.namespace import RDF
 from dot.rural.sepake.ontology import SEPAKE
 
@@ -94,9 +94,8 @@ class Test(unittest.TestCase):
             content = list(g.subject_objects(URIRef('http://atira.dk/schemas/pure4/model/core/stable#content')))[0]
             for (pr, _) in g.predicate_objects(content[1]):
                 print '--- ' + repr(pr)
-            g.update(INSERT_PROJECT())
-            for s in g.subjects(RDF.type, SEPAKE.PureProject):
-                print s
+            for triple in g.query(CONSTRUCT_PROJECT):
+                print repr(triple)
             
            
     def testOAI(self):

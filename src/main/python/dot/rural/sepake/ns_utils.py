@@ -27,7 +27,10 @@ class _URIRefCreator(type):
                 return x
         except AttributeError:
             raise AttributeError('Attribute "%s" missing. You may want to add "%s = RDF_NAME" to your namespace class' % (name, name))
-        
+    
+    def __str__(self):
+        return type.__getattribute__(self, 'BASE_URI')
+    
 def namespace(base_uri, separator = '#'):
     '''Usage: @namespace('http://example.com')
               class MyClass:
