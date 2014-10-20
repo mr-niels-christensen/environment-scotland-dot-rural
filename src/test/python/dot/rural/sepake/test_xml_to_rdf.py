@@ -44,7 +44,7 @@ EXAMPLE_OAI = '''<?xml version="1.0" encoding="UTF-8"?>
 </OAI-PMH>
 '''
 EXAMPLE_AB = '''<?xml version="1.0" encoding="UTF-8"?>
-<A>
+<A a="test">
   <A>
     <A></A>
     <B></B>
@@ -63,6 +63,7 @@ class Test(unittest.TestCase):
         g = XMLGraph(StringIO.StringIO(EXAMPLE_AB))
         A = g.value(subject = URIRef(''), predicate = URIRef('#A'), any = False)
         self.assertEquals(URIRef('#A'), A)
+        self.assertEquals(Literal('test'), g.value(subject = A, predicate = URIRef('#a'), any = False))
         for letter in 'ABC':
             self.assertEquals(URIRef('#A/' + letter), 
                               g.value(subject = A, 
@@ -87,6 +88,7 @@ class Test(unittest.TestCase):
                          namespaces = {'stab' : 'http://atira.dk/schemas/pure4/model/base_uk/project/stable',
                                        'personstab' : 'http://atira.dk/schemas/pure4/model/base_uk/person/stable',
                                        'person-template' : 'http://atira.dk/schemas/pure4/model/template/abstractperson/stable'})
+            
            
     def testOAI(self):
         g = XMLGraph(StringIO.StringIO(EXAMPLE_OAI))
