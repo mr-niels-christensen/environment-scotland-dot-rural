@@ -28,11 +28,13 @@ CONSTRUCT_PROJECT = _prep('''
 CONSTRUCT {
     ?projecturi rdf:type sepake:PureProject .
     ?projecturi rdfs:label ?title .
+    ?projecturi sepake:htmlDescription ?description .
 }
 WHERE {
     ?coreresult core:content ?corecontent .
     ?corecontent core:uuid ?uuid .
     ?corecontent project:title/core:localizedString/rdf:value ?title .
+    ?corecontent project:description/core:localizedString/rdf:value ?description .
     BIND (URI(CONCAT(str(sepake:PureProject), "#", ENCODE_FOR_URI(?uuid))) AS ?projecturi)
 }
 ''')

@@ -61,6 +61,8 @@ EXAMPLE_AB = '''<?xml version="1.0" encoding="UTF-8"?>
 </A>
 '''
 
+#TODO: Test deleting nodes
+
 class Test(unittest.TestCase):
     def testAB(self):
         g = XMLGraph(StringIO.StringIO(EXAMPLE_AB))
@@ -78,26 +80,7 @@ class Test(unittest.TestCase):
         self.assertEquals(Literal('1'), g.value(subject = URIRef('#A/B/A'), 
                                                 predicate = URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#value'),
                                                 any = False))
-        
-    def testREST(self):
-        with open('src/main/resources/dot/rural/sepake/cli/search-projects-for-rural.xml') as f:
-            g = XMLGraph(f, 
-                         delete_nodes = ['stab:associatedPublications',
-                                         'stab:associatedActivities',
-                                         'stab:personsUK',
-                                         'personstab:staffOrganisationAssociations',
-                                         'person-template:nameVariants',
-                                         'person-template:callName'], 
-                         namespaces = {'stab' : 'http://atira.dk/schemas/pure4/model/base_uk/project/stable',
-                                       'personstab' : 'http://atira.dk/schemas/pure4/model/base_uk/person/stable',
-                                       'person-template' : 'http://atira.dk/schemas/pure4/model/template/abstractperson/stable'})
-            content = list(g.subject_objects(URIRef('http://atira.dk/schemas/pure4/model/core/stable#content')))[0]
-            for (pr, _) in g.predicate_objects(content[1]):
-                print '--- ' + repr(pr)
-            for triple in g.query(CONSTRUCT_PROJECT):
-                print repr(triple)
-            
-           
+                   
     def testOAI(self):
         g = XMLGraph(StringIO.StringIO(EXAMPLE_OAI))
         metadata_nodes = list(g.objects(URIRef('#OAI-PMH/ListRecords'), 
