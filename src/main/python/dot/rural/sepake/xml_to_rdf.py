@@ -4,7 +4,7 @@ Created on 26 Sep 2014
 @author: s05nc4
 '''
 
-from rdflib import Graph, RDF, RDFS, URIRef, Literal
+from rdflib import Graph
 from lxml import etree
 
 class XMLGraph(Graph):
@@ -16,7 +16,6 @@ class XMLGraph(Graph):
         if delete_nodes is not None:
             xslt = _XSLT_IGNORE_SUB_TREES_TEMPLATE % (' '.join('xmlns:%s="%s"' % ns_url for ns_url in namespaces.items()),
                                                       '|'.join(delete_nodes))
-            print xslt
             doc = etree.XSLT(etree.XML(xslt))(doc)
         xslt_root = etree.XML(_XSLT_XML2RDF)
         transform = etree.XSLT(xslt_root)
