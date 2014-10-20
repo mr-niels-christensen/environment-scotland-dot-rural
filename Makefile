@@ -1,21 +1,29 @@
 SHELL := /bin/bash
-all: .python.run.made
 
 PYTHON_FILES = $(shell find src -name "*.py")
 VERSION = $(shell grep version src/main/python/setup.py | cut -d "'" -f 2)
 NAME = $(shell grep name src/main/python/setup.py | cut -d "'" -f 2)
 DISTFILE = build/$(NAME)-$(VERSION).tar.gz
 
-.python.run.made: .venv-test/bin/activate .install.deps.test.made $(PYTHON_FILES) test
-	source .venv-test/bin/activate && import_ukeof.py
-	touch .pythonrun.made
+all: ide run
+
+.PHONY: run
+run: .python.run.made
+
+.python.run.made: test
+	source .venv.for.use/bin/activate && import_ukeof.py
+	touch .python.run.made
 
 .PHONY: test
 test: .python.test.made
 
-.python.test.made: .venv-test/bin/activate .install.deps.test.made $(PYTHON_FILES)
-	source .venv-test/bin/activate && python -m unittest discover -s src/test/python/dot/
+.python.test.made: .pip.for.use.made
+	source .venv.for.use/bin/activate && python -m unittest discover -s src/test/python/dot/
 	touch .python.test.made
+
+.pip.for.use.made: $(DISTFILE) .venv.for.use/bin/activate
+	source .venv.for.use/bin/activate && pip install $(DISTFILE)
+	touch .pip.for.use.made
 
 .PHONY: build
 build: $(DISTFILE)
@@ -23,24 +31,22 @@ build: $(DISTFILE)
 $(DISTFILE): $(PYTHON_FILES)
 	(cd src/main/python && ./setup.py sdist --dist-dir ../../../build/)
 
-.venv/bin/activate:
-	virtualenv .venv
+.venv.for.use/bin/activate:
+	virtualenv .venv.for.use
 
-.venv-test/bin/activate:
-	virtualenv .venv-test
+.PHONY: ide
+ide: .pip.for.ide.made
 
-.install.deps.made: .venv/bin/activate
-	source .venv/bin/activate && pip install rdflib
-	touch .install.deps.made
+.pip.for.ide.made: .venv.for.ide/bin/activate src/main/python/requirements.txt $(PYTHON_FILES)
+	source .venv.for.ide/bin/activate && (cd src/main/python && pip install -r requirements.txt)
+	touch .pip.for.ide.made
 
-.install.deps.test.made: .venv-test/bin/activate $(DISTFILE)
-	source .venv-test/bin/activate && pip install $(DISTFILE)
-	touch .install.deps.test.made
+.venv.for.ide/bin/activate:
+	virtualenv .venv.for.ide
 
 .PHONY: clean
 clean: distclean
-	rm -rf .venv/ || true
-	rm -rf .venv-test/ || true
+	rm -rf .venv*/ || true
 
 .PHONY: distclean
 distclean:

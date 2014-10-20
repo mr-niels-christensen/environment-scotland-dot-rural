@@ -8,7 +8,7 @@ repos/
 .project
 .pydevproject
 .*.made
-.venv/
-.venv-test/
+.venv*/
 *.pyc
 src/main/python/MANIFEST
+src/main/python/*.egg-info/
