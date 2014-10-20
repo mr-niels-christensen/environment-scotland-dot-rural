@@ -48,13 +48,8 @@ class Test(unittest.TestCase):
         self.g = XMLGraph(StringIO.StringIO(EXAMPLE))
          
     def testREST(self):
-        g = []
-        print 'Reading large file'
-        import time
-        start = time.time()
         with open('/Users/s05nc4/git/environment-scotland-dot-rural/src/main/resources/dot/rural/sepake/cli/all-abdn-projects.xml') as f:
-            #g = XMLGraph(f, pre_process_xslt=_XSLT_IGNORE_SUB_TREES)
-            g = XMLGraph(f, 
+            _ = XMLGraph(f, 
                          delete_nodes = ['stab:associatedPublications',
                                          'stab:associatedActivities',
                                          'stab:personsUK',
@@ -64,13 +59,9 @@ class Test(unittest.TestCase):
                          namespaces = {'stab' : 'http://atira.dk/schemas/pure4/model/base_uk/project/stable',
                                        'personstab' : 'http://atira.dk/schemas/pure4/model/base_uk/person/stable',
                                        'person-template' : 'http://atira.dk/schemas/pure4/model/template/abstractperson/stable'})
-        print 'Reading and converting took %d seconds' % (time.time() - start)
-        print 'Triples in large file: %d' % len(g)
-        print 'Total time: %d seconds' % (time.time() - start)
            
     def testOai(self):
         self.assertEquals(60, len(self.g))
-        #print self.g.serialize(format = 'nt')
         
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

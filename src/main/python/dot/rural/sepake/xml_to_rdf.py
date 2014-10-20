@@ -4,11 +4,7 @@ Created on 26 Sep 2014
 @author: s05nc4
 '''
 
-from ns_utils import RDF_NAME, namespace
 from rdflib import Graph, RDF, RDFS, URIRef, Literal
-import csv
-import urllib2
-from uuid import uuid4
 from lxml import etree
 
 class XMLGraph(Graph):
