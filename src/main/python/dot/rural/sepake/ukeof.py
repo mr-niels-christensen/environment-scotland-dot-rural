@@ -7,14 +7,9 @@ Code for downloading the UKEOF catalogue and transforming selected parts into RD
 The main interface is ukeof_graphs()
 '''
 
-from dot.rural.sepake.csv_to_rdf import CSV
-from rdflib.namespace import FOAF, XSD
-from dot.rural.sepake.ontology import SEPAKE, PROV
-from rdflib import RDF, RDFS
+from dot.rural.sepake.ns_utils import expand_and_parse
 from rdflib import Graph
 from csv_to_rdf import row_graphs_from_url
-from rdflib.plugins.sparql.parser import parseUpdate
-from rdflib.plugins.sparql.algebra import translateUpdate
 
 def ukeof_graphs():
     '''Downloads the UKEOF catalogue and transforms each Activity into RDF.
@@ -56,25 +51,7 @@ def _generate_graphs(meta, rows):
         #Yield resulting graph
         yield g
         
-def _expand_and_parse(template_func):
-    '''Decorates a function which returns a Python format string.
-       The format string must be SPARQL update with namespaces referenced dict-style like this:
-       "INSERT {{ ?x <{rdfs.label}> "Hello" }} WHERE {{ ?x <{rdf.type}> <{sepake.HelloType}> }}"
-       The decorated function will expand namespaces and return a preparsed SPARQL update.
-    '''
-    def expanded():
-        template = template_func()
-        updateString = template.format(csv = CSV,
-                                       xsd = XSD,
-                                       rdf = RDF, 
-                                       rdfs = RDFS, 
-                                       prov = PROV, 
-                                       foaf = FOAF,
-                                       sepake = SEPAKE)
-        return translateUpdate(parseUpdate(updateString), None, {})
-    return expanded
-
-@_expand_and_parse
+@expand_and_parse
 def INSERT_TYPE():
     return '''
 INSERT {{
@@ -100,7 +77,7 @@ ACTIVITY_CLAUSES = '''
     ?link <{prov.wasDerivedFrom}> ?row . 
 '''
 
-@_expand_and_parse
+@expand_and_parse
 def INSERT_LABEL():
     return '''
 INSERT {{
@@ -114,7 +91,7 @@ WHERE {{''' + ACTIVITY_CLAUSES + '''
 }}
 '''
 
-@_expand_and_parse
+@expand_and_parse
 def INSERT_HOMEPAGE():
     return '''
 INSERT {{
@@ -124,7 +101,7 @@ WHERE {{''' + ACTIVITY_CLAUSES + '''
 }}
 '''
 
-@_expand_and_parse
+@expand_and_parse
 def INSERT_LEAD_ORG():
     return '''
 INSERT {{
@@ -141,7 +118,7 @@ WHERE {{''' + ACTIVITY_CLAUSES + '''
 }}
 '''
 
-@_expand_and_parse
+@expand_and_parse
 def INSERT_COMMENT():
     return '''
 INSERT {{
@@ -165,7 +142,7 @@ WHERE {{''' + ACTIVITY_CLAUSES + '''
 }}
 '''
 
-@_expand_and_parse
+@expand_and_parse
 def INSERT_START_DATE():
     return '''
 INSERT {{
@@ -180,7 +157,7 @@ WHERE {{''' + ACTIVITY_CLAUSES + '''
 }}
 '''
 
-@_expand_and_parse
+@expand_and_parse
 def INSERT_END_DATE():
     return '''
 INSERT {{
