@@ -16,7 +16,7 @@ INSERT {{
 }}
 WHERE {{
     ?coreresult <http://atira.dk/schemas/pure4/model/core/stable#content> ?corecontent .
-    ?corecontent <#uuid> ?uuid .
+    ?corecontent <http://atira.dk/schemas/pure4/model/core/stable#uuid> ?uuid .
     BIND (URI(CONCAT(str(<{sepake.PureProject}>), "#", ENCODE_FOR_URI(?uuid))) AS ?projecturi)
 }}
 '''

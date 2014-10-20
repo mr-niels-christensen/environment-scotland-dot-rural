@@ -80,7 +80,7 @@ class Test(unittest.TestCase):
                                                 any = False))
         
     def testREST(self):
-        with open('/Users/s05nc4/git/environment-scotland-dot-rural/src/main/resources/dot/rural/sepake/cli/search-projects-for-rural.xml') as f:
+        with open('src/main/resources/dot/rural/sepake/cli/search-projects-for-rural.xml') as f:
             g = XMLGraph(f, 
                          delete_nodes = ['stab:associatedPublications',
                                          'stab:associatedActivities',
@@ -91,7 +91,9 @@ class Test(unittest.TestCase):
                          namespaces = {'stab' : 'http://atira.dk/schemas/pure4/model/base_uk/project/stable',
                                        'personstab' : 'http://atira.dk/schemas/pure4/model/base_uk/person/stable',
                                        'person-template' : 'http://atira.dk/schemas/pure4/model/template/abstractperson/stable'})
-            print list(g.subject_objects(URIRef('http://atira.dk/schemas/pure4/model/core/stable#content')))
+            content = list(g.subject_objects(URIRef('http://atira.dk/schemas/pure4/model/core/stable#content')))[0]
+            for (pr, _) in g.predicate_objects(content[1]):
+                print '--- ' + repr(pr)
             g.update(INSERT_PROJECT())
             for s in g.subjects(RDF.type, SEPAKE.PureProject):
                 print s
