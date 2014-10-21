@@ -45,7 +45,8 @@ _NS = dict(xsd = XSD,
            sepake = SEPAKE,
            core = Namespace('http://atira.dk/schemas/pure4/model/core/stable#'),
            project = Namespace('http://atira.dk/schemas/pure4/model/template/abstractproject/stable#'),
-           extensionscore = Namespace('http://atira.dk/schemas/pure4/model/core/extensions/stable#'),)
+           extensionscore = Namespace('http://atira.dk/schemas/pure4/model/core/extensions/stable#'),
+           organisationtemplate = Namespace('http://atira.dk/schemas/pure4/model/template/abstractorganisation/stable#'),)
 
 def _prep(query):
     return prepareQuery(query, initNs = _NS)
@@ -60,6 +61,7 @@ CONSTRUCT {
     ?projecturi prov:endedAtTime ?enddate .
     ?depturi    sepake:owns ?projecturi .
     ?depturi    rdf:type sepake:PureDepartment .
+    ?depturi    rdfs:label ?deptname .
 }
 WHERE {
     ?coreresult core:content ?corecontent .
@@ -71,6 +73,7 @@ WHERE {
     ?corecontent project:startFinishDate/extensionscore:endDate/rdf:value ?enddatestr .
     ?corecontent project:owner ?dept .
     ?dept        project:uuid ?deptuuid .
+    ?dept        organisationtemplate:name/core:localizedString/rdf:value ?deptname .
     BIND ( URI ( CONCAT (str ( sepake:PureProject ), "#", ENCODE_FOR_URI( ?projectuuid ) ) ) AS ?projecturi )
     BIND ( URI ( CONCAT (str ( sepake:PureDepartment ), "#", ENCODE_FOR_URI( ?deptuuid ) ) ) AS ?depturi )
     BIND ( IF ( CONTAINS ( ?projectURL, "://" ), ?projectURL, CONCAT ( "http://", ?projectURL ) ) AS ?amendedURL )

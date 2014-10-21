@@ -28,7 +28,8 @@ class Test(unittest.TestCase):
                                PROJ, PROV.endedAtTime)
         self.assertSingleValue(PROJ, DEPT, SEPAKE.owns)
         self.assertSingleValue(SEPAKE.PureDepartment, DEPT, RDF.type)
-        self.assertEquals(8, len(self.g))
+        self.assertSingleValue('Geosciences, Geography & Environment', DEPT, RDFS.label)
+        self.assertEquals(9, len(self.g))
 
     def assertSingleValue(self, value, subject, predicate):
         found = self.g.value(subject, predicate, any = False)
