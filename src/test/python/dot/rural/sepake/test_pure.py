@@ -12,22 +12,29 @@ from dot.rural.sepake.pure import PureGraph
 from StringIO import StringIO
 import datetime
 
+PROJ = URIRef('http://dot.rural/sepake/PureProject#e963d657-b41f-44eb-a85d-7639346b378d')
+DEPT = URIRef('http://dot.rural/sepake/PureDepartment#0031dcc2-16ec-4fd4-b88a-8eef66c67c67')
+
 class Test(unittest.TestCase):
     def testConstructProject(self):
-        g = PureGraph(StringIO(EXAMPLE))
-        proj = URIRef(u'http://dot.rural/sepake/PureProject#e963d657-b41f-44eb-a85d-7639346b378d')
-        self.assertEquals(SEPAKE.PureProject, g.value(proj, RDF.type, any = False))
-        self.assertEquals(Literal('RURAL DIGITAL ECONOMY RESEARCH HUB'),
-                          g.value(proj, RDFS.label, any = False))
-        self.assertTrue(str(g.value(proj, SEPAKE.htmlDescription, any = False)).startswith('One of the three'))
-        self.assertEquals(URIRef('http://www.dotrural.ac.uk'),
-                          g.value(proj, FOAF.homepage, any = False))
-        self.assertEquals(datetime.datetime.strptime('2009-10-01+01:00', '%Y-%m-%d+%H:%M').date(),
-                          g.value(proj, PROV.startedAtTime, any = False).value)
-        self.assertEquals(datetime.datetime.strptime('2015-03-31+01:00', '%Y-%m-%d+%H:%M').date(),
-                          g.value(proj, PROV.endedAtTime, any = False).value)
-        self.assertEquals(6, len(g))
+        self.g = PureGraph(StringIO(EXAMPLE))
+        self.assertSingleValue(SEPAKE.PureProject, PROJ, RDF.type)
+        self.assertSingleValue(Literal('RURAL DIGITAL ECONOMY RESEARCH HUB'), PROJ, RDFS.label)
+        self.assertTrue(str(self.g.value(PROJ, SEPAKE.htmlDescription, any = False)).startswith('One of the three'))
+        self.assertSingleValue(URIRef('http://www.dotrural.ac.uk'), PROJ, FOAF.homepage)
+        self.assertSingleValue(datetime.datetime.strptime('2009-10-01+01:00', '%Y-%m-%d+%H:%M').date(), 
+                               PROJ, PROV.startedAtTime)
+        self.assertSingleValue(datetime.datetime.strptime('2015-03-31+01:00', '%Y-%m-%d+%H:%M').date(),
+                               PROJ, PROV.endedAtTime)
+        self.assertSingleValue(PROJ, DEPT, SEPAKE.owns)
+        self.assertSingleValue(SEPAKE.PureDepartment, DEPT, RDF.type)
+        self.assertEquals(8, len(self.g))
 
+    def assertSingleValue(self, value, subject, predicate):
+        found = self.g.value(subject, predicate, any = False)
+        if type(value) not in [Literal, URIRef]:
+            found = found.value
+        self.assertEquals(value, found)
 
 EXAMPLE = '''<?xml version="1.0" encoding="utf-8"?>
 <project-template:GetProjectResponse requestId="" xmlns:activity-template="http://atira.dk/schemas/pure4/model/template/abstractactivity/stable" xmlns:core="http://atira.dk/schemas/pure4/model/core/stable" xmlns:extensions-base_uk="http://atira.dk/schemas/pure4/model/base_uk/extensions/stable" xmlns:extensions-core="http://atira.dk/schemas/pure4/model/core/extensions/stable" xmlns:externalorganisation-template="http://atira.dk/schemas/pure4/model/template/externalorganisation/stable" xmlns:journal-template="http://atira.dk/schemas/pure4/model/template/abstractjournal/stable" xmlns:organisation-template="http://atira.dk/schemas/pure4/model/template/abstractorganisation/stable" xmlns:person-base_uk="http://atira.dk/schemas/pure4/model/base_uk/person/stable" xmlns:person-template="http://atira.dk/schemas/pure4/model/template/abstractperson/stable" xmlns:project-template="http://atira.dk/schemas/pure4/wsdl/template/abstractproject/stable" xmlns:publication-base_uk="http://atira.dk/schemas/pure4/model/template/abstractpublication/stable" xmlns:stab="http://atira.dk/schemas/pure4/model/template/abstractproject/stable" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
