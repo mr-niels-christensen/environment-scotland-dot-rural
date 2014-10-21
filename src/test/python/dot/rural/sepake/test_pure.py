@@ -16,12 +16,14 @@ from StringIO import StringIO
 class Test(unittest.TestCase):
     def testConstructProject(self):
         g = PureGraph(StringIO(EXAMPLE))
-        self.assertEquals(3, len(g))
+        self.assertEquals(4, len(g))
         proj = URIRef(u'http://dot.rural/sepake/PureProject#e963d657-b41f-44eb-a85d-7639346b378d')
         self.assertEquals(SEPAKE.PureProject, g.value(proj, RDF.type, any = False))
         self.assertEquals(Literal('RURAL DIGITAL ECONOMY RESEARCH HUB'),
                           g.value(proj, RDFS.label, any = False))
         self.assertTrue(str(g.value(proj, SEPAKE.htmlDescription, any = False)).startswith('One of the three'))
+        self.assertEquals(URIRef('http://www.dotrural.ac.uk'),
+                          g.value(proj, FOAF.homepage, any = False))
 
 EXAMPLE = '''<?xml version="1.0" encoding="utf-8"?>
 <project-template:GetProjectResponse requestId="" xmlns:activity-template="http://atira.dk/schemas/pure4/model/template/abstractactivity/stable" xmlns:core="http://atira.dk/schemas/pure4/model/core/stable" xmlns:extensions-base_uk="http://atira.dk/schemas/pure4/model/base_uk/extensions/stable" xmlns:extensions-core="http://atira.dk/schemas/pure4/model/core/extensions/stable" xmlns:externalorganisation-template="http://atira.dk/schemas/pure4/model/template/externalorganisation/stable" xmlns:journal-template="http://atira.dk/schemas/pure4/model/template/abstractjournal/stable" xmlns:organisation-template="http://atira.dk/schemas/pure4/model/template/abstractorganisation/stable" xmlns:person-base_uk="http://atira.dk/schemas/pure4/model/base_uk/person/stable" xmlns:person-template="http://atira.dk/schemas/pure4/model/template/abstractperson/stable" xmlns:project-template="http://atira.dk/schemas/pure4/wsdl/template/abstractproject/stable" xmlns:publication-base_uk="http://atira.dk/schemas/pure4/model/template/abstractpublication/stable" xmlns:stab="http://atira.dk/schemas/pure4/model/template/abstractproject/stable" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
