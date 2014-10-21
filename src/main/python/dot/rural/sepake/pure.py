@@ -6,7 +6,6 @@ Created on 20 Oct 2014
 
 '''
 
-from dot.rural.sepake.sparql_utils import expand_and_parse
 from rdflib.plugins.sparql import prepareQuery
 from rdflib.namespace import FOAF, XSD, Namespace
 from dot.rural.sepake.ontology import SEPAKE, PROV

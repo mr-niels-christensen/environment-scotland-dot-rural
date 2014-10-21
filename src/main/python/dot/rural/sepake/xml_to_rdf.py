@@ -22,6 +22,16 @@ class XMLGraph(Graph):
         result_tree = transform(doc)
         self.parse(data = str(result_tree))
 
+def _save_doc_for_debug(doc, filename = 'pretty.xml'):
+    import StringIO
+    s = StringIO.StringIO()
+    doc.write(s)
+    import xml.dom.minidom
+    xml = xml.dom.minidom.parseString(s.getvalue())
+    pretty_xml_as_string = xml.toprettyxml(indent="  ", encoding="utf-8")
+    with open(filename, 'w') as out:
+        out.write(pretty_xml_as_string)
+
 _XSLT_IGNORE_SUB_TREES_TEMPLATE = '''
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 %s>
