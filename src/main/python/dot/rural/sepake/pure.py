@@ -9,7 +9,31 @@ Created on 20 Oct 2014
 from rdflib.plugins.sparql import prepareQuery
 from rdflib.namespace import FOAF, XSD, Namespace
 from dot.rural.sepake.ontology import SEPAKE, PROV
-from rdflib import RDF, RDFS
+from rdflib import RDF, RDFS, Graph
+from dot.rural.sepake.xml_to_rdf import XMLGraph
+
+class PureGraph(Graph):
+    def __init__(self, fileob):
+        super(PureGraph, self).__init__()
+        self += XMLGraph(fileob, 
+                         delete_nodes = ['stab:associatedPublications',
+                                         'stab:associatedActivities',
+                                         'stab:personsUK',
+                                         'personstab:staffOrganisationAssociations',
+                                         'person-template:nameVariants',
+                                         'person-template:callName',
+                                         'person-template:email',
+                                         'person-template:employeeId',
+                                         'person-template:organisationAssociations',
+                                         'person-template:personRole',
+                                         'person-template:organisations',
+                                         'organisation-template:association',
+                                         'extensions-core:customField',], 
+                         namespaces = {'stab' : 'http://atira.dk/schemas/pure4/model/base_uk/project/stable',
+                                       'personstab' : 'http://atira.dk/schemas/pure4/model/base_uk/person/stable',
+                                       'person-template' : 'http://atira.dk/schemas/pure4/model/template/abstractperson/stable',
+                                       'organisation-template' : 'http://atira.dk/schemas/pure4/model/template/abstractorganisation/stable',
+                                       'extensions-core' : 'http://atira.dk/schemas/pure4/model/core/extensions/stable'}).query(_CONSTRUCT_PROJECT)
 
 _NS = dict(xsd = XSD,
            rdf = RDF, 
@@ -23,7 +47,7 @@ _NS = dict(xsd = XSD,
 def _prep(query):
     return prepareQuery(query, initNs = _NS)
 
-CONSTRUCT_PROJECT = _prep('''
+_CONSTRUCT_PROJECT = _prep('''
 CONSTRUCT {
     ?projecturi rdf:type sepake:PureProject .
     ?projecturi rdfs:label ?title .
