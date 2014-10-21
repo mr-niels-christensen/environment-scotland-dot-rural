@@ -29,7 +29,9 @@ class Test(unittest.TestCase):
         self.assertSingleValue(PROJ, DEPT, SEPAKE.owns)
         self.assertSingleValue(SEPAKE.PureDepartment, DEPT, RDF.type)
         self.assertSingleValue('Geosciences, Geography & Environment', DEPT, RDFS.label)
-        self.assertEquals(9, len(self.g))
+        self.assertSingleValue(URIRef('http://pure.abdn.ac.uk:8080/portal/en/organisations/geosciences-geography--environment(0031dcc2-16ec-4fd4-b88a-8eef66c67c67).html'), 
+                               DEPT, FOAF.homepage)
+        self.assertEquals(10, len(self.g))
 
     def assertSingleValue(self, value, subject, predicate):
         found = self.g.value(subject, predicate, any = False)

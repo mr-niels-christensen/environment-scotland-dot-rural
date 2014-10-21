@@ -62,6 +62,7 @@ CONSTRUCT {
     ?depturi    sepake:owns ?projecturi .
     ?depturi    rdf:type sepake:PureDepartment .
     ?depturi    rdfs:label ?deptname .
+    ?depturi    foaf:homepage ?depthomepage .
 }
 WHERE {
     ?coreresult core:content ?corecontent .
@@ -74,10 +75,12 @@ WHERE {
     ?corecontent project:owner ?dept .
     ?dept        project:uuid ?deptuuid .
     ?dept        organisationtemplate:name/core:localizedString/rdf:value ?deptname .
+    ?dept        core:portalUrl/rdf:value ?depthomepagestr
     BIND ( URI ( CONCAT (str ( sepake:PureProject ), "#", ENCODE_FOR_URI( ?projectuuid ) ) ) AS ?projecturi )
     BIND ( URI ( CONCAT (str ( sepake:PureDepartment ), "#", ENCODE_FOR_URI( ?deptuuid ) ) ) AS ?depturi )
     BIND ( IF ( CONTAINS ( ?projectURL, "://" ), ?projectURL, CONCAT ( "http://", ?projectURL ) ) AS ?amendedURL )
     BIND ( URI ( ?amendedURL ) AS ?homepage )
+    BIND ( URI ( ?depthomepagestr ) AS ?depthomepage )
     BIND ( STRDT ( ?startdatestr, xsd:date ) AS ?startdate )
     BIND ( STRDT ( ?enddatestr, xsd:date ) AS ?enddate )
 }
