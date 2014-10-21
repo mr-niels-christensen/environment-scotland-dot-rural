@@ -57,6 +57,7 @@ CONSTRUCT {
     ?projecturi sepake:htmlDescription ?description .
     ?projecturi foaf:homepage ?homepage .
     ?projecturi prov:startedAtTime ?startdate .
+    ?projecturi prov:endedAtTime ?enddate .
 }
 WHERE {
     ?coreresult core:content ?corecontent .
@@ -65,9 +66,11 @@ WHERE {
     ?corecontent project:description/core:localizedString/rdf:value ?description .
     ?corecontent project:projectURL/rdf:value ?projectURL .
     ?corecontent project:startFinishDate/extensionscore:startDate/rdf:value ?startdatestr .
+    ?corecontent project:startFinishDate/extensionscore:endDate/rdf:value ?enddatestr .
     BIND ( URI ( CONCAT (str ( sepake:PureProject ), "#", ENCODE_FOR_URI( ?uuid ) ) ) AS ?projecturi )
     BIND ( IF ( CONTAINS ( ?projectURL, "://" ), ?projectURL, CONCAT ( "http://", ?projectURL ) ) AS ?amendedURL )
     BIND ( URI ( ?amendedURL ) AS ?homepage )
     BIND ( STRDT ( ?startdatestr, xsd:date ) AS ?startdate )
+    BIND ( STRDT ( ?enddatestr, xsd:date ) AS ?enddate )
 }
 ''')

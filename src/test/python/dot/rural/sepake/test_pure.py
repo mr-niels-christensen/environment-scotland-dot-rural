@@ -8,7 +8,7 @@ from rdflib import RDF, RDFS, URIRef
 from rdflib.namespace import FOAF
 from dot.rural.sepake.ontology import SEPAKE, PROV
 from rdflib.term import Literal
-from dot.rural.sepake.pure import PureGraph, _slimmed_xml_as_rdf
+from dot.rural.sepake.pure import PureGraph
 from StringIO import StringIO
 import datetime
 
@@ -24,7 +24,9 @@ class Test(unittest.TestCase):
                           g.value(proj, FOAF.homepage, any = False))
         self.assertEquals(datetime.datetime.strptime('2009-10-01+01:00', '%Y-%m-%d+%H:%M').date(),
                           g.value(proj, PROV.startedAtTime, any = False).value)
-        self.assertEquals(5, len(g))
+        self.assertEquals(datetime.datetime.strptime('2015-03-31+01:00', '%Y-%m-%d+%H:%M').date(),
+                          g.value(proj, PROV.endedAtTime, any = False).value)
+        self.assertEquals(6, len(g))
 
 
 EXAMPLE = '''<?xml version="1.0" encoding="utf-8"?>
