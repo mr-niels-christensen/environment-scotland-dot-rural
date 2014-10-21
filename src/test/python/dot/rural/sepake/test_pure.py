@@ -6,10 +6,11 @@ Created on 20 Oct 2014
 import unittest
 from rdflib import RDF, RDFS, URIRef
 from rdflib.namespace import FOAF
-from dot.rural.sepake.ontology import SEPAKE
+from dot.rural.sepake.ontology import SEPAKE, PROV
 from rdflib.term import Literal
-from dot.rural.sepake.pure import PureGraph
+from dot.rural.sepake.pure import PureGraph, _slimmed_xml_as_rdf
 from StringIO import StringIO
+import datetime
 
 class Test(unittest.TestCase):
     def testConstructProject(self):
@@ -21,7 +22,9 @@ class Test(unittest.TestCase):
         self.assertTrue(str(g.value(proj, SEPAKE.htmlDescription, any = False)).startswith('One of the three'))
         self.assertEquals(URIRef('http://www.dotrural.ac.uk'),
                           g.value(proj, FOAF.homepage, any = False))
-        self.assertEquals(4, len(g))
+        self.assertEquals(datetime.datetime.strptime('2009-10-01+01:00', '%Y-%m-%d+%H:%M').date(),
+                          g.value(proj, PROV.startedAtTime, any = False).value)
+        self.assertEquals(5, len(g))
 
 
 EXAMPLE = '''<?xml version="1.0" encoding="utf-8"?>

@@ -15,26 +15,28 @@ from dot.rural.sepake.xml_to_rdf import XMLGraph
 class PureGraph(Graph):
     def __init__(self, fileob):
         super(PureGraph, self).__init__()
-        self += XMLGraph(fileob, 
-                         delete_nodes = ['stab:associatedPublications',
-                                         'stab:associatedActivities',
-                                         'stab:personsUK',
-                                         'personstab:staffOrganisationAssociations',
-                                         'person-template:nameVariants',
-                                         'person-template:callName',
-                                         'person-template:email',
-                                         'person-template:employeeId',
-                                         'person-template:organisationAssociations',
-                                         'person-template:personRole',
-                                         'person-template:organisations',
-                                         'organisation-template:association',
-                                         'extensions-core:customField',], 
-                         namespaces = {'stab' : 'http://atira.dk/schemas/pure4/model/base_uk/project/stable',
-                                       'personstab' : 'http://atira.dk/schemas/pure4/model/base_uk/person/stable',
-                                       'person-template' : 'http://atira.dk/schemas/pure4/model/template/abstractperson/stable',
-                                       'organisation-template' : 'http://atira.dk/schemas/pure4/model/template/abstractorganisation/stable',
-                                       'extensions-core' : 'http://atira.dk/schemas/pure4/model/core/extensions/stable'}).query(_CONSTRUCT_PROJECT)
+        self += _slimmed_xml_as_rdf(fileob).query(_CONSTRUCT_PROJECT)
 
+def _slimmed_xml_as_rdf(fileob):
+    return XMLGraph(fileob, 
+                 delete_nodes = ['stab:associatedPublications',
+                                 'stab:associatedActivities',
+                                 'stab:personsUK',
+                                 'personstab:staffOrganisationAssociations',
+                                 'person-template:nameVariants',
+                                 'person-template:callName',
+                                 'person-template:email',
+                                 'person-template:employeeId',
+                                 'person-template:organisationAssociations',
+                                 'person-template:personRole',
+                                 'person-template:organisations',
+                                 'organisation-template:association',
+                                 'extensions-core:customField',], 
+                 namespaces = {'stab' : 'http://atira.dk/schemas/pure4/model/base_uk/project/stable',
+                               'personstab' : 'http://atira.dk/schemas/pure4/model/base_uk/person/stable',
+                               'person-template' : 'http://atira.dk/schemas/pure4/model/template/abstractperson/stable',
+                               'organisation-template' : 'http://atira.dk/schemas/pure4/model/template/abstractorganisation/stable',
+                               'extensions-core' : 'http://atira.dk/schemas/pure4/model/core/extensions/stable'})
 _NS = dict(xsd = XSD,
            rdf = RDF, 
            rdfs = RDFS, 
@@ -42,7 +44,8 @@ _NS = dict(xsd = XSD,
            foaf = FOAF,
            sepake = SEPAKE,
            core = Namespace('http://atira.dk/schemas/pure4/model/core/stable#'),
-           project = Namespace('http://atira.dk/schemas/pure4/model/template/abstractproject/stable#'))
+           project = Namespace('http://atira.dk/schemas/pure4/model/template/abstractproject/stable#'),
+           extensionscore = Namespace('http://atira.dk/schemas/pure4/model/core/extensions/stable#'),)
 
 def _prep(query):
     return prepareQuery(query, initNs = _NS)
@@ -53,15 +56,18 @@ CONSTRUCT {
     ?projecturi rdfs:label ?title .
     ?projecturi sepake:htmlDescription ?description .
     ?projecturi foaf:homepage ?homepage .
+    ?projecturi prov:startedAtTime ?startdate .
 }
 WHERE {
     ?coreresult core:content ?corecontent .
     ?corecontent core:uuid ?uuid .
     ?corecontent project:title/core:localizedString/rdf:value ?title .
     ?corecontent project:description/core:localizedString/rdf:value ?description .
-    ?corecontent project:projectURL/rdf:value ?projectURL
+    ?corecontent project:projectURL/rdf:value ?projectURL .
+    ?corecontent project:startFinishDate/extensionscore:startDate/rdf:value ?startdatestr .
     BIND ( URI ( CONCAT (str ( sepake:PureProject ), "#", ENCODE_FOR_URI( ?uuid ) ) ) AS ?projecturi )
     BIND ( IF ( CONTAINS ( ?projectURL, "://" ), ?projectURL, CONCAT ( "http://", ?projectURL ) ) AS ?amendedURL )
-    BIND ( URI( ?amendedURL ) AS ?homepage )
+    BIND ( URI ( ?amendedURL ) AS ?homepage )
+    BIND ( STRDT ( ?startdatestr, xsd:date ) AS ?startdate )
 }
 ''')
