@@ -14,26 +14,33 @@ import datetime
 
 PROJ = URIRef('http://dot.rural/sepake/PureProject#e963d657-b41f-44eb-a85d-7639346b378d')
 DEPT = URIRef('http://dot.rural/sepake/PureDepartment#0031dcc2-16ec-4fd4-b88a-8eef66c67c67')
+PERS = URIRef('http://dot.rural/sepake/PurePerson#cd82bede-c06a-4eb8-9f50-f2c9bd949301')
 
 class Test(unittest.TestCase):
-    def testConstructProject(self):
+    def setUp(self):
         self.g = PureGraph(StringIO(EXAMPLE))
-        self.assertSingleValue(SEPAKE.PureProject, PROJ, RDF.type)
-        self.assertSingleValue(Literal('RURAL DIGITAL ECONOMY RESEARCH HUB'), PROJ, RDFS.label)
+        
+    def testProjectAndDept(self):
+        self._assertSingleValue(SEPAKE.PureProject, PROJ, RDF.type)
+        self._assertSingleValue(Literal('RURAL DIGITAL ECONOMY RESEARCH HUB'), PROJ, RDFS.label)
         self.assertTrue(str(self.g.value(PROJ, SEPAKE.htmlDescription, any = False)).startswith('One of the three'))
-        self.assertSingleValue(URIRef('http://www.dotrural.ac.uk'), PROJ, FOAF.homepage)
-        self.assertSingleValue(datetime.datetime.strptime('2009-10-01+01:00', '%Y-%m-%d+%H:%M').date(), 
+        self._assertSingleValue(URIRef('http://www.dotrural.ac.uk'), PROJ, FOAF.homepage)
+        self._assertSingleValue(datetime.datetime.strptime('2009-10-01+01:00', '%Y-%m-%d+%H:%M').date(), 
                                PROJ, PROV.startedAtTime)
-        self.assertSingleValue(datetime.datetime.strptime('2015-03-31+01:00', '%Y-%m-%d+%H:%M').date(),
+        self._assertSingleValue(datetime.datetime.strptime('2015-03-31+01:00', '%Y-%m-%d+%H:%M').date(),
                                PROJ, PROV.endedAtTime)
-        self.assertSingleValue(PROJ, DEPT, SEPAKE.owns)
-        self.assertSingleValue(SEPAKE.PureDepartment, DEPT, RDF.type)
-        self.assertSingleValue('Geosciences, Geography & Environment', DEPT, RDFS.label)
-        self.assertSingleValue(URIRef('http://pure.abdn.ac.uk:8080/portal/en/organisations/geosciences-geography--environment(0031dcc2-16ec-4fd4-b88a-8eef66c67c67).html'), 
+        self._assertSingleValue(PROJ, DEPT, SEPAKE.owns)
+        self._assertSingleValue(SEPAKE.PureDepartment, DEPT, RDF.type)
+        self._assertSingleValue('Geosciences, Geography & Environment', DEPT, RDFS.label)
+        self._assertSingleValue(URIRef('http://pure.abdn.ac.uk:8080/portal/en/organisations/geosciences-geography--environment(0031dcc2-16ec-4fd4-b88a-8eef66c67c67).html'), 
                                DEPT, FOAF.homepage)
-        self.assertEquals(10, len(self.g))
 
-    def assertSingleValue(self, value, subject, predicate):
+    def testPeople(self):
+        people = list(self.g.subjects(RDF.type, SEPAKE.PurePerson))
+        self.assertEquals(10, len(people))
+        self.assertIn(PERS, people)
+        
+    def _assertSingleValue(self, value, subject, predicate):
         found = self.g.value(subject, predicate, any = False)
         if type(value) not in [Literal, URIRef]:
             found = found.value

@@ -15,7 +15,9 @@ from dot.rural.sepake.xml_to_rdf import XMLGraph
 class PureGraph(Graph):
     def __init__(self, fileob):
         super(PureGraph, self).__init__()
-        self += _slimmed_xml_as_rdf(fileob).query(_CONSTRUCT_PROJECT)
+        xml_as_rdf = _slimmed_xml_as_rdf(fileob)
+        self += xml_as_rdf.query(_CONSTRUCT_PROJECT)
+        self += xml_as_rdf.query(_CONSTRUCT_PEOPLE)
 
 def _slimmed_xml_as_rdf(fileob):
     return XMLGraph(fileob, 
@@ -46,10 +48,23 @@ _NS = dict(xsd = XSD,
            core = Namespace('http://atira.dk/schemas/pure4/model/core/stable#'),
            project = Namespace('http://atira.dk/schemas/pure4/model/template/abstractproject/stable#'),
            extensionscore = Namespace('http://atira.dk/schemas/pure4/model/core/extensions/stable#'),
-           organisationtemplate = Namespace('http://atira.dk/schemas/pure4/model/template/abstractorganisation/stable#'),)
+           organisationtemplate = Namespace('http://atira.dk/schemas/pure4/model/template/abstractorganisation/stable#'),
+           persontemplate = Namespace('http://atira.dk/schemas/pure4/model/template/abstractperson/stable#'),
+           )
 
 def _prep(query):
     return prepareQuery(query, initNs = _NS)
+
+_CONSTRUCT_PEOPLE = _prep('''
+CONSTRUCT {
+    ?personuri rdf:type sepake:PurePerson .
+}
+WHERE {
+    ?wrapper persontemplate:person ?person .
+    ?person  persontemplate:uuid ?uuid .
+    BIND ( URI ( CONCAT (str ( sepake:PurePerson ), "#", ENCODE_FOR_URI( ?uuid ) ) ) AS ?personuri )
+}
+''')
 
 _CONSTRUCT_PROJECT = _prep('''
 CONSTRUCT {
