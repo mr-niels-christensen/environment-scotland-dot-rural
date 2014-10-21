@@ -40,7 +40,7 @@ EXAMPLE = '''<?xml version="1.0" encoding="utf-8"?>
       <stab1:description xmlns:stab1="http://atira.dk/schemas/pure4/model/template/abstractproject/stable">
         <core:localizedString formatted="false" locale="en_GB">One of the three RCUK Digital Economy Research Hubs. Exploring how digital technologies can have a transformational impact on rural communities and business. User-centric activity is based around four interconnecting themes: Accessibility &amp; Mobilities, Healthcare, Enterprise &amp; Culture, and Natural Resource Conservation.</core:localizedString>
       </stab1:description>
-      <stab1:projectURL xmlns:stab1="http://atira.dk/schemas/pure4/model/template/abstractproject/stable">http://www.dotrural.ac.uk</stab1:projectURL>
+      <stab1:projectURL xmlns:stab1="http://atira.dk/schemas/pure4/model/template/abstractproject/stable">www.dotrural.ac.uk</stab1:projectURL>
       <stab1:startFinishDate xmlns:stab1="http://atira.dk/schemas/pure4/model/template/abstractproject/stable">
         <extensions-core:startDate>2009-10-01+01:00</extensions-core:startDate>
         <extensions-core:endDate>2015-03-31+01:00</extensions-core:endDate>

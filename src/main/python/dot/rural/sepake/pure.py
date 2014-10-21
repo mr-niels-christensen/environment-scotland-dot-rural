@@ -60,7 +60,8 @@ WHERE {
     ?corecontent project:title/core:localizedString/rdf:value ?title .
     ?corecontent project:description/core:localizedString/rdf:value ?description .
     ?corecontent project:projectURL/rdf:value ?projectURL
-    BIND (URI(CONCAT(str(sepake:PureProject), "#", ENCODE_FOR_URI(?uuid))) AS ?projecturi)
-    BIND (URI(?projectURL) AS ?homepage)
+    BIND ( URI ( CONCAT (str ( sepake:PureProject ), "#", ENCODE_FOR_URI( ?uuid ) ) ) AS ?projecturi )
+    BIND ( IF ( CONTAINS ( ?projectURL, "://" ), ?projectURL, CONCAT ( "http://", ?projectURL ) ) AS ?amendedURL )
+    BIND ( URI( ?amendedURL ) AS ?homepage )
 }
 ''')
