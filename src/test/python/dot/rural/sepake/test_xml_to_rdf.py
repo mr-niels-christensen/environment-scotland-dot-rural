@@ -7,9 +7,6 @@ import unittest
 import StringIO
 from dot.rural.sepake.xml_to_rdf import XMLGraph
 from rdflib.term import URIRef, Literal
-from dot.rural.sepake.pure import CONSTRUCT_PROJECT
-from rdflib.namespace import RDF
-from dot.rural.sepake.ontology import SEPAKE
 
 EXAMPLE_OAI = '''<?xml version="1.0" encoding="UTF-8"?>
 <OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
