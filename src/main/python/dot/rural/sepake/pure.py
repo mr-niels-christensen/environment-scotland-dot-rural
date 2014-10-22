@@ -11,12 +11,19 @@ from rdflib.namespace import FOAF, XSD, Namespace
 from dot.rural.sepake.ontology import SEPAKE, PROV
 from rdflib import RDF, RDFS, Graph
 from dot.rural.sepake.xml_to_rdf import XMLGraph
+import urllib2
+
+def university_of_aberdeen():
+    xml_input = urllib2.urlopen('http://pure.abdn.ac.uk:8080/ws/rest/getprojectrequest?rendering=xml_long')
+    return PureGraph(xml_input)
 
 class PureGraph(Graph):
     def __init__(self, fileob):
         super(PureGraph, self).__init__()
         xml_as_rdf = _slimmed_xml_as_rdf(fileob)
         self += xml_as_rdf.query(_CONSTRUCT_PROJECT)
+        if len(self) == 0:
+            raise Exception('No PURE project in the given data')
         self += xml_as_rdf.query(_CONSTRUCT_PEOPLE)
 
 def _slimmed_xml_as_rdf(fileob):

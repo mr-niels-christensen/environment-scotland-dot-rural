@@ -5,14 +5,18 @@ VERSION = $(shell grep version src/main/python/setup.py | cut -d "'" -f 2)
 NAME = $(shell grep name src/main/python/setup.py | cut -d "'" -f 2)
 DISTFILE = build/$(NAME)-$(VERSION).tar.gz
 
-all: ide run
+all: ide data
 
-.PHONY: run
-run: .python.run.made
+.PHONY: data
+data: .ukeof.data.made .pure.data.made
 
-.python.run.made: test
+.ukeof.data.made: test
 	source .venv.for.use/bin/activate && import_ukeof.py
-	touch .python.run.made
+	touch .ukeof.data.made
+
+.pure.data.made: test
+	source .venv.for.use/bin/activate && import_pure.py
+	touch .pure.data.made
 
 .PHONY: test
 test: .python.test.made

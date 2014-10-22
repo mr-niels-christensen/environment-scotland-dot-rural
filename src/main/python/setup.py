@@ -3,10 +3,11 @@
 from distutils.core import setup
 
 setup(name='dot.rural.sepake',
-      version='0.2',
+      version='0.2.2',
       description='SEPAKE Python distributible',
       author='Niels Christensen',
-      scripts = ['scripts/import_ukeof.py'],
+      scripts = ['scripts/import_ukeof.py',
+                 'scripts/import_pure.py'],
       packages=['dot',
                 'dot.rural',
                 'dot.rural.sepake',
