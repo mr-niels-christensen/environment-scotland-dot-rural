@@ -1,13 +1,13 @@
 SHELL := /bin/bash
 
-PYTHON_FILES = $(shell find src -name "*.py")
-VERSION = $(shell grep version src/main/python/setup.py | cut -d "'" -f 2)
-NAME = $(shell grep name src/main/python/setup.py | cut -d "'" -f 2)
-DISTFILE = build/$(NAME)-$(VERSION).tar.gz
+MAJORMINOR := 0.2
 
-.PHONY: foo
-foo:
-	FOO=`date "+%Y%m%d%H%M%S"` && echo $$FOO
+PYTHON_FILES := $(shell find src -name "*.py")
+MICROVERSION := $(shell date "+%Y%m%d%H%M%S")
+VERSION := $(MAJORMINOR).$(MICROVERSION)
+NAME := $(shell grep name src/main/python/setup.py | cut -d "'" -f 2)
+DISTFILE := build/$(NAME)-$(VERSION).tar.gz
+
 all: ide data
 
 .PHONY: data
@@ -36,6 +36,7 @@ test: .python.test.made
 build: $(DISTFILE)
 
 $(DISTFILE): $(PYTHON_FILES)
+	echo "VERSION = '$(VERSION)'" > src/main/python/dot/__init__.py
 	(cd src/main/python && ./setup.py sdist --dist-dir ../../../build/)
 
 .venv.for.use/bin/activate:
