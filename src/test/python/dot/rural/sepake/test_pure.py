@@ -17,6 +17,8 @@ DEPT = URIRef('http://dot.rural/sepake/PureDepartment#0031dcc2-16ec-4fd4-b88a-8e
 PERS = URIRef('http://dot.rural/sepake/PurePerson#cd82bede-c06a-4eb8-9f50-f2c9bd949301')
 
 class Test(unittest.TestCase):
+    longMessage = True
+    
     def setUp(self):
         self.g = PureGraph(StringIO(EXAMPLE))
         
@@ -39,8 +41,12 @@ class Test(unittest.TestCase):
         people = list(self.g.subjects(RDF.type, SEPAKE.PurePerson))
         self.assertEquals(10, len(people))
         self.assertIn(PERS, people)
+        self._assertSingleValue('Claire Denise', PERS, FOAF.givenName)
+        self._assertSingleValue('Wallace', PERS, FOAF.familyName)
         for person in people:
             self._assertSingleValue(PROJ, person, PROV.memberOf)
+            self.assertEquals(1, len([self.g.objects(person, FOAF.givenName)]), person)
+            self.assertEquals(1, len([self.g.objects(person, FOAF.familyName)]), person)
         
     def _assertSingleValue(self, value, subject, predicate):
         found = self.g.value(subject, predicate, any = False)
