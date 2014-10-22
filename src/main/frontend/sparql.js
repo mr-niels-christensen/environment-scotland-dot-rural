@@ -100,11 +100,8 @@ function register_all_sparql_queries() {
        "SELECT * WHERE {",
        "    BIND (<--IRI--> AS ?focus) .",
        "    {?person prov:memberOf ?focus} .",
-       "    {?person rdf:type prov:Person} .",
-       "    {?person rdf:type foaf:Person} .",
        "    {?person foaf:givenName ?given} .",
        "    {?person foaf:familyName ?family} .",
-       "    {?person foaf:mbox ?mbox} .",
        "    BIND (CONCAT(?given, ' ', ?family) AS ?label)",
        "}",
        "ORDER BY ASC(?family)",
@@ -116,7 +113,6 @@ function register_all_sparql_queries() {
           if (bindings.length > 0) {
             $( dom_elem ).data( bindings.shift() );
             $( dom_elem ).find( ".personLink" ).text( $( dom_elem ).data().label.value );
-            $( dom_elem ).find( ".personLink" ).attr('title', $( dom_elem ).data().mbox.value );
             $( dom_elem ).removeClass( "noData" );
           } else {
             $( dom_elem ).addClass( "noData" );                  
@@ -133,7 +129,6 @@ function register_all_sparql_queries() {
       [
        "SELECT * WHERE {",//TODO: Get type, but only one record per id, maybe using #3
        "    {?id rdfs:label ?label} .",
-       "    {?id <htmlDescription> ?description} .",
        "}",
       ],
       function (response) {
