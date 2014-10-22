@@ -6,27 +6,25 @@ This project aims to provide a backend service for http://www.environment.scotla
 The purpose of the service is to allow the discovery of academic output that is relevant for the portal.
 
 This project currently requires 
-  * Java 1.7+
-  * Gradle. 
   * python 2.7+
   * pip
   * virtualenv
   * make
-    
-Open two prompts.
-Type
+  * a SPARQL endpoint (see below)
+  
+Including a SPARQL endpoint is work in progress.
+Until then I suggest installing Fuseki and running
+
 ```
-gradle fuseki
+./fuseki-server -v --update --mem /ds
 ```
-in one of them and verify that the Fuseki starts up with some log4j warnings (this is work-in-progress...)
-In the other, type
-```
-gradle run
-```
-and watch the application load data into Fuseki, then end. Type
+
+This will start an empty Fuseki on localhost:3030
+
+Then run
 ```
 make
 ```
-and wait for that application to load more data into Fuseki.
+and watch the application load data into Fuseki.
 
-Now point a browser at `build/www/index.html`
+Now point a browser at `src/main/frontend/index.html`
