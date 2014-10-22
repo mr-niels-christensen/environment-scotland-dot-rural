@@ -97,8 +97,11 @@ WHERE {
     ?coreresult core:content ?corecontent .
     ?corecontent core:uuid ?projectuuid .
     ?corecontent project:title/core:localizedString/rdf:value ?title .
-    ?corecontent project:description/core:localizedString/rdf:value ?description .
-    ?corecontent project:projectURL/rdf:value ?projectURL .
+    OPTIONAL { ?corecontent project:description/core:localizedString/rdf:value ?description } .
+    OPTIONAL { ?corecontent project:projectURL/rdf:value ?projectURL .
+               BIND ( IF ( CONTAINS ( ?projectURL, "://" ), ?projectURL, CONCAT ( "http://", ?projectURL ) ) AS ?amendedURL )
+               BIND ( URI ( ?amendedURL ) AS ?homepage )
+    } .
     ?corecontent project:startFinishDate/extensionscore:startDate/rdf:value ?startdatestr .
     ?corecontent project:startFinishDate/extensionscore:endDate/rdf:value ?enddatestr .
     ?corecontent project:owner ?dept .
@@ -107,8 +110,6 @@ WHERE {
     ?dept        core:portalUrl/rdf:value ?depthomepagestr
     BIND ( URI ( CONCAT (str ( sepake:PureProject ), "#", ENCODE_FOR_URI( ?projectuuid ) ) ) AS ?projecturi )
     BIND ( URI ( CONCAT (str ( sepake:PureDepartment ), "#", ENCODE_FOR_URI( ?deptuuid ) ) ) AS ?depturi )
-    BIND ( IF ( CONTAINS ( ?projectURL, "://" ), ?projectURL, CONCAT ( "http://", ?projectURL ) ) AS ?amendedURL )
-    BIND ( URI ( ?amendedURL ) AS ?homepage )
     BIND ( URI ( ?depthomepagestr ) AS ?depthomepage )
     BIND ( STRDT ( ?startdatestr, xsd:date ) AS ?startdate )
     BIND ( STRDT ( ?enddatestr, xsd:date ) AS ?enddate )

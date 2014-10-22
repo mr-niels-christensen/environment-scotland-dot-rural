@@ -5,6 +5,9 @@ VERSION = $(shell grep version src/main/python/setup.py | cut -d "'" -f 2)
 NAME = $(shell grep name src/main/python/setup.py | cut -d "'" -f 2)
 DISTFILE = build/$(NAME)-$(VERSION).tar.gz
 
+.PHONY: foo
+foo:
+	FOO=`date "+%Y%m%d%H%M%S"` && echo $$FOO
 all: ide data
 
 .PHONY: data

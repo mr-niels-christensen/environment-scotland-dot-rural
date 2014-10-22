@@ -3,7 +3,7 @@
 from distutils.core import setup
 
 setup(name='dot.rural.sepake',
-      version='0.2.2',
+      version='0.2.5',
       description='SEPAKE Python distributible',
       author='Niels Christensen',
       scripts = ['scripts/import_ukeof.py',
