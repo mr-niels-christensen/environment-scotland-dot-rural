@@ -57,12 +57,15 @@ def _prep(query):
 
 _CONSTRUCT_PEOPLE = _prep('''
 CONSTRUCT {
-    ?personuri rdf:type sepake:PurePerson .
+    ?personuri rdf:type      sepake:PurePerson .
+    ?personuri prov:memberOf ?projecturi .
 }
 WHERE {
     ?wrapper persontemplate:person ?person .
-    ?person  persontemplate:uuid ?uuid .
-    BIND ( URI ( CONCAT (str ( sepake:PurePerson ), "#", ENCODE_FOR_URI( ?uuid ) ) ) AS ?personuri )
+    ?person  persontemplate:uuid ?personuuid .
+    ?wrapper (^persontemplate:participantAssociation) / (^project:persons) / core:uuid ?projectuuid .
+    BIND ( URI ( CONCAT (str ( sepake:PurePerson ), "#", ENCODE_FOR_URI( ?personuuid ) ) ) AS ?personuri )
+    BIND ( URI ( CONCAT (str ( sepake:PureProject ), "#", ENCODE_FOR_URI( ?projectuuid ) ) ) AS ?projecturi )
 }
 ''')
 

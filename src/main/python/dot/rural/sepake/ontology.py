@@ -27,6 +27,7 @@ class PROV(object):
     startedAtTime  = RDF_NAME
     endedAtTime    = RDF_NAME
     wasDerivedFrom = RDF_NAME
+    memberOf       = RDF_NAME
 
 class SEPAKEOntologyGraph(Graph):
     '''Class for creating RDF triples for this project's ontology.

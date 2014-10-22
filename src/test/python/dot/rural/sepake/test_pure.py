@@ -39,6 +39,8 @@ class Test(unittest.TestCase):
         people = list(self.g.subjects(RDF.type, SEPAKE.PurePerson))
         self.assertEquals(10, len(people))
         self.assertIn(PERS, people)
+        for person in people:
+            self._assertSingleValue(PROJ, person, PROV.memberOf)
         
     def _assertSingleValue(self, value, subject, predicate):
         found = self.g.value(subject, predicate, any = False)
