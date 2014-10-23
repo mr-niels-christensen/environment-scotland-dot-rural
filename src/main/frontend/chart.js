@@ -29,10 +29,10 @@ function addNodeToChartIfNotThere( id, label, parentId, relation) {
     addNodeToChart( id, label, parentId, relation);
   }
 }
-function addNodeToChart( id, label, parentId, relation) {
+function addNodeToChart( id, label, parentId, _relation) {
   tbl.addRow(
     [ { v: id, //v is the URL that child nodes can point to
-        f: '<p style="font: xx-small italic;">' + relation + '</p><p>' + label + '</p>'},
+        f: '<p>' + label + '</p>'},
         parentId,
         ""//No tooltip
     ]);
