@@ -57,6 +57,22 @@ function _valuesOfSparqlBinding( sparqlBinding ) {
   return result;
 }
 
+function _set_html_from_dbpedia_description(selector, search_for) {
+  $.ajax({
+    url: "http://lookup.dbpedia.org/api/search/KeywordSearch",
+    data: {
+      "QueryString" : search_for,
+      "MaxHits" : 1,},
+    dataType: 'json',
+    success: function( response ) {
+      if ( response.results[0] ) {
+        $( selector ).html(response.results[0].description);
+      };
+    },
+    timeout: 2500,
+  });
+}
+
 _PREAMBLE = [
              "BASE <http://dot.rural/sepake/>",
              "PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>",
@@ -93,6 +109,9 @@ function register_all_sparql_queries() {
           $( "#endedAtTime" ).text(values.endedAtTime || "(unknown)");
           $( "#labelOfOwner" ).text(values.ownerLabel || "");
           $( "#labelOfOwner" ).attr('href', values.ownerHomepage || "");
+          if (!values.description) {
+            _set_html_from_dbpedia_description( "#descriptionOfFocus", values.label );
+          }
         } catch (err) {
           console.log( err );
         }
