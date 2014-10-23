@@ -1,6 +1,15 @@
 function updateFromIri(iri) {
   fuseki( "metadata", iri );
   fuseki( "people", iri);
+  addNodeToChartIfNotThere('id:proj', 'Project Green Scotland', '', '');
+  addNodeToChartIfNotThere('id:thispaper', '(This publication)', 'id:proj', 'Published');
+  addNodeToChartIfNotThere('id:funder', 'STFC', 'id:proj', 'Funded by');
+  addNodeToChartIfNotThere('id:journal', 'Ecosystems (journal)', 'id:thispaper', 'Published in');
+  addNodeToChartIfNotThere('id:uni', 'University of Aberdeen', 'id:proj', 'Executed by');
+  addNodeToChartIfNotThere('id:pi', 'Rene van der Wal', 'id:proj', 'Principal Investigator');
+  addNodeToChartIfNotThere('id:otherpapers', '2 other publications...', 'id:proj', 'Also published');
+  addNodeToChartIfNotThere('id:otherprojects', '3 other projects...', 'id:proj', 'Shared investigators with');
+  updateChart();
 }
 
 var _FUSEKI_URLS = {
@@ -43,6 +52,7 @@ $( document ).ready( function() {
   initFuseki();
   register_all_sparql_queries();
   indexJsInit();
+  initChart();
   updateFromIri( "http://dot.rural/sepake/UKEOFOrganisation#Scottish%20Environment%20Protection%20Agency" );
 });
 
