@@ -43,7 +43,7 @@ $( document ).ready( function() {
   initFuseki();
   register_all_sparql_queries();
   indexJsInit();
-  updateFromIri( "https://catalogue.ukeof.org.uk/id/412d0ac7-5b16-4ba9-b72f-4b6da92310eb" );
+  updateFromIri( "http://dot.rural/sepake/UKEOFOrganisation#Scottish%20Environment%20Protection%20Agency" );
 });
 
 function _valuesOfSparqlBinding( sparqlBinding ) {
