@@ -142,11 +142,18 @@ function register_all_sparql_queries() {
       "chart", 
       [
        "SELECT ?owner ?ownerlabel ?owned ?ownedlabel WHERE {",
-       "    BIND (<--IRI--> AS ?focus) .",
+       "  {",
+       "    BIND (<--IRI--> AS ?owner) .",
        "    {?owner <owns> ?owned} .",
        "    {?owner rdfs:label ?ownerlabel} .",
        "    {?owned rdfs:label ?ownedlabel} .",
-       "    FILTER (?owner=?focus || ?owned=?focus)",
+       "  } UNION {",
+       "    BIND (<--IRI--> AS ?focus) .",
+       "    {?owner <owns> ?owned} .",
+       "    {?owner <owns> ?focus} .",
+       "    {?owner rdfs:label ?ownerlabel} .",
+       "    {?owned rdfs:label ?ownedlabel} .",
+       "  }",
        "}",
        "LIMIT 11",
       ],
@@ -155,7 +162,7 @@ function register_all_sparql_queries() {
         $.each(response.results.bindings, function(index, binding){
           values = _valuesOfSparqlBinding(binding);
           //TODO Handle index > 9
-          //TODO More levels?
+          //TODO Add clickhandler
           //Add owned always
           addNodeToChart(values.owned, values.ownedlabel, values.owner, 'owns');
           //Add owner if not there
