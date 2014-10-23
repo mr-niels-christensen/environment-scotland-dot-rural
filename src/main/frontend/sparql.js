@@ -45,6 +45,7 @@ $( document ).ready( function() {
   register_all_sparql_queries();
   indexJsInit();
   initChart();
+  setClickHandler(updateFromIri);
   updateFromIri( "http://dot.rural/sepake/UKEOFOrganisation#Scottish%20Environment%20Protection%20Agency" );
 });
 
@@ -162,7 +163,6 @@ function register_all_sparql_queries() {
         $.each(response.results.bindings, function(index, binding){
           values = _valuesOfSparqlBinding(binding);
           //TODO Handle index > 9
-          //TODO Add clickhandler
           //Add owned always
           addNodeToChart(values.owned, values.ownedlabel, values.owner, 'owns');
           //Add owner if not there
