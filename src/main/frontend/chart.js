@@ -25,13 +25,17 @@ function updateChart() {
     chart.draw(tbl, {allowHtml:true});
 }
 function addNodeToChartIfNotThere( id, label, parentId, relation) {
-    if ($.inArray( id, tbl.getDistinctValues(0)) === -1) {
-        tbl.addRow(
-            [ { v: id, //v is the URL that child nodes can point to
-                f: '<p style="font: xx-small italic;">' + relation + '</p><p>' + label + '</p>'},
-              parentId,
-              ""]);//No tooltip
-    }
+  if ($.inArray( id, tbl.getDistinctValues(0)) === -1) {
+    addNodeToChart( id, label, parentId, relation);
+  }
+}
+function addNodeToChart( id, label, parentId, relation) {
+  tbl.addRow(
+    [ { v: id, //v is the URL that child nodes can point to
+        f: '<p style="font: xx-small italic;">' + relation + '</p><p>' + label + '</p>'},
+        parentId,
+        ""//No tooltip
+    ]);
 }
 function removeAllNodesFromChart() {
   tbl.removeRows(0, tbl.getNumberOfRows());

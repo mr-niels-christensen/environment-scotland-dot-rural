@@ -1,15 +1,7 @@
 function updateFromIri(iri) {
   fuseki( "metadata", iri );
   fuseki( "people", iri);
-  addNodeToChartIfNotThere('id:proj', 'Project Green Scotland', '', '');
-  addNodeToChartIfNotThere('id:thispaper', '(This publication)', 'id:proj', 'Published');
-  addNodeToChartIfNotThere('id:funder', 'STFC', 'id:proj', 'Funded by');
-  addNodeToChartIfNotThere('id:journal', 'Ecosystems (journal)', 'id:thispaper', 'Published in');
-  addNodeToChartIfNotThere('id:uni', 'University of Aberdeen', 'id:proj', 'Executed by');
-  addNodeToChartIfNotThere('id:pi', 'Rene van der Wal', 'id:proj', 'Principal Investigator');
-  addNodeToChartIfNotThere('id:otherpapers', '2 other publications...', 'id:proj', 'Also published');
-  addNodeToChartIfNotThere('id:otherprojects', '3 other projects...', 'id:proj', 'Shared investigators with');
-  updateChart();
+  fuseki( "chart", iri);
 }
 
 var _FUSEKI_URLS = {
@@ -145,5 +137,30 @@ function register_all_sparql_queries() {
         $( "#search" ).trigger( "preloaded", {items: $.map( response.results.bindings, function(binding, index) {
           return _valuesOfSparqlBinding(binding);
         })});
+      });
+  register(
+      "chart", 
+      [
+       "SELECT ?owner ?ownerlabel ?owned ?ownedlabel WHERE {",
+       "    BIND (<--IRI--> AS ?focus) .",
+       "    {?owner <owns> ?owned} .",
+       "    {?owner rdfs:label ?ownerlabel} .",
+       "    {?owned rdfs:label ?ownedlabel} .",
+       "    FILTER (?owner=?focus || ?owned=?focus)",
+       "}",
+       "LIMIT 11",
+      ],
+      function (response) {
+        removeAllNodesFromChart();
+        $.each(response.results.bindings, function(index, binding){
+          values = _valuesOfSparqlBinding(binding);
+          //TODO Handle index > 9
+          //TODO More levels?
+          //Add owned always
+          addNodeToChart(values.owned, values.ownedlabel, values.owner, 'owns');
+          //Add owner if not there
+          addNodeToChartIfNotThere(values.owner, values.ownerlabel, '', '');
+        });
+        updateChart();        
       });
 }
