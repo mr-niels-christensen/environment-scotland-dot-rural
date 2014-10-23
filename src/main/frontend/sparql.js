@@ -156,6 +156,7 @@ function register_all_sparql_queries() {
        "    {?owned rdfs:label ?ownedlabel} .",
        "  }",
        "}",
+       "ORDER BY ?ownerlabel ?ownedlabel",
        "LIMIT 11",
       ],
       function (response) {
