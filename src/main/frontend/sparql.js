@@ -66,7 +66,7 @@ function _set_html_from_dbpedia_description(selector, search_for) {
     dataType: 'json',
     success: function( response ) {
       if ( response.results[0] ) {
-        $( selector ).html(response.results[0].description);
+        $( selector ).html(response.results[0].description + " <i>[Source: Wikipedia]</i>");
       };
     },
     timeout: 2500,
