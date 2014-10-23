@@ -22,7 +22,7 @@ function selectHandler() {
   clickHandler( rowId );
 }
 function updateChart() {
-    chart.draw(tbl, {allowHtml:true});
+    chart.draw(tbl, {allowHtml:true, size:'small'});
 }
 function addNodeToChartIfNotThere( id, label, parentId, relation) {
   if ($.inArray( id, tbl.getDistinctValues(0)) === -1) {

@@ -157,13 +157,12 @@ function register_all_sparql_queries() {
        "  }",
        "}",
        "ORDER BY ?ownerlabel ?ownedlabel",
-       "LIMIT 11",
+       //TODO Add paging
       ],
       function (response) {
         removeAllNodesFromChart();
         $.each(response.results.bindings, function(index, binding){
           values = _valuesOfSparqlBinding(binding);
-          //TODO Handle index > 9
           //Add owned always
           addNodeToChart(values.owned, values.ownedlabel, values.owner, 'owns');
           //Add owner if not there
