@@ -1,14 +1,24 @@
 SHELL := /bin/bash
 
-MAJORMINOR := 0.2
+MAJORMINOR := 0.3
 
 PYTHON_FILES := $(shell find src -name "*.py")
+FRONTEND_FILES := $(shell find src/main/frontend -name "*.*")
 MICROVERSION := $(shell date "+%Y%m%d%H%M%S")
 VERSION := $(MAJORMINOR).$(MICROVERSION)
 NAME := $(shell grep name src/main/python/setup.py | cut -d "'" -f 2)
 DISTFILE := build/$(NAME)-$(VERSION).tar.gz
 
-all: ide data
+all: ide data frontend
+
+.PHONY: frontend
+frontend: .frontend.made
+
+.frontend.made: $(FRONTEND_FILES)
+	rm -rf /srv/www/alpha/ || true
+	mkdir /srv/www/alpha/
+	cp -r src/main/frontend/* /srv/www/alpha/
+	touch .frontend.made
 
 .PHONY: data
 data: .ukeof.data.made .pure.data.made
