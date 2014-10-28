@@ -11,6 +11,9 @@ function indexJsInit() {
       $(dom_element).append(new_elems[i]);
     }
   });
+  $( "#askbutton" ).click(function() {
+    $( this ).attr( "href", "https://twitter.com/intent/tweet?screen_name=niels_may_acs&text=%23foo%20abc" );
+ });
 }
 
 function initSearch(event, data) {
