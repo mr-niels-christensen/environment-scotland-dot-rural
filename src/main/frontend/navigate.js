@@ -12,8 +12,9 @@ function indexJsInit() {
     }
   });
   $( "#askbutton" ).click(function() {
-    $( this ).attr( "href", "https://twitter.com/intent/tweet?screen_name=niels_may_acs&text=%23foo%20abc" );
- });
+    var url = encodeURI('https://twitter.com/intent/tweet?screen_name=niels_may_acs&text=' + $( '#questionText' ).val());
+    $( this ).attr( "href", url );
+  });
 }
 
 function initSearch(event, data) {
