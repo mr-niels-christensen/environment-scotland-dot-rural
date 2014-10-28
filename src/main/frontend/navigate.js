@@ -11,8 +11,12 @@ function indexJsInit() {
       $(dom_element).append(new_elems[i]);
     }
   });
-  $( "#askbutton" ).click(function() {
-    var url = encodeURI('https://twitter.com/intent/tweet?screen_name=niels_may_acs&text=' + $( '#questionText' ).val());
+  $( "#askTwitterButton" ).click(function() {
+    var url = encodeURI('https://twitter.com/intent/tweet?screen_name=niels_may_acs&text=' + $( '#questionTextTwitter' ).val());
+    $( this ).attr( "href", url );
+  });
+  $( "#askSEButton" ).click(function() {
+    var url = encodeURI('http://earthscience.stackexchange.com/questions/ask?tags=environment scotland&title=' + $( '#questionTextSE' ).val());
     $( this ).attr( "href", url );
   });
 }
