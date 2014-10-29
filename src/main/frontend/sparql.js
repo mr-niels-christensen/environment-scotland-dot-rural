@@ -101,7 +101,7 @@ function register_all_sparql_queries() {
       function (response) {
         try{
           var values = _valuesOfSparqlBinding(response.results.bindings[0]);
-          $( "#labelOfFocus" ).text(values.label);
+          $( ".labelOfFocus" ).text(values.label);
           $( "#descriptionOfFocus" ).html(values.description || "(No summary)");
           $( "#homepageOfFocus" ).text(values.homepage || "");
           $( "#homepageOfFocus" ).attr("href", values.homepage || "");
