@@ -1,9 +1,21 @@
-function indexJsInit() {
-  $('#search').one( "preloaded", initSearch);
-  fuseki( "searchables", "");
+$( document ).ready( function() {
+    sparql([
+            "SELECT * WHERE {",//TODO: Get type, but only one record per id, maybe using #3
+            "    {?id rdfs:label ?label} .",
+            "}",
+           ],
+           "",
+           _initSearchFromJson
+    );
+});
+
+function _initSearchFromJson(response) {
+    _initSearchFromPolishedData( {items: $.map( response.results.bindings, function(binding, index) {
+      return _valuesOfSparqlBinding(binding);//TODO more public naming
+    })});
 }
 
-function initSearch(event, data) {
+function _initSearchFromPolishedData(data) {
   $( '#search' ).typeahead(
       {
         highlight: true,

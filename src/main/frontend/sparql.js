@@ -61,7 +61,6 @@ function register(templateName, lines, callback) {
 $( document ).ready( function() {
   initFuseki();
   register_all_sparql_queries();
-  indexJsInit();
   initChart();
   setClickHandler(updateFromIri);
   updateFromIri( "http://dot.rural/sepake/UKEOFOrganisation#Scottish%20Environment%20Protection%20Agency" );
