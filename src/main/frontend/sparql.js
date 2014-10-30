@@ -134,18 +134,6 @@ function register_all_sparql_queries() {
         }
       });
   register(
-      "searchables", 
-      [
-       "SELECT * WHERE {",//TODO: Get type, but only one record per id, maybe using #3
-       "    {?id rdfs:label ?label} .",
-       "}",
-      ],
-      function (response) {
-        $( "#search" ).trigger( "preloaded", {items: $.map( response.results.bindings, function(binding, index) {
-          return _valuesOfSparqlBinding(binding);
-        })});
-      });
-  register(
       "chart", 
       [
        "SELECT ?owner ?ownerlabel ?owned ?ownedlabel WHERE {",
