@@ -1,7 +1,24 @@
 function updateFromIri(iri) {
   fuseki( "metadata", iri );
-  fuseki( "people", iri);
+  $( document ).trigger( 'updateFromIri', iri );
   fuseki( "chart", iri);
+}
+
+function sparql(queryAsList, iri, callback) {
+    var q = _PREAMBLE.concat(queryAsList).join("\n").replace(/--IRI--/g, iri);
+    $.ajax({
+      url: _FUSEKI_URLS[$(location).attr('protocol')],
+      data: {
+        "query" : q},
+      dataType: 'json',
+      success: callback,
+      timeout: 2500,
+      error: _errorCallback,
+    });
+}
+
+function _errorCallback() {
+    $( "#myAjaxAlert" ).removeClass( "hide" );
 }
 
 var _FUSEKI_URLS = {
@@ -115,36 +132,6 @@ function register_all_sparql_queries() {
           }
         } catch (err) {
           console.log( err );
-        }
-      });
-  register(
-      "people",
-      [
-       "SELECT * WHERE {",
-       "    BIND (<--IRI--> AS ?focus) .",
-       "    {?person prov:memberOf ?focus} .",
-       "    {?person foaf:givenName ?given} .",
-       "    {?person foaf:familyName ?family} .",
-       "    BIND (CONCAT(?given, ' ', ?family) AS ?label)",
-       "}",
-       "ORDER BY ASC(?family)",
-       "LIMIT 11",
-      ],
-      function (response) {
-        var bindings = response.results.bindings;
-        $( "#personList .personWrapper" ).each( function(index, dom_elem) {//TODO: #personList -> .personList to allow several
-          if (bindings.length > 0) {
-            $( dom_elem ).data( bindings.shift() );
-            $( dom_elem ).find( ".personLink" ).text( $( dom_elem ).data().label.value );
-            $( dom_elem ).removeClass( "noData" );
-          } else {
-            $( dom_elem ).addClass( "noData" );                  
-          }
-        });
-        if (bindings.length > 0) { //More results to display
-          $( "#personList" ).removeClass( "noMore" );
-        } else {
-          $( "#personList" ).addClass( "noMore" );          
         }
       });
   register(
