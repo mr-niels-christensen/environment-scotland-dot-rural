@@ -1,16 +1,6 @@
 function indexJsInit() {
   $('#search').one( "preloaded", initSearch);
   fuseki( "searchables", "");
-  $( ".x10" ).each( function(index, dom_element) {
-    var new_elems = [];
-    var n_copies = 9;
-    for (i = 0; i < n_copies; i++) {
-      new_elems.push($(dom_element).children().clone());
-    }
-    for (i = 0; i < n_copies; i++) {
-      $(dom_element).append(new_elems[i]);
-    }
-  });
   $( "#askButton" ).click(function() {
     //var url = encodeURI('https://twitter.com/intent/tweet?screen_name=niels_may_acs&text=' + $( '#questionText' ).val());
     var url = encodeURI(
