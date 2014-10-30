@@ -1,7 +1,6 @@
 function updateFromIri(iri) {
   fuseki( "metadata", iri );
   $( document ).trigger( 'updateFromIri', iri );
-  fuseki( "chart", iri);
 }
 
 function sparql(queryAsList, iri, callback) {
@@ -61,9 +60,6 @@ function register(templateName, lines, callback) {
 $( document ).ready( function() {
   initFuseki();
   register_all_sparql_queries();
-  initChart();
-  setClickHandler(updateFromIri);
-  updateFromIri( "http://dot.rural/sepake/UKEOFOrganisation#Scottish%20Environment%20Protection%20Agency" );
 });
 
 function _valuesOfSparqlBinding( sparqlBinding ) {
@@ -132,37 +128,6 @@ function register_all_sparql_queries() {
         } catch (err) {
           console.log( err );
         }
-      });
-  register(
-      "chart", 
-      [
-       "SELECT ?owner ?ownerlabel ?owned ?ownedlabel WHERE {",
-       "  {",
-       "    BIND (<--IRI--> AS ?owner) .",
-       "    {?owner <owns> ?owned} .",
-       "    {?owner rdfs:label ?ownerlabel} .",
-       "    {?owned rdfs:label ?ownedlabel} .",
-       "  } UNION {",
-       "    BIND (<--IRI--> AS ?focus) .",
-       "    {?owner <owns> ?owned} .",
-       "    {?owner <owns> ?focus} .",
-       "    {?owner rdfs:label ?ownerlabel} .",
-       "    {?owned rdfs:label ?ownedlabel} .",
-       "  }",
-       "}",
-       "ORDER BY ?ownerlabel ?ownedlabel",
-       //TODO Add paging
-      ],
-      function (response) {
-        removeAllNodesFromChart();
-        $.each(response.results.bindings, function(index, binding){
-          values = _valuesOfSparqlBinding(binding);
-          //Add owned always
-          addNodeToChart(values.owned, values.ownedlabel, values.owner, 'owns');
-          //Add owner if not there
-          addNodeToChartIfNotThere(values.owner, values.ownerlabel, '', '');
-        });
-        updateChart();        
       });
   register(
           "datamodel", 

@@ -1,4 +1,49 @@
 google.load('visualization', '1', {packages:['orgchart']});
+google.setOnLoadCallback( function() {
+    $( document ).ready( function() {
+        initChart();
+        setClickHandler(updateFromIri);
+        $( document ).on( 'updateFromIri', _updateChartFromIri);
+        updateFromIri( "http://dot.rural/sepake/UKEOFOrganisation#Scottish%20Environment%20Protection%20Agency" );
+    });
+});
+
+function _updateChartFromIri(event, iri) {
+    sparql([
+            "SELECT ?owner ?ownerlabel ?owned ?ownedlabel WHERE {",
+            "  {",
+            "    BIND (<--IRI--> AS ?owner) .",
+            "    {?owner <owns> ?owned} .",
+            "    {?owner rdfs:label ?ownerlabel} .",
+            "    {?owned rdfs:label ?ownedlabel} .",
+            "  } UNION {",
+            "    BIND (<--IRI--> AS ?focus) .",
+            "    {?owner <owns> ?owned} .",
+            "    {?owner <owns> ?focus} .",
+            "    {?owner rdfs:label ?ownerlabel} .",
+            "    {?owned rdfs:label ?ownedlabel} .",
+            "  }",
+            "}",
+            "ORDER BY ?ownerlabel ?ownedlabel",
+            //TODO Add paging
+           ],
+           iri,
+           _updateChartFromJson
+    );
+}
+
+function _updateChartFromJson(response) {
+    removeAllNodesFromChart();
+    $.each(response.results.bindings, function(index, binding){
+      values = _valuesOfSparqlBinding(binding);
+      //Add owned always
+      addNodeToChart(values.owned, values.ownedlabel, values.owner, 'owns');
+      //Add owner if not there
+      addNodeToChartIfNotThere(values.owner, values.ownerlabel, '', '');
+    });
+    updateChart();        
+}
+
 //TODO: Wrap this functionality as an object
 var tbl;
 var chart;
