@@ -6,7 +6,8 @@ function updateFromIri(iri) {
 
 var _FUSEKI_URLS = {
     "http:" : "http://seweb.abdn.ac.uk/fuseki/ds/query", 
-    "file:" : "http://localhost:3030/ds/query"};
+    "file:" : "http://seweb.abdn.ac.uk/fuseki/ds/query"//"http://localhost:3030/ds/query"
+};
 
 var fuseki = function(template_key, iri) { console.log("Error - not initialized"); };
 
@@ -44,8 +45,8 @@ $( document ).ready( function() {
   initFuseki();
   register_all_sparql_queries();
   indexJsInit();
-  initChart();
-  setClickHandler(updateFromIri);
+  //initChart();
+  //setClickHandler(updateFromIri);
   updateFromIri( "http://dot.rural/sepake/UKEOFOrganisation#Scottish%20Environment%20Protection%20Agency" );
 });
 
@@ -189,4 +190,22 @@ function register_all_sparql_queries() {
         });
         updateChart();        
       });
+  register(
+          "datamodel", 
+          [
+           "SELECT ?p ?y WHERE {",
+           "  {",
+           "    {?x rdf:type <UKEOFActivity>} .",
+           "    {?x ?p ?y} .",
+           "  }",
+           "}",
+          ],
+          function (response) {
+            dataModelBegin();
+            $.each(response.results.bindings, function(index, binding){
+              values = _valuesOfSparqlBinding(binding);
+              dataModelData(values);
+            });
+            dataModelEnd();        
+          });
 }
