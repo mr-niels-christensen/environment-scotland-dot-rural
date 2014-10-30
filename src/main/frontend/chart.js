@@ -9,7 +9,7 @@ function initChart() {
     tbl.addColumn('string', 'UrlAndLabel');
     tbl.addColumn('string', 'ParentUrl');
     tbl.addColumn('string', 'ToolTip');//Not used but specified by orgchart
-    chart = new google.visualization.OrgChart(document.getElementById('chart_panel'));//TODO: replace chart_panel by parameter
+    chart = new google.visualization.OrgChart(document.getElementById('chartPanel'));//TODO: replace chart_panel by parameter
     //Get a call to selectHandler() when chart is clicked
     google.visualization.events.addListener(chart, 'select', selectHandler);
 }
