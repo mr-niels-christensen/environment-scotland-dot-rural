@@ -17,7 +17,7 @@ function _errorCallback() {
 
 var _FUSEKI_URLS = {
     "http:" : "http://seweb.abdn.ac.uk/fuseki/ds/query", 
-    "file:" : "http://seweb.abdn.ac.uk/fuseki/ds/query"//"http://localhost:3030/ds/query"
+    "file:" : "http://localhost:3030/ds/query"
 };
 
 function _valuesOfSparqlBinding( sparqlBinding ) {

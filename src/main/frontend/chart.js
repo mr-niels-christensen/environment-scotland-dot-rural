@@ -48,7 +48,7 @@ function _updateChartFromJson(response) {
     updateChart();        
 }
 
-//TODO: Wrap this functionality as an object
+//TODO: Wrap this functionality as an object http://www.phpied.com/3-ways-to-define-a-javascript-class/
 var tbl;
 var chart;
 var clickHandler = function( id ){};//Dummy click-handler
