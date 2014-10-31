@@ -94,22 +94,4 @@ _PREAMBLE = [
              ];
 
 function register_all_sparql_queries() {
-  register(
-          "datamodel", 
-          [
-           "SELECT ?p ?y WHERE {",
-           "  {",
-           "    {?x rdf:type <UKEOFActivity>} .",
-           "    {?x ?p ?y} .",
-           "  }",
-           "}",
-          ],
-          function (response) {
-            dataModelBegin();
-            $.each(response.results.bindings, function(index, binding){
-              values = _valuesOfSparqlBinding(binding);
-              dataModelData(values);
-            });
-            dataModelEnd();        
-          });
 }

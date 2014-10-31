@@ -1,4 +1,30 @@
 google.load('visualization', '1.1', {packages:['wordtree']});
+google.setOnLoadCallback( function() {
+    $( document ).ready( function() {
+        sparql(
+                [
+                 "SELECT ?p ?y WHERE {",
+                 "  {",
+                 "    {?x rdf:type <UKEOFActivity>} .",
+                 "    {?x ?p ?y} .",
+                 "  }",
+                 "}",
+                ],
+                "",
+                _updateDatamodelChartFromJson
+        );
+    });
+});
+
+function _updateDatamodelChartFromJson(response) {
+    dataModelBegin();
+    $.each(response.results.bindings, function(index, binding){
+      values = _valuesOfSparqlBinding(binding);
+      dataModelData(values);
+    });
+    dataModelEnd();        
+};
+
 //TODO: Wrap this functionality as an object
 var tbl;
 var chart;
