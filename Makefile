@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-MAJORMINOR := 0.3
+MAJORMINOR := 0.4
 
 PYTHON_FILES := $(shell find src -name "*.py")
 FRONTEND_FILES := $(shell find src/main/frontend -name "*.*")
