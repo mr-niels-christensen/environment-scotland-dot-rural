@@ -1,5 +1,4 @@
 function updateFromIri(iri) {
-  fuseki( "metadata", iri );
   $( document ).trigger( 'updateFromIri', iri );
 }
 
@@ -95,40 +94,6 @@ _PREAMBLE = [
              ];
 
 function register_all_sparql_queries() {
-  register(
-      "metadata", 
-      [
-       "SELECT * WHERE {",
-       "    BIND (<--IRI--> AS ?focus) .",
-       "    {?focus rdfs:label ?label} .",
-       "    OPTIONAL {?focus <htmlDescription> ?description} .",
-       "    OPTIONAL {?focus foaf:homepage ?homepage} .",
-       "    OPTIONAL {?focus prov:startedAtTime ?startedAtTime} .",
-       "    OPTIONAL {?focus prov:endedAtTime ?endedAtTime} .",
-       "    OPTIONAL {?owner <owns> ?focus .",
-       "              ?owner rdfs:label ?ownerLabel .",
-       "              OPTIONAL {?owner foaf:homepage ?ownerHomepage}} .",
-       "}",
-       "LIMIT 1",
-      ],
-      function (response) {
-        try{
-          var values = _valuesOfSparqlBinding(response.results.bindings[0]);
-          $( ".labelOfFocus" ).text(values.label);
-          $( "#descriptionOfFocus" ).html(values.description || "(No summary)");
-          $( "#homepageOfFocus" ).text(values.homepage || "");
-          $( "#homepageOfFocus" ).attr("href", values.homepage || "");
-          $( "#startedAtTime" ).text(values.startedAtTime || "(unknown)");
-          $( "#endedAtTime" ).text(values.endedAtTime || "(unknown)");
-          $( "#labelOfOwner" ).text(values.ownerLabel || "");
-          $( "#labelOfOwner" ).attr('href', values.ownerHomepage || "");
-          if (!values.description) {
-            _set_html_from_dbpedia_description( "#descriptionOfFocus", values.label );
-          }
-        } catch (err) {
-          console.log( err );
-        }
-      });
   register(
           "datamodel", 
           [
