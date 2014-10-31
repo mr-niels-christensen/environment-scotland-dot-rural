@@ -1,7 +1,3 @@
-function updateFromIri(iri) {
-  $( document ).trigger( 'updateFromIri', iri );
-}
-
 function sparql(queryAsList, iri, callback) {
     var q = _PREAMBLE.concat(queryAsList).join("\n").replace(/--IRI--/g, iri);
     $.ajax({

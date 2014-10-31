@@ -2,11 +2,15 @@ google.load('visualization', '1', {packages:['orgchart']});
 google.setOnLoadCallback( function() {
     $( document ).ready( function() {
         initChart();
-        setClickHandler(updateFromIri);
+        setClickHandler(_updateFromIri);
         $( document ).on( 'updateFromIri', _updateChartFromIri);
-        updateFromIri( "http://dot.rural/sepake/UKEOFOrganisation#Scottish%20Environment%20Protection%20Agency" );
+        _updateFromIri( "http://dot.rural/sepake/UKEOFOrganisation#Scottish%20Environment%20Protection%20Agency" );
     });
 });
+
+function _updateFromIri(iri) {
+    $( document ).trigger( 'updateFromIri', iri );
+  }
 
 function _updateChartFromIri(event, iri) {
     sparql([
