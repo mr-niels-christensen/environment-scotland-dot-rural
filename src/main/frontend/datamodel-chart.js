@@ -3,10 +3,8 @@ google.setOnLoadCallback( function() {
     $( document ).ready( function() {
         sparql(
                 [
-                 "SELECT ?rdftype (COUNT(?x) AS ?xs) WHERE {",
-                 "  {",
+                 "SELECT ?rdftype (COUNT(?x) AS ?xs) (SAMPLE(?x) AS ?sample) WHERE {",
                  "    {?x rdf:type ?rdftype} .",
-                 "  }",
                  "}",
                  "GROUP BY ?rdftype",
                  "ORDER BY DESC(?xs)"
@@ -20,23 +18,34 @@ google.setOnLoadCallback( function() {
 function _updateDatamodelChartFromJson(response) {
     $.each(response.results.bindings, function(index, binding){
       values = _valuesOfSparqlBinding(binding);
-      var brief = values.rdftype.split('/').pop();
-      $( "#chartPanel" ).append( "<h2>" + brief + ": " + values.xs + " instances</h2><p id='" + brief +"'></p>");
-      
+      $( "#chartPanel tr:last" ).after( "<tr class='rdftyperow'></tr>" );
+      $( "#chartPanel tr:last" ).append( "<td>" + values.xs + "</td>" );
+      $( "#chartPanel tr:last" ).append( "<td>" + values.rdftype + "</td>" );
+      $( "#chartPanel tr:last" ).append( "<td class='sample'>" + values.sample + "</td>" );
+    });
+    $( "#chartPanel .rdftyperow" ).on( 'click', function() {
+      var iri = $( this ).find( '.sample' ).text();
+      _loadSample(iri);
     });
 };
 
-function _example(rdftype, id) {
+function _loadSample(iri) {
   sparql([
-          "SELECT DISTINCT ?rdftype WHERE {",
-          "  {",
-          "    {?x rdf:type ?rdftype} .",
-          "  }",
+          "SELECT ?p ?y WHERE {",
+          "    {<--IRI--> ?p ?y} .",
           "}",
-          "ORDER BY ?rdftype"
+          "ORDER BY ?p"
           ],
-          values.rdftype,
-          function(response) {
-            //TODO
-  });
+          iri,
+          _updateSampleChartFromJson);
 }
+
+function _updateSampleChartFromJson(response) {
+  $ ( "#samplePanel .datarow" ).remove();
+  $.each(response.results.bindings, function(index, binding){
+    values = _valuesOfSparqlBinding(binding);
+    $( "#samplePanel tr:last" ).after( "<tr class='datarow'></tr>" );
+    $( "#samplePanel tr:last" ).append( "<td>" + values.p + "</td>" );
+    $( "#samplePanel tr:last" ).append( "<td>" + values.y + "</td>" );
+  });
+};
