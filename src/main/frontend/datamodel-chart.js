@@ -3,7 +3,7 @@ google.setOnLoadCallback( function() {
     $( document ).ready( function() {
         sparql(
                 [
-                 "SELECT ?rdftype (COUNT(?x) AS ?xs) WHERE {",
+                 "SELECT ?rdftype (COUNT(?x) AS ?xs) (SAMPLE(?x) AS ?sample) WHERE {",
                  "  {",
                  "    {?x rdf:type ?rdftype} .",
                  "  }",
@@ -20,9 +20,11 @@ google.setOnLoadCallback( function() {
 function _updateDatamodelChartFromJson(response) {
     $.each(response.results.bindings, function(index, binding){
       values = _valuesOfSparqlBinding(binding);
-      var brief = values.rdftype.split('/').pop();
-      $( "#chartPanel" ).append( "<h2>" + brief + ": " + values.xs + " instances</h2><p id='" + brief +"'></p>");
-      
+      $( "#chartPanel tr:last" ).after( "<tr></tr>" );
+      $( "#chartPanel tr:last" ).append( "<td>" + values.xs + "</td>" );
+      $( "#chartPanel tr:last" ).append( "<td>" + values.rdftype + "</td>" );
+      $( "#chartPanel tr:last" ).append( "<td>" + values.sample + "</td>" );
+      $( "#chartPanel tr:last" ).append( "</tr>" );
     });
 };
 
