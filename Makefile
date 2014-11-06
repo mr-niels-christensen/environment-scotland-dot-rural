@@ -11,6 +11,10 @@ DISTFILE := build/$(NAME)-$(VERSION).tar.gz
 
 all: ide data frontend
 
+.PHONY: foo
+foo:
+	curl https://raw.githubusercontent.com/mr-niels-christensen/rdflib-appengine/blog-post/appengine/ndbstore.py
+
 .PHONY: frontend
 frontend: .frontend.made
 
