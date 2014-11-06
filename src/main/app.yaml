@@ -1,0 +1,26 @@
+application: environment-scotland
+version: 0-5
+
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: /css
+  static_dir: frontend/css
+- url: /fonts
+  static_dir: frontend/fonts
+- url: /images
+  static_dir: frontend/images
+- url: /js
+  static_dir: frontend/js
+- url: /(.*\.(html|js|css))$
+  static_files: frontend/\1
+  upload: frontend/.*\.(html|js|css)$
+- url: /sparql/current/query.json(\?\.*)?
+  script: dot.rural.sepake.httpserver.application
+
+libraries:
+- name: webapp2
+  version: latest
+  

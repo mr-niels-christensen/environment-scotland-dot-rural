@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-MAJORMINOR := 0.4
+MAJORMINOR := 0.5
 
 PYTHON_FILES := $(shell find src -name "*.py")
 FRONTEND_FILES := $(shell find src/main/frontend -name "*.*")
@@ -8,12 +8,34 @@ MICROVERSION := $(shell date "+%Y%m%d%H%M%S")
 VERSION := $(MAJORMINOR).$(MICROVERSION)
 NAME := $(shell grep name src/main/python/setup.py | cut -d "'" -f 2)
 DISTFILE := build/$(NAME)-$(VERSION).tar.gz
+GAEDIR := build/environment-scotland-$(MAJORMINOR)
 
 all: ide data frontend
 
-.PHONY: foo
-foo:
-	curl https://raw.githubusercontent.com/mr-niels-christensen/rdflib-appengine/blog-post/appengine/ndbstore.py
+.PHONY: gaebuild
+gaebuild: .gaebuild.made
+
+.gaebuild.made: $(GAEDIR)/appengine/ndbstore.py $(GAEDIR)/app.yaml .gaebuild.python.made $(GAEDIR)/rdflib/__init__.py .gaebuild.frontend.made
+
+$(GAEDIR)/rdflib/__init__.py: $(GAEDIR)
+	pip install -t $(GAEDIR) rdflib
+
+.gaebuild.python.made: $(PYTHON_FILES) $(GAEDIR)
+	cp -r src/main/python/* $(GAEDIR)/
+
+.gaebuild.frontend.made: $(FRONTEND_FILES) $(GAEDIR)
+	cp -r src/main/frontend $(GAEDIR)/
+
+$(GAEDIR)/app.yaml: src/main/app.yaml $(GAEDIR)
+	cp src/main/app.yaml $(GAEDIR)/app.yaml
+
+$(GAEDIR)/appengine/ndbstore.py: $(GAEDIR)
+	mkdir -p $(GAEDIR)/appengine/
+	touch $(GAEDIR)/appengine/__init__.py
+	curl https://raw.githubusercontent.com/mr-niels-christensen/rdflib-appengine/blog-post/appengine/ndbstore.py > $(GAEDIR)/appengine/ndbstore.py
+
+$(GAEDIR):
+	mkdir -p $(GAEDIR)
 
 .PHONY: frontend
 frontend: .frontend.made

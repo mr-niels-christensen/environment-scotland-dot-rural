@@ -16,7 +16,7 @@ function _errorCallback() {
 }
 
 var _FUSEKI_URLS = {
-    "http:" : "http://seweb.abdn.ac.uk/fuseki/ds/query", 
+    "http:" : "/sparql/current/query.json", 
     "file:" : "http://localhost:3030/ds/query"
 };
 
