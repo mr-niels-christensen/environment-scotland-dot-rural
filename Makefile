@@ -16,15 +16,18 @@ all: ide data frontend
 gaebuild: .gaebuild.made
 
 .gaebuild.made: $(GAEDIR)/appengine/ndbstore.py $(GAEDIR)/app.yaml .gaebuild.python.made $(GAEDIR)/rdflib/__init__.py .gaebuild.frontend.made
+	touch .gaebuild.made
 
 $(GAEDIR)/rdflib/__init__.py: $(GAEDIR)
 	pip install -t $(GAEDIR) rdflib
 
 .gaebuild.python.made: $(PYTHON_FILES) $(GAEDIR)
 	cp -r src/main/python/* $(GAEDIR)/
+	touch .gaebuild.python.made
 
 .gaebuild.frontend.made: $(FRONTEND_FILES) $(GAEDIR)
 	cp -r src/main/frontend $(GAEDIR)/
+	touch .gaebuild.frontend.made
 
 $(GAEDIR)/app.yaml: src/main/app.yaml $(GAEDIR)
 	cp src/main/app.yaml $(GAEDIR)/app.yaml

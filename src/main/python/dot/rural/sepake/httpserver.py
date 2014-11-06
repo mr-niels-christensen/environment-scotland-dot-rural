@@ -12,7 +12,7 @@ class QueryJson(webapp2.RequestHandler):
         self.response.write(query(self.request.get('query')))
 
 application = webapp2.WSGIApplication([
-    ('/sparql/current/query.json(\?\.*)?', QueryJson),
+    ('''/sparql/current/query\.json.*''', QueryJson),
 ], debug=True)
 
 def update(q):

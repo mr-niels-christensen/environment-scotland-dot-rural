@@ -20,7 +20,7 @@ handlers:
 - url: /(.*\.(html|js|css))$
   static_files: frontend/\1
   upload: frontend/.*\.(html|js|css)$
-- url: /sparql/current/query.json(\?\.*)?
+- url: /sparql/current/query\.json.*
   script: dot.rural.sepake.httpserver.application
 
 libraries:
