@@ -18,27 +18,28 @@ gaebuild: .gaebuild.made
 .gaebuild.made: $(GAEDIR)/appengine/ndbstore.py $(GAEDIR)/app.yaml .gaebuild.python.made $(GAEDIR)/rdflib/__init__.py .gaebuild.frontend.made
 	touch .gaebuild.made
 
-$(GAEDIR)/rdflib/__init__.py: $(GAEDIR)
+$(GAEDIR)/rdflib/__init__.py: .gaedir.made
 	pip install -t $(GAEDIR) rdflib
 
-.gaebuild.python.made: $(PYTHON_FILES) $(GAEDIR)
+.gaebuild.python.made: $(PYTHON_FILES) .gaedir.made
 	cp -r src/main/python/* $(GAEDIR)/
 	touch .gaebuild.python.made
 
-.gaebuild.frontend.made: $(FRONTEND_FILES) $(GAEDIR)
+.gaebuild.frontend.made: $(FRONTEND_FILES) .gaedir.made
 	cp -r src/main/frontend $(GAEDIR)/
 	touch .gaebuild.frontend.made
 
-$(GAEDIR)/app.yaml: src/main/app.yaml $(GAEDIR)
+$(GAEDIR)/app.yaml: src/main/app.yaml .gaedir.made
 	cp src/main/app.yaml $(GAEDIR)/app.yaml
 
-$(GAEDIR)/appengine/ndbstore.py: $(GAEDIR)
+$(GAEDIR)/appengine/ndbstore.py: .gaedir.made
 	mkdir -p $(GAEDIR)/appengine/
 	touch $(GAEDIR)/appengine/__init__.py
 	curl https://raw.githubusercontent.com/mr-niels-christensen/rdflib-appengine/blog-post/appengine/ndbstore.py > $(GAEDIR)/appengine/ndbstore.py
 
-$(GAEDIR):
+.gaedir.made:
 	mkdir -p $(GAEDIR)
+	touch .gaedir.made
 
 .PHONY: frontend
 frontend: .frontend.made
