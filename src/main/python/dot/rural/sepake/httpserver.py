@@ -1,6 +1,7 @@
 import webapp2
 from rdflib import Graph
 from appengine.ndbstore import NDBStore
+import logging
 
 _GRAPH_ID = 'current'
 
@@ -19,7 +20,11 @@ def update(q):
     graph().update(q)
     
 def query(q):
-    return graph().query(q).serialize(format='json')
+    try:
+        return graph().query(q).serialize(format='json')
+    except Exception as e:
+        logging.warn('%s caused %s'.format(q, e))
+        raise e
     
 def graph():
     return Graph(store = NDBStore(identifier = _GRAPH_ID))
