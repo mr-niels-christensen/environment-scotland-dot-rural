@@ -6,6 +6,7 @@ Created on 26 Sep 2014
 
 from rdflib import Graph
 from lxml import etree
+import logging
 
 class XMLGraph(Graph):
     '''Loads any XML input and transforms it into RDF using http://www.gac-grid.org/project-products/Software/XML2RDF.html
@@ -13,14 +14,18 @@ class XMLGraph(Graph):
     def __init__(self, xml_input, delete_nodes = None, namespaces = {}):
         super(XMLGraph, self).__init__()
         doc = etree.parse(xml_input)
+        logging.debug('XML downloaded and parsed')
         if delete_nodes is not None:
             xslt = _XSLT_IGNORE_SUB_TREES_TEMPLATE % (' '.join('xmlns:%s="%s"' % ns_url for ns_url in namespaces.items()),
                                                       '|'.join(delete_nodes))
             doc = etree.XSLT(etree.XML(xslt))(doc)
+            logging.debug('XML nodes deleted')
         xslt_root = etree.XML(_XSLT_XML2RDF)
         transform = etree.XSLT(xslt_root)
         result_tree = transform(doc)
+        logging.debug('XML transformed to RDF/XML')
         self.parse(data = str(result_tree))
+        logging.debug('RDF/XML parsed')
 
 def _save_doc_for_debug(doc, filename = 'pretty.xml'):
     import StringIO

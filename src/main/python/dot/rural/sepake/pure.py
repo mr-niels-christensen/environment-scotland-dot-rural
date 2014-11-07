@@ -14,7 +14,7 @@ from dot.rural.sepake.xml_to_rdf import XMLGraph
 import urllib2
 
 def university_of_aberdeen():
-    xml_input = urllib2.urlopen('http://pure.abdn.ac.uk:8080/ws/rest/getprojectrequest?rendering=xml_long')
+    xml_input = urllib2.urlopen('http://pure.abdn.ac.uk:8080/ws/rest/getprojectrequest?rendering=xml_long', timeout=20)
     return PureGraph(xml_input)
 
 class PureGraph(Graph):

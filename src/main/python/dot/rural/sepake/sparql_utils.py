@@ -22,7 +22,10 @@ def copy(src_graph, dest_store):
     checkpoints = [((x * length) / 100, '%0d%%' % x) for x in _PERCENTAGES]
     total = 0
     for triple in src_graph:
-        dest_store.add(triple)
+        try:
+            dest_store.add(triple)
+        except Exception as e:
+            logging.warn('Failed to add %s: %s' % (triple, e))
         total += 1
         if total > checkpoints[0][0]:
             logging.debug('%s, %d seconds' % (checkpoints[0][1], time.time() - start))
