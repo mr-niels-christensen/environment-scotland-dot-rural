@@ -4,6 +4,7 @@ from appengine.ndbstore import NDBStore
 import logging
 from dot.rural.sepake.pure import university_of_aberdeen
 from dot.rural.sepake.sparql_utils import copy
+from time import time
 
 _GRAPH_ID = 'current'
 
@@ -33,11 +34,14 @@ def update(q):
     graph().update(q)
     
 def query(q):
+    begin = time()
     try:
         return graph().query(q).serialize(format='json')
     except Exception as e:
         logging.warn('%s caused %s'.format(q, e))
         raise e
+    finally:
+        logging.debug('Executed %s in %d seconds' % (q, time() - begin))
     
 def graph():
     return Graph(store = NDBStore(identifier = _GRAPH_ID))

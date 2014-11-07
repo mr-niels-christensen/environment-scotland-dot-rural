@@ -14,11 +14,11 @@ all: ide data frontend
 
 .PHONY: runlocal
 runlocal: .gaebuild.made .pip.for.ide.made 
-	source .venv.for.ide/bin/activate && dev_appserver.py $(GAEDIR)
+	source .venv.for.ide/bin/activate && dev_appserver.py $(GAEDIR) --log_level debug
 
 .PHONY: runclean
 runclean: .gaebuild.made .pip.for.ide.made 
-	source .venv.for.ide/bin/activate && dev_appserver.py $(GAEDIR) --clear_datastore true
+	source .venv.for.ide/bin/activate && dev_appserver.py $(GAEDIR) --log_level debug --clear_datastore true
 
 .PHONY: gaebuild
 gaebuild: .gaebuild.made
