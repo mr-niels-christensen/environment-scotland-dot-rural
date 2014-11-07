@@ -9,28 +9,14 @@ from rdflib import RDF
 from dot.rural.sepake.ontology import SEPAKE
 from dot.rural.sepake.pure import university_of_aberdeen
 import time
-
-_PERCENTAGES = [1, 10, 20, 30, 40, 50, 60, 70, 80, 90, 101]
+from dot.rural.sepake.sparql_utils import copy
+import logging
 
 def _import(baseurl):
     remote = SPARQLUpdateStore(context_aware = False)
     remote.open(("%s/query" % baseurl, "%s/update" % baseurl))
-    print 'Loading and processing data...'
-    start = time.time()
-    g = university_of_aberdeen()
-    projects = set(g.subjects(RDF.type, SEPAKE.PureProject))
-    print '%d project(s) found: %s' % (len(projects), [repr(g.label(p)) for p in projects])
-    length = len(g)
-    print 'Data loaded and processed. Storing %d triples...' % length
-    checkpoints = [((x * length) / 100, '%0d%%' % x) for x in _PERCENTAGES]
-    total = 0
-    for triple in g:
-        remote.add(triple)
-        total += 1
-        if total > checkpoints[0][0]:
-            print '%s, %d seconds' % (checkpoints[0][1], time.time() - start)
-            checkpoints = checkpoints[1:]
-    print 'Done'
+    logging.info('Loading and processing data...')
+    copy(university_of_aberdeen(), remote)
     return 0
             
 def main():

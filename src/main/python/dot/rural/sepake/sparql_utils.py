@@ -10,6 +10,24 @@ from dot.rural.sepake.ontology import SEPAKE, PROV
 from rdflib import RDF, RDFS
 from rdflib.plugins.sparql.parser import parseUpdate
 from rdflib.plugins.sparql.algebra import translateUpdate
+import logging
+import time
+
+_PERCENTAGES = [1, 10, 20, 30, 40, 50, 60, 70, 80, 90, 101]
+
+def copy(src_graph, dest_store):
+    start = time.time()
+    length = len(src_graph)
+    logging.info('Storing %d triples...' % length)
+    checkpoints = [((x * length) / 100, '%0d%%' % x) for x in _PERCENTAGES]
+    total = 0
+    for triple in src_graph:
+        dest_store.add(triple)
+        total += 1
+        if total > checkpoints[0][0]:
+            logging.debug('%s, %d seconds' % (checkpoints[0][1], time.time() - start))
+            checkpoints = checkpoints[1:]
+    logging.info('Done')
 
 def expand_and_parse(template_func):
     '''Decorates a function which returns a Python format string.
@@ -26,5 +44,5 @@ def expand_and_parse(template_func):
                                        prov = PROV, 
                                        foaf = FOAF,
                                        sepake = SEPAKE)
-        return updateString#translateUpdate(parseUpdate(updateString), None, {})
+        return translateUpdate(parseUpdate(updateString), None, {})
     return expanded

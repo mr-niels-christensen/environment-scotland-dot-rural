@@ -22,8 +22,12 @@ handlers:
   upload: frontend/.*\.(html|js|css)$
 - url: /sparql/current/query\.json.*
   script: dot.rural.sepake.httpserver.application
+- url: /crawl.order
+  script: dot.rural.sepake.httpserver.application
 
 libraries:
 - name: webapp2
+  version: latest
+- name: lxml
   version: latest
   
