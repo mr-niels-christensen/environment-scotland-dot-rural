@@ -1,5 +1,6 @@
 $( document ).ready( function() {
-    sparql([
+    sparql("suggestions",
+            [
             "SELECT * WHERE {",//TODO: Get type, but only one record per id, maybe using #3
             "    {?id rdfs:label ?label} .",
             "}",

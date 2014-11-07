@@ -1,7 +1,7 @@
 google.load('visualization', '1.1', {packages:['wordtree']});
 google.setOnLoadCallback( function() {
     $( document ).ready( function() {
-        sparql(
+        sparql("datamodel",
                 [
                  "SELECT ?rdftype (COUNT(?x) AS ?xs) (SAMPLE(?x) AS ?sample) WHERE {",
                  "    {?x rdf:type ?rdftype} .",
@@ -30,7 +30,8 @@ function _updateDatamodelChartFromJson(response) {
 };
 
 function _loadSample(iri) {
-  sparql([
+  sparql("datasample",
+          [
           "SELECT ?p ?y WHERE {",
           "    {<--IRI--> ?p ?y} .",
           "}",

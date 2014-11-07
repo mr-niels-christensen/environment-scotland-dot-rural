@@ -13,7 +13,8 @@ function _updateFromIri(iri) {
   }
 
 function _updateChartFromIri(event, iri) {
-    sparql([
+    sparql("ownerchart",
+            [
             "SELECT ?owner ?ownerlabel ?owned ?ownedlabel WHERE {",
             "  {",
             "    BIND (<--IRI--> AS ?owner) .",

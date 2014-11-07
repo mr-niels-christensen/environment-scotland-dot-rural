@@ -10,10 +10,13 @@ _GRAPH_ID = 'current'
 
 class QueryJson(webapp2.RequestHandler):
     def get(self):
+        begin = time()
         #Access-Control-Allow-Origin: *
         self.response.headers['Access-Control-Allow-Origin'] = '*'
         self.response.headers['Content-Type'] = 'application/sparql-results+json; charset=utf-8'
-        self.response.write(query(self.request.get('query')))
+        self.response.write(query(self.request.get('query'),
+                                  self.request.get('name')))
+        logging.debug('Responded to %s in %f seconds' % (self.request.get('name'), time() - begin))
 
 class CrawlOrder(webapp2.RequestHandler):
     def get(self):
@@ -33,7 +36,7 @@ def load_pure_data():
 def update(q):
     graph().update(q)
     
-def query(q):
+def query(q, name):
     begin = time()
     try:
         return graph().query(q).serialize(format='json')
@@ -41,7 +44,7 @@ def query(q):
         logging.warn('%s caused %s'.format(q, e))
         raise e
     finally:
-        logging.debug('Executed %s in %d seconds' % (q, time() - begin))
+        logging.debug('Executed %s in %f seconds' % (name, time() - begin))
     
 def graph():
     return Graph(store = NDBStore(identifier = _GRAPH_ID))

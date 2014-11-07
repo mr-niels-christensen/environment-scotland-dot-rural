@@ -13,7 +13,8 @@ $( document ).ready( function() {
 });
 
 function _updatePeopleFromIri(event, iri) {
-  sparql([
+  sparql("members",
+          [
           "SELECT * WHERE {",
           "    BIND (<--IRI--> AS ?focus) .",
           "    {?person prov:memberOf ?focus} .",

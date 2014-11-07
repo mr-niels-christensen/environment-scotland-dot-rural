@@ -1,8 +1,9 @@
-function sparql(queryAsList, iri, callback) {
+function sparql(name, queryAsList, iri, callback) {
     var q = _PREAMBLE.concat(queryAsList).join("\n").replace(/--IRI--/g, iri);
     $.ajax({
       url: _FUSEKI_URLS[$(location).attr('protocol')],
       data: {
+          "name" : name,
         "query" : q},
       dataType: 'json',
       success: callback,

@@ -3,7 +3,7 @@ $( document ).ready( function() {
 });
 
 function _updateFocusFromIri(event, iri) {
-    sparql(
+    sparql("focus",
             [
              "SELECT * WHERE {",
              "    BIND (<--IRI--> AS ?focus) .",
