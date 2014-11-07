@@ -12,6 +12,14 @@ GAEDIR := build/environment-scotland-$(MAJORMINOR)
 
 all: ide data frontend
 
+.PHONY: runlocal
+runlocal: .gaebuild.made .pip.for.ide.made 
+	source .venv.for.ide/bin/activate && dev_appserver.py $(GAEDIR)
+
+.PHONY: runclean
+runclean: .gaebuild.made .pip.for.ide.made 
+	source .venv.for.ide/bin/activate && dev_appserver.py $(GAEDIR) --clear_datastore true
+
 .PHONY: gaebuild
 gaebuild: .gaebuild.made
 
