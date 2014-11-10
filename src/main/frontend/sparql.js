@@ -7,7 +7,7 @@ function sparql(name, queryAsList, iri, callback) {
         "query" : q},
       dataType: 'json',
       success: callback,
-      timeout: 5000,
+      timeout: 20000,
       error: _errorCallback,
     });
 }
