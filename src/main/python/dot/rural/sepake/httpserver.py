@@ -19,14 +19,18 @@ class QueryJson(webapp2.RequestHandler):
 
 class CrawlOrder(webapp2.RequestHandler):
     def get(self):
-        #load_pure_data()
-        load_ukeof_data()
+        if self.request.get('source') == 'pure':
+            load_pure_data()
+        elif self.request.get('source') == 'ukeof':
+            load_ukeof_data()
+        else:
+            raise Exception('Unknown source: %s' % self.request.get('source'))
         self.response.headers['Content-Type'] = 'text/plain'
         self.response.write('Load succeeded')
 
 application = webapp2.WSGIApplication([
     ('''/sparql/current/query\.json.*''', QueryJson),
-    ('''/crawl.order''', CrawlOrder),
+    ('''/crawl\.order.*''', CrawlOrder),
 ], debug=True) #debug=true means stack traces in browser
 
 def load_pure_data():
