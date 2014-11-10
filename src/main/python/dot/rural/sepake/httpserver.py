@@ -1,8 +1,7 @@
+import logging
 import webapp2
 from rdflib import Graph
 from appengine.ndbstore import NDBStore
-import logging
-from dot.rural.sepake.pure import university_of_aberdeen
 from dot.rural.sepake.sparql_utils import copy
 from time import time
 
@@ -27,24 +26,22 @@ class CrawlOrder(webapp2.RequestHandler):
 application = webapp2.WSGIApplication([
     ('''/sparql/current/query\.json.*''', QueryJson),
     ('''/crawl.order''', CrawlOrder),
-], debug=True)
+], debug=True) #debug=true means stack traces in browser
 
 def load_pure_data():
     logging.info('Loading and processing data...')
+    from dot.rural.sepake.pure import university_of_aberdeen
     copy(university_of_aberdeen(), graph())
     
 def update(q):
     graph().update(q)
     
 def query(q, name):
-    begin = time()
     try:
         return graph().query(q).serialize(format='json')
     except Exception as e:
         logging.warn('%s caused %s'.format(q, e))
         raise e
-    finally:
-        logging.debug('Executed %s in %f seconds' % (name, time() - begin))
     
 def graph():
     return Graph(store = NDBStore(identifier = _GRAPH_ID))

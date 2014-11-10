@@ -12,6 +12,7 @@ from dot.rural.sepake.ontology import SEPAKE, PROV
 from rdflib import RDF, RDFS, Graph
 from dot.rural.sepake.xml_to_rdf import XMLGraph
 import urllib2
+import logging
 
 def university_of_aberdeen():
     xml_input = urllib2.urlopen('http://pure.abdn.ac.uk:8080/ws/rest/getprojectrequest?rendering=xml_long', timeout=20)
@@ -61,6 +62,8 @@ _NS = dict(xsd = XSD,
 
 def _prep(query):
     return prepareQuery(query, initNs = _NS)
+
+logging.debug('Preparing queries for PURE data processing - this may take a while...')
 
 _CONSTRUCT_PEOPLE = _prep('''
 CONSTRUCT {
@@ -115,3 +118,6 @@ WHERE {
     BIND ( STRDT ( ?enddatestr, xsd:date ) AS ?enddate )
 }
 ''')
+
+logging.debug('Done preparing queries for PURE data processing.')
+
