@@ -15,10 +15,14 @@ import time
 
 _PERCENTAGES = [1, 10, 20, 30, 40, 50, 60, 70, 80, 90, 101]
 
-def copy(src_graph, dest_store):
+def copy(src_graph, dest_store, use_multiadd = True):
     start = time.time()
     length = len(src_graph)
     logging.info('Storing %d triples...' % length)
+    if use_multiadd:
+        dest_store.addN([(s, p, o, None) for (s, p, o) in src_graph])
+        logging.debug('Done, storing took %d seconds' % (time.time() - start))
+        return
     checkpoints = [((x * length) / 100, '%0d%%' % x) for x in _PERCENTAGES]
     total = 0
     for triple in src_graph:
