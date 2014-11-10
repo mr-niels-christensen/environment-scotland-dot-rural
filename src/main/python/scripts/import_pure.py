@@ -9,14 +9,14 @@ from rdflib import RDF
 from dot.rural.sepake.ontology import SEPAKE
 from dot.rural.sepake.pure import university_of_aberdeen
 import time
-from dot.rural.sepake.sparql_utils import copy
+from dot.rural.sepake.sparql_utils import copy_graph_to_graph
 import logging
 
 def _import(baseurl):
     remote = SPARQLUpdateStore(context_aware = False)
     remote.open(("%s/query" % baseurl, "%s/update" % baseurl))
     logging.info('Loading and processing data...')
-    copy(university_of_aberdeen(), remote)
+    copy_graph_to_graph(university_of_aberdeen(), Graph(remote), use_multiadd = False)
     return 0
             
 def main():

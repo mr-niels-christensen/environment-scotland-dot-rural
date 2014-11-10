@@ -6,6 +6,7 @@ import os
 from optparse import OptionParser
 from rdflib.plugins.stores.sparqlstore import SPARQLUpdateStore
 from dot.rural.sepake.ukeof import ukeof_graphs
+from dot.rural.sepake.sparql_utils import copy_graphs_to_graph
 
 _PERCENTAGES = [1, 10, 20, 30, 40, 50, 60, 70, 80, 90, 101]
 
@@ -13,16 +14,7 @@ def _import(baseurl):
     remote = SPARQLUpdateStore(context_aware = False)
     remote.open(("%s/query" % baseurl, "%s/update" % baseurl))
     (length, graphs) = ukeof_graphs()
-    print 'Processing %d graphs' % length
-    checkpoints = [((x * length) / 100, '%0d%%' % x) for x in _PERCENTAGES]
-    total = 0
-    for g in graphs:
-        _flush(g, remote)
-        total += 1
-        if total > checkpoints[0][0]:
-                print checkpoints[0][1]
-                checkpoints = checkpoints[1:]
-    print 'Done'
+    copy_graphs_to_graph(length, graphs, Graph(remote), use_multiadd = False)
     return 0
     
 def _flush(g, remote):

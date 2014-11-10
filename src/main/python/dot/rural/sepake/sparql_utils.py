@@ -7,7 +7,7 @@ Created on 20 Oct 2014
 from dot.rural.sepake.csv_to_rdf import CSV
 from rdflib.namespace import FOAF, XSD
 from dot.rural.sepake.ontology import SEPAKE, PROV
-from rdflib import RDF, RDFS
+from rdflib import RDF, RDFS, Graph
 from rdflib.plugins.sparql.parser import parseUpdate
 from rdflib.plugins.sparql.algebra import translateUpdate
 import logging
@@ -15,26 +15,33 @@ import time
 
 _PERCENTAGES = [1, 10, 20, 30, 40, 50, 60, 70, 80, 90, 101]
 
-def copy(src_graph, dest_store, use_multiadd = True):
+def copy_graph_to_graph(src_graph, dest_graph, use_multiadd = True):
     start = time.time()
     length = len(src_graph)
     logging.info('Storing %d triples...' % length)
     if use_multiadd:
-        dest_store.addN([(s, p, o, None) for (s, p, o) in src_graph])
-        logging.debug('Done, storing took %d seconds' % (time.time() - start))
+        dest_graph.addN([(s, p, o, None) for (s, p, o) in src_graph])
+        logging.debug('Done, storing took %f seconds' % (time.time() - start))
         return
     checkpoints = [((x * length) / 100, '%0d%%' % x) for x in _PERCENTAGES]
     total = 0
     for triple in src_graph:
         try:
-            dest_store.add(triple)
+            dest_graph.add(triple)
         except Exception as e:
             logging.warn('Failed to add %s: %s' % (triple, e))
         total += 1
         if total > checkpoints[0][0]:
-            logging.debug('%s, %d seconds' % (checkpoints[0][1], time.time() - start))
+            logging.debug('%s, %f seconds' % (checkpoints[0][1], time.time() - start))
             checkpoints = checkpoints[1:]
     logging.info('Done')
+
+def copy_graphs_to_graph(no_of_src_graphs, src_graphs, dest_graph, use_multiadd = True):
+    union_graph = Graph()
+    for g in src_graphs:
+        union_graph += g
+    copy_graph_to_graph(union_graph, dest_graph, use_multiadd)
+    logging.info('Done storing %d graphs' % no_of_src_graphs)
 
 def expand_and_parse(template_func):
     '''Decorates a function which returns a Python format string.
