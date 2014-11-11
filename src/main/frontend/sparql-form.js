@@ -1,7 +1,7 @@
 $( document ).ready( function() {
   $( '#sparqlForm .submitButton' ).on( 'click', function() {
     sparql("form",
-        [$( '#sparqlForm #sparqlQuery' ).text()
+        [$( '#sparqlForm #sparqlQuery' ).val()
         ],
         "",
         _updateQueryResponseFromJson

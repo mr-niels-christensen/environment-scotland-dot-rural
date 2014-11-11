@@ -9,6 +9,7 @@ _GRAPH_ID = 'current'
 
 class QueryJson(webapp2.RequestHandler):
     def get(self):
+        logging.debug('Responding to {}'.format(self.request.get('name')))
         begin = time()
         #Access-Control-Allow-Origin: *
         self.response.headers['Access-Control-Allow-Origin'] = '*'
@@ -51,7 +52,7 @@ def query(q, name):
     try:
         return graph().query(q).serialize(format='json')
     except Exception as e:
-        logging.warn('%s caused %s'.format(q, e))
+        logging.warn('{} caused {}'.format(q, e))
         raise e
     
 def graph():
