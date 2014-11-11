@@ -43,7 +43,7 @@ $(GAEDIR)/app.yaml: src/main/app.yaml .gaedir.made
 $(GAEDIR)/appengine/ndbstore.py: .gaedir.made
 	mkdir -p $(GAEDIR)/appengine/
 	touch $(GAEDIR)/appengine/__init__.py
-	curl https://raw.githubusercontent.com/mr-niels-christensen/rdflib-appengine/blog-post/appengine/ndbstore.py > $(GAEDIR)/appengine/ndbstore.py
+	curl https://raw.githubusercontent.com/mr-niels-christensen/rdflib-appengine/master/appengine/ndbstore.py > $(GAEDIR)/appengine/ndbstore.py
 
 .gaedir.made:
 	mkdir -p $(GAEDIR)

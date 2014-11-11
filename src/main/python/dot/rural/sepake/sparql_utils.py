@@ -20,7 +20,7 @@ def copy_graph_to_graph(src_graph, dest_graph, use_multiadd = True):
     length = len(src_graph)
     logging.info('Storing %d triples...' % length)
     if use_multiadd:
-        dest_graph.addN([(s, p, o, None) for (s, p, o) in src_graph])
+        dest_graph += src_graph
         logging.debug('Done, storing took %f seconds' % (time.time() - start))
         return
     checkpoints = [((x * length) / 100, '%0d%%' % x) for x in _PERCENTAGES]
