@@ -145,6 +145,31 @@
             </table>
           </div>
         </div>
+        <div class="mediumLeftColumnBox">
+          <h2>SPARQL query</h2>
+          <p></p>
+          <div id="sparqlForm">
+            <textarea id="sparqlQuery" cols="100" rows="8">
+SELECT * WHERE {
+  {?x ?p ?y} .
+}
+LIMIT 20</textarea>
+            <p></p>
+            <button type="submit" target="_blank" class="submitButton btn btn-primary btn-lg">
+              Submit query &nbsp; <span class="glyphicon glyphicon-arrow-right"></span>
+            </button>
+          </div>
+        </div>
+        <div class="mediumLeftColumnBox">
+          <h2>Query response</h2>
+          <p></p>
+          <div id="sparqlResponse" style="overflow-y:auto">
+            <table class="table table-hover table-bordered table-striped">
+              <tr><th>Values</th></tr>
+            </table>
+          </div>
+        </div>
+
         </div>
 
 
@@ -198,9 +223,9 @@
 <script src="js/typeahead.bundle.min.js"></script>
 
 <!-- This application --> 
-<script src="https://www.google.com/jsapi"></script>
 <script src="sparql.js"></script>
 <script src="datamodel-chart.js"></script>
+<script src="sparql-form.js"></script>
 
 <!-- ----------------------------------- END app-specific code --------------------------------------------------------------------- -->
 

@@ -1,17 +1,15 @@
-google.setOnLoadCallback( function() {
-    $( document ).ready( function() {
-        sparql("datamodel",
-                [
-                 "SELECT ?rdftype (COUNT(?x) AS ?xs) (SAMPLE(?x) AS ?sample) WHERE {",
-                 "    {?x rdf:type ?rdftype} .",
-                 "}",
-                 "GROUP BY ?rdftype",
-                 "ORDER BY DESC(?xs)"
-                ],
-                "",
-                _updateDatamodelChartFromJson
-        );
-    });
+$( document ).ready( function() {
+    sparql("datamodel",
+            [
+             "SELECT ?rdftype (COUNT(?x) AS ?xs) (SAMPLE(?x) AS ?sample) WHERE {",
+             "    {?x rdf:type ?rdftype} .",
+             "}",
+             "GROUP BY ?rdftype",
+             "ORDER BY DESC(?xs)"
+            ],
+            "",
+            _updateDatamodelChartFromJson
+    );
 });
 
 function _updateDatamodelChartFromJson(response) {
