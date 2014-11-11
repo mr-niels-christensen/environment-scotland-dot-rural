@@ -11,10 +11,15 @@ $( document ).ready( function() {
 
 function _updateQueryResponseFromJson(response) {
     $( "#sparqlResponse .datarow" ).remove();
+    $( "#sparqlResponse th" ).attr('colspan' , response.head.vars.length);
+    $( "#sparqlResponse tr:last" ).after( "<tr class='datarow'></tr>" );
+    for (index in response.head.vars) {
+        $( "#sparqlResponse tr:last" ).append( "<th>" + response.head.vars[index] + "</th>" );
+    }
     $.each(response.results.bindings, function(index, binding){
       $( "#sparqlResponse tr:last" ).after( "<tr class='datarow'></tr>" );
-      for (key in binding) {
-        $( "#sparqlResponse tr:last" ).append( "<td>" + binding[key].value + "</td>" );        
+      for (index in response.head.vars) {
+        $( "#sparqlResponse tr:last" ).append( "<td>" + binding[response.head.vars[index]].value + "</td>" );        
       }
     });
 };
