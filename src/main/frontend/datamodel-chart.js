@@ -1,4 +1,3 @@
-google.load('visualization', '1.1', {packages:['wordtree']});
 google.setOnLoadCallback( function() {
     $( document ).ready( function() {
         sparql("datamodel",
