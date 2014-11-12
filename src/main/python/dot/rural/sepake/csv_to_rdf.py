@@ -22,7 +22,7 @@ class CSV(object):
 def row_graphs_from_url(url, keep = lambda row: True):
     '''Loads CSV from the given url, then calls row_graphs_from_file()
     '''
-    csv_input = urllib2.urlopen(url)
+    csv_input = urllib2.urlopen(url, timeout=20)
     return row_graphs_from_file(csv_input, keep = keep)
 
 def row_graphs_from_file(csv_input, keep = lambda row: True):
