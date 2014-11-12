@@ -24,6 +24,7 @@ handlers:
   script: dot.rural.sepake.httpserver.application
 - url: /crawl\.order.*
   script: dot.rural.sepake.httpserver.application
+  login: admin
 
 libraries:
 - name: webapp2

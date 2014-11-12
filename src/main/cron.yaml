@@ -1,0 +1,8 @@
+cron:
+- description: Crawl PURE Aberdeen
+  url: /crawl.order?source=pure
+  schedule: every day 20:00
+- description: Crawl UKEOF
+  url: /crawl.order?source=ukeof
+  schedule: every day 20:15
+  

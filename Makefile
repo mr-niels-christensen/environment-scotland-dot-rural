@@ -23,7 +23,7 @@ runclean: .gaebuild.made .pip.for.ide.made
 .PHONY: gaebuild
 gaebuild: .gaebuild.made
 
-.gaebuild.made: $(GAEDIR)/appengine/ndbstore.py $(GAEDIR)/app.yaml .gaebuild.python.made $(GAEDIR)/rdflib/__init__.py .gaebuild.frontend.made
+.gaebuild.made: $(GAEDIR)/appengine/ndbstore.py .gaebuild.yamls.made .gaebuild.python.made $(GAEDIR)/rdflib/__init__.py .gaebuild.frontend.made
 	touch .gaebuild.made
 
 $(GAEDIR)/rdflib/__init__.py: .gaedir.made
@@ -37,8 +37,9 @@ $(GAEDIR)/rdflib/__init__.py: .gaedir.made
 	cp -r src/main/frontend $(GAEDIR)/
 	touch .gaebuild.frontend.made
 
-$(GAEDIR)/app.yaml: src/main/app.yaml .gaedir.made
-	cp src/main/app.yaml $(GAEDIR)/app.yaml
+.gaebuild.yamls.made: src/main/app.yaml src/main/cron.yaml .gaedir.made
+	cp src/main/*.yaml $(GAEDIR)/
+	touch .gaebuild.yamls.made
 
 $(GAEDIR)/appengine/ndbstore.py: .gaedir.made
 	mkdir -p $(GAEDIR)/appengine/
@@ -107,4 +108,5 @@ clean: distclean
 .PHONY: distclean
 distclean:
 	rm .*.made || true
-	rm $(DISTFILE) || true    
+	rm -rf build || true    
+	mkdir build
