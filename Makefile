@@ -37,8 +37,9 @@ $(GAEDIR)/rdflib/__init__.py: .gaedir.made
 	cp -r src/main/frontend $(GAEDIR)/
 	touch .gaebuild.frontend.made
 
-.gaebuild.yamls.made: src/main/app.yaml src/main/cron.yaml .gaedir.made
+.gaebuild.yamls.made: src/main/app.yaml src/main/cron.yaml src/main/appengine_config.py .gaedir.made
 	cp src/main/*.yaml $(GAEDIR)/
+	cp src/main/appengine_config.py $(GAEDIR)/
 	touch .gaebuild.yamls.made
 
 $(GAEDIR)/appengine/ndbstore.py: .gaedir.made

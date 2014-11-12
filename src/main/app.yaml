@@ -26,6 +26,9 @@ handlers:
   script: dot.rural.sepake.httpserver.application
   login: admin
 
+builtins:
+  - appstats: on
+  
 libraries:
 - name: webapp2
   version: latest
