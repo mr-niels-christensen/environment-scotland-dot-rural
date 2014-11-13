@@ -1,7 +1,8 @@
 import logging
 import webapp2
 from rdflib import Graph
-from appengine.ndbstore import NDBStore
+#from appengine.ndbstore import NDBStore
+from appengine.coarsestore import CoarseNDBStore
 from dot.rural.sepake.sparql_utils import copy_graph_to_graph, copy_graphs_to_graph
 from time import time
 
@@ -56,5 +57,5 @@ def query(q, name):
         raise e
     
 def graph():
-    return Graph(store = NDBStore(identifier = _GRAPH_ID))
+    return Graph(store = CoarseNDBStore(identifier = _GRAPH_ID))
 
