@@ -43,8 +43,7 @@ def load_pure_data():
 def load_ukeof_data():
     logging.info('Loading and processing data from UKEOF...')
     from dot.rural.sepake.ukeof import ukeof_graphs
-    (length, graphs) = ukeof_graphs()
-    copy_graphs_to_graph(length, graphs, graph())
+    copy_graphs_to_graph(ukeof_graphs(), graph())
     
 def update(q):
     graph().update(q)

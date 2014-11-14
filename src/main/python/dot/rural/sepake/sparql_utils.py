@@ -36,12 +36,11 @@ def copy_graph_to_graph(src_graph, dest_graph, use_multiadd = True):
             checkpoints = checkpoints[1:]
     logging.info('Done')
 
-def copy_graphs_to_graph(no_of_src_graphs, src_graphs, dest_graph, use_multiadd = True):
+def copy_graphs_to_graph(src_graphs, dest_graph, use_multiadd = True):
     union_graph = Graph()
     for g in src_graphs:
         union_graph += g
     copy_graph_to_graph(union_graph, dest_graph, use_multiadd)
-    logging.info('Done storing %d graphs' % no_of_src_graphs)
 
 def expand_and_parse(template_func):
     '''Decorates a function which returns a Python format string.

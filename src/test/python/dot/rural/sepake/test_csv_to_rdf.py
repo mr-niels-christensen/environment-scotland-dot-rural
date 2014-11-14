@@ -20,9 +20,7 @@ EXAMPLE = '''"A","B","C"
 class Test(unittest.TestCase):
     def setUp(self):
             self.g = Graph()
-            (main_graph, row_graphs) = row_graphs_from_file(StringIO.StringIO(EXAMPLE))
-            self.g += main_graph
-            for rg in row_graphs:
+            for rg in row_graphs_from_file(StringIO.StringIO(EXAMPLE)):
                 self.g += rg
             self.csv = csv.DictReader(StringIO.StringIO(EXAMPLE))
         

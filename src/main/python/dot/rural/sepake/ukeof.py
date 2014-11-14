@@ -19,19 +19,18 @@ def ukeof_graphs():
                 graphs is a generator yielding one Graph containing triples regarding the import itself
                                                plus one Graph per Activity in the UKEOF catalogue
     '''
-    (meta, rows) = row_graphs_from_url('https://catalogue.ukeof.org.uk/api/documents?format=csv',
-                                       keep = lambda row: 'Activity' in row.values())
-    return (1 + len(rows), _generate_graphs(meta, rows))
+    meta_and_rows = row_graphs_from_url('https://catalogue.ukeof.org.uk/api/documents?format=csv',
+                                        keep = lambda row: 'Activity' in row.values())
+    yield next(meta_and_rows)
+    for g in _generate_graphs(meta_and_rows):
+        yield g
 
-
-def _generate_graphs(meta, rows):
-    '''Generator function yielding meta (unchanged)
-       plus one per Graph in rows.
+def _generate_graphs(rows):
+    '''Generator function one per Graph in rows.
        Each of these Graphs will be transformed using the SPARQL statements
        in this file, and then all original triples (from the CSV file)
        will be removed.
     '''
-    yield meta
     _UPDATES = [INSERT_TYPE(), 
                 INSERT_LABEL(), 
                 INSERT_HOMEPAGE(), 
