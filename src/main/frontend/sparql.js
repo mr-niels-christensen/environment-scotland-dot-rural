@@ -28,6 +28,16 @@ function _valuesOfSparqlBinding( sparqlBinding ) {
   }
   return result;
 }
+
+function sparqlListToObject( sparqlResponse, keyName, valueName ) {
+  var result = {};
+  $.each(sparqlResponse.results.bindings, function( index, binding ){
+    values = _valuesOfSparqlBinding(binding);
+    result[values[keyName]] = values[valueName];
+  });
+  return result;
+}
+
 _PREAMBLE = [
              "BASE <http://dot.rural/sepake/>",
              "PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>",

@@ -5,41 +5,42 @@ $( document ).ready( function() {
 function _updateFocusFromIri(event, iri) {
     sparql("focus",
             [
-             "SELECT * WHERE {",
+             "SELECT ?p ?y WHERE {",
              "    BIND (<--IRI--> AS ?focus) .",
-             "    {?focus rdfs:label ?label} .",
-             "    OPTIONAL {?focus <htmlDescription> ?description} .",
-             "    OPTIONAL {?focus foaf:homepage ?homepage} .",
-             "    OPTIONAL {?focus prov:startedAtTime ?startedAtTime} .",
-             "    OPTIONAL {?focus prov:endedAtTime ?endedAtTime} .",
-             "    OPTIONAL {?owner <owns> ?focus .",
-             "              ?owner rdfs:label ?ownerLabel .",
-             "              OPTIONAL {?owner foaf:homepage ?ownerHomepage}} .",
+             "    { ?focus ?p ?y } .",
              "}",
-             "LIMIT 1",
             ],
            iri,
            _updateFocusFromJson
     );    
 }
 
+var _predicate_to_action = {
+  "http://www.w3.org/2000/01/rdf-schema#label" : 
+    function( y ){ $( ".labelOfFocus" ).text(y) },
+  "http://dot.rural/sepake/htmlDescription" : 
+    function( y ){ $( "#descriptionOfFocus" ).html(y || "(No summary)") },
+  "http://xmlns.com/foaf/0.1/homepage" : 
+    function( y ){ $( "#homepageOfFocus" ).text(y || "");
+                   $( "#homepageOfFocus" ).attr("href", y || "") },
+  "http://www.w3.org/ns/prov#startedAtTime" : 
+    function( y ){ $( "#startedAtTime" ).text(y || "(unknown)") },
+  "http://www.w3.org/ns/prov#endedAtTime" : 
+    function( y ){ $( "#endedAtTime" ).text(y || "(unknown)") },
+};
+
 function _updateFocusFromJson(response) {
-    try{
-        var values = _valuesOfSparqlBinding(response.results.bindings[0]);
-        $( ".labelOfFocus" ).text(values.label);
-        $( "#descriptionOfFocus" ).html(values.description || "(No summary)");
-        $( "#homepageOfFocus" ).text(values.homepage || "");
-        $( "#homepageOfFocus" ).attr("href", values.homepage || "");
-        $( "#startedAtTime" ).text(values.startedAtTime || "(unknown)");
-        $( "#endedAtTime" ).text(values.endedAtTime || "(unknown)");
-        $( "#labelOfOwner" ).text(values.ownerLabel || "");
-        $( "#labelOfOwner" ).attr('href', values.ownerHomepage || "");
-        if (!values.description) {
-          _set_html_from_dbpedia_description( "#descriptionOfFocus", values.label );
+    try {
+        var values = sparqlListToObject(response, "p", "y");
+        $.each(_predicate_to_action, function( p, action ){
+          action(values[p]);
+        });
+        if (!values["http://dot.rural/sepake/htmlDescription"]) {
+          _set_html_from_dbpedia_description( "#descriptionOfFocus", values["http://www.w3.org/2000/01/rdf-schema#label"] );
         }
-      } catch (err) {
-        console.log( err );
-      }
+    } catch (err) {
+      console.log( err );
+    }
 }
 
 function _set_html_from_dbpedia_description(selector, search_for) {
