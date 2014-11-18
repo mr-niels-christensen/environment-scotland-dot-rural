@@ -7,7 +7,8 @@ def activate():
     CUSTOM_EVALS['querylog'] = _evalPartLogger
 
 def deactivate():
-    del CUSTOM_EVALS['querylog']
+    if 'querylog' in CUSTOM_EVALS:
+        del CUSTOM_EVALS['querylog']
     
 def _join(a, b, join_id):
     candidates = 0
