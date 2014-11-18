@@ -1,9 +1,9 @@
 import logging
 import webapp2
 from rdflib import Graph
-#from appengine.ndbstore import NDBStore
 from appengine.coarsestore import CoarseNDBStore
 from dot.rural.sepake.sparql_utils import copy_graph_to_graph, copy_graphs_to_graph
+from dot.rural.sepake.querylog import activate, deactivate
 from time import time
 
 _GRAPH_ID = 'current'
@@ -11,6 +11,7 @@ _GRAPH_ID = 'current'
 class QueryJson(webapp2.RequestHandler):
     def get(self):
         logging.debug('Responding to {}'.format(self.request.get('name')))
+        activate()
         begin = time()
         #Access-Control-Allow-Origin: *
         self.response.headers['Access-Control-Allow-Origin'] = '*'
@@ -21,6 +22,7 @@ class QueryJson(webapp2.RequestHandler):
 
 class CrawlOrder(webapp2.RequestHandler):
     def get(self):
+        deactivate()
         if self.request.get('source') == 'pure':
             load_pure_data()
         elif self.request.get('source') == 'ukeof':
@@ -49,12 +51,7 @@ def update(q):
     graph().update(q)
     
 def query(q, name):
-    try:
-        return graph().query(q).serialize(format='json')
-    except Exception as e:
-        logging.warn('{} caused {}'.format(q, e))
-        raise e
+    return graph().query(q).serialize(format='json')
     
 def graph():
     return Graph(store = CoarseNDBStore(identifier = _GRAPH_ID))
-
