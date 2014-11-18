@@ -42,13 +42,13 @@ def _evalPartLogger(ctx, part):
 def _dump(part, indent):
     if part is None:
         return None
-    if part.name == 'Extend':
-        logging.debug('{}{} {} {}={}'.format(indent, part.name, id(part) % 10000, part.var, part.expr))
-        return
     if part.name == 'BGP':
         logging.debug('{}{} {} triples={}'.format(indent, part.name, id(part) % 10000, part.triples))
         return
-    logging.debug('{}{} {}'.format(indent, part.name, id(part) % 10000))
+    if part.name == 'Extend':
+        logging.debug('{}{} {} {}={}'.format(indent, part.name, id(part) % 10000, part.var, part.expr))
+    else:
+        logging.debug('{}{} {}'.format(indent, part.name, id(part) % 10000))
     for attr in ['p', 'p1', 'p2']:
         if hasattr(part, attr):
             child  = getattr(part, attr)
