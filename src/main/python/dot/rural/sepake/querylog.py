@@ -2,6 +2,7 @@ import logging
 from rdflib.plugins.sparql.evaluate import evalPart
 from rdflib.plugins.sparql import CUSTOM_EVALS
 from time import time
+from StringIO import StringIO
 
 def activate():
     CUSTOM_EVALS['querylog'] = _evalPartLogger
@@ -44,26 +45,28 @@ def _evalJoin(ctx, join):
        
 def _evalPartLogger(ctx, part):
     if part.name == 'SelectQuery':
-        _dump(part, '')
+        s = StringIO('\n')
+        _dump(part, '', s)
+        logging.debug(s.getvalue())
         raise NotImplementedError
     elif part.name == 'Join':
         return _evalJoin(ctx, part)
     else:
         raise NotImplementedError
 
-def _dump(part, indent):
+def _dump(part, indent, dest):
     if part is None:
         return None
     if part.name == 'BGP':
-        logging.debug('{}{} {} triples={}'.format(indent, part.name, id(part) % 10000, part.triples))
+        dest.write('{}{} {} triples={}\n'.format(indent, part.name, id(part) % 10000, part.triples))
         return
     if part.name == 'Extend':
-        logging.debug('{}{} {} {}={}'.format(indent, part.name, id(part) % 10000, part.var, part.expr))
+        dest.write('{}{} {} {}={}\n'.format(indent, part.name, id(part) % 10000, part.var, part.expr))
     else:
-        logging.debug('{}{} {}'.format(indent, part.name, id(part) % 10000))
+        dest.write('{}{} {}\n'.format(indent, part.name, id(part) % 10000))
     for attr in ['p', 'p1', 'p2']:
         if hasattr(part, attr):
             child  = getattr(part, attr)
             if child is not None:
-                _dump(child, '{}  '.format(indent))
+                _dump(child, '{}  '.format(indent), dest)
     return
