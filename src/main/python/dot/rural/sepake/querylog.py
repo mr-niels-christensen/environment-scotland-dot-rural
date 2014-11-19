@@ -1,5 +1,5 @@
 import logging
-from rdflib.plugins.sparql.evaluate import evalLazyJoin, evalPart
+from rdflib.plugins.sparql.evaluate import evalPart
 from rdflib.plugins.sparql import CUSTOM_EVALS
 from time import time
 
@@ -22,14 +22,25 @@ def _join(a, b, join_id):
                 yield x.merge(y)
     logging.debug('Join {}: yielded {} of {} candidates, len(b)={}, in {:.1f} seconds'.format(join_id, yielded, candidates, len(b), time() - begin))
 
+def _evalLazyJoin(ctx, join):
+    """
+    A lazy join will push the variables bound
+    in the first part to the second part,
+    essentially doing the join implicitly
+    hopefully evaluating much fewer triples
+    """
+    for a in evalPart(ctx, join.p1):
+        c = ctx.thaw(a)
+        for b in evalPart(c, join.p2):
+            yield b
+
 def _evalJoin(ctx, join):
     if join.lazy:
         logging.debug('Join {}: is lazy'.format(id(join) % 10000))
-        return evalLazyJoin(ctx, join)
+        return _evalLazyJoin(ctx, join)
     else:
-        a = evalPart(ctx, join.p1)
-        b = set(evalPart(ctx, join.p2))
-        return _join(a, b, id(join) % 10000)
+        logging.debug('Join {}: made lazy'.format(id(join) % 10000))
+        return _evalLazyJoin(ctx, join)
        
 def _evalPartLogger(ctx, part):
     if part.name == 'SelectQuery':
