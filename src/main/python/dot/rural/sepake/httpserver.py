@@ -1,7 +1,7 @@
 import logging
 import webapp2
 from rdflib import Graph
-from appengine.coarsestore import CoarseNDBStore
+from appengine.ndbstore import CoarseNDBStore
 from dot.rural.sepake.sparql_utils import copy_graph_to_graph, copy_graphs_to_graph
 from dot.rural.sepake.querylog import activate, deactivate
 from time import time
