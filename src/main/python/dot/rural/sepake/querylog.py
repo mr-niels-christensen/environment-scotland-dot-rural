@@ -35,14 +35,6 @@ def _evalLazyJoin(ctx, join):
         for b in evalPart(c, join.p2):
             yield b
 
-def _evalJoin(ctx, join):
-    if join.lazy:
-        logging.debug('Join {}: is lazy'.format(id(join) % 10000))
-        return _evalLazyJoin(ctx, join)
-    else:
-        logging.debug('Join {}: made lazy'.format(id(join) % 10000))
-        return _evalLazyJoin(ctx, join)
-       
 def _evalPartLogger(ctx, part):
     if part.name == 'SelectQuery':
         s = StringIO('\n')
@@ -50,7 +42,7 @@ def _evalPartLogger(ctx, part):
         logging.debug(s.getvalue())
         raise NotImplementedError
     elif part.name == 'Join':
-        return _evalJoin(ctx, part)
+        return _evalLazyJoin(ctx, part)
     else:
         raise NotImplementedError
 
