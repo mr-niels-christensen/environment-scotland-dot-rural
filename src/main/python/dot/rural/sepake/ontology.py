@@ -6,7 +6,7 @@ Created on 16 Sep 2014
 
 from rdflib import Graph, Namespace, RDFS, URIRef
 from rdflib.plugins.stores.sparqlstore import SPARQLUpdateStore
-from rdflib.namespace import FOAF, ClosedNamespace
+from rdflib.namespace import FOAF
 from ns_utils import RDF_NAME, namespace
 
 @namespace('http://dot.rural/sepake', separator = '/')
@@ -17,6 +17,7 @@ class SEPAKE(object):
     PureDepartment    = RDF_NAME
     PurePerson        = RDF_NAME
     owns              = RDF_NAME
+    ownedBy           = RDF_NAME
     htmlDescription   = RDF_NAME
     
 @namespace('http://www.w3.org/ns/prov')
@@ -28,6 +29,7 @@ class PROV(object):
     endedAtTime    = RDF_NAME
     wasDerivedFrom = RDF_NAME
     memberOf       = RDF_NAME
+    hadMember      = RDF_NAME
 
 class SEPAKEOntologyGraph(Graph):
     '''Class for creating RDF triples for this project's ontology.

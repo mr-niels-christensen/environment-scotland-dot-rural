@@ -106,6 +106,7 @@ def INSERT_LEAD_ORG():
 INSERT {{
     ?leadorglink <{rdfs.label}> ?leadorg .
     ?leadorglink <{sepake.owns}> ?link .
+    ?link        <{sepake.ownedBy}> ?leadorglink .
     ?leadorglink <{rdf.type}> <{sepake.UKEOFOrganisation}> .
 }}
 WHERE {{''' + ACTIVITY_CLAUSES + '''

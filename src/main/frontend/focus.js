@@ -16,6 +16,8 @@ function _updateFocusFromIri(event, iri) {
 }
 
 var _predicate_to_action = {
+  "http://dot.rural/sepake/ownedBy" :
+    _updateOwnerFromIri,
   "http://www.w3.org/2000/01/rdf-schema#label" : 
     function( y ){ $( ".labelOfFocus" ).text(y) },
   "http://dot.rural/sepake/htmlDescription" : 
@@ -42,6 +44,34 @@ function _updateFocusFromJson(response) {
       console.log( err );
     }
 }
+
+function _updateOwnerFromIri(iri) {
+  if (!iri) {
+    return;
+  };
+  sparql("owner",
+          [
+           "SELECT ?p ?y WHERE {",
+           "    BIND (<--IRI--> AS ?owner) .",
+           "    { ?owner ?p ?y } .",
+           "}",
+          ],
+         iri,
+         _updateOwnerFromJson
+  );    
+}
+
+function _updateOwnerFromJson(response) {
+  $.each(response.results.bindings, function(index, binding){
+    values = _valuesOfSparqlBinding(binding);
+    if (values.p == 'http://www.w3.org/2000/01/rdf-schema#label') {
+      $( "#labelOfOwner" ).text( values.y );
+    }
+    if (values.p == 'http://xmlns.com/foaf/0.1/homepage') {
+      $( "#labelOfOwner" ).attr( 'href', values.y );
+    }
+  });
+};
 
 function _set_html_from_dbpedia_description(selector, search_for) {
   $.ajax({

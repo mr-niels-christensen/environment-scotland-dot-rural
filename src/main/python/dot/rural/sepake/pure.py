@@ -69,6 +69,7 @@ _CONSTRUCT_PEOPLE = _prep('''
 CONSTRUCT {
     ?personuri rdf:type        sepake:PurePerson .
     ?personuri prov:memberOf   ?projecturi .
+    ?projecturi  prov:hadMember  ?personuri .
     ?personuri foaf:givenName  ?givenName .
     ?personuri foaf:familyName ?familyName .
 }
@@ -91,6 +92,7 @@ CONSTRUCT {
     ?projecturi foaf:homepage ?homepage .
     ?projecturi prov:startedAtTime ?startdate .
     ?projecturi prov:endedAtTime ?enddate .
+    ?projecturi sepake:ownedBy ?depturi .
     ?depturi    sepake:owns ?projecturi .
     ?depturi    rdf:type sepake:PureDepartment .
     ?depturi    rdfs:label ?deptname .
