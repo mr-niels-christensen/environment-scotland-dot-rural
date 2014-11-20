@@ -5,7 +5,4 @@ cron:
 - description: Crawl UKEOF
   url: /crawl.order?source=ukeof
   schedule: every day 20:15
-- description: Rewrite all data
-  url: /crawl.order?source=self
-  schedule: every day 11:45
   
