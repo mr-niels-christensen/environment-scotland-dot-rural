@@ -27,6 +27,8 @@ class CrawlOrder(webapp2.RequestHandler):
             load_pure_data()
         elif self.request.get('source') == 'ukeof':
             load_ukeof_data()
+        elif self.request.get('source') == 'self':
+            rewrite()
         else:
             raise Exception('Unknown source: %s' % self.request.get('source'))
         self.response.headers['Content-Type'] = 'text/plain'
@@ -46,6 +48,14 @@ def load_ukeof_data():
     logging.info('Loading and processing data from UKEOF...')
     from dot.rural.sepake.ukeof import ukeof_graphs
     copy_graphs_to_graph(ukeof_graphs(), graph())
+    
+def rewrite():
+    tmp = Graph()
+    g = graph()
+    logging.debug('Reading...')
+    tmp += g
+    logging.debug('Writing...')
+    g += tmp
     
 def update(q):
     graph().update(q)
