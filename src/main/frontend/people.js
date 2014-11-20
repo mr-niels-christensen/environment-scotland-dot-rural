@@ -17,7 +17,7 @@ function _updatePeopleFromIri(event, iri) {
           [
           "SELECT * WHERE {",
           "    BIND (<--IRI--> AS ?focus) .",
-          "    {?person prov:memberOf ?focus} .",
+          "    {?focus prov:hadMember ?person} .",
           "    {?person foaf:givenName ?given} .",
           "    {?person foaf:familyName ?family} .",
           "    BIND (CONCAT(?given, ' ', ?family) AS ?label)",
