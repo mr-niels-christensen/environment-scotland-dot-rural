@@ -17,9 +17,9 @@ handlers:
 - url: /$
   static_files: frontend/index.html
   upload: frontend/index.html
-- url: /(.*\.(html|js|css))$
+- url: /(.*\.(html|js|css|gif))$
   static_files: frontend/\1
-  upload: frontend/.*\.(html|js|css)$
+  upload: frontend/.*\.(html|js|css|gif)$
 - url: /sparql/current/query\.json.*
   script: dot.rural.sepake.httpserver.application
 - url: /crawl\.order.*
