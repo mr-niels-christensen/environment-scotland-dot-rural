@@ -35,6 +35,8 @@ function _updateChartFromIri(event, iri) {
            iri,
            _updateChartFromJson
     );
+    removeAllNodesFromChart();
+    updateChart();        
 }
 
 function _updateChartFromJson(response) {
