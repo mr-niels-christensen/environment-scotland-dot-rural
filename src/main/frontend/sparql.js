@@ -5,6 +5,13 @@ $(document).on({
      ajaxStop: function() { $body.removeClass("loading"); }    
 });
 
+$( document ).ajaxError(function( event, request, settings ) {
+    if ($( "#myAjaxAlert" ).queue( "fx" ).length == 0) {
+        //NOTE: Without parameters, show() and hide() do not queue nicely
+        $( "#myAjaxAlert" ).show(400).delay(2500).hide(400);        
+    } 
+});
+
 function sparql(name, queryAsList, iri, callback) {
     var q = _PREAMBLE.concat(queryAsList).join("\n").replace(/--IRI--/g, iri);
     $.ajax({
@@ -14,13 +21,8 @@ function sparql(name, queryAsList, iri, callback) {
         "query" : q},
       dataType: 'json',
       success: callback,
-      timeout: 20000,
-      error: _errorCallback,
+      timeout: 20000
     });
-}
-
-function _errorCallback() {
-    $( "#myAjaxAlert" ).removeClass( "hide" );
 }
 
 var _FUSEKI_URLS = {

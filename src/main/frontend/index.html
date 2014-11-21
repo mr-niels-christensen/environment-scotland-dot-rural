@@ -134,10 +134,6 @@
 <!-- ----------------------------------- BEGIN app-specific code ------------------------------------------------------------------- -->
         
         <div class="summaryLeftColumn">
-          <div id="myAjaxAlert" class="alert alert-danger alert-dismissible fade in hide" role="alert">
-            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            <strong>Sorry!</strong> We failed to load some of your data. Please try reloading this page, or send an angry email to the developer.
-          </div>
           <div id="focusPanel" class="mediumLeftColumnBox">
             <p></p>
             <h1 class="labelOfFocus"></h1>
@@ -166,6 +162,9 @@
         
         <div class="summaryRightColumn">
           <div class="ajaxloading"></div>
+          <div id="myAjaxAlert" class="alert alert-danger" style="display: none" role="alert">
+            We failed to load some of your data. Please try reloading this page, or send an angry email to the developer.
+          </div>
           <div class="smallRightColumnBox">
             <p></p>
             <h2>Ask an expert</h2>
