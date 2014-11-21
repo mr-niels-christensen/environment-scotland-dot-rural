@@ -4,7 +4,7 @@ google.setOnLoadCallback( function() {
         initChart();
         setClickHandler(_updateFromIri);
         $( document ).on( 'updateFromIri', _updateChartFromIri);
-        _updateFromIri( "http://dot.rural/sepake/UKEOFOrganisation#Scottish%20Environment%20Protection%20Agency" );
+        _updateFromIri( "https://catalogue.ukeof.org.uk/id/db192dbe-e3f0-4c40-8ddf-407a707505bb" );
     });
 });
 
