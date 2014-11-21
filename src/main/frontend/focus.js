@@ -1,5 +1,11 @@
 $( document ).ready( function() {
     $( document ).on( 'updateFromIri', _updateFocusFromIri);
+    $( "#labelOfOwner" ).on( 'click', function() {
+        var iri = $( "#labelOfOwner" ).data( 'iri');
+        if (iri) {
+            $( document ).trigger( 'updateFromIri', iri );  
+        };
+    });
 });
 
 function _updateFocusFromIri(event, iri) {
@@ -49,11 +55,12 @@ function _updateOwnerFromIri(iri) {
   if (!iri) {
     return;
   };
+  $( "#labelOfOwner" ).data( 'iri', iri);
   sparql("owner",
           [
-           "SELECT ?p ?y WHERE {",
+           "SELECT ?y WHERE {",
            "    BIND (<--IRI--> AS ?owner) .",
-           "    { ?owner ?p ?y } .",
+           "    { ?owner rdfs:label ?y } .",
            "}",
           ],
          iri,
@@ -64,12 +71,7 @@ function _updateOwnerFromIri(iri) {
 function _updateOwnerFromJson(response) {
   $.each(response.results.bindings, function(index, binding){
     values = _valuesOfSparqlBinding(binding);
-    if (values.p == 'http://www.w3.org/2000/01/rdf-schema#label') {
       $( "#labelOfOwner" ).text( values.y );
-    }
-    if (values.p == 'http://xmlns.com/foaf/0.1/homepage') {
-      $( "#labelOfOwner" ).attr( 'href', values.y );
-    }
   });
 };
 
