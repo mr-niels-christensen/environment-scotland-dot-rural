@@ -9,6 +9,7 @@ $( document ).ready( function() {
 });
 
 function _updateFocusFromIri(event, iri) {
+    $( '.optionalField' ).hide();
     sparql("focus",
             [
              "SELECT ?p ?y WHERE {",
@@ -32,9 +33,19 @@ var _predicate_to_action = {
     function( y ){ $( "#homepageOfFocus" ).text(y || "");
                    $( "#homepageOfFocus" ).attr("href", y || "") },
   "http://www.w3.org/ns/prov#startedAtTime" : 
-    function( y ){ $( "#startedAtTime" ).text(y || "(unknown)") },
+    function( y ){ 
+      if (y) {
+          $( "#startedAtTime .dataGoesHere" ).text(y);
+          $( "#startedAtTime" ).show();          
+      };
+  },
   "http://www.w3.org/ns/prov#endedAtTime" : 
-    function( y ){ $( "#endedAtTime" ).text(y || "(unknown)") },
+    function( y ){ 
+      if (y) {
+          $( "#endedAtTime .dataGoesHere" ).text(y) 
+          $( "#endedAtTime" ).show()          
+      };
+  },
 };
 
 function _updateFocusFromJson(response) {
@@ -71,7 +82,8 @@ function _updateOwnerFromIri(iri) {
 function _updateOwnerFromJson(response) {
   $.each(response.results.bindings, function(index, binding){
     values = _valuesOfSparqlBinding(binding);
-      $( "#labelOfOwner" ).text( values.y );
+    $( "#labelOfOwner .dataGoesHere" ).text( values.y );
+    $( "#labelOfOwner" ).show();
   });
 };
 
