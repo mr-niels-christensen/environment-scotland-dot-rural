@@ -3,11 +3,9 @@ import webapp2
 from rdflib import Graph
 from appengine.ndbstore import CoarseNDBStore
 from dot.rural.sepake.sparql_utils import copy_graph_to_graph, copy_graphs_to_graph
-from dot.rural.sepake.querylog import activate
 from time import time
 
 _GRAPH_ID = 'current'
-activate()
 
 class QueryJson(webapp2.RequestHandler):
     def get(self):
