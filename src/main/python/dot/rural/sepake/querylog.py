@@ -3,6 +3,7 @@ from rdflib.plugins.sparql.evaluate import evalPart
 from rdflib.plugins.sparql import CUSTOM_EVALS
 from time import time
 from StringIO import StringIO
+from appengine.ndbstore import CoarseNDBStore
 
 def activate():
     CUSTOM_EVALS['querylog'] = _evalPartLogger
@@ -11,18 +12,6 @@ def deactivate():
     if 'querylog' in CUSTOM_EVALS:
         del CUSTOM_EVALS['querylog']
     
-def _join(a, b, join_id):
-    candidates = 0
-    yielded = 0
-    begin = time()
-    for x in a:
-        for y in b:
-            candidates += 1
-            if x.compatible(y):
-                yielded += 1
-                yield x.merge(y)
-    logging.debug('Join {}: yielded {} of {} candidates, len(b)={}, in {:.1f} seconds'.format(join_id, yielded, candidates, len(b), time() - begin))
-
 def _evalLazyJoin(ctx, join):
     """
     A lazy join will push the variables bound
@@ -36,10 +25,13 @@ def _evalLazyJoin(ctx, join):
             yield b
 
 def _evalPartLogger(ctx, part):
+    if not isinstance(ctx.graph.store, CoarseNDBStore):
+        raise NotImplementedError
     if part.name == 'SelectQuery':
-        s = StringIO('\n')
+        s = StringIO()
         _dump(part, '', s)
-        logging.debug(s.getvalue())
+        ctx.graph.store.log(s.getvalue())
+        ctx.graph.store.flush_log(logging.DEBUG)
         raise NotImplementedError
     elif part.name == 'Join':
         return _evalLazyJoin(ctx, part)
