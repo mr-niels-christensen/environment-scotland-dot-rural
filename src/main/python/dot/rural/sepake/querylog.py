@@ -27,7 +27,6 @@ def _evalPartLogger(ctx, part):
         s = StringIO()
         _dump(part, '', s)
         ctx.graph.store.log(s.getvalue())
-        ctx.graph.store.flush_log(logging.DEBUG)
         raise NotImplementedError
     elif part.name == 'Join':
         return _evalLazyJoin(ctx, part)

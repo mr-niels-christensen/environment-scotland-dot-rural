@@ -63,10 +63,11 @@ def update(q):
 def query(q, name):
     store = CoarseNDBStore(identifier = _GRAPH_ID, configuration = {'log' : True})
     store.log(name)
-    response = Graph(store = store).query(q).serialize(format='json')
-    store.log(name)
-    store.flush_log(logging.DEBUG)
-    return response
+    try:
+        response = Graph(store = store).query(q).serialize(format='json')
+        return response
+    finally:
+        store.flush_log(logging.DEBUG)
     
 def graph():
     return Graph(store = CoarseNDBStore(identifier = _GRAPH_ID))
