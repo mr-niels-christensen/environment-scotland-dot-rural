@@ -3,10 +3,11 @@ import webapp2
 from rdflib import Graph
 from appengine.ndbstore import CoarseNDBStore
 from dot.rural.sepake.sparql_utils import copy_graph_to_graph, copy_graphs_to_graph
-from dot.rural.sepake.querylog import activate, deactivate
+from dot.rural.sepake.querylog import activate
 from time import time
 
 _GRAPH_ID = 'current'
+activate()
 
 class QueryJson(webapp2.RequestHandler):
     def get(self):
@@ -61,7 +62,9 @@ def update(q):
     
 def query(q, name):
     store = CoarseNDBStore(identifier = _GRAPH_ID, configuration = {'log' : True})
+    store.log(name)
     response = Graph(store = store).query(q).serialize(format='json')
+    store.log(name)
     store.flush_log(logging.DEBUG)
     return response
     

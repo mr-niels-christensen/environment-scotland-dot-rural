@@ -8,10 +8,6 @@ from appengine.ndbstore import CoarseNDBStore
 def activate():
     CUSTOM_EVALS['querylog'] = _evalPartLogger
 
-def deactivate():
-    if 'querylog' in CUSTOM_EVALS:
-        del CUSTOM_EVALS['querylog']
-    
 def _evalLazyJoin(ctx, join):
     """
     A lazy join will push the variables bound
