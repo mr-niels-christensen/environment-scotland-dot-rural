@@ -30,8 +30,13 @@ var _predicate_to_action = {
   "http://dot.rural/sepake/htmlDescription" : 
     function( y ){ $( "#descriptionOfFocus" ).html(y || "(No summary)") },
   "http://xmlns.com/foaf/0.1/homepage" : 
-    function( y ){ $( "#homepageOfFocus" ).text(y || "");
-                   $( "#homepageOfFocus" ).attr("href", y || "") },
+    function( y ){ 
+      if (y) {
+          $( "#homepageOfFocus .dataGoesHere" ).text(y);
+          $( "#homepageOfFocus .dataGoesHere" ).attr("href", y);
+          $( "#homepageOfFocus" ).show();
+      }
+  },
   "http://www.w3.org/ns/prov#startedAtTime" : 
     function( y ){ 
       if (y) {
