@@ -19,7 +19,7 @@ class QueryJson(webapp2.RequestHandler):
         self.response.write(query(self.request.get('query'),
                                   self.request.get('name')))
         
-        logging.debug('Responded to %s in %f seconds' % (self.request.get('name'), time() - begin))
+        logging.debug('Responded to {} in {:.3f} seconds'.format(self.request.get('name'), time() - begin))
 
 class CrawlOrder(webapp2.RequestHandler):
     def get(self):
