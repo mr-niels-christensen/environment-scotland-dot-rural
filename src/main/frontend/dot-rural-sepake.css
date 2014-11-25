@@ -2,6 +2,10 @@
   border: none;
 }
 
+#askPanel {
+    display:    none;
+}
+
 .ajaxloading {
     display:    block;
     visibility: hidden;
