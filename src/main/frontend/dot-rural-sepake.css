@@ -3,7 +3,11 @@
 }
 
 #askPanel {
-    display:    none;
+    display : none;
+}
+
+.optionalField {
+    display : none;
 }
 
 .ajaxloading {
