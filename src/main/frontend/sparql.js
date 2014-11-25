@@ -21,7 +21,7 @@ function sparql(name, queryAsList, iri, callback) {
         "query" : q},
       dataType: 'json',
       success: callback,
-      timeout: 20000
+      timeout: 19000 + 2000 * Math.random() //20 seconds +-1 
     });
 }
 
