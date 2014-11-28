@@ -12,7 +12,7 @@ NAME := $(shell grep name src/main/python/setup.py | cut -d "'" -f 2)
 DISTFILE := build/$(NAME)-$(VERSION).tar.gz
 GAEDIR := build/environment-scotland-$(MAJORMINOR)
 
-all: ide data frontend
+all: ide data
 
 .PHONY: runlocal
 runlocal: .gaebuild.made .pip.for.ide.made 
@@ -49,26 +49,6 @@ gaebuild: .gaebuild.made
 .gaedir.made:
 	mkdir -p $(GAEDIR)
 	touch .gaedir.made
-
-.PHONY: frontend
-frontend: .frontend.made
-
-.frontend.made: $(FRONTEND_FILES)
-	rm -rf /srv/www/alpha/ || true
-	mkdir /srv/www/alpha/
-	cp -r src/main/frontend/* /srv/www/alpha/
-	touch .frontend.made
-
-.PHONY: data
-data: .ukeof.data.made .pure.data.made
-
-.ukeof.data.made: test
-	source .venv.for.use/bin/activate && import_ukeof.py
-	touch .ukeof.data.made
-
-.pure.data.made: test
-	source .venv.for.use/bin/activate && import_pure.py
-	touch .pure.data.made
 
 .PHONY: test
 test: .python.test.made
