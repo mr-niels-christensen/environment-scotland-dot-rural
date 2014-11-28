@@ -6,20 +6,19 @@ RDFLIBAPPENGINEVERSION := 1.0
 
 PYTHON_FILES := $(shell find src -name "*.py")
 FRONTEND_FILES := $(shell find src/main/frontend -name "*.*")
-MICROVERSION := $(shell date "+%Y%m%d%H%M%S")
-VERSION := $(MAJORMINOR).$(MICROVERSION)
+VERSION := $(MAJORMINOR)
 NAME := $(shell grep name src/main/python/setup.py | cut -d "'" -f 2)
 DISTFILE := build/$(NAME)-$(VERSION).tar.gz
 GAEDIR := build/environment-scotland-$(MAJORMINOR)
 
-all: ide data
+all: ide runlocal
 
 .PHONY: runlocal
-runlocal: .gaebuild.made .pip.for.ide.made 
+runlocal: .gaebuild.made .pip.for.ide.made test
 	source .venv.for.ide/bin/activate && dev_appserver.py $(GAEDIR) --log_level debug
 
 .PHONY: runclean
-runclean: .gaebuild.made .pip.for.ide.made 
+runclean: .gaebuild.made .pip.for.ide.made test
 	source .venv.for.ide/bin/activate && dev_appserver.py $(GAEDIR) --log_level debug --clear_datastore true
 
 .PHONY: gaebuild
@@ -84,9 +83,11 @@ ide: .pip.for.ide.made
 .PHONY: clean
 clean: distclean
 	rm -rf .venv*/ || true
+	rm -rf build || true    
+	mkdir build
 
 .PHONY: distclean
 distclean:
 	rm .*.made || true
-	rm -rf build || true    
-	mkdir build
+	rm $(DISTFILE) || true
+
