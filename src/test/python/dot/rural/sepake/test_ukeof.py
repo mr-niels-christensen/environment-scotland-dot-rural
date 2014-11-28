@@ -74,7 +74,7 @@ class Test(unittest.TestCase):
     def testInsertLeadorg(self):
         self._update(ukeof.INSERT_TYPE())
         self._update(ukeof.INSERT_LEAD_ORG())
-        self.assertLastUpdateAdded(21)
+        self.assertLastUpdateAdded(28)
         for csv_row in self.csv:
             if csv_row['Type'] == 'Activity':
                 lead = self.g.value(predicate = SEPAKE.owns, object = uri(csv_row))
