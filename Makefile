@@ -2,6 +2,8 @@ SHELL := /bin/bash
 
 MAJORMINOR := 0.6
 
+RDFLIBAPPENGINEVERSION := 1.0
+
 PYTHON_FILES := $(shell find src -name "*.py")
 FRONTEND_FILES := $(shell find src/main/frontend -name "*.*")
 MICROVERSION := $(shell date "+%Y%m%d%H%M%S")
@@ -23,11 +25,13 @@ runclean: .gaebuild.made .pip.for.ide.made
 .PHONY: gaebuild
 gaebuild: .gaebuild.made
 
-.gaebuild.made: $(GAEDIR)/appengine/ndbstore.py .gaebuild.yamls.made .gaebuild.python.made $(GAEDIR)/rdflib/__init__.py .gaebuild.frontend.made
+.gaebuild.made: .gaebuild.yamls.made .gaebuild.python.made .gaebuild.pip.made .gaebuild.frontend.made
 	touch .gaebuild.made
 
-$(GAEDIR)/rdflib/__init__.py: .gaedir.made
-	pip install -t $(GAEDIR) rdflib
+.gaebuild.pip.made: .gaedir.made
+	curl --location https://github.com/mr-niels-christensen/rdflib-appengine/releases/download/$(RDFLIBAPPENGINEVERSION)/rdflib-appengine-$(RDFLIBAPPENGINEVERSION).tar.gz > build/rdflib-appengine-$(RDFLIBAPPENGINEVERSION).tar.gz
+	pip install -t $(GAEDIR) build/rdflib-appengine-$(RDFLIBAPPENGINEVERSION).tar.gz
+	touch .gaebuild.pip.made
 
 .gaebuild.python.made: $(PYTHON_FILES) .gaedir.made
 	cp -r src/main/python/* $(GAEDIR)/
@@ -41,11 +45,6 @@ $(GAEDIR)/rdflib/__init__.py: .gaedir.made
 	cp src/main/*.yaml $(GAEDIR)/
 	cp src/main/appengine_config.py $(GAEDIR)/
 	touch .gaebuild.yamls.made
-
-$(GAEDIR)/appengine/ndbstore.py: .gaedir.made
-	mkdir -p $(GAEDIR)/appengine/
-	touch $(GAEDIR)/appengine/__init__.py
-	curl https://raw.githubusercontent.com/mr-niels-christensen/rdflib-appengine/master/appengine/ndbstore.py > $(GAEDIR)/appengine/ndbstore.py
 
 .gaedir.made:
 	mkdir -p $(GAEDIR)

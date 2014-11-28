@@ -1,7 +1,7 @@
 import logging
 import webapp2
 from rdflib import Graph
-from appengine.ndbstore import CoarseNDBStore
+from rdflib_appengine.ndbstore import NDBStore
 from dot.rural.sepake.sparql_utils import copy_graph_to_graph, copy_graphs_to_graph
 from time import time
 
@@ -59,7 +59,7 @@ def update(q):
     graph().update(q)
     
 def query(q, name):
-    store = CoarseNDBStore(identifier = _GRAPH_ID, configuration = {'log' : True})
+    store = NDBStore(identifier = _GRAPH_ID, configuration = {'log' : True})
     store.log(name)
     try:
         response = Graph(store = store).query(q).serialize(format='json')
@@ -68,4 +68,4 @@ def query(q, name):
         store.flush_log(logging.DEBUG)
     
 def graph():
-    return Graph(store = CoarseNDBStore(identifier = _GRAPH_ID))
+    return Graph(store = NDBStore(identifier = _GRAPH_ID))
