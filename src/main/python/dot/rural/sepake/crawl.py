@@ -15,16 +15,9 @@ def route():
 class _CrawlHandler(webapp2.RequestHandler):
     def get(self, action):
         g = Graph(store = NDBStore(identifier = self.request.get('graphid')))
-        if action == 'pure.projects.aberdeen':
-            _load_pure_data(g)
-        elif action == 'ukeof':
-            _load_ukeof_data(g)
-        elif action == 'pure.oai':
-            logging.debug(repr(self.request.GET))
-        else:
-            raise Exception('Unknown action: {}'.format(action))
+        _ACTIONS[action](g)
         self.response.headers['Content-Type'] = 'text/plain'
-        self.response.write('Load succeeded')
+        self.response.write('OK')
 
 def _load_pure_data(g):
     logging.info('Loading and processing data from PURE...')
@@ -35,3 +28,11 @@ def _load_ukeof_data(g):
     logging.info('Loading and processing data from UKEOF...')
     from dot.rural.sepake.ukeof import ukeof_graphs
     copy_graphs_to_graph(ukeof_graphs(), g)
+
+def _crawl_pure_oai(g):
+    pass
+
+_ACTIONS = { 'pure.projects.aberdeen' : _load_pure_data,
+             'ukeof' :                  _load_ukeof_data,
+             'pure.oai' :               _crawl_pure_oai,
+            }
