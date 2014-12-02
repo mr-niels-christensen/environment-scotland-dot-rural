@@ -22,7 +22,7 @@ handlers:
   upload: frontend/.*\.(html|js|css|gif)$
 - url: /sparql/current/query\.json.*
   script: dot.rural.sepake.httpserver.application
-- url: /crawl\.order.*
+- url: /crawl/.*
   script: dot.rural.sepake.httpserver.application
   login: admin
 

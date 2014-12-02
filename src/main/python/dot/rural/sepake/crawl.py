@@ -9,43 +9,29 @@ from dot.rural.sepake.sparql_utils import copy_graph_to_graph, copy_graphs_to_gr
 import logging
 import webapp2
 
-GRAPH_ID = 'current'
+def route():
+    return webapp2.Route(r'/crawl/<action>', handler=_CrawlHandler, name='crawl')
 
-class CrawlOrder(webapp2.RequestHandler):
-    def get(self):
-        if self.request.get('type') == 'pure.projects.aberdeen':
-            load_pure_data()
-        elif self.request.get('type') == 'ukeof':
-            load_ukeof_data()
-        elif self.request.get('type') == 'self':
-            rewrite()
-        elif self.request.get('type') == 'pure.oai':
-            pass
+class _CrawlHandler(webapp2.RequestHandler):
+    def get(self, action):
+        g = Graph(store = NDBStore(identifier = self.request.get('graphid')))
+        if action == 'pure.projects.aberdeen':
+            _load_pure_data(g)
+        elif action == 'ukeof':
+            _load_ukeof_data(g)
+        elif action == 'pure.oai':
+            logging.debug(repr(self.request.GET))
         else:
-            raise Exception('Unknown type: %s' % self.request.get('type'))
+            raise Exception('Unknown action: {}'.format(action))
         self.response.headers['Content-Type'] = 'text/plain'
         self.response.write('Load succeeded')
 
-def load_pure_data():
+def _load_pure_data(g):
     logging.info('Loading and processing data from PURE...')
     from dot.rural.sepake.pure import university_of_aberdeen
-    copy_graph_to_graph(university_of_aberdeen(), graph())
+    copy_graph_to_graph(university_of_aberdeen(), g)
     
-def load_ukeof_data():
+def _load_ukeof_data(g):
     logging.info('Loading and processing data from UKEOF...')
     from dot.rural.sepake.ukeof import ukeof_graphs
-    copy_graphs_to_graph(ukeof_graphs(), graph())
-    
-def rewrite():
-    tmp = Graph()
-    g = graph()
-    logging.debug('Reading...')
-    tmp += g
-    logging.debug('Writing...')
-    g += tmp
-    
-def update(q):
-    graph().update(q)
-    
-def graph():
-    return Graph(store = NDBStore(identifier = GRAPH_ID))
+    copy_graphs_to_graph(ukeof_graphs(), g)
