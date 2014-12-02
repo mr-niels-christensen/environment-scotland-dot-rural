@@ -1,8 +1,11 @@
 cron:
 - description: Crawl PURE Aberdeen
-  url: /crawl.order?source=pure
+  url: /crawl.order?type=pure.projects.aberdeen
   schedule: every monday 14:58
 - description: Crawl UKEOF
-  url: /crawl.order?source=ukeof
+  url: /crawl.order?type=ukeof
   schedule: every monday 15:02
+- description: Crawl PURE Aberdeen papers 2008  
+  url: /crawl.order?location=pure.abdn.ac.uk:8080&type=pure.oai&set=publications:year2008
+  schedule: every tuesday 12:02
   
