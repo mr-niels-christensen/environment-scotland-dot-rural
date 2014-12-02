@@ -5,7 +5,6 @@ Created on 16 Sep 2014
 '''
 
 from rdflib import Graph, Namespace, RDFS, URIRef
-from rdflib.plugins.stores.sparqlstore import SPARQLUpdateStore
 from rdflib.namespace import FOAF
 from ns_utils import RDF_NAME, namespace
 
@@ -47,15 +46,3 @@ class SEPAKEOntologyGraph(Graph):
         self.add((SEPAKE.UKEOFOrganisation, RDFS.subClassOf, PROV.Organization))
         self.add((SEPAKE.UKEOFOrganisation, RDFS.subClassOf, FOAF.Organization))
         
-if __name__ == '__main__':
-    ont = SEPAKEOntologyGraph()
-    print ont.serialize(format='turtle')
-    remote = SPARQLUpdateStore(context_aware = False)
-    remote.open(("http://localhost:3030/ds/query", "http://localhost:3030/ds/update"))
-    #TODO Use += but it does not seem to work unless context_aware...which does not seem to work with Fuseki
-    print 'Flushing...'
-    for triple in ont:
-        print '.',
-        remote.add(triple)
-    print 'Flushed'
-    
