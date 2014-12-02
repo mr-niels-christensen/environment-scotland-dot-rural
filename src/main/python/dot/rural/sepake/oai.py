@@ -11,16 +11,17 @@ from rdflib.term import URIRef
 _PATH_TO_RESUMPTION_TOKEN = URIRef(u'http://www.openarchives.org/OAI/2.0/#resumptionToken') / URIRef(u'http://www.w3.org/1999/02/22-rdf-syntax-ns#value')
 
 _CONSTRUCT_PAPERS = '''
-PREFIX oai_hash: <http://www.openarchives.org/OAI/2.0/>
+PREFIX oai_hash: <http://www.openarchives.org/OAI/2.0/#>
 PREFIX oai_dc_hash: <http://www.openarchives.org/OAI/2.0/oai_dc/#>
 PREFIX dc_hash: <http://purl.org/dc/elements/1.1/#>
 PREFIX dc: <http://purl.org/dc/elements/1.1/>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 CONSTRUCT {
-    dc:title dc:title ?title .
+    ?record dc:title ?title .
 }
 WHERE {
-    ?record oai_dc_hash:dc / dc_hash:title / rdf:value ?title .
+    ?record oai_hash:metadata / oai_dc_hash:dc / dc_hash:title / rdf:value ?title .
+
 }
 '''
 #    ?record oai_hash:header / oai_hash:identifier / rdf:value ?identifier .
@@ -38,10 +39,7 @@ class OAIHarvester(object):
         xml_input = urllib2.urlopen(self._url, timeout=20)
         page = XMLGraph(xml_input)
         logging.debug('{} triples found in OAI page'.format(len(page)))
-        for t in list(page):
-            if t[1].find('OAI') > 0:
-                logging.debug(t)
-        for r in page.query(_CONSTRUCT_PAPERS):
+        for r in list(page.query(_CONSTRUCT_PAPERS))[0:100]:
             logging.debug('SPARQL gave {}'.format(r))
         resumptionToken = list(page.objects(predicate = _PATH_TO_RESUMPTION_TOKEN))
         assert len(resumptionToken) <= 1, 'OAI page had {} resumptionTokens'.format(len(resumptionToken))
