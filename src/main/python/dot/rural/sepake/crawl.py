@@ -34,7 +34,7 @@ def _load_ukeof_data(graphid):
 
 def _crawl_pure_oai(graphid, location, pureset):
     crawler = OAIHarvester(location, pureset)
-    crawler.process_all()
+    crawler.next()#process_all()
 
 _ACTIONS = { 'pure.projects.aberdeen' : _load_pure_data,
              'ukeof' :                  _load_ukeof_data,
