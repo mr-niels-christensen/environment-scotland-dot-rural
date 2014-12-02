@@ -33,8 +33,8 @@ def _load_ukeof_data(graphid):
     copy_graphs_to_graph(ukeof_graphs(), _graph(graphid))
 
 def _crawl_pure_oai(graphid, location, pureset):
-    crawler = OAIHarvester('http://{}/ws/oai?verb=ListRecords&set={}&metadataPrefix=oai_dc'.format(location, pureset))
-    crawler.next()
+    crawler = OAIHarvester(location, pureset)
+    crawler.process_all()
 
 _ACTIONS = { 'pure.projects.aberdeen' : _load_pure_data,
              'ukeof' :                  _load_ukeof_data,
