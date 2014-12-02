@@ -8,6 +8,7 @@ from rdflib_appengine.ndbstore import NDBStore
 from dot.rural.sepake.sparql_utils import copy_graph_to_graph, copy_graphs_to_graph
 import logging
 import webapp2
+from dot.rural.sepake.oai import OAIHarvester
 
 def route():
     return webapp2.Route(r'/crawl/<action>', handler=_CrawlHandler, name='crawl')
@@ -32,7 +33,8 @@ def _load_ukeof_data(graphid):
     copy_graphs_to_graph(ukeof_graphs(), _graph(graphid))
 
 def _crawl_pure_oai(graphid, location, pureset):
-    logging.debug('{} <= http://{}/ws/oai?verb=ListRecords&set={}&metadataPrefix=oai_dc'.format(graphid, location, pureset))
+    crawler = OAIHarvester('http://{}/ws/oai?verb=ListRecords&set={}&metadataPrefix=oai_dc'.format(location, pureset))
+    crawler.next()
 
 _ACTIONS = { 'pure.projects.aberdeen' : _load_pure_data,
              'ukeof' :                  _load_ukeof_data,
