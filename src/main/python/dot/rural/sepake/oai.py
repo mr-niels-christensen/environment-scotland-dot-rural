@@ -6,7 +6,7 @@ Created on 2 Dec 2014
 from dot.rural.sepake.xml_to_rdf import XMLGraph
 import urllib2
 import logging
-from rdflib.term import URIRef
+from rdflib.term import URIRef, Literal
 
 _PATH_TO_RESUMPTION_TOKEN = URIRef(u'http://www.openarchives.org/OAI/2.0/#resumptionToken') / URIRef(u'http://www.w3.org/1999/02/22-rdf-syntax-ns#value')
 
@@ -17,11 +17,13 @@ PREFIX dc_hash: <http://purl.org/dc/elements/1.1/#>
 PREFIX dc: <http://purl.org/dc/elements/1.1/>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX sepake: <http://dot.rural/sepake/>
+PREFIX prov: <http://www.w3.org/ns/prov/>
 CONSTRUCT {
     ?sepakeuri rdf:type sepake:PurePublication .
     ?sepakeuri dc:title ?title .
     ?sepakeuri dc:description ?description .
     ?sepakeuri dc:subject ?subject .
+    ?sepakeuri prov:wasDerivedFrom ?pureurl .
 }
 WHERE {
     ?record oai_hash:header / oai_hash:identifier / rdf:value ?identifier .
@@ -30,6 +32,8 @@ WHERE {
     ?record oai_hash:metadata / oai_dc_hash:dc / dc_hash:subject / rdf:value ?subject .
     BIND ( ( STRAFTER ( ?identifier, "/" ) ) AS ?uuid )
     BIND ( URI ( CONCAT (str ( sepake:PurePublication ), "#", ENCODE_FOR_URI( ?uuid ) ) ) AS ?sepakeuri )
+    BIND ( puredomain: AS ?pd)
+    BIND ( ( URI ( CONCAT ( STR( ?pd ), "ws/rest/publication?uuids.uuid=", ?uuid) ) ) AS ?pureurl )
     FILTER ( CONTAINS ( LCASE ( ?subject ), "environment" ) ) 
 }
 '''
@@ -44,7 +48,7 @@ class OAIHarvester(object):
         xml_input = urllib2.urlopen(self._url, timeout=20)
         page = XMLGraph(xml_input)
         self._handle_resumption_token(page)
-        return page.query(_CONSTRUCT_PAPERS)
+        return page.query(_CONSTRUCT_PAPERS, initNs={'puredomain' : URIRef('http://{}/'.format(self._location))})
 
     def _handle_resumption_token(self, page):
         resumptionToken = list(page.objects(predicate = _PATH_TO_RESUMPTION_TOKEN))
