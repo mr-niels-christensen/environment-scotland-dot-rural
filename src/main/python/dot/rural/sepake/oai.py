@@ -18,6 +18,7 @@ PREFIX dc: <http://purl.org/dc/elements/1.1/>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX sepake: <http://dot.rural/sepake/>
 CONSTRUCT {
+    ?sepakeuri rdf:type sepake:PurePublication .
     ?sepakeuri dc:title ?title .
     ?sepakeuri dc:description ?description .
     ?sepakeuri dc:subject ?subject .
@@ -39,22 +40,22 @@ class OAIHarvester(object):
         self._url = 'http://{}/ws/oai?verb=ListRecords&set={}&metadataPrefix=oai_dc'.format(self._location, pureset)
         self._more = True
         
-    def next(self):
-        logging.debug('GETting {}'.format(self._url))
+    def _next(self):
         xml_input = urllib2.urlopen(self._url, timeout=20)
         page = XMLGraph(xml_input)
-        logging.debug('{} triples found in OAI page'.format(len(page)))
-        for r in list(page.query(_CONSTRUCT_PAPERS))[0:100]:
-            logging.debug('SPARQL gave {}'.format(r))
+        self._handle_resumption_token(page)
+        return page.query(_CONSTRUCT_PAPERS)
+
+    def _handle_resumption_token(self, page):
         resumptionToken = list(page.objects(predicate = _PATH_TO_RESUMPTION_TOKEN))
         assert len(resumptionToken) <= 1, 'OAI page had {} resumptionTokens'.format(len(resumptionToken))
         if len(resumptionToken) == 0:
-            logging.debug('No more OAI pages')
-            logging.debug(page.serialize(format = 'n3'))
             self._more = False
+            self._url = 'No more pages'
         else:
+            self._more = True
             self._url = 'http://{}/ws/oai?verb=ListRecords&resumptionToken={}'.format(self._location, resumptionToken[0])
-            
-    def process_all(self):
+                    
+    def __iter__(self):
         while (self._more):
-            self.next()
+            yield self._next()

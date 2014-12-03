@@ -33,8 +33,12 @@ def _load_ukeof_data(graphid):
     copy_graphs_to_graph(ukeof_graphs(), _graph(graphid))
 
 def _crawl_pure_oai(graphid, location, pureset):
-    crawler = OAIHarvester(location, pureset)
-    crawler.next()#process_all()
+    tmp = Graph()
+    for papers in OAIHarvester(location, pureset):
+        tmp += papers
+        logging.debug('Found {} triples from OAI'.format(len(papers)))
+    g = _graph(graphid)
+    g += tmp
 
 _ACTIONS = { 'pure.projects.aberdeen' : _load_pure_data,
              'ukeof' :                  _load_ukeof_data,
