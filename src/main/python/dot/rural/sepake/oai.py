@@ -18,15 +18,14 @@ PREFIX dc: <http://purl.org/dc/elements/1.1/>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 CONSTRUCT {
     ?identifier dc:title ?title .
+    ?identifier dc:description ?description .
 }
 WHERE {
+    ?record oai_hash:header / oai_hash:identifier / rdf:value ?identifier .
     ?record oai_hash:metadata / oai_dc_hash:dc / dc_hash:title / rdf:value ?title .
-    ?record oai_hash:header / oai_hash:identifier / rdf:value ?identifier
+    ?record oai_hash:metadata / oai_dc_hash:dc / dc_hash:description / rdf:value ?description .
 }
 '''
-#    ?record oai_hash:header / oai_hash:identifier / rdf:value ?identifier .
-#    ?record oai_dc_hash:dc / dc_hash:description / rdf:value ?description .
-#    ?identifier dc:description ?description .
 
 class OAIHarvester(object):
     def __init__(self, location, pureset):
