@@ -14,6 +14,7 @@ class SEPAKE(object):
     UKEOFOrganisation = RDF_NAME
     PureProject       = RDF_NAME
     PureDepartment    = RDF_NAME
+    PurePublication   = RDF_NAME
     PurePerson        = RDF_NAME
     owns              = RDF_NAME
     ownedBy           = RDF_NAME

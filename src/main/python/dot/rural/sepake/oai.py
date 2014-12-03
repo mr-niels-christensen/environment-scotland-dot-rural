@@ -16,14 +16,17 @@ PREFIX oai_dc_hash: <http://www.openarchives.org/OAI/2.0/oai_dc/#>
 PREFIX dc_hash: <http://purl.org/dc/elements/1.1/#>
 PREFIX dc: <http://purl.org/dc/elements/1.1/>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX sepake: <http://dot.rural/sepake/>
 CONSTRUCT {
-    ?identifier dc:title ?title .
-    ?identifier dc:description ?description .
+    ?sepakeuri dc:title ?title .
+    ?sepakeuri dc:description ?description .
 }
 WHERE {
     ?record oai_hash:header / oai_hash:identifier / rdf:value ?identifier .
     ?record oai_hash:metadata / oai_dc_hash:dc / dc_hash:title / rdf:value ?title .
     ?record oai_hash:metadata / oai_dc_hash:dc / dc_hash:description / rdf:value ?description .
+    BIND ( ( STRAFTER ( ?identifier, "/" ) ) AS ?uuid )
+    BIND ( URI ( CONCAT (str ( sepake:PurePublication ), "#", ENCODE_FOR_URI( ?uuid ) ) ) AS ?sepakeuri )
 }
 '''
 
