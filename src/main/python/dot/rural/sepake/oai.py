@@ -17,11 +17,11 @@ PREFIX dc_hash: <http://purl.org/dc/elements/1.1/#>
 PREFIX dc: <http://purl.org/dc/elements/1.1/>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 CONSTRUCT {
-    ?record dc:title ?title .
+    ?identifier dc:title ?title .
 }
 WHERE {
     ?record oai_hash:metadata / oai_dc_hash:dc / dc_hash:title / rdf:value ?title .
-
+    ?record oai_hash:header / oai_hash:identifier / rdf:value ?identifier
 }
 '''
 #    ?record oai_hash:header / oai_hash:identifier / rdf:value ?identifier .
