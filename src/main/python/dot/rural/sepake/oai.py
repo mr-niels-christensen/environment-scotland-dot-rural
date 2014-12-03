@@ -20,13 +20,16 @@ PREFIX sepake: <http://dot.rural/sepake/>
 CONSTRUCT {
     ?sepakeuri dc:title ?title .
     ?sepakeuri dc:description ?description .
+    ?sepakeuri dc:subject ?subject .
 }
 WHERE {
     ?record oai_hash:header / oai_hash:identifier / rdf:value ?identifier .
     ?record oai_hash:metadata / oai_dc_hash:dc / dc_hash:title / rdf:value ?title .
     ?record oai_hash:metadata / oai_dc_hash:dc / dc_hash:description / rdf:value ?description .
+    ?record oai_hash:metadata / oai_dc_hash:dc / dc_hash:subject / rdf:value ?subject .
     BIND ( ( STRAFTER ( ?identifier, "/" ) ) AS ?uuid )
     BIND ( URI ( CONCAT (str ( sepake:PurePublication ), "#", ENCODE_FOR_URI( ?uuid ) ) ) AS ?sepakeuri )
+    FILTER ( CONTAINS ( LCASE ( ?subject ), "environment" ) ) 
 }
 '''
 
