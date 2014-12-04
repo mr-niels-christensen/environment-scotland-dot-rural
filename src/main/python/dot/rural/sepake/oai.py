@@ -18,9 +18,11 @@ PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX sepake: <http://dot.rural/sepake/>
 PREFIX sepakecode: <http://dot.rural/sepake/code>
 PREFIX prov: <http://www.w3.org/ns/prov/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
 CONSTRUCT {
-    ?sepakeuri rdf:type sepake:Unverified .
+    ?sepakeuri rdf:type prov:Entity .
     ?sepakeuri dc:title ?title .
+    ?sepakeuri rdfs:label ?title .
     ?sepakeuri dc:description ?description .
     ?sepakeuri dc:subject ?subject .
     ?sepakeuri sepake:wasDetailedByData ?pureurl .
