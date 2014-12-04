@@ -24,7 +24,7 @@ CONSTRUCT {
     ?sepakeuri dc:description ?description .
     ?sepakeuri dc:subject ?subject .
     ?sepakeuri sepake:wasDetailedByData ?pureurl .
-    ?sepakeuri sepake:wasDetailedByCode sepakecode:Pure.rest.publication .
+    ?sepakeuri sepake:wasDetailedByCode sepakecode:PureRestPublication .
 }
 WHERE {
     ?record oai_hash:header / oai_hash:identifier / rdf:value ?identifier .

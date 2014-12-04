@@ -18,7 +18,7 @@ PREFIX publication-base_uk_hash: <http://atira.dk/schemas/pure4/model/template/a
 _TASKS = _PREFIXES + '''
 SELECT ?sepakeuri ?pureurl
 WHERE {
-    ?sepakeuri sepake:wasDetailedByCode sepakecode:Pure.rest.publication .
+    ?sepakeuri sepake:wasDetailedByCode sepakecode:PureRestPublication .
     ?sepakeuri sepake:wasDetailedByData ?pureurl .
     FILTER NOT EXISTS {?sepakeuri sepake:wasDetailedAtTime ?sometime}
 }
@@ -53,5 +53,6 @@ class PureRestPublicationHarvester(object):
         for row in rows:
             xml_input = urllib2.urlopen(row['pureurl'], timeout=20)
             page = XMLGraph(xml_input)
-            yield page.query(_CONSTRUCT_PUBLICATION, initBindings = {'sepakeuri' : row['sepakeuri']})
+            for triple in page.query(_CONSTRUCT_PUBLICATION, initBindings = {'sepakeuri' : row['sepakeuri']}):
+                yield triple
             
