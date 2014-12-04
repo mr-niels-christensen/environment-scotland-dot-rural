@@ -13,6 +13,8 @@ PREFIX sepake: <http://dot.rural/sepake/>
 PREFIX sepake: <http://dot.rural/sepake/>
 PREFIX sepakecode: <http://dot.rural/sepake/code>
 PREFIX prov: <http://www.w3.org/ns/prov/>
+PREFIX publication-base_uk: <http://atira.dk/schemas/pure4/model/template/abstractpublication/stable>
+PREFIX publication-base_uk_hash: <http://atira.dk/schemas/pure4/model/template/abstractpublication/stable#>
 '''
 
 _TASKS = _PREFIXES + '''
@@ -26,7 +28,10 @@ LIMIT 20
 '''
 
 _CONSTRUCT_PUBLICATION = _PREFIXES + '''
-
+SELECT ?sepakeuri
+WHERE {
+    [] publication-base_uk_hash:includedOnStaffPages / rdf:value "true" .
+}
 '''
 
 class PureRestPublicationHarvester(object):
@@ -38,4 +43,11 @@ class PureRestPublicationHarvester(object):
             xml_input = urllib2.urlopen(row['pureurl'], timeout=20)
             page = XMLGraph(xml_input)
             logging.debug('{} triples'.format(len(page)))
+            for (s,p,o) in page:
+                if p.find('includedOnStaffPages') >= 0:
+                    logging.debug('{} {} {}'.format(s, p, o)) 
+                    for (p1, o1) in page.predicate_objects(o):
+                        logging.debug('{} {} {}'.format(o, p1, o1))
+            for row in page.query(_CONSTRUCT_PUBLICATION, initBindings = {'sepakeuri' : row['sepakeuri']}):
+                logging.debug(row)
             
