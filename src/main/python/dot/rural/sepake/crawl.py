@@ -9,6 +9,7 @@ from dot.rural.sepake.sparql_utils import copy_graph_to_graph, copy_graphs_to_gr
 import logging
 import webapp2
 from dot.rural.sepake.oai import OAIHarvester
+from dot.rural.sepake.get_details import PureRestPublicationHarvester
 
 def route():
     return webapp2.Route(r'/crawl/<action>', handler=_CrawlHandler, name='crawl')
@@ -37,9 +38,8 @@ def _crawl_pure_oai(graphid, location, pureset):
     for papers in OAIHarvester(location, pureset):
         tmp += papers
         logging.debug('Found {} triples from OAI'.format(len(papers)))
-        break
-    from dot.rural.sepake.get_details import PureRestPublicationHarvester
-    PureRestPublicationHarvester(tmp)._next()
+    for details in PureRestPublicationHarvester(tmp):#TODO Move into separate job
+        tmp += details
     g = _graph(graphid)
     g += tmp
 
