@@ -10,6 +10,7 @@ from ns_utils import RDF_NAME, namespace
 
 @namespace('http://dot.rural/sepake', separator = '/')
 class SEPAKE(object):
+    Unverified        = RDF_NAME
     UKEOFActivity     = RDF_NAME
     UKEOFOrganisation = RDF_NAME
     PureProject       = RDF_NAME

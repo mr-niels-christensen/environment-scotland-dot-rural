@@ -5,8 +5,7 @@ Created on 2 Dec 2014
 '''
 from dot.rural.sepake.xml_to_rdf import XMLGraph
 import urllib2
-import logging
-from rdflib.term import URIRef, Literal
+from rdflib.term import URIRef
 
 _PATH_TO_RESUMPTION_TOKEN = URIRef(u'http://www.openarchives.org/OAI/2.0/#resumptionToken') / URIRef(u'http://www.w3.org/1999/02/22-rdf-syntax-ns#value')
 
