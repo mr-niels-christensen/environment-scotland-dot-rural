@@ -19,11 +19,12 @@ PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX sepake: <http://dot.rural/sepake/>
 PREFIX prov: <http://www.w3.org/ns/prov/>
 CONSTRUCT {
-    ?sepakeuri rdf:type sepake:PurePublication .
+    ?sepakeuri rdf:type sepake:Unverified .
     ?sepakeuri dc:title ?title .
     ?sepakeuri dc:description ?description .
     ?sepakeuri dc:subject ?subject .
-    ?sepakeuri prov:wasDerivedFrom ?pureurl .
+    ?sepakeuri sepake:wasDetailedByData ?pureurl .
+    ?sepakeuri sepake:wasDetailedByCode sepake:pure.rest.publication .
 }
 WHERE {
     ?record oai_hash:header / oai_hash:identifier / rdf:value ?identifier .

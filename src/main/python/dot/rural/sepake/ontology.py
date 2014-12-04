@@ -19,17 +19,22 @@ class SEPAKE(object):
     owns              = RDF_NAME
     ownedBy           = RDF_NAME
     htmlDescription   = RDF_NAME
+    wasDetailedByData = RDF_NAME
+    wasDetailedByCode = RDF_NAME
+    wasDetailedAtTime = RDF_NAME
+    
     
 @namespace('http://www.w3.org/ns/prov')
 class PROV(object):
-    Activity       = RDF_NAME
-    Organization   = RDF_NAME
-    Person         = RDF_NAME
-    startedAtTime  = RDF_NAME
-    endedAtTime    = RDF_NAME
-    wasDerivedFrom = RDF_NAME
-    memberOf       = RDF_NAME
-    hadMember      = RDF_NAME
+    Activity        = RDF_NAME
+    Organization    = RDF_NAME
+    Person          = RDF_NAME
+    startedAtTime   = RDF_NAME
+    endedAtTime     = RDF_NAME
+    wasInfluencedBy = RDF_NAME
+    memberOf        = RDF_NAME
+    hadMember       = RDF_NAME
+    generatedAtTime = RDF_NAME
 
 class SEPAKEOntologyGraph(Graph):
     '''Class for creating RDF triples for this project's ontology.
@@ -46,4 +51,7 @@ class SEPAKEOntologyGraph(Graph):
         self.add((SEPAKE.UKEOFActivity, RDFS.subClassOf, PROV.Activity))
         self.add((SEPAKE.UKEOFOrganisation, RDFS.subClassOf, PROV.Organization))
         self.add((SEPAKE.UKEOFOrganisation, RDFS.subClassOf, FOAF.Organization))
+        self.add((SEPAKE.wasDetailedByData, RDFS.subPropertyOf, PROV.wasInfluencedBy))
+        self.add((SEPAKE.wasDetailedByCode, RDFS.subPropertyOf, PROV.wasInfluencedBy))
+        self.add((SEPAKE.wasDetailedAtTime, RDFS.subPropertyOf, PROV.generatedAtTime))
         
