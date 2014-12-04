@@ -16,6 +16,7 @@ PREFIX dc_hash: <http://purl.org/dc/elements/1.1/#>
 PREFIX dc: <http://purl.org/dc/elements/1.1/>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX sepake: <http://dot.rural/sepake/>
+PREFIX sepakecode: <http://dot.rural/sepake/code>
 PREFIX prov: <http://www.w3.org/ns/prov/>
 CONSTRUCT {
     ?sepakeuri rdf:type sepake:Unverified .
@@ -23,7 +24,7 @@ CONSTRUCT {
     ?sepakeuri dc:description ?description .
     ?sepakeuri dc:subject ?subject .
     ?sepakeuri sepake:wasDetailedByData ?pureurl .
-    ?sepakeuri sepake:wasDetailedByCode sepake:pure.rest.publication .
+    ?sepakeuri sepake:wasDetailedByCode sepakecode:Pure.rest.publication .
 }
 WHERE {
     ?record oai_hash:header / oai_hash:identifier / rdf:value ?identifier .

@@ -4,7 +4,7 @@ Created on 16 Sep 2014
 @author: s05nc4
 '''
 
-from rdflib import Graph, Namespace, RDFS, URIRef
+from rdflib import Graph, RDFS
 from rdflib.namespace import FOAF
 from ns_utils import RDF_NAME, namespace
 
@@ -24,6 +24,9 @@ class SEPAKE(object):
     wasDetailedByCode = RDF_NAME
     wasDetailedAtTime = RDF_NAME
     
+@namespace('http://dot.rural/sepake/code', separator = '/')
+class SEPAKECODE(object):
+    PureRestPublication = RDF_NAME
     
 @namespace('http://www.w3.org/ns/prov')
 class PROV(object):
