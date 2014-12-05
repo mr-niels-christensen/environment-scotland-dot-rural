@@ -5,6 +5,7 @@ Created on 4 Dec 2014
 '''
 from dot.rural.sepake.xml_to_rdf import XMLGraph
 import urllib2
+import logging
 
 _PREFIXES = '''
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -26,7 +27,7 @@ WHERE {
     ?sepakeuri sepake:wasDetailedByData ?pureurl .
     FILTER NOT EXISTS {?sepakeuri sepake:wasDetailedAtTime ?sometime}
 }
-LIMIT 20
+LIMIT 100
 '''
 
 _CONSTRUCTS = list()
@@ -65,6 +66,19 @@ WHERE {
     BIND ( CONCAT ( ?familyName, ", ", ?givenName ) AS ?label )
 }
 ''')
+_CONSTRUCTS.append(_PREFIXES + '''
+CONSTRUCT {
+    ?sepakeuri foaf:homepage ?homepage .
+}
+WHERE {
+    [] publication-base_uk_hash:includedOnStaffPages / rdf:value "true" .
+    { {[] core_hash:doi/core_hash:doi/rdf:value ?homepage}
+      UNION
+      {[] core_hash:result/core_hash:content/core_hash:portalUrl/rdf:value ?homepage}
+    }
+    BIND ( ( ?sepakeuri ) AS ?sepakeuri )
+}
+''')
 
 class PureRestPublicationHarvester(object):
     def __init__(self, graph):
@@ -72,17 +86,14 @@ class PureRestPublicationHarvester(object):
         self._more = True
     
     def __iter__(self):
-        while (self._more):
-            yield self._next()
-
-    def _next(self):
-        tasks = list(self._graph.query(_TASKS))
-        if len(tasks) == 0:
-            self._more = False
+        tasks = list(self._graph.query(_TASKS)) #Minimize synchronization effects
+        no_tasks = len(tasks)
+        current_task = 0
         for task in tasks:
+            current_task += 1
+            logging.debug('Task {} of {}'.format(current_task, no_tasks))
             xml_input = urllib2.urlopen(task['pureurl'], timeout=20)
             page = XMLGraph(xml_input)
             for query in _CONSTRUCTS:
-                for triple in page.query(query, initBindings = {'sepakeuri' : task['sepakeuri']}):
-                    yield triple
+                yield page.query(query, initBindings = {'sepakeuri' : task['sepakeuri']})
             
