@@ -14,6 +14,7 @@ PREFIX sepakecode: <http://dot.rural/sepake/code>
 PREFIX prov: <http://www.w3.org/ns/prov/>
 PREFIX dc: <http://purl.org/dc/elements/1.1/>
 PREFIX publication-base_uk_hash: <http://atira.dk/schemas/pure4/model/template/abstractpublication/stable#>
+PREFIX person-template_hash: <http://atira.dk/schemas/pure4/model/template/abstractperson/stable#>
 '''
 
 _TASKS = _PREFIXES + '''
@@ -26,7 +27,8 @@ WHERE {
 LIMIT 20
 '''
 
-_CONSTRUCT_PUBLICATION = _PREFIXES + '''
+_CONSTRUCTS = list()
+_CONSTRUCTS.append(_PREFIXES + '''
 CONSTRUCT {
     ?sepakeuri rdf:type sepake:PurePublication .
     ?sepakeuri dc:title ?title .
@@ -39,7 +41,20 @@ WHERE {
     BIND ( ( ?sepakeuri ) AS ?sepakeuri )
     BIND ( ( NOW() ) AS ?now )
 }
-'''
+''')
+_CONSTRUCTS.append(_PREFIXES + '''
+CONSTRUCT {
+    ?personuri rdf:type sepake:PurePerson .
+    ?sepakeuri sepake:hasAuthor ?personuri .
+    ?personuri sepake:authorOf ?sepakeuri .
+}
+WHERE {
+    [] publication-base_uk_hash:includedOnStaffPages / rdf:value "true" .
+    [] person-template_hash:person /  person-template_hash:uuid ?personuuid .
+    BIND ( ( ?sepakeuri ) AS ?sepakeuri )
+    BIND ( URI ( CONCAT (str ( sepake:PurePerson ), "#", ENCODE_FOR_URI( ?personuuid ) ) ) AS ?personuri )
+}
+''')
 
 class PureRestPublicationHarvester(object):
     def __init__(self, graph):
@@ -51,12 +66,13 @@ class PureRestPublicationHarvester(object):
             yield self._next()
 
     def _next(self):
-        rows = list(self._graph.query(_TASKS))
-        if len(rows) == 0:
+        tasks = list(self._graph.query(_TASKS))
+        if len(tasks) == 0:
             self._more = False
-        for row in rows:
-            xml_input = urllib2.urlopen(row['pureurl'], timeout=20)
+        for task in tasks:
+            xml_input = urllib2.urlopen(task['pureurl'], timeout=20)
             page = XMLGraph(xml_input)
-            for triple in page.query(_CONSTRUCT_PUBLICATION, initBindings = {'sepakeuri' : row['sepakeuri']}):
-                yield triple
+            for query in _CONSTRUCTS:
+                for triple in page.query(query, initBindings = {'sepakeuri' : task['sepakeuri']}):
+                    yield triple
             

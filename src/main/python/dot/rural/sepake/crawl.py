@@ -38,6 +38,7 @@ def _crawl_pure_oai(graphid, location, pureset):
     for papers in OAIHarvester(location, pureset):
         tmp += papers
         logging.debug('Found {} triples from OAI'.format(len(papers)))
+        break
     for details in PureRestPublicationHarvester(tmp):#TODO Move into separate job
         tmp += details
     g = _graph(graphid)
