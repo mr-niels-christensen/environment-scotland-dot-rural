@@ -51,14 +51,18 @@ CONSTRUCT {
     ?personuri sepake:authorOf ?sepakeuri .
     ?personuri foaf:givenName  ?givenName .
     ?personuri foaf:familyName ?familyName .
+    ?personuri rdfs:label ?label .
+    ?personuri foaf:homepage ?homepage .
 }
 WHERE {
     [] publication-base_uk_hash:includedOnStaffPages / rdf:value "true" .
     ?person person-template_hash:uuid ?personuuid .
     ?person  person-template_hash:name/core_hash:firstName/rdf:value ?givenName .
     ?person  person-template_hash:name/core_hash:lastName /rdf:value ?familyName .
+    ?person  core_hash:portalUrl/rdf:value ?homepage .
     BIND ( ( ?sepakeuri ) AS ?sepakeuri )
     BIND ( URI ( CONCAT (str ( sepake:PurePerson ), "#", ENCODE_FOR_URI( ?personuuid ) ) ) AS ?personuri )
+    BIND ( CONCAT ( ?familyName, ", ", ?givenName ) AS ?label )
 }
 ''')
 
