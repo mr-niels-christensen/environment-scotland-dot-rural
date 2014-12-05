@@ -6,6 +6,7 @@ Created on 2 Dec 2014
 from dot.rural.sepake.xml_to_rdf import XMLGraph
 import urllib2
 from rdflib.term import URIRef
+from rdflib.plugins.sparql import prepareQuery
 
 _PATH_TO_RESUMPTION_TOKEN = URIRef(u'http://www.openarchives.org/OAI/2.0/#resumptionToken') / URIRef(u'http://www.w3.org/1999/02/22-rdf-syntax-ns#value')
 
@@ -42,12 +43,13 @@ class OAIHarvester(object):
         self._location = location
         self._url = 'http://{}/ws/oai?verb=ListRecords&set={}&metadataPrefix=oai_dc'.format(self._location, pureset)
         self._more = True
+        self._query = prepareQuery(_CONSTRUCT_PAPERS, initNs={'puredomain' : URIRef('http://{}/'.format(self._location))})
         
     def _next(self):
         xml_input = urllib2.urlopen(self._url, timeout=20)
         page = XMLGraph(xml_input)
         self._handle_resumption_token(page)
-        return page.query(_CONSTRUCT_PAPERS, initNs={'puredomain' : URIRef('http://{}/'.format(self._location))})
+        return page.query(self._query, initNs={'puredomain' : URIRef('http://{}/'.format(self._location))})
 
     def _handle_resumption_token(self, page):
         resumptionToken = list(page.objects(predicate = _PATH_TO_RESUMPTION_TOKEN))

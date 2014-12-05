@@ -6,6 +6,7 @@ Created on 4 Dec 2014
 from dot.rural.sepake.xml_to_rdf import XMLGraph
 import urllib2
 import logging
+from rdflib.plugins.sparql import prepareQuery
 
 _PREFIXES = '''
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -83,7 +84,7 @@ WHERE {
 class PureRestPublicationHarvester(object):
     def __init__(self, graph):
         self._graph = graph
-        self._more = True
+        self._queries = [prepareQuery(q) for q in _CONSTRUCTS]
     
     def __iter__(self):
         tasks = [task for task in self._graph.query(_TASKS)] #Minimize synchronization effects
