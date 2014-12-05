@@ -27,7 +27,7 @@ WHERE {
     ?sepakeuri sepake:wasDetailedByData ?pureurl .
     FILTER NOT EXISTS {?sepakeuri sepake:wasDetailedAtTime ?sometime}
 }
-LIMIT 100
+LIMIT 20
 '''
 
 _CONSTRUCTS = list()
@@ -86,8 +86,9 @@ class PureRestPublicationHarvester(object):
         self._more = True
     
     def __iter__(self):
-        tasks = list(self._graph.query(_TASKS)) #Minimize synchronization effects
+        tasks = [task for task in self._graph.query(_TASKS)] #Minimize synchronization effects
         no_tasks = len(tasks)
+        logging.debug('{} tasks found'.format(no_tasks))
         current_task = 0
         for task in tasks:
             current_task += 1

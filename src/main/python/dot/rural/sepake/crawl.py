@@ -42,10 +42,10 @@ def _crawl_pure_oai(graphid, location, pureset):
     g += tmp
 
 def _crawl_pure_details(graphid):
-    tmp = Graph()
-    for details in PureRestPublicationHarvester(tmp):
-        tmp += details
     g = _graph(graphid)
+    tmp = Graph()
+    for details in PureRestPublicationHarvester(g):
+        tmp += details
     g += tmp
 
 _ACTIONS = { 'pure.projects.aberdeen' : _load_pure_data,

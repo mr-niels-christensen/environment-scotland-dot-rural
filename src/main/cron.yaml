@@ -11,6 +11,6 @@ cron:
   target: 0-6
 - description: Crawl PURE Aberdeen details of found resources  
   url: /crawl/pure.details?graphid=current
-  schedule: every friday 13:25
+  schedule: every 10 minutes from 13:00 to 15:00
   target: 0-6
   
