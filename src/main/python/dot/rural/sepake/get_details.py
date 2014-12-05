@@ -15,6 +15,8 @@ PREFIX prov: <http://www.w3.org/ns/prov/>
 PREFIX dc: <http://purl.org/dc/elements/1.1/>
 PREFIX publication-base_uk_hash: <http://atira.dk/schemas/pure4/model/template/abstractpublication/stable#>
 PREFIX person-template_hash: <http://atira.dk/schemas/pure4/model/template/abstractperson/stable#>
+PREFIX core_hash: <http://atira.dk/schemas/pure4/model/core/stable#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 '''
 
 _TASKS = _PREFIXES + '''
@@ -47,10 +49,14 @@ CONSTRUCT {
     ?personuri rdf:type sepake:PurePerson .
     ?sepakeuri sepake:hasAuthor ?personuri .
     ?personuri sepake:authorOf ?sepakeuri .
+    ?personuri foaf:givenName  ?givenName .
+    ?personuri foaf:familyName ?familyName .
 }
 WHERE {
     [] publication-base_uk_hash:includedOnStaffPages / rdf:value "true" .
-    [] person-template_hash:person /  person-template_hash:uuid ?personuuid .
+    ?person person-template_hash:uuid ?personuuid .
+    ?person  person-template_hash:name/core_hash:firstName/rdf:value ?givenName .
+    ?person  person-template_hash:name/core_hash:lastName /rdf:value ?familyName .
     BIND ( ( ?sepakeuri ) AS ?sepakeuri )
     BIND ( URI ( CONCAT (str ( sepake:PurePerson ), "#", ENCODE_FOR_URI( ?personuuid ) ) ) AS ?personuri )
 }
