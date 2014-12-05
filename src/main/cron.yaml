@@ -7,7 +7,10 @@ cron:
   schedule: every monday 15:02
 - description: Crawl PURE Aberdeen papers 2008  
   url: /crawl/pure.oai?graphid=current&location=pure.abdn.ac.uk:8080&pureset=publications:year2008
-  schedule: every friday 13:06
+  schedule: every friday 13:12
+  target: 0-6
 - description: Crawl PURE Aberdeen details of found resources  
   url: /crawl/pure.details?graphid=current
-  schedule: every friday 13:16
+  schedule: every friday 13:25
+  target: 0-6
+  

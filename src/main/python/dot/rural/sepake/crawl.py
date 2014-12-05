@@ -41,7 +41,7 @@ def _crawl_pure_oai(graphid, location, pureset):
     g = _graph(graphid)
     g += tmp
 
-def _crawl_pure_details(graphid, location):
+def _crawl_pure_details(graphid):
     tmp = Graph()
     for details in PureRestPublicationHarvester(tmp):
         tmp += details
