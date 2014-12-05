@@ -12,6 +12,7 @@ PREFIX sepake: <http://dot.rural/sepake/>
 PREFIX sepake: <http://dot.rural/sepake/>
 PREFIX sepakecode: <http://dot.rural/sepake/code>
 PREFIX prov: <http://www.w3.org/ns/prov/>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
 PREFIX publication-base_uk_hash: <http://atira.dk/schemas/pure4/model/template/abstractpublication/stable#>
 '''
 
@@ -28,10 +29,13 @@ LIMIT 20
 _CONSTRUCT_PUBLICATION = _PREFIXES + '''
 CONSTRUCT {
     ?sepakeuri rdf:type sepake:PurePublication .
+    ?sepakeuri dc:title ?title .
+    ?sepakeuri rdfs:label ?title .
     ?sepakeuri sepake:wasDetailedAtTime ?now .
 }
 WHERE {
     [] publication-base_uk_hash:includedOnStaffPages / rdf:value "true" .
+    [] publication-base_uk_hash:title                / rdf:value ?title .
     BIND ( ( ?sepakeuri ) AS ?sepakeuri )
     BIND ( ( NOW() ) AS ?now )
 }

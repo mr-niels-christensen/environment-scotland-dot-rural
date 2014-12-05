@@ -21,16 +21,12 @@ PREFIX prov: <http://www.w3.org/ns/prov/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
 CONSTRUCT {
     ?sepakeuri rdf:type prov:Entity .
-    ?sepakeuri dc:title ?title .
-    ?sepakeuri rdfs:label ?title .
     ?sepakeuri dc:description ?description .
-    ?sepakeuri dc:subject ?subject .
     ?sepakeuri sepake:wasDetailedByData ?pureurl .
     ?sepakeuri sepake:wasDetailedByCode sepakecode:PureRestPublication .
 }
 WHERE {
     ?record oai_hash:header / oai_hash:identifier / rdf:value ?identifier .
-    ?record oai_hash:metadata / oai_dc_hash:dc / dc_hash:title / rdf:value ?title .
     ?record oai_hash:metadata / oai_dc_hash:dc / dc_hash:description / rdf:value ?description .
     ?record oai_hash:metadata / oai_dc_hash:dc / dc_hash:subject / rdf:value ?subject .
     BIND ( ( STRAFTER ( ?identifier, "/" ) ) AS ?uuid )
