@@ -5,7 +5,7 @@ Created on 3 Oct 2014
 '''
 import unittest
 import StringIO
-from dotruralsepake.csv_to_rdf import CSV, row_graphs_from_file
+from dotruralsepake.rdf.csv_to_rdf import CSV, row_graphs_from_file
 from rdflib import RDF, RDFS, URIRef, Graph
 from rdflib.namespace import FOAF
 from dotruralsepake.ontology import SEPAKE, PROV

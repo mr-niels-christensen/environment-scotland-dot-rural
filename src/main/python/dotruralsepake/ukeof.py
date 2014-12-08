@@ -9,7 +9,7 @@ The main interface is ukeof_graphs()
 
 from dotruralsepake.sparql_utils import expand_and_parse
 from rdflib import Graph
-from dotruralsepake.csv_to_rdf import row_graphs_from_url
+from dotruralsepake.rdf.csv_to_rdf import row_graphs_from_url
 
 def ukeof_graphs():
     '''Downloads the UKEOF catalogue and transforms each Activity into RDF.

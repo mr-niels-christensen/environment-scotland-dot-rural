@@ -5,7 +5,7 @@ Created on 3 Oct 2014
 '''
 import unittest
 import StringIO
-from dotruralsepake.xml_to_rdf import XMLGraph
+from dotruralsepake.rdf.xml_to_rdf import XMLGraph
 from rdflib.term import URIRef, Literal
 
 EXAMPLE_OAI = '''<?xml version="1.0" encoding="UTF-8"?>

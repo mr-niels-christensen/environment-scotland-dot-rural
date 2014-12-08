@@ -4,7 +4,7 @@ Created on 20 Oct 2014
 @author: s05nc4
 '''
 
-from dotruralsepake.csv_to_rdf import CSV
+from dotruralsepake.rdf.csv_to_rdf import CSV
 from rdflib.namespace import FOAF, XSD
 from dotruralsepake.ontology import SEPAKE, PROV
 from rdflib import RDF, RDFS, Graph
