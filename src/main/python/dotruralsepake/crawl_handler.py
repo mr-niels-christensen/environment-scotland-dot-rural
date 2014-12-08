@@ -8,8 +8,8 @@ from rdflib_appengine.ndbstore import NDBStore
 from dotruralsepake.rdf.utils import copy_graph_to_graph, copy_graphs_to_graph
 import logging
 import webapp2
-from dotruralsepake.harvest.oai import OAIHarvester
-from dotruralsepake.harvest.pure_details import PureRestPublicationHarvester
+from dotruralsepake.harvest.pure_oai import PUREOAIHarvester
+from dotruralsepake.harvest.pure_details import PureRESTPublicationHarvester
 
 def route():
     return webapp2.Route(r'/crawl/<action>', handler=_CrawlHandler, name='crawl')
@@ -35,7 +35,7 @@ def _load_ukeof_data(graphid):
 
 def _crawl_pure_oai(graphid, location, pureset):
     tmp = Graph()
-    for papers in OAIHarvester(location, pureset):
+    for papers in PUREOAIHarvester(location, pureset):
         tmp += papers
         logging.debug('Found {} triples from OAI'.format(len(papers)))
     g = _graph(graphid)
@@ -44,7 +44,7 @@ def _crawl_pure_oai(graphid, location, pureset):
 def _crawl_pure_details(graphid):
     g = _graph(graphid)
     tmp = Graph()
-    for details in PureRestPublicationHarvester(g):
+    for details in PureRESTPublicationHarvester(g):
         tmp += details
     g += tmp
 

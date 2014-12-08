@@ -38,7 +38,7 @@ WHERE {
 }
 '''
 
-class OAIHarvester(object):
+class PUREOAIHarvester(object):
     def __init__(self, location, pureset):
         self._location = location
         self._url = 'http://{}/ws/oai?verb=ListRecords&set={}&metadataPrefix=oai_dc'.format(self._location, pureset)

@@ -81,7 +81,7 @@ WHERE {
 }
 ''')
 
-class PureRestPublicationHarvester(object):
+class PureRESTPublicationHarvester(object):
     def __init__(self, graph):
         self._graph = graph
         self._queries = [prepareQuery(q) for q in _CONSTRUCTS]
@@ -93,7 +93,7 @@ class PureRestPublicationHarvester(object):
         current_task = 0
         for task in tasks:
             current_task += 1
-            logging.debug('Task {} of {}'.format(current_task, no_tasks))
+            logging.debug('Task {} of {}: {}'.format(current_task, no_tasks, task['pureurl']))
             xml_input = urllib2.urlopen(task['pureurl'], timeout=20)
             page = XMLGraph(xml_input)
             for query in _CONSTRUCTS:
