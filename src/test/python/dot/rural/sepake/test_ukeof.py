@@ -12,7 +12,7 @@ from dotruralsepake.ontology import SEPAKE, PROV
 import csv
 import datetime
 from rdflib.term import Literal
-from dotruralsepake import ukeof
+from dotruralsepake.harvest import ukeof
 
 #TODO test ukeof_graphs()
 

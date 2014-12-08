@@ -8,7 +8,7 @@ from rdflib import RDF, RDFS, URIRef
 from rdflib.namespace import FOAF
 from dotruralsepake.ontology import SEPAKE, PROV
 from rdflib.term import Literal
-from dotruralsepake.pure import PureGraph
+from dotruralsepake.harvest.pure_projects import PureGraph
 from StringIO import StringIO
 import datetime
 

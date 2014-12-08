@@ -8,7 +8,9 @@ setup(name='dot.rural.sepake',
       description='SEPAKE Python distributible',
       author='Niels Christensen',
       packages=['dotruralsepake',
-                'dotruralsepake.rdf',],
+                'dotruralsepake.rdf',
+                'dotruralsepake.harvest',
+                ],
       install_requires=[
           'rdflib',
           'lxml'
