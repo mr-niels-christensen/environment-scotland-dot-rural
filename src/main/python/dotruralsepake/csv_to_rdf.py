@@ -4,7 +4,7 @@ Created on 26 Sep 2014
 @author: s05nc4
 '''
 
-from dot.rural.sepake.ns_utils import RDF_NAME, namespace
+from dotruralsepake.ns_utils import RDF_NAME, namespace
 from rdflib import Graph, RDF, RDFS, URIRef, Literal
 import csv
 import urllib2

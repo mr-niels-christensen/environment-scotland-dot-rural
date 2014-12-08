@@ -5,7 +5,7 @@ Created on 3 Oct 2014
 '''
 import unittest
 import StringIO
-from dot.rural.sepake.csv_to_rdf import CSV, PROV, row_graphs_from_file
+from dotruralsepake.csv_to_rdf import CSV, PROV, row_graphs_from_file
 from rdflib import RDF, RDFS, Graph
 import csv
 from rdflib.term import Literal

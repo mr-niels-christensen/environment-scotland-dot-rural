@@ -6,9 +6,9 @@ Created on 20 Oct 2014
 import unittest
 from rdflib import RDF, RDFS, URIRef
 from rdflib.namespace import FOAF
-from dot.rural.sepake.ontology import SEPAKE, PROV
+from dotruralsepake.ontology import SEPAKE, PROV
 from rdflib.term import Literal
-from dot.rural.sepake.pure import PureGraph
+from dotruralsepake.pure import PureGraph
 from StringIO import StringIO
 import datetime
 

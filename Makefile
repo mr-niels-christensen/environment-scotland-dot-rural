@@ -57,14 +57,14 @@ test: .python.test.made
 	touch .python.test.made
 
 .pip.for.use.made: $(DISTFILE) .venv.for.use/bin/activate
-	source .venv.for.use/bin/activate && pip install $(DISTFILE)
+	source .venv.for.use/bin/activate && pip install $(DISTFILE) && pip install --force-reinstall --no-deps --upgrade $(DISTFILE)
 	touch .pip.for.use.made
 
 .PHONY: build
 build: $(DISTFILE)
 
 $(DISTFILE): $(PYTHON_FILES)
-	echo "VERSION = '$(VERSION)'" > src/main/python/dot/__init__.py
+	echo "VERSION = '$(VERSION)'" > src/main/python/dotruralsepake/__init__.py
 	(cd src/main/python && ./setup.py sdist --dist-dir ../../../build/)
 
 .venv.for.use/bin/activate:

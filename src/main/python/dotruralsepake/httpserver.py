@@ -3,7 +3,7 @@ import webapp2
 from rdflib import Graph
 from rdflib_appengine.ndbstore import NDBStore
 from time import time
-from dot.rural.sepake.crawl import route
+from dotruralsepake.crawl import route
 
 class _QueryJson(webapp2.RequestHandler):
     def get(self, graphid):

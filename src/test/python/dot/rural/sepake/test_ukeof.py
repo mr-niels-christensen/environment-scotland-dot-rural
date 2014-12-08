@@ -5,14 +5,14 @@ Created on 3 Oct 2014
 '''
 import unittest
 import StringIO
-from dot.rural.sepake.csv_to_rdf import CSV, row_graphs_from_file
+from dotruralsepake.csv_to_rdf import CSV, row_graphs_from_file
 from rdflib import RDF, RDFS, URIRef, Graph
 from rdflib.namespace import FOAF
-from dot.rural.sepake.ontology import SEPAKE, PROV
+from dotruralsepake.ontology import SEPAKE, PROV
 import csv
 import datetime
 from rdflib.term import Literal
-from dot.rural.sepake import ukeof
+from dotruralsepake import ukeof
 
 #TODO test ukeof_graphs()
 
@@ -51,7 +51,7 @@ class Test(unittest.TestCase):
         self.assertLastUpdateAdded(14)
         for activity_uri in self.g[: RDF.type : SEPAKE.UKEOFActivity]:
             self.assertIn(Literal(activity_uri),
-                          self.g[activity_uri : PROV.wasDerivedFrom / RDFS.member / CSV.fieldValue])
+                          self.g[activity_uri : PROV.wasInfluencedBy / RDFS.member / CSV.fieldValue])
 
     def testInsertLabel(self):
         self._update(ukeof.INSERT_TYPE())

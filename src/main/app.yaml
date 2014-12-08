@@ -21,9 +21,9 @@ handlers:
   static_files: frontend/\1
   upload: frontend/.*\.(html|js|css|gif)$
 - url: /sparql/current/query\.json.*
-  script: dot.rural.sepake.httpserver.application
+  script: dotruralsepake.httpserver.application
 - url: /crawl/.*
-  script: dot.rural.sepake.httpserver.application
+  script: dotruralsepake.httpserver.application
   login: admin
 
 builtins:

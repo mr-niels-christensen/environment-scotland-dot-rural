@@ -3,7 +3,7 @@ Created on 4 Dec 2014
 
 @author: Niels Christensen
 '''
-from dot.rural.sepake.xml_to_rdf import XMLGraph
+from dotruralsepake.xml_to_rdf import XMLGraph
 import urllib2
 import logging
 from rdflib.plugins.sparql import prepareQuery

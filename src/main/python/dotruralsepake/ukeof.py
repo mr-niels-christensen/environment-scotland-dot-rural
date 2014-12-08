@@ -7,9 +7,9 @@ Code for downloading the UKEOF catalogue and transforming selected parts into RD
 The main interface is ukeof_graphs()
 '''
 
-from dot.rural.sepake.sparql_utils import expand_and_parse
+from dotruralsepake.sparql_utils import expand_and_parse
 from rdflib import Graph
-from csv_to_rdf import row_graphs_from_url
+from dotruralsepake.csv_to_rdf import row_graphs_from_url
 
 def ukeof_graphs():
     '''Downloads the UKEOF catalogue and transforms each Activity into RDF.
@@ -55,7 +55,7 @@ def INSERT_TYPE():
     return '''
 INSERT {{
     ?urilink <{rdf.type}> <{sepake.UKEOFActivity}> .
-    ?urilink <{prov.wasDerivedFrom}> ?row .
+    ?urilink <{prov.wasInfluencedBy}> ?row .
 }}
 WHERE {{
     ?row <{rdf.type}> <{csv.Row}> .
@@ -73,7 +73,7 @@ WHERE {{
 
 ACTIVITY_CLAUSES = '''
     ?link <{rdf.type}> <{sepake.UKEOFActivity}> .
-    ?link <{prov.wasDerivedFrom}> ?row . 
+    ?link <{prov.wasInfluencedBy}> ?row . 
 '''
 
 @expand_and_parse
