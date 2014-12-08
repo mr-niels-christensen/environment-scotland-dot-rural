@@ -7,8 +7,12 @@ Code for downloading the UKEOF catalogue and transforming selected parts into RD
 The main interface is ukeof_graphs()
 '''
 
-from dotruralsepake.rdf.utils import expand_and_parse
-from rdflib import Graph
+from dotruralsepake.rdf.csv_to_rdf import CSV
+from rdflib.namespace import FOAF, XSD
+from dotruralsepake.rdf.ontology import SEPAKE, PROV
+from rdflib import RDF, RDFS, Graph
+from rdflib.plugins.sparql.parser import parseUpdate
+from rdflib.plugins.sparql.algebra import translateUpdate
 from dotruralsepake.rdf.csv_to_rdf import row_graphs_from_url
 
 def ukeof_graphs():
@@ -49,7 +53,26 @@ def _generate_graphs(rows):
         g -= row
         #Yield resulting graph
         yield g
-        
+
+def expand_and_parse(template_func):
+    '''Decorates a function which returns a Python format string.
+       The format string must be SPARQL update with namespaces referenced dict-style like this:
+       "INSERT {{ ?x <{rdfs.label}> "Hello" }} WHERE {{ ?x <{rdf.type}> <{sepake.HelloType}> }}"
+       The decorated function will expand namespaces and return a preparsed SPARQL update.
+    '''
+    def expanded():
+        template = template_func()
+        updateString = template.format(csv = CSV,
+                                       xsd = XSD,
+                                       rdf = RDF, 
+                                       rdfs = RDFS, 
+                                       prov = PROV, 
+                                       foaf = FOAF,
+                                       sepake = SEPAKE)
+        return translateUpdate(parseUpdate(updateString), None, {})
+    return expanded
+
+    
 @expand_and_parse
 def INSERT_TYPE():
     return '''

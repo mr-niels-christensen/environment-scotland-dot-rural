@@ -3,7 +3,7 @@ Created on 2 Dec 2014
 
 @author: Niels Christensen
 '''
-from dotruralsepake.xml_to_rdf import XMLGraph
+from dotruralsepake.rdf.xml_to_rdf import XMLGraph
 import urllib2
 from rdflib.term import URIRef
 from rdflib.plugins.sparql import prepareQuery

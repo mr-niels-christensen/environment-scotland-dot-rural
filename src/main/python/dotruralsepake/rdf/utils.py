@@ -4,14 +4,9 @@ Created on 20 Oct 2014
 @author: s05nc4
 '''
 
-from dotruralsepake.rdf.csv_to_rdf import CSV
-from rdflib.namespace import FOAF, XSD
-from dotruralsepake.rdf.ontology import SEPAKE, PROV
-from rdflib import RDF, RDFS, Graph, URIRef
-from rdflib.plugins.sparql.parser import parseUpdate
-from rdflib.plugins.sparql.algebra import translateUpdate
 import logging
 import time
+from rdflib import Graph, URIRef
 
 _PERCENTAGES = [1, 10, 20, 30, 40, 50, 60, 70, 80, 90, 101]
 
@@ -41,24 +36,6 @@ def copy_graphs_to_graph(src_graphs, dest_graph, use_multiadd = True):
     for g in src_graphs:
         union_graph += g
     copy_graph_to_graph(union_graph, dest_graph, use_multiadd)
-
-def expand_and_parse(template_func):
-    '''Decorates a function which returns a Python format string.
-       The format string must be SPARQL update with namespaces referenced dict-style like this:
-       "INSERT {{ ?x <{rdfs.label}> "Hello" }} WHERE {{ ?x <{rdf.type}> <{sepake.HelloType}> }}"
-       The decorated function will expand namespaces and return a preparsed SPARQL update.
-    '''
-    def expanded():
-        template = template_func()
-        updateString = template.format(csv = CSV,
-                                       xsd = XSD,
-                                       rdf = RDF, 
-                                       rdfs = RDFS, 
-                                       prov = PROV, 
-                                       foaf = FOAF,
-                                       sepake = SEPAKE)
-        return translateUpdate(parseUpdate(updateString), None, {})
-    return expanded
 
 '''Used as a marker for members that are to be treated as RDF names.'''
 RDF_NAME = object()
