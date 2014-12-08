@@ -8,7 +8,7 @@ import StringIO
 from dotruralsepake.rdf.csv_to_rdf import CSV, row_graphs_from_file
 from rdflib import RDF, RDFS, URIRef, Graph
 from rdflib.namespace import FOAF
-from dotruralsepake.ontology import SEPAKE, PROV
+from dotruralsepake.rdf.ontology import SEPAKE, PROV
 import csv
 import datetime
 from rdflib.term import Literal

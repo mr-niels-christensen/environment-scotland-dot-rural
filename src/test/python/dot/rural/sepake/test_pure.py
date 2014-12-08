@@ -6,7 +6,7 @@ Created on 20 Oct 2014
 import unittest
 from rdflib import RDF, RDFS, URIRef
 from rdflib.namespace import FOAF
-from dotruralsepake.ontology import SEPAKE, PROV
+from dotruralsepake.rdf.ontology import SEPAKE, PROV
 from rdflib.term import Literal
 from dotruralsepake.harvest.pure_projects import PureGraph
 from StringIO import StringIO

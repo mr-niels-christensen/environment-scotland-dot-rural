@@ -5,7 +5,7 @@ Created on 2 Dec 2014
 '''
 from rdflib import Graph
 from rdflib_appengine.ndbstore import NDBStore
-from dotruralsepake.sparql_utils import copy_graph_to_graph, copy_graphs_to_graph
+from dotruralsepake.rdf.utils import copy_graph_to_graph, copy_graphs_to_graph
 import logging
 import webapp2
 from dotruralsepake.harvest.oai import OAIHarvester

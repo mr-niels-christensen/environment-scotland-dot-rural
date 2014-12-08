@@ -6,7 +6,7 @@ Created on 16 Sep 2014
 
 from rdflib import Graph, RDFS
 from rdflib.namespace import FOAF
-from dotruralsepake.ns_utils import RDF_NAME, namespace
+from dotruralsepake.rdf.utils import RDF_NAME, namespace
 
 @namespace('http://dot.rural/sepake', separator = '/')
 class SEPAKE(object):

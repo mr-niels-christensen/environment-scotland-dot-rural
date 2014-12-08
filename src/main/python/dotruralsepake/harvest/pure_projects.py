@@ -8,7 +8,7 @@ Created on 20 Oct 2014
 
 from rdflib.plugins.sparql import prepareQuery
 from rdflib.namespace import FOAF, XSD, Namespace
-from dotruralsepake.ontology import SEPAKE, PROV
+from dotruralsepake.rdf.ontology import SEPAKE, PROV
 from rdflib import RDF, RDFS, Graph
 from dotruralsepake.rdf.xml_to_rdf import XMLGraph
 import urllib2

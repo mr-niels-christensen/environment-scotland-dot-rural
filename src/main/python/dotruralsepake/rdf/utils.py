@@ -6,8 +6,8 @@ Created on 20 Oct 2014
 
 from dotruralsepake.rdf.csv_to_rdf import CSV
 from rdflib.namespace import FOAF, XSD
-from dotruralsepake.ontology import SEPAKE, PROV
-from rdflib import RDF, RDFS, Graph
+from dotruralsepake.rdf.ontology import SEPAKE, PROV
+from rdflib import RDF, RDFS, Graph, URIRef
 from rdflib.plugins.sparql.parser import parseUpdate
 from rdflib.plugins.sparql.algebra import translateUpdate
 import logging
@@ -59,3 +59,43 @@ def expand_and_parse(template_func):
                                        sepake = SEPAKE)
         return translateUpdate(parseUpdate(updateString), None, {})
     return expanded
+
+'''Used as a marker for members that are to be treated as RDF names.'''
+RDF_NAME = object()
+
+class _URIRefCreator(type):
+    '''See http://eli.thegreenplace.net/2011/08/14/python-metaclasses-by-example/
+       A metaclass is required in order to assign a static member of a class
+       outside its definition.
+       This metaclass transforms any static member that is equal to RDF_NAME
+       into an rdflib.URIRef based on the static member's name.
+    '''
+    def __getattribute__(self, name):
+        '''This method will be called when you access MYCLASS.MYSTATICMEMBER if
+           MYCLASS.__metaclass__ == _URIRefCreator
+        '''
+        try:
+            x = type.__getattribute__(self, name) #This is the default lookup operation
+            if x is RDF_NAME: #Replace the dummy value with a URIRef based on name
+                return URIRef(type.__getattribute__(self, 'BASE_URI') + name)
+            else:
+                return x
+        except AttributeError:
+            raise AttributeError('Attribute "%s" missing. You may want to add "%s = RDF_NAME" to your namespace class' % (name, name))
+    
+    def __str__(self):
+        return type.__getattribute__(self, 'BASE_URI')
+    
+def namespace(base_uri, separator = '#'):
+    '''Usage: @namespace('http://example.com')
+              class MyClass:
+                  myRdfName = RDF_NAME
+        Transforms MyClass so that MyClass.myRdfName will equal
+        URIRef('http://example.com#myRdfName')
+    '''
+    def class_rebuilder(cls):
+        class NamespaceClass(cls):
+            __metaclass__ = _URIRefCreator
+            BASE_URI = base_uri + separator
+        return NamespaceClass
+    return class_rebuilder
