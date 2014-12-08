@@ -5,12 +5,12 @@ Created on 2 Dec 2014
 '''
 from rdflib import Graph
 from rdflib_appengine.ndbstore import NDBStore
-from dotruralsepake.rdf.utils import copy_graphs_to_graph
 import logging
 import webapp2
 from dotruralsepake.harvest.pure_oai import PUREOAIHarvester
 from dotruralsepake.harvest.pure_details import PureRESTPublicationHarvester
 from dotruralsepake.harvest.pure_projects import PureRESTProjectHarvester
+from dotruralsepake.harvest.ukeof import UKEOFActivityHarvester
 
 def route():
     return webapp2.Route(r'/crawl/<action>', handler=_CrawlHandler, name='crawl')
@@ -32,10 +32,13 @@ def _crawl_pure_projects(graphid, location):
     g = _graph(graphid)
     g += tmp
     
-def _load_ukeof_data(graphid):
-    logging.info('Loading and processing data from UKEOF...')
-    from dotruralsepake.harvest.ukeof import ukeof_graphs
-    copy_graphs_to_graph(ukeof_graphs(), _graph(graphid))
+def _crawl_ukeof_activities(graphid):
+    tmp = Graph()
+    for activityinfo in UKEOFActivityHarvester():
+        tmp += activityinfo
+    logging.debug('Found {} triples from UKEOF'.format(len(tmp)))
+    g = _graph(graphid)
+    g += tmp
 
 def _crawl_pure_oai(graphid, location, pureset):
     tmp = Graph()
@@ -53,7 +56,7 @@ def _crawl_pure_details(graphid):
     g += tmp
 
 _ACTIONS = { 'pure.projects' : _crawl_pure_projects,
-             'ukeof' :         _load_ukeof_data,
+             'ukeof' :         _crawl_ukeof_activities,
              'pure.oai' :      _crawl_pure_oai,
              'pure.details' :  _crawl_pure_details,
             }

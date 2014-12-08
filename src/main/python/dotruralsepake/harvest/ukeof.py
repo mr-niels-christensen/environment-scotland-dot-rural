@@ -15,19 +15,20 @@ from rdflib.plugins.sparql.parser import parseUpdate
 from rdflib.plugins.sparql.algebra import translateUpdate
 from dotruralsepake.rdf.csv_to_rdf import row_graphs_from_url
 
-def ukeof_graphs():
-    '''Downloads the UKEOF catalogue and transforms each Activity into RDF.
-       Note that part of the transformation on request as the client traverses the returned Graphs.
-       @return: A 2-tuple (length, graphs).
-                length is the number of elements in graphs
-                graphs is a generator yielding one Graph containing triples regarding the import itself
-                                               plus one Graph per Activity in the UKEOF catalogue
-    '''
-    meta_and_rows = row_graphs_from_url('https://catalogue.ukeof.org.uk/api/documents?format=csv',
-                                        keep = lambda row: 'Activity' in row.values())
-    yield next(meta_and_rows)
-    for g in _generate_graphs(meta_and_rows):
-        yield g
+class UKEOFActivityHarvester(object):
+    def __init__(self):
+        '''Downloads the UKEOF catalogue and transforms each Activity into RDF.
+           Note that part of the transformation on request as the client traverses the returned Graphs.
+        '''
+        meta_and_rows = row_graphs_from_url('https://catalogue.ukeof.org.uk/api/documents?format=csv',
+                                            keep = lambda row: 'Activity' in row.values())
+        self._meta = next(meta_and_rows)
+        self._rows = meta_and_rows
+    
+    def __iter__(self):
+        yield self._meta
+        for g in _generate_graphs(self._rows):
+            yield g
 
 def _generate_graphs(rows):
     '''Generator function one per Graph in rows.
@@ -35,13 +36,14 @@ def _generate_graphs(rows):
        in this file, and then all original triples (from the CSV file)
        will be removed.
     '''
-    _UPDATES = [INSERT_TYPE(), 
-                INSERT_LABEL(), 
-                INSERT_HOMEPAGE(), 
-                INSERT_LEAD_ORG(), 
-                INSERT_START_DATE(), 
-                INSERT_END_DATE(),
-                INSERT_COMMENT()]
+    _UPDATES = [expand_and_parse(u)() for u in 
+                [INSERT_TYPE, 
+                INSERT_LABEL, 
+                INSERT_HOMEPAGE, 
+                INSERT_LEAD_ORG, 
+                INSERT_START_DATE, 
+                INSERT_END_DATE,
+                INSERT_COMMENT]]
     for row in rows:
         g = Graph()
         #Add CSV triples
@@ -72,8 +74,6 @@ def expand_and_parse(template_func):
         return translateUpdate(parseUpdate(updateString), None, {})
     return expanded
 
-    
-@expand_and_parse
 def INSERT_TYPE():
     return '''
 INSERT {{
@@ -99,7 +99,6 @@ ACTIVITY_CLAUSES = '''
     ?link <{prov.wasInfluencedBy}> ?row . 
 '''
 
-@expand_and_parse
 def INSERT_LABEL():
     return '''
 INSERT {{
@@ -113,7 +112,6 @@ WHERE {{''' + ACTIVITY_CLAUSES + '''
 }}
 '''
 
-@expand_and_parse
 def INSERT_HOMEPAGE():
     return '''
 INSERT {{
@@ -123,7 +121,6 @@ WHERE {{''' + ACTIVITY_CLAUSES + '''
 }}
 '''
 
-@expand_and_parse
 def INSERT_LEAD_ORG():
     return '''
 INSERT {{
@@ -140,8 +137,6 @@ WHERE {{''' + ACTIVITY_CLAUSES + '''
     BIND (URI(CONCAT(str(<{sepake.UKEOFOrganisation}>), "#", ENCODE_FOR_URI(?leadorg))) AS ?leadorglink) 
 }}
 '''
-
-@expand_and_parse
 def INSERT_COMMENT():
     return '''
 INSERT {{
@@ -165,7 +160,6 @@ WHERE {{''' + ACTIVITY_CLAUSES + '''
 }}
 '''
 
-@expand_and_parse
 def INSERT_START_DATE():
     return '''
 INSERT {{
@@ -180,7 +174,6 @@ WHERE {{''' + ACTIVITY_CLAUSES + '''
 }}
 '''
 
-@expand_and_parse
 def INSERT_END_DATE():
     return '''
 INSERT {{

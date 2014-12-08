@@ -14,8 +14,6 @@ import datetime
 from rdflib.term import Literal
 from dotruralsepake.harvest import ukeof
 
-#TODO test ukeof_graphs()
-
 EXAMPLE = '''Type,Title,Description,Link to full record,Objectives,Keywords,Reasons for collection,Environmental domains,Parameters measured,Lead organisation,Online resources,Links to data,Lifespan start,Lifespan end,Funding categories,Last edited,UKEOF Identifier,Envirobase codings,GMES codings,GEOSS codings,ECV codings,Measurement regime,Legal background,Location (bounding boxes or points)
 Activity,"Agri-environment scheme monitoring in England (ESA, CSS and ASPS schemes) - Monitoring of Cereal Field Margin Options",This three-year programme of work aimed to undertake a comprehensive and comparative evaluation of the effectiveness of a range of field margin management options used within various agri-environment schemes in conserving arable plants and providing resources for foraging bumblebees. The project looked at (i) 5-year old margins provided in two areas under the Arable Stewardship Pilot Scheme; (ii) Cultivated margins for Rare Arable Plants established and previously monitored under the Breckland ESA Scheme; and (iii) Arable margins established nationally under the expansion of the Countryside Stewardship Scheme to accommodate a wider range of Arable Options. The project as a whole was intended to provide a comprehensive picture of the contribution being made by agri-environment schemes to delivery of the Habitat Action Plan for Cereal Field Margins.,https://catalogue.ukeof.org.uk/id/00329c57-7e1e-401e-8804-bc71a1aa0a59,"Agri-environment monitoring activities are designed to enable an assessment of the impact of each Scheme on target features of environmental interest. They also provide information about the performance of management prescriptions. Monitoring activities are co-ordinated, rather than carried out in isolation, to ensure that an overall assessment of the effectiveness of the scheme can be made. Most monitoring protocols allow for repeat surveys capable of detecting significant real change and provide baseline and resurvey data. Due to the nature of sampling and the use of common methods, sample sites within the monitoring programme can be used to provide data or a sampling framework to address other policy and scientific needs. The main objective of this activity is: a) to undertake a comprehensive and comparative evaluation of the effectiveness of a range of field margin management options used within various agri-environment schemes in conserving arable plants and providing resources for foraging bumblebees.",Agri-environment scheme;Cereal field margin;Cereal headlands;Conservation headlands;Bumblebees;Sown Margins;Field Margins;Margins;Cultivated Margins;Countryside Stewardship;Arable margins;Biodiversity;Arable Opti;Biodiversity Action Plan;BAP,Data collection;Policy;Strategic goals;Ministerial commitment,Biosphere,land use;Site condition,Natural England,,,2003-01-01,2005-01-01,public,2014-05-15 14:18:49,641313,"A4, B2, C1, D5.4, C13.9, C2.1, E1.2.2, E5.A.1, E5.A.2, E5.B.4.1, E5.B.4.2, E5.C.3.9, G2.2.1.1, D2.1.4, D5.2.6, D5.2.8, E5.C.2, S3.6, S3.8, S3.10, S3.11",,,,,,-6.4526 49.8638 1.7675 55.8121
 Activity,Detecting Pine Martens in England and Wales,"Records of Pine Marten sightings. Sightings validated for confidence using standardised interview approach, plus mortalities.",https://catalogue.ukeof.org.uk/id/004e1491-03ec-421d-a8fe-59eaec004672,Detection and status of Pine Martens in England and Wales,Biodiversity;Live sightings;telephone interview;quality score;validation;skill assessment;specimens;Feedback;Citizen science;volunteers,Basic science;Data collection;Statutory advice,Biosphere,Habitat;location;Observer knowledge;Date/time;Sighting duration;Sighting distance;Observer activity;weather;Light conditions;Description of animal;altitude;Quality score,The Vincent Wildlife Trust,,,1995-01-01,,voluntary,2014-04-30 17:14:28,457722,"E1.3, B1, B7, A4, C14, C16, A4, B7, C1, C13.9, E1.2.2, D2.1.6, E5.A.1, E5.A.2, G2.2.1.4, E5.B.4.2, G2.2.1.1, D5.2.2, E5.C.2, S3.8, S3.10, D5.2.2",,,,,,-6.4526 49.8638 1.7675 55.8121
@@ -44,18 +42,18 @@ class Test(unittest.TestCase):
         
     def _update(self, query):
         self.len_before_update = len(self.g)
-        self.g.update(query)
+        self.g.update(ukeof.expand_and_parse(query)())
         
     def testInsertType(self):
-        self._update(ukeof.INSERT_TYPE())
+        self._update(ukeof.INSERT_TYPE)
         self.assertLastUpdateAdded(14)
         for activity_uri in self.g[: RDF.type : SEPAKE.UKEOFActivity]:
             self.assertIn(Literal(activity_uri),
                           self.g[activity_uri : PROV.wasInfluencedBy / RDFS.member / CSV.fieldValue])
 
     def testInsertLabel(self):
-        self._update(ukeof.INSERT_TYPE())
-        self._update(ukeof.INSERT_LABEL())
+        self._update(ukeof.INSERT_TYPE)
+        self._update(ukeof.INSERT_LABEL)
         self.assertLastUpdateAdded(7)
         for csv_row in self.csv:
             if csv_row['Type'] == 'Activity':
@@ -63,8 +61,8 @@ class Test(unittest.TestCase):
                                   self.g.value(uri(csv_row), RDFS.label).value)
 
     def testInsertHomepage(self):
-        self._update(ukeof.INSERT_TYPE())
-        self._update(ukeof.INSERT_HOMEPAGE())
+        self._update(ukeof.INSERT_TYPE)
+        self._update(ukeof.INSERT_HOMEPAGE)
         self.assertLastUpdateAdded(7)
         for csv_row in self.csv:
             if csv_row['Type'] == 'Activity':
@@ -72,8 +70,8 @@ class Test(unittest.TestCase):
                                   uri(csv_row))
 
     def testInsertLeadorg(self):
-        self._update(ukeof.INSERT_TYPE())
-        self._update(ukeof.INSERT_LEAD_ORG())
+        self._update(ukeof.INSERT_TYPE)
+        self._update(ukeof.INSERT_LEAD_ORG)
         self.assertLastUpdateAdded(28)
         for csv_row in self.csv:
             if csv_row['Type'] == 'Activity':
@@ -84,8 +82,8 @@ class Test(unittest.TestCase):
                                   self.g.value(lead, RDFS.label).value)
 
     def testInsertComment(self):
-        self._update(ukeof.INSERT_TYPE())
-        self._update(ukeof.INSERT_COMMENT())
+        self._update(ukeof.INSERT_TYPE)
+        self._update(ukeof.INSERT_COMMENT)
         self.assertLastUpdateAdded(7)
         for csv_row in self.csv:
             if csv_row['Type'] == 'Activity':
@@ -94,8 +92,8 @@ class Test(unittest.TestCase):
                     self.assertGreater(desc.find(csv_row[key]), -1, 'Failed to find %s="%s" in "%s"' % (key, csv_row[key], desc))
     
     def testInsertStartDate(self):
-        self._update(ukeof.INSERT_TYPE())
-        self._update(ukeof.INSERT_START_DATE())
+        self._update(ukeof.INSERT_TYPE)
+        self._update(ukeof.INSERT_START_DATE)
         self.assertLastUpdateAdded(7)
         for csv_row in self.csv:
             if csv_row['Type'] == 'Activity' and len(csv_row['Lifespan start']) > 0:
@@ -104,8 +102,8 @@ class Test(unittest.TestCase):
                                   )
                 
     def testInsertEndDate(self):
-        self._update(ukeof.INSERT_TYPE())
-        self._update(ukeof.INSERT_END_DATE())
+        self._update(ukeof.INSERT_TYPE)
+        self._update(ukeof.INSERT_END_DATE)
         self.assertLastUpdateAdded(7)
         for csv_row in self.csv:
             if csv_row['Type'] == 'Activity' and len(csv_row['Lifespan end']) > 0:

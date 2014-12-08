@@ -6,6 +6,7 @@ cron:
 - description: Crawl UKEOF
   url: /crawl/ukeof?graphid=current
   schedule: every monday 15:02
+  target: 0-7
 - description: Crawl PURE Aberdeen papers 2008  
   url: /crawl/pure.oai?graphid=current&location=pure.abdn.ac.uk:8080&pureset=publications:year2008
   schedule: every friday 13:12
