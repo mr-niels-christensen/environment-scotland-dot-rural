@@ -4,11 +4,11 @@ Created on 20 Oct 2014
 @author: s05nc4
 '''
 import unittest
-from rdflib import RDF, RDFS, URIRef
+from rdflib import RDF, RDFS, URIRef, Graph
 from rdflib.namespace import FOAF
 from dotruralsepake.rdf.ontology import SEPAKE, PROV
 from rdflib.term import Literal
-from dotruralsepake.harvest.pure_projects import PureGraph
+from dotruralsepake.harvest.pure_projects import PureRESTProjectHarvester
 from StringIO import StringIO
 import datetime
 
@@ -20,7 +20,9 @@ class Test(unittest.TestCase):
     longMessage = True
     
     def setUp(self):
-        self.g = PureGraph(StringIO(EXAMPLE))
+        self.g = Graph()
+        for result in PureRESTProjectHarvester(StringIO(EXAMPLE)):
+            self.g += result
         
     def testProjectAndDept(self):
         self._assertSingleValue(SEPAKE.PureProject, PROJ, RDF.type)

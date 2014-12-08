@@ -5,11 +5,12 @@ Created on 2 Dec 2014
 '''
 from rdflib import Graph
 from rdflib_appengine.ndbstore import NDBStore
-from dotruralsepake.rdf.utils import copy_graph_to_graph, copy_graphs_to_graph
+from dotruralsepake.rdf.utils import copy_graphs_to_graph
 import logging
 import webapp2
 from dotruralsepake.harvest.pure_oai import PUREOAIHarvester
 from dotruralsepake.harvest.pure_details import PureRESTPublicationHarvester
+from dotruralsepake.harvest.pure_projects import PureRESTProjectHarvester
 
 def route():
     return webapp2.Route(r'/crawl/<action>', handler=_CrawlHandler, name='crawl')
@@ -23,10 +24,13 @@ class _CrawlHandler(webapp2.RequestHandler):
 def _graph(graphid):
     return Graph(store = NDBStore(identifier = graphid))
 
-def _load_pure_data(graphid):
-    logging.info('Loading and processing data from PURE...')
-    from dotruralsepake.harvest.pure_projects import university_of_aberdeen
-    copy_graph_to_graph(university_of_aberdeen(), _graph(graphid))
+def _crawl_pure_projects(graphid, location):
+    tmp = Graph()
+    for projectinfo in PureRESTProjectHarvester(location = location):
+        tmp += projectinfo
+        logging.debug('Found {} triples from PURE projects'.format(len(projectinfo)))
+    g = _graph(graphid)
+    g += tmp
     
 def _load_ukeof_data(graphid):
     logging.info('Loading and processing data from UKEOF...')
@@ -48,8 +52,8 @@ def _crawl_pure_details(graphid):
         tmp += details
     g += tmp
 
-_ACTIONS = { 'pure.projects.aberdeen' : _load_pure_data,
-             'ukeof' :                  _load_ukeof_data,
-             'pure.oai' :               _crawl_pure_oai,
-             'pure.details' :           _crawl_pure_details,
+_ACTIONS = { 'pure.projects' : _crawl_pure_projects,
+             'ukeof' :         _load_ukeof_data,
+             'pure.oai' :      _crawl_pure_oai,
+             'pure.details' :  _crawl_pure_details,
             }

@@ -9,23 +9,22 @@ Created on 20 Oct 2014
 from rdflib.plugins.sparql import prepareQuery
 from rdflib.namespace import FOAF, XSD, Namespace
 from dotruralsepake.rdf.ontology import SEPAKE, PROV
-from rdflib import RDF, RDFS, Graph
+from rdflib import RDF, RDFS
 from dotruralsepake.rdf.xml_to_rdf import XMLGraph
 import urllib2
-import logging
 
-def university_of_aberdeen():
-    xml_input = urllib2.urlopen('http://pure.abdn.ac.uk:8080/ws/rest/getprojectrequest?rendering=xml_long', timeout=20)
-    return PureGraph(xml_input)
+class PureRESTProjectHarvester(object):
+    def __init__(self, xml_input = None, location = None):
+        if xml_input is None:
+            assert location is not None, 'Need xml_input or location'
+            xml_input = urllib2.urlopen('http://pure.abdn.ac.uk:8080/ws/rest/getprojectrequest?rendering=xml_long'.format(location), 
+                                        timeout=20)
+        self._xml_as_rdf = _slimmed_xml_as_rdf(xml_input)
+        self._queries = [_prep(_CONSTRUCT_PROJECT), _prep(_CONSTRUCT_PEOPLE)]
 
-class PureGraph(Graph):
-    def __init__(self, fileob):
-        super(PureGraph, self).__init__()
-        xml_as_rdf = _slimmed_xml_as_rdf(fileob)
-        self += xml_as_rdf.query(_CONSTRUCT_PROJECT)
-        if len(self) == 0:
-            raise Exception('No PURE project in the given data')
-        self += xml_as_rdf.query(_CONSTRUCT_PEOPLE)
+    def __iter__(self):
+        for q in self._queries:
+            yield self._xml_as_rdf.query(q)
 
 def _slimmed_xml_as_rdf(fileob):
     return XMLGraph(fileob, 
@@ -63,9 +62,7 @@ _NS = dict(xsd = XSD,
 def _prep(query):
     return prepareQuery(query, initNs = _NS)
 
-logging.debug('Preparing queries for PURE data processing - this may take a while...')
-
-_CONSTRUCT_PEOPLE = _prep('''
+_CONSTRUCT_PEOPLE = '''
 CONSTRUCT {
     ?personuri rdf:type        sepake:PurePerson .
     ?personuri prov:memberOf   ?projecturi .
@@ -82,9 +79,9 @@ WHERE {
     BIND ( URI ( CONCAT (str ( sepake:PurePerson ), "#", ENCODE_FOR_URI( ?personuuid ) ) ) AS ?personuri )
     BIND ( URI ( CONCAT (str ( sepake:PureProject ), "#", ENCODE_FOR_URI( ?projectuuid ) ) ) AS ?projecturi )
 }
-''')
+'''
 
-_CONSTRUCT_PROJECT = _prep('''
+_CONSTRUCT_PROJECT = '''
 CONSTRUCT {
     ?projecturi rdf:type sepake:PureProject .
     ?projecturi rdfs:label ?title .
@@ -119,7 +116,5 @@ WHERE {
     BIND ( STRDT ( ?startdatestr, xsd:date ) AS ?startdate )
     BIND ( STRDT ( ?enddatestr, xsd:date ) AS ?enddate )
 }
-''')
-
-logging.debug('Done preparing queries for PURE data processing.')
+'''
 
