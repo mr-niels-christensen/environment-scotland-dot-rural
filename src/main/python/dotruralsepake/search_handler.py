@@ -13,7 +13,7 @@ class _SearchHandler(webapp2.RequestHandler):
     def get(self, graphid):
         #Access-Control-Allow-Origin: *
         self.response.headers['Access-Control-Allow-Origin'] = '*'
-        self.response.headers['Content-Type'] = 'application/sparql-results+json; charset=utf-8'
+        self.response.headers['Content-Type'] = 'application/json; charset=utf-8'
         _ = self.request.get('query')
         result = json.dumps(_DUMMY_RESULT)
         self.response.write(result)        
