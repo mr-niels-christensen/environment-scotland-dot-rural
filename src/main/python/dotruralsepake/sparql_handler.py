@@ -19,10 +19,10 @@ class _QueryJson(webapp2.RequestHandler):
         #Access-Control-Allow-Origin: *
         self.response.headers['Access-Control-Allow-Origin'] = '*'
         self.response.headers['Content-Type'] = 'application/sparql-results+json; charset=utf-8'
-        self.response.write(_query(graphid,
-                                  self.request.get('query'),
-                                  self.request.get('name')))
-        
+        query = self.request.get('query')
+        name = self.request.get('name')
+        result = _query(graphid, query, name)
+        self.response.write(result)        
         logging.debug('Responded to {} in {:.3f} seconds'.format(self.request.get('name'), time() - begin))
 
 def _query(graphid, q, name):
