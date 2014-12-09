@@ -15,4 +15,8 @@ cron:
   url: /harvest/pure.details?graphid=current
   schedule: every 10 minutes from 13:00 to 15:00
   target: 0-7
+- description: Index all documents  
+  url: /index/current
+  schedule: every friday 13:44
+  target: 0-7
   

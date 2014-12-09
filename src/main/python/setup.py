@@ -10,6 +10,7 @@ setup(name='dot.rural.sepake',
       packages=['dotruralsepake',
                 'dotruralsepake.rdf',
                 'dotruralsepake.harvest',
+                'dotruralsepake.search',
                 ],
       install_requires=[
           'rdflib',
