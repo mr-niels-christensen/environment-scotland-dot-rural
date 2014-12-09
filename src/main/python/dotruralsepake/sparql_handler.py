@@ -19,13 +19,13 @@ class _QueryJson(webapp2.RequestHandler):
         #Access-Control-Allow-Origin: *
         self.response.headers['Access-Control-Allow-Origin'] = '*'
         self.response.headers['Content-Type'] = 'application/sparql-results+json; charset=utf-8'
-        self.response.write(query(graphid,
+        self.response.write(_query(graphid,
                                   self.request.get('query'),
                                   self.request.get('name')))
         
         logging.debug('Responded to {} in {:.3f} seconds'.format(self.request.get('name'), time() - begin))
 
-def query(graphid, q, name):
+def _query(graphid, q, name):
     store = NDBStore(identifier = graphid, configuration = {'log' : True})
     store.log(name)
     try:

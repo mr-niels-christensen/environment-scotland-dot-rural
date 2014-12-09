@@ -1,18 +1,18 @@
 cron:
-- description: Crawl PURE projects Aberdeen
-  url: /crawl/pure.projects?graphid=current&location=pure.abdn.ac.uk:8080
+- description: Harvest PURE projects Aberdeen
+  url: /harvest/pure.projects?graphid=current&location=pure.abdn.ac.uk:8080
   schedule: every monday 14:58
   target: 0-7
-- description: Crawl UKEOF
-  url: /crawl/ukeof?graphid=current
+- description: Harvest UKEOF
+  url: /harvest/ukeof?graphid=current
   schedule: every monday 15:02
   target: 0-7
-- description: Crawl PURE Aberdeen papers 2008  
-  url: /crawl/pure.oai?graphid=current&location=pure.abdn.ac.uk:8080&pureset=publications:year2008
+- description: Harvest PURE Aberdeen papers 2008  
+  url: /harvest/pure.oai?graphid=current&location=pure.abdn.ac.uk:8080&pureset=publications:year2008
   schedule: every friday 13:12
   target: 0-7
-- description: Crawl PURE Aberdeen details of found resources  
-  url: /crawl/pure.details?graphid=current
+- description: Harvest PURE Aberdeen details of found resources  
+  url: /harvest/pure.details?graphid=current
   schedule: every 10 minutes from 13:00 to 15:00
   target: 0-7
   

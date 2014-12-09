@@ -13,9 +13,9 @@ from dotruralsepake.harvest.pure_projects import PureRESTProjectHarvester
 from dotruralsepake.harvest.ukeof import UKEOFActivityHarvester
 
 def route():
-    return webapp2.Route(r'/crawl/<action>', handler=_CrawlHandler, name='crawl')
+    return webapp2.Route(r'/harvest/<action>', handler=_HarvestHandler, name='crawl')
 
-class _CrawlHandler(webapp2.RequestHandler):
+class _HarvestHandler(webapp2.RequestHandler):
     def get(self, action):
         _ACTIONS[action](**self.request.GET)
         self.response.headers['Content-Type'] = 'text/plain'
@@ -24,7 +24,7 @@ class _CrawlHandler(webapp2.RequestHandler):
 def _graph(graphid):
     return Graph(store = NDBStore(identifier = graphid))
 
-def _crawl_pure_projects(graphid, location):
+def _harvest_pure_projects(graphid, location):
     tmp = Graph()
     for projectinfo in PureRESTProjectHarvester(location = location):
         tmp += projectinfo
@@ -32,7 +32,7 @@ def _crawl_pure_projects(graphid, location):
     g = _graph(graphid)
     g += tmp
     
-def _crawl_ukeof_activities(graphid):
+def _harvest_ukeof_activities(graphid):
     tmp = Graph()
     for activityinfo in UKEOFActivityHarvester():
         tmp += activityinfo
@@ -40,7 +40,7 @@ def _crawl_ukeof_activities(graphid):
     g = _graph(graphid)
     g += tmp
 
-def _crawl_pure_oai(graphid, location, pureset):
+def _harvest_pure_oai(graphid, location, pureset):
     tmp = Graph()
     for papers in PUREOAIHarvester(location, pureset):
         tmp += papers
@@ -48,15 +48,15 @@ def _crawl_pure_oai(graphid, location, pureset):
     g = _graph(graphid)
     g += tmp
 
-def _crawl_pure_details(graphid):
+def _harvest_pure_details(graphid):
     g = _graph(graphid)
     tmp = Graph()
     for details in PureRESTPublicationHarvester(g):
         tmp += details
     g += tmp
 
-_ACTIONS = { 'pure.projects' : _crawl_pure_projects,
-             'ukeof' :         _crawl_ukeof_activities,
-             'pure.oai' :      _crawl_pure_oai,
-             'pure.details' :  _crawl_pure_details,
+_ACTIONS = { 'pure.projects' : _harvest_pure_projects,
+             'ukeof' :         _harvest_ukeof_activities,
+             'pure.oai' :      _harvest_pure_oai,
+             'pure.details' :  _harvest_pure_details,
             }
