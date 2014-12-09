@@ -1,9 +1,6 @@
 function _updateSearchFromJson(response) {
-  console.log('go');
-  console.log(response);
   $ ( "#searchResults .datarow" ).remove();
   $.each(response.results, function(index, result){
-    console.log(result);
     $( "#searchResults tr:last" ).after( "<tr class='searchResultRow'></tr>" );
     $( "#searchResults tr:last" ).append( "<td>" + result.snippet + "</td>" );
     $( "#searchResults tr:last" ).append( "<td class='sepakeUri hiddenColumn'>" + result.uri + "</td>" );
