@@ -134,30 +134,13 @@
 <!-- ----------------------------------- BEGIN app-specific code ------------------------------------------------------------------- -->
         
         <div class="summaryLeftColumn">
-          <div id="focusPanel" class="mediumLeftColumnBox">
-            <p></p>
-            <h1 class="labelOfFocus"></h1>
-            <p id="descriptionOfFocus"></p>
-            <p id="labelOfOwner"    class="optionalField"><strong>Owned by</strong>     <a class="dataGoesHere"></a></p>
-            <p id="startedAtTime"   class="optionalField"><strong>Started</strong>      <span class="dataGoesHere"></span></p>
-            <p id="endedAtTime"     class="optionalField"><strong>Ended</strong>        <span class="dataGoesHere"></span></p>
-            <p id="homepageOfFocus" class="optionalField"><strong>Homepage</strong>     <a class="dataGoesHere" target="_blank"></a></p>
-            <div class="variableDataView noMore" id="personList">
-              <ul class="nav nav-sidebar x10">
-                <li class="personWrapper noData">
-                  Member:
-                  <a class="personLink" href="#">
-                    Qwerty
-                  </a>
-                  </li>
-              </ul>
-              <a class="moreAction" href="#">More...</a>
-            </div>            
-          </div>
           <div class="mediumLeftColumnBox">
             <p></p>
-            <div id="chartPanel" style="overflow-y:auto">
-            </div>
+            <h1 class="Results"></h1>
+              <div id="searchResults">
+              </div>
+              <a class="moreAction">More...</a>
+            </div>            
           </div>
         </div>
         
@@ -229,13 +212,9 @@
 <script src="js/typeahead.bundle.min.js"></script>
 
 <!-- This application --> 
-<script src="https://www.google.com/jsapi"></script>
-<script src="ajax.js"></script>
+<script src="sparql.js"></script>
 <script src="suggestions.js"></script>
-<script src="focus.js"></script>
-<script src="people.js"></script>
 <script src="ask.js"></script>
-<script src="chart.js"></script>
 
 <!-- ----------------------------------- END app-specific code --------------------------------------------------------------------- -->
 
