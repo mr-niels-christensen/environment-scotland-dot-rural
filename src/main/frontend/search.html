@@ -136,10 +136,12 @@
         <div class="summaryLeftColumn">
           <div class="mediumLeftColumnBox">
             <p></p>
-            <h1 class="Results"></h1>
-              <div id="searchResults">
-              </div>
-              <a class="moreAction">More...</a>
+            <div id="searchResults">
+              <table class="table table-hover table-bordered table-striped">
+              <tr><th>Results</th></tr>
+              </table>
+            </div>
+            <a class="moreAction">More...</a>
             </div>            
           </div>
         </div>
@@ -212,7 +214,8 @@
 <script src="js/typeahead.bundle.min.js"></script>
 
 <!-- This application --> 
-<script src="sparql.js"></script>
+<script src="ajax.js"></script>
+<script src="search.js"></script>
 <script src="suggestions.js"></script>
 <script src="ask.js"></script>
 

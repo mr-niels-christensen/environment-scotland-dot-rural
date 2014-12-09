@@ -12,10 +12,21 @@ $( document ).ajaxError(function( event, request, settings ) {
     } 
 });
 
+function search(query, callback) {
+  $.ajax({
+    url: "/search/current",
+    data: {
+      "query" : query},
+    dataType: 'json',
+    success: callback,
+    timeout: 19000 + 2000 * Math.random() //20 seconds +-1 
+  });
+}
+
 function sparql(name, queryAsList, iri, callback) {
     var q = _PREAMBLE.concat(queryAsList).join("\n").replace(/--IRI--/g, iri);
     $.ajax({
-      url: _FUSEKI_URLS[$(location).attr('protocol')],
+      url: "/sparql/current/query.json",
       data: {
           "name" : name,
         "query" : q},
@@ -24,11 +35,6 @@ function sparql(name, queryAsList, iri, callback) {
       timeout: 19000 + 2000 * Math.random() //20 seconds +-1 
     });
 }
-
-var _FUSEKI_URLS = {
-    "http:" : "/sparql/current/query.json", 
-    "file:" : "http://localhost:3030/ds/query"
-};
 
 function _valuesOfSparqlBinding( sparqlBinding ) {
   var result = {};
