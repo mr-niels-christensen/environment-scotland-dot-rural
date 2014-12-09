@@ -13,7 +13,7 @@ from dotruralsepake.harvest.pure_projects import PureRESTProjectHarvester
 from dotruralsepake.harvest.ukeof import UKEOFActivityHarvester
 
 def route():
-    return webapp2.Route(r'/harvest/<action>', handler=_HarvestHandler, name='crawl')
+    return webapp2.Route(r'/harvest/<action>', handler=_HarvestHandler, name='harvest')
 
 class _HarvestHandler(webapp2.RequestHandler):
     def get(self, action):

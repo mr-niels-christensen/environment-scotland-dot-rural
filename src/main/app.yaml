@@ -20,9 +20,9 @@ handlers:
 - url: /(.*\.(html|js|css|gif))$
   static_files: frontend/\1
   upload: frontend/.*\.(html|js|css|gif)$
-- url: /sparql/.*
+- url: /(sparql|search)/.*
   script: dotruralsepake.httpserver.application
-- url: /harvest/.*
+- url: /(harvest|index)/.*
   script: dotruralsepake.httpserver.application
   login: admin
 
