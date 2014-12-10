@@ -5,7 +5,7 @@ function _updateSearchFromJson(response) {
     $( "#searchResults tr:last" ).append( "<th>" + result.label + "</th>" );
     $( "#searchResults tr:last" ).append( "<td class='sepakeUri hiddenColumn'>" + result.uri + "</td>" );
     $( "#searchResults tr:last" ).after( "<tr class='searchResultRow'></tr>" );
-    $( "#searchResults tr:last" ).append( "<td>" + result.description + "</td>" );
+    $( "#searchResults tr:last" ).append( "<td>" + (result.description || "") + "</td>" );
     $( "#searchResults tr:last" ).append( "<td class='sepakeUri hiddenColumn'>" + result.uri + "</td>" );
   });
   $( "#searchResults .searchResultRow" ).on( 'click', function() {
