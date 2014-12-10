@@ -11,9 +11,11 @@ from google.appengine.api import search
 
 _DOCUMENTS = '''
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
-SELECT ?sepakeuri ?label
+PREFIX sepake: <http://dot.rural/sepake/>
+SELECT ?sepakeuri ?label (COALESCE(?optHtmlDescription, "No summary") AS ?htmlDescription)
 WHERE {
     ?sepakeuri rdfs:label ?label .
+    OPTIONAL { ?sepakeuri sepake:htmlDescription ?optHtmlDescription } .
 }
 LIMIT 200
 '''
@@ -23,6 +25,7 @@ def _document_from_sparql_result(sparql_result):
     doc_id = sparql_result['sepakeuri'],
     fields=[
        search.HtmlField(name='label', value=sparql_result['label']),
+       search.HtmlField(name='description', value=sparql_result['htmlDescription']),
        ])
     
 class Indexer(object):

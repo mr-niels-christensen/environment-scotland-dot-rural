@@ -19,7 +19,7 @@ runlocal: .gaebuild.made .pip.for.ide.made test
 
 .PHONY: runclean
 runclean: .gaebuild.made .pip.for.ide.made test
-	source .venv.for.ide/bin/activate && dev_appserver.py $(GAEDIR) --log_level debug --clear_datastore true
+	source .venv.for.ide/bin/activate && dev_appserver.py $(GAEDIR) --log_level debug --clear_datastore true --clear_search_indexes
 
 .PHONY: gaebuild
 gaebuild: .gaebuild.made
