@@ -3,10 +3,10 @@ cron:
   url: /harvest/pure.projects?graphid=current&location=pure.abdn.ac.uk:8080
   schedule: every monday 14:58
   target: 0-7
-- description: Harvest UKEOF
-  url: /harvest/ukeof?graphid=current
-  schedule: every monday 15:02
-  target: 0-7
+#- description: Harvest UKEOF
+#  url: /harvest/ukeof?graphid=current
+#  schedule: every monday 15:02
+#  target: 0-7
 - description: Harvest PURE Aberdeen papers 2008  
   url: /harvest/pure.oai?graphid=current&location=pure.abdn.ac.uk:8080&pureset=publications:year2008
   schedule: every friday 13:12
