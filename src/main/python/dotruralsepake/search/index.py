@@ -12,21 +12,18 @@ from google.appengine.api import search
 _DOCUMENTS = '''
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
 PREFIX sepake: <http://dot.rural/sepake/>
-SELECT ?sepakeuri ?label (COALESCE(?optHtmlDescription, "No summary") AS ?htmlDescription)
+SELECT *
 WHERE {
     ?sepakeuri rdfs:label ?label .
-    OPTIONAL { ?sepakeuri sepake:htmlDescription ?optHtmlDescription } .
+    OPTIONAL { ?sepakeuri sepake:htmlDescription ?htmlDescription } .
 }
-LIMIT 200
 '''
 
 def _document_from_sparql_result(sparql_result):
-    return search.Document(
-    doc_id = sparql_result['sepakeuri'],
-    fields=[
-       search.HtmlField(name='label', value=sparql_result['label']),
-       search.HtmlField(name='description', value=sparql_result['htmlDescription']),
-       ])
+    fields = [search.HtmlField(name='label', value=sparql_result['label'])]
+    if 'htmlDescription' in sparql_result:
+        fields.append(search.HtmlField(name='description', value=sparql_result['htmlDescription']))
+    return search.Document(doc_id = sparql_result['sepakeuri'], fields = fields)
     
 class Indexer(object):
     def __init__(self, graphid):
@@ -37,7 +34,7 @@ class Indexer(object):
     def __iter__(self):
         docs = self._graph.query(self._query)
         logging.debug('Indexing {} documents'.format(len(docs)))
-        documents = [_document_from_sparql_result(doc) for doc in docs]
+        documents = [_document_from_sparql_result(doc.asdict()) for doc in docs]
         self._index.put(documents)
         if False:
             yield None

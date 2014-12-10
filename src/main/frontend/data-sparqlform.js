@@ -19,7 +19,9 @@ function _updateQueryResponseFromJson(response) {
     $.each(response.results.bindings, function(index, binding){
       $( "#sparqlResponse tr:last" ).after( "<tr class='datarow'></tr>" );
       for (index in response.head.vars) {
-        $( "#sparqlResponse tr:last" ).append( "<td>" + binding[response.head.vars[index]].value + "</td>" );        
+        var b = binding[response.head.vars[index]];
+        var v = (b) ? b.value : '';
+        $( "#sparqlResponse tr:last" ).append( "<td>" + v + "</td>" );        
       }
     });
 };
