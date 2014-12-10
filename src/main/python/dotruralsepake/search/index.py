@@ -5,7 +5,6 @@ Created on 9 Dec 2014
 '''
 from rdflib import Graph
 from rdflib_appengine.ndbstore import NDBStore
-import logging
 from rdflib.plugins.sparql import prepareQuery
 from google.appengine.api import search
 
@@ -27,15 +26,22 @@ def _document_from_sparql_result(sparql_result):
     
 class Indexer(object):
     def __init__(self, graphid):
-        self._graph = Graph(store = NDBStore(identifier = graphid))
-        self._query = prepareQuery(_DOCUMENTS)
         self._index = search.Index(name = graphid)
+        graph = Graph(store = NDBStore(identifier = graphid))
+        query = prepareQuery(_DOCUMENTS)
+        self._docs = graph.query(query)
+        self._more = True
 
     def __iter__(self):
-        docs = self._graph.query(self._query)
-        logging.debug('Indexing {} documents'.format(len(docs)))
-        documents = [_document_from_sparql_result(doc.asdict()) for doc in docs]
-        self._index.put(documents)
-        if False:
-            yield None
+        while self._more:
+            index_now = list()
+            self._more = False
+            for doc in self._docs:
+                index_now.append(doc)
+                if len(index_now) == 200:
+                    self._more = True
+                    break
+            documents = [_document_from_sparql_result(doc.asdict()) for doc in index_now]
+            self._index.put(documents)
+            yield len(index_now)
 
