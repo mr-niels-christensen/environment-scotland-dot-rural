@@ -22,7 +22,7 @@ handlers:
   upload: frontend/.*\.(html|js|css|gif)$
 - url: /(sparql|search)/.*
   script: dotruralsepake.httpserver.application
-- url: /(harvest|index)/.*
+- url: /(harvest|index|delete)/.*
   script: dotruralsepake.httpserver.application
   login: admin
 

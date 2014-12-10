@@ -1,5 +1,5 @@
 import webapp2
-from dotruralsepake import harvest_handler, sparql_handler, index_handler, search_handler
+from dotruralsepake import harvest_handler, sparql_handler, index_handler, search_handler, delete_handler
 
 
 application = webapp2.WSGIApplication([
@@ -7,5 +7,6 @@ application = webapp2.WSGIApplication([
     harvest_handler.route(),
     index_handler.route(),
     search_handler.route(),
+    delete_handler.route(),
 ], debug=True) #debug=true means stack traces in browser
 

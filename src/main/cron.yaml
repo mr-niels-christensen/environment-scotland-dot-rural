@@ -19,4 +19,8 @@ cron:
   url: /index/current
   schedule: every friday 13:44
   target: 0-7
+- description: Delete all documents in current  
+  url: /delete/current
+  schedule: 1st monday of sep,oct,nov 17:00
+  target: 0-7
   
