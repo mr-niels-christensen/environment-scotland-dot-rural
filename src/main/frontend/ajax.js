@@ -26,7 +26,7 @@ function search(query, callback) {
 function sparql(name, queryAsList, iri, callback) {
     var q = _PREAMBLE.concat(queryAsList).join("\n").replace(/--IRI--/g, iri);
     $.ajax({
-      url: "/sparql/current/query.json",
+      url: "/sparql/default/query.json",
       data: {
           "name" : name,
         "query" : q},

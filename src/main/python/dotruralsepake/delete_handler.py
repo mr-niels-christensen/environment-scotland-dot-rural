@@ -7,18 +7,28 @@ import webapp2
 import logging
 from rdflib_appengine.ndbstore import NDBStore
 from google.appengine.api import search
+from rdflib import Graph
 
 def route():
     return webapp2.Route(r'/delete/<graphid>', handler=_DeleteHandler, name='delete')
 
 class _DeleteHandler(webapp2.RequestHandler):
     def get(self, graphid):
-        logging.info('Deleting {}'.format(graphid))
-        NDBStore(identifier = graphid).destroy(None)
-        _delete_all_in_index(graphid)
-        logging.info('Deleted {}'.format(graphid))
+        _delete(graphid, **self.request.GET)
         self.response.headers['Content-Type'] = 'text/plain'
         self.response.write('OK')
+
+def _delete(graphid, overwriteBy = None):
+    dest_graph = Graph(store = NDBStore(identifier = graphid))
+    src_graph = None if overwriteBy is None else Graph(store = NDBStore(identifier = overwriteBy))
+    logging.info('Deleting {}'.format(graphid))
+    dest_graph.destroy(None)
+    logging.info('Deleted {}'.format(graphid))
+    _delete_all_in_index(graphid)
+    logging.info('Deleted search index for {}'.format(graphid))
+    if src_graph is not None:
+        dest_graph += src_graph
+        logging.info('Copied {} to {}'.format(overwriteBy, graphid))
 
 def _delete_all_in_index(index_name):
     """Delete all the docs in the given index."""
