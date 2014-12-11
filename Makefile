@@ -2,7 +2,7 @@ SHELL := /bin/bash
 
 MAJORMINOR := 0.7
 
-RDFLIBAPPENGINEVERSION := 1.0
+RDFLIBAPPENGINEVERSION := 1.1
 
 PYTHON_FILES := $(shell find src -name "*.py")
 FRONTEND_FILES := $(shell find src/main/frontend -name "*.*")
