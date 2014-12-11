@@ -9,10 +9,11 @@ $( document ).ready( function() {
       $(dom_element).append(new_elems[i]);
     }
   });
-  $( document ).on( 'updateFromIri', _updatePeopleFromIri);
+  $(window).bind( 'hashchange', _updatePeopleFromIri);
 });
 
-function _updatePeopleFromIri(event, iri) {
+function _updatePeopleFromIri(event) {
+  var iri = event.getState( 'iri' );
   sparql("members",
           [
           "SELECT * WHERE {",

@@ -1,14 +1,15 @@
 $( document ).ready( function() {
-    $( document ).on( 'updateFromIri', _updateFocusFromIri);
+    $(window).bind( 'hashchange', _updateFocusFromIri);
     $( "#labelOfOwner" ).on( 'click', function() {
         var iri = $( "#labelOfOwner" ).data( 'iri');
         if (iri) {
-            $( document ).trigger( 'updateFromIri', iri );  
+            jQuery.bbq.pushState({'iri' : iri});  
         };
     });
 });
 
-function _updateFocusFromIri(event, iri) {
+function _updateFocusFromIri(event) {
+    var iri = event.getState( 'iri' );
     $( '.optionalField' ).hide();
     sparql("focus",
             [

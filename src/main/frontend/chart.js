@@ -3,16 +3,17 @@ google.setOnLoadCallback( function() {
     $( document ).ready( function() {
         initChart();
         setClickHandler(_updateFromIri);
-        $( document ).on( 'updateFromIri', _updateChartFromIri);
-        _updateFromIri( "https://catalogue.ukeof.org.uk/id/db192dbe-e3f0-4c40-8ddf-407a707505bb" );
+        $(window).bind( 'hashchange', _updateChartFromIri);
+        _updateFromIri( "http://dot.rural/sepake/PurePublication#ff4e02c1-082e-46ad-9e85-7780ea6acdab" );
     });
 });
 
 function _updateFromIri(iri) {
-    $( document ).trigger( 'updateFromIri', iri );
-  }
+    jQuery.bbq.pushState({'iri' : iri});
+}
 
-function _updateChartFromIri(event, iri) {
+function _updateChartFromIri(event) {
+    var iri = event.getState( 'iri' );
     sparql("ownerchart",
             [
             "SELECT ?owner ?ownerlabel ?owned ?ownedlabel WHERE {",
