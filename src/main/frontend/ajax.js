@@ -14,7 +14,7 @@ $( document ).ajaxError(function( event, request, settings ) {
 
 function search(query, callback) {
   $.ajax({
-    url: "/search/current",
+    url: "/search/default",
     data: {
       "query" : query},
     dataType: 'json',
