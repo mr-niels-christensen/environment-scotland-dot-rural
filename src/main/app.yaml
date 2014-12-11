@@ -15,8 +15,8 @@ handlers:
 - url: /js
   static_dir: frontend/js
 - url: /$
-  static_files: frontend/index.html
-  upload: frontend/index.html
+  static_files: frontend/search.html
+  upload: frontend/search.html
 - url: /(.*\.(html|js|css|gif))$
   static_files: frontend/\1
   upload: frontend/.*\.(html|js|css|gif)$
