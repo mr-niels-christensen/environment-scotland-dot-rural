@@ -9,8 +9,8 @@ function _updateSearchFromJson(response) {
     $( "#searchResults tr:last" ).append( "<td class='sepakeUri hiddenColumn'>" + result.uri + "</td>" );
   });
   $( "#searchResults .searchResultRow" ).on( 'click', function() {
-    var uri = $( this ).find( '.sepakeUri' ).text();
-    console.log(uri)
+    var iri = encodeURI($( this ).find( '.sepakeUri' ).text());
+    document.location.href='/focus.html#iri=' + iri;
   });
 }
 

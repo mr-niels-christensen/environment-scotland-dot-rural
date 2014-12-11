@@ -4,7 +4,7 @@ google.setOnLoadCallback( function() {
         initChart();
         setClickHandler(_updateFromIri);
         $(window).bind( 'hashchange', _updateChartFromIri);
-        _updateFromIri( "http://dot.rural/sepake/PurePublication#ff4e02c1-082e-46ad-9e85-7780ea6acdab" );
+        $(window).trigger( 'hashchange' );
     });
 });
 
