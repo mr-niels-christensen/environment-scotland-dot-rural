@@ -3,6 +3,10 @@ _NEXT_PAGE_HTML = "<tr class='dynamicrow'><td><p align='right'>" + _NEXT_PAGE_HT
 
 function _updateSearchFromJson(response) {
   $ ( "#searchResults .dynamicrow" ).remove();
+  var query = jQuery.bbq.getState( 'query' );
+  if ( query ) {
+    $( "#searchResults tr:last" ).after( "<tr class='dynamicrow'><td class='small'>Found " + response.number_found + " results for '" + query + "'</td></tr>" );
+  }
   $.each(response.results, function(index, result){
     $( "#searchResults tr:last" ).after( "<tr class='searchResultRow dynamicrow'></tr>" );
     $( "#searchResults tr:last" ).append( "<th><h1>" + result.label + "</h1></th>" );
