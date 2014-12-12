@@ -2,7 +2,7 @@ function _updateSearchFromJson(response) {
   $ ( "#searchResults .dynamicrow" ).remove();
   $.each(response.results, function(index, result){
     $( "#searchResults tr:last" ).after( "<tr class='searchResultRow dynamicrow'></tr>" );
-    $( "#searchResults tr:last" ).append( "<th>" + result.label + "</th>" );
+    $( "#searchResults tr:last" ).append( "<th><h1>" + result.label + "</h1></th>" );
     $( "#searchResults tr:last" ).append( "<td class='sepakeUri hiddenColumn'>" + result.uri + "</td>" );
     $( "#searchResults tr:last" ).after( "<tr class='searchResultRow dynamicrow'></tr>" );
     $( "#searchResults tr:last" ).append( "<td>" + (result.description || "") + "</td>" );
