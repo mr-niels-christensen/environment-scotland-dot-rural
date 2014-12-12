@@ -20,10 +20,16 @@ function _updateSearchFromJson(response) {
   }
 }
 
+function _docReady_updateSearchFromJson(response) {
+  $( document ).ready( function (){
+    _updateSearchFromJson(response);
+  });
+}
+
 function _updateSearchFromHashChange(event) {
   var query = event.getState( 'query' ) || '';
   var cursor_websafe =  event.getState( 'cursor_websafe' ) || null;
-  search(query, cursor_websafe, _updateSearchFromJson);
+  search(query, cursor_websafe, _docReady_updateSearchFromJson);
 }
 
 $(window).bind( 'hashchange', _updateSearchFromHashChange);
