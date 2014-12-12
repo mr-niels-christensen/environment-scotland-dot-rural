@@ -2,6 +2,7 @@ var _NEXT_PAGE_HTML = '<button type="button" class="moreLink btn btn-default btn
 _NEXT_PAGE_HTML = "<tr class='dynamicrow'><td><p align='right'>" + _NEXT_PAGE_HTML + "</p></td></tr>";
 
 function _updateSearchFromJson(response) {
+  window.scrollTo(0, 0);
   $ ( "#searchResults .dynamicrow" ).remove();
   var query = jQuery.bbq.getState( 'query' );
   if ( query ) {
