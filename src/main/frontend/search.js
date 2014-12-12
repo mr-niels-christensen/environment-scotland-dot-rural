@@ -12,9 +12,11 @@ function _updateSearchFromJson(response) {
     document.location.href = link_url;
   });
   if (response.next_cursor_websafe) {
-    $( "#searchResults tr:last" ).after( "<tr class='dynamicrow'><td><a class='moreLink'>More...</a></td></tr>" );
+    $( "#searchResults tr:last" ).after( "<tr class='dynamicrow'><td><p align='right'><a class='moreLink'>Next page...</a></p></td></tr>" );
     var more_url = jQuery.param.fragment( '/search.html', {'query' : response.query, 'cursor_websafe' : response.next_cursor_websafe} );
-    $( "#searchResults .moreLink" ).attr('href', more_url);
+    $( "#searchResults .moreLink" ).on( 'click', function() {
+      document.location.href = more_url;
+    });
   }
 }
 
