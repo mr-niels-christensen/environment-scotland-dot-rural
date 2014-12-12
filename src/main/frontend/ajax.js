@@ -12,11 +12,12 @@ $( document ).ajaxError(function( event, request, settings ) {
     } 
 });
 
-function search(query, callback) {
+function search(query, cursor_websafe, callback) {
   $.ajax({
     url: "/search/default",
     data: {
-      "query" : query},
+      "query" : query,
+      "cursor_websafe" : cursor_websafe},
     dataType: 'json',
     success: callback,
     timeout: 19000 + 2000 * Math.random() //20 seconds +-1 

@@ -14,7 +14,7 @@ class _SearchHandler(webapp2.RequestHandler):
         #Access-Control-Allow-Origin: *
         self.response.headers['Access-Control-Allow-Origin'] = '*'
         self.response.headers['Content-Type'] = 'application/json; charset=utf-8'
-        query = self.request.get('query')
-        result = json.dumps(search_graph(graphid, query))
+        result = search_graph(graphid, **self.request.GET)
+        result = json.dumps(result)
         self.response.write(result)        
 

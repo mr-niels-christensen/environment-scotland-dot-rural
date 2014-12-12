@@ -18,11 +18,14 @@ def _dictify(scored_document):
     return result
 
 def search_graph(graphid, query, cursor_websafe = None):
-    gae_query = search.Query(query_string=query)
+    gae_query = search.Query(query_string=query, 
+                             options = search.QueryOptions(cursor=search.Cursor(web_safe_string = cursor_websafe)))
     result = search.Index(name = graphid).search(gae_query)
-    logging.debug(result)
-    return {'number_found' : result.number_found,
-            'cursor_websafe' : None,
+    next_cursor_websafe = result.cursor.web_safe_string if result.cursor is not None else None
+    return {'query' : query,
+            'cursor_websafe' : cursor_websafe,
+            'number_found' : result.number_found,
+            'next_cursor_websafe' : next_cursor_websafe,
             'results' : [_dictify(scored_document) for scored_document in result.results],
             }
  
