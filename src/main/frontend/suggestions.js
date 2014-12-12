@@ -1,5 +1,4 @@
-$( document ).ready( function() {
-    sparql("suggestions",
+sparql("suggestions",
             [
             "SELECT * WHERE {",//TODO: Get type, but only one record per id, maybe using #3
             "    {?id rdfs:label ?label} .",
@@ -7,13 +6,18 @@ $( document ).ready( function() {
            ],
            "",
            _initSearchFromJson
-    );
-});
+);
 
 function _initSearchFromJson(response) {
     _initSearchFromPolishedData( {items: $.map( response.results.bindings, function(binding, index) {
       return _valuesOfSparqlBinding(binding);//TODO more public naming
     })});
+}
+
+function _docReady_initSearchFromPolishedData(data) {
+  $( document ).ready( function() {
+    _initSearchFromPolishedData(data);
+  });
 }
 
 function _initSearchFromPolishedData(data) {
