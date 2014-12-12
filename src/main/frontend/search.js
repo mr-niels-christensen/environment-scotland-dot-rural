@@ -3,9 +3,7 @@ function _updateSearchFromJson(response) {
   $.each(response.results, function(index, result){
     $( "#searchResults tr:last" ).after( "<tr class='searchResultRow dynamicrow'></tr>" );
     $( "#searchResults tr:last" ).append( "<th><h1>" + result.label + "</h1></th>" );
-    $( "#searchResults tr:last" ).append( "<td class='sepakeUri hiddenColumn'>" + result.uri + "</td>" );
-    $( "#searchResults tr:last" ).after( "<tr class='searchResultRow dynamicrow'></tr>" );
-    $( "#searchResults tr:last" ).append( "<td>" + (result.description || "") + "</td>" );
+    $( "#searchResults tr:last th" ).append( "<p>" + (result.description || "Click for details") + "</p>" );
     $( "#searchResults tr:last" ).append( "<td class='sepakeUri hiddenColumn'>" + result.uri + "</td>" );
   });
   $( "#searchResults .searchResultRow" ).on( 'click', function() {
