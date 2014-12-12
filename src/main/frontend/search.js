@@ -9,7 +9,7 @@ function _updateSearchFromJson(response) {
     $( "#searchResults tr:last" ).append( "<td class='sepakeUri hiddenColumn'>" + result.uri + "</td>" );
   });
   $( "#searchResults .searchResultRow" ).on( 'click', function() {
-    var iri = encodeURI($( this ).find( '.sepakeUri' ).text());
+    var iri = $( this ).find( '.sepakeUri' ).text();
     var link_url = jQuery.param.fragment( '/focus.html', {'iri' : iri} );
     document.location.href = link_url;
   });

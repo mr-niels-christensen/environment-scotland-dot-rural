@@ -27,8 +27,9 @@ function _initSearchFromPolishedData(data) {
         source: substringMatcher(data.items),//TODO: Use Bloodhound
         displayKey: "label",
       }).on( 'typeahead:selected', function(jQueryEvent, suggestionObject, nameOfDataset) {
-          $( document ).trigger( 'updateFromIri', suggestionObject.id );
-  });
+          var link_url = jQuery.param.fragment( '/focus.html', {'iri' : suggestionObject.id} );
+          document.location.href = link_url;  
+          });
 }
 
 var substringMatcher = function(projs) {
