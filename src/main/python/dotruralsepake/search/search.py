@@ -5,7 +5,6 @@ Created on 9 Dec 2014
 '''
 from rdflib_appengine.ndbstore import NDBStore
 from google.appengine.api import search
-import logging
 
 def _dictify(scored_document):
     result = {'uri' : scored_document.doc_id,

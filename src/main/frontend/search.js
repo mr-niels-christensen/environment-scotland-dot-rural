@@ -30,7 +30,7 @@ function _docReady_updateSearchFromJson(response) {
 }
 
 function _updateSearchFromHashChange(event) {
-  var query = event.getState( 'query' ) || '';
+  var query = event.getState( 'query' ) || 'environment';
   var cursor_websafe =  event.getState( 'cursor_websafe' ) || null;
   search(query, cursor_websafe, _docReady_updateSearchFromJson);
 }
