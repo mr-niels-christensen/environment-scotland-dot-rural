@@ -21,7 +21,8 @@ def _dictify(scored_document):
 
 def search_graph(graphid, query, cursor_websafe = None):
     gae_query = search.Query(query_string=query, 
-                             options = search.QueryOptions(cursor=search.Cursor(web_safe_string = cursor_websafe)))
+                             options = search.QueryOptions(cursor = search.Cursor(web_safe_string = cursor_websafe),
+                                                           limit = 10))
     result = search.Index(name = graphid).search(gae_query)
     next_cursor_websafe = result.cursor.web_safe_string if result.cursor is not None else None
     return {'query' : query,
