@@ -13,6 +13,8 @@ def _dictify(scored_document):
               }
     try:
         result['description'] = scored_document.field('description').value
+        if len(result['description']) > 500:
+            result['description'] = result['description'][:497] + "..."
     except Exception:
         pass
     return result

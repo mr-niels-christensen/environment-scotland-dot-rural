@@ -1,3 +1,6 @@
+var _NEXT_PAGE_HTML = '<button type="button" class="moreLink btn btn-default btn-lg"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Next page</button>';
+_NEXT_PAGE_HTML = "<tr class='dynamicrow'><td><p align='right'>" + _NEXT_PAGE_HTML + "</p></td></tr>";
+
 function _updateSearchFromJson(response) {
   $ ( "#searchResults .dynamicrow" ).remove();
   $.each(response.results, function(index, result){
@@ -12,7 +15,7 @@ function _updateSearchFromJson(response) {
     document.location.href = link_url;
   });
   if (response.next_cursor_websafe) {
-    $( "#searchResults tr:last" ).after( "<tr class='dynamicrow'><td><p align='right'><a class='moreLink'>Next page...</a></p></td></tr>" );
+    $( "#searchResults tr:last" ).after( _NEXT_PAGE_HTML );
     var more_url = jQuery.param.fragment( '/search.html', {'query' : response.query, 'cursor_websafe' : response.next_cursor_websafe} );
     $( "#searchResults .moreLink" ).on( 'click', function() {
       document.location.href = more_url;
