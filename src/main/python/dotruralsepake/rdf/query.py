@@ -9,8 +9,9 @@ import logging
 import urllib2
 
 class SPARQLQueryResolver(object):
-    def __init__(self, graphid):
+    def __init__(self, host_url, graphid):
         self._store = NDBStore(identifier = graphid, configuration = {'log' : True})
+        self._host_url = host_url
         
     def dynamic(self, name = None, query = None):
         assert name is not None, 'name parameter required'
@@ -24,10 +25,11 @@ class SPARQLQueryResolver(object):
             
     def predefined(self, queryUrl = None, **kwargs):
         assert queryUrl is not None, 'queryUrl parameter required'
-        self._store.log(queryUrl)
-        sparql_txt = urllib2.urlopen(queryUrl, timeout = 5)
+        full_url = '{}{}'.format(self._host_url, queryUrl)
+        self._store.log(full_url)
+        sparql_txt = urllib2.urlopen(full_url, timeout = 5)
         try:
-            bindings = {key : URIRef(value) for (key, value) in kwargs if key != 'query'}
+            bindings = {key : URIRef(kwargs[key]) for key in kwargs if key != 'query'}
             response = Graph(store = self._store).query(sparql_txt, initBindings = bindings)
             return response
         finally:

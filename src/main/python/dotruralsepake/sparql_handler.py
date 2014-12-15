@@ -17,7 +17,7 @@ class _SPARQLHandler(webapp2.RequestHandler):
         #Access-Control-Allow-Origin: *
         self.response.headers['Access-Control-Allow-Origin'] = '*'
         self.response.headers['Content-Type'] = 'application/sparql-results+json; charset=utf-8'
-        resolver = SPARQLQueryResolver(graphid)
+        resolver = SPARQLQueryResolver(self.request.host_url, graphid)
         if querySource == 'dynamic':
             result = resolver.dynamic(**self.request.GET)
         else:

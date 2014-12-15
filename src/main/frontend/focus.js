@@ -11,16 +11,10 @@ $( document ).ready( function() {
 function _updateFocusFromIri(event) {
     var iri = event.getState( 'iri' );
     $( '.optionalField' ).hide();
-    sparql("focus",
-            [
-             "SELECT ?p ?y WHERE {",
-             "    BIND (<--IRI--> AS ?focus) .",
-             "    { ?focus ?p ?y } .",
-             "}",
-            ],
-           iri,
-           _updateFocusFromJson
-    );    
+    sparql_predefined(
+        "/sparql-queries/focus.sparql.txt", 
+        {'focus' : iri}, 
+        _updateFocusFromJson);    
 }
 
 var _predicate_to_action = {

@@ -24,6 +24,20 @@ function search(query, cursor_websafe, callback) {
   });
 }
 
+function sparql_predefined(queryUrl, parameters, callback) {
+  var data = { "queryUrl" : queryUrl };
+  for (key in parameters) {
+    data[key] = parameters[key];    
+  }
+  $.ajax({
+    url: "/sparql/default/predefined.json",
+    data: data,
+    dataType: 'json',
+    success: callback,
+    timeout: 19000 + 2000 * Math.random() //20 seconds +-1 
+  });
+}
+
 function sparql(name, queryAsList, iri, callback) {
     var q = _PREAMBLE.concat(queryAsList).join("\n").replace(/--IRI--/g, iri);
     $.ajax({
