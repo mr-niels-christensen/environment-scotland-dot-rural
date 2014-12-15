@@ -1,8 +1,7 @@
 import logging
 import webapp2
-from rdflib import Graph
-from rdflib_appengine.ndbstore import NDBStore
 from time import time
+from dotruralsepake.rdf.query import SPARQLQueryResolver
 '''
 Created on 8 Dec 2014
 
@@ -10,29 +9,21 @@ Created on 8 Dec 2014
 '''
 
 def route():
-    return webapp2.Route(r'/sparql/<graphid>/query.json', handler=_QueryJson, name='sparql')
+    return webapp2.Route(r'/sparql/<graphid>/<querySource:(dynamic|predefined)>.json', handler=_SPARQLHandler, name='sparql')
 
-class _QueryJson(webapp2.RequestHandler):
-    def get(self, graphid):
-        logging.debug('Responding to {}'.format(self.request.get('name')))
+class _SPARQLHandler(webapp2.RequestHandler):
+    def get(self, graphid, querySource):
         begin = time()
         #Access-Control-Allow-Origin: *
         self.response.headers['Access-Control-Allow-Origin'] = '*'
         self.response.headers['Content-Type'] = 'application/sparql-results+json; charset=utf-8'
-        query = self.request.get('query')
-        name = self.request.get('name')
-        result = _query(graphid, query, name)
-        self.response.write(result)        
+        resolver = SPARQLQueryResolver(graphid)
+        if querySource == 'dynamic':
+            result = resolver.dynamic(**self.request.GET)
+        else:
+            result = resolver.predefined(**self.request.GET)
+        self.response.write(result.serialize(format='json'))        
         logging.debug('Responded to {} in {:.3f} seconds'.format(self.request.get('name'), time() - begin))
-
-def _query(graphid, q, name):
-    store = NDBStore(identifier = graphid, configuration = {'log' : True})
-    store.log(name)
-    try:
-        response = Graph(store = store).query(q).serialize(format='json')
-        return response
-    finally:
-        store.flush_log(logging.DEBUG)
-    
+        
 
 

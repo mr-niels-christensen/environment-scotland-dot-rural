@@ -27,7 +27,7 @@ function search(query, cursor_websafe, callback) {
 function sparql(name, queryAsList, iri, callback) {
     var q = _PREAMBLE.concat(queryAsList).join("\n").replace(/--IRI--/g, iri);
     $.ajax({
-      url: "/sparql/default/query.json",
+      url: "/sparql/default/dynamic.json",
       data: {
           "name" : name,
         "query" : q},

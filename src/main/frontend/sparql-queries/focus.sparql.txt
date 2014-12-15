@@ -1,0 +1,3 @@
+SELECT ?p ?y WHERE {
+    ?focus ?p ?y
+}
