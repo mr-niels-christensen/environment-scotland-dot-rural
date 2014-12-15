@@ -1,5 +1,6 @@
+$(window).bind( 'hashchange', _updateFocusFromIri);
+
 $( document ).ready( function() {
-    $(window).bind( 'hashchange', _updateFocusFromIri);
     $( "#labelOfOwner" ).on( 'click', function() {
         var iri = $( "#labelOfOwner" ).data( 'iri');
         if (iri) {
@@ -47,6 +48,12 @@ var _predicate_to_action = {
       };
   },
 };
+
+function _docReady_updateFocusFromJson(response) {
+  $( document ).ready( function() {
+    _updateFocusFromJson(response)
+  }
+}
 
 function _updateFocusFromJson(response) {
     try {
