@@ -1,0 +1,21 @@
+BASE <http://dot.rural/sepake/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+CONSTRUCT {
+    ?focus <setlabel> ?focuslabel .
+    ?dept <setlabel> ?deptlabel .
+    ?dept <setparent> ?focus .
+    ?person <setlabel> ?personlabel .
+    ?person <setparent> ?focus .
+}
+WHERE {
+  {
+    ?focus rdfs:label ?focuslabel .
+    ?focus <ownedBy> ?dept .
+    ?dept rdfs:label ?deptlabel .
+  } UNION {
+    ?focus rdfs:label ?focuslabel .
+    ?focus prov:hadMember ?person .
+    ?person rdfs:label ?personlabel .    
+  }
+}

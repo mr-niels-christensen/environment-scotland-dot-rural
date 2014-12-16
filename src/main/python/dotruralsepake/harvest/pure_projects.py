@@ -69,6 +69,7 @@ CONSTRUCT {
     ?projecturi  prov:hadMember  ?personuri .
     ?personuri foaf:givenName  ?givenName .
     ?personuri foaf:familyName ?familyName .
+    ?personuri rdfs:label ?label .
 }
 WHERE {
     ?wrapper persontemplate:person ?person .
@@ -78,6 +79,7 @@ WHERE {
     ?wrapper (^persontemplate:participantAssociation) / (^project:persons) / core:uuid ?projectuuid .
     BIND ( URI ( CONCAT (str ( sepake:PurePerson ), "#", ENCODE_FOR_URI( ?personuuid ) ) ) AS ?personuri )
     BIND ( URI ( CONCAT (str ( sepake:PureProject ), "#", ENCODE_FOR_URI( ?projectuuid ) ) ) AS ?projecturi )
+    BIND ( CONCAT ( ?familyName, ", ", ?givenName ) AS ?label )
 }
 '''
 
