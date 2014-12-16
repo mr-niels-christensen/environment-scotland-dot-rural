@@ -16,39 +16,10 @@ $(window).bind( 'hashchange', function( event ) {
 
 function _updateChartFromHashchangeEvent(event) {
     var iri = event.getState( 'iri' );
-    sparql("ownerchart",
-            [
-            "SELECT ?owner ?ownerlabel ?owned ?ownedlabel WHERE {",
-            "  {",
-            "    BIND (<--IRI--> AS ?owner) .",
-            "    {?owner rdfs:label ?ownerlabel} .",
-            "    {?owner <owns> ?owned} .",
-            "    {?owned rdfs:label ?ownedlabel} .",
-            "  } UNION {",
-            "    BIND (<--IRI--> AS ?focus) .",
-            "    {?focus <ownedBy> ?owner} .",
-            "    {?owner rdfs:label ?ownerlabel} .",
-            "    {?owner <owns> ?owned} .",
-            "    {?owned rdfs:label ?ownedlabel} .",
-            "  } UNION {",
-            "    BIND (<--IRI--> AS ?owner) .",
-            "    {?owner rdfs:label ?ownerlabel} .",
-            "    {?owner <authorOf> ?owned} .",
-            "    {?owned rdfs:label ?ownedlabel} .",
-            "  } UNION {",
-            "    BIND (<--IRI--> AS ?focus) .",
-            "    {?focus <hasAuthor> ?owner} .",
-            "    {?owner rdfs:label ?ownerlabel} .",
-            "    {?owner <authorOf> ?owned} .",
-            "    {?owned rdfs:label ?ownedlabel} .",
-            "  }",
-            "}",
-            "ORDER BY ?ownerlabel ?ownedlabel",
-            //TODO Add paging
-           ],
-           iri,
-           _docReady_updateChartFromJson
-    );
+    sparql_predefined(
+        "/sparql-queries/focus-chart.sparql.txt", 
+        {'focus' : iri}, 
+        _docReady_updateChartFromJson);
 }
 
 function _docReady_updateChartFromJson(response) {
