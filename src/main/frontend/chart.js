@@ -1,18 +1,20 @@
-google.load('visualization', '1', {packages:['orgchart']});
-google.setOnLoadCallback( function() {
-    $( document ).ready( function() {
-        initChart();
-        setClickHandler(_updateFromIri);
-        $(window).bind( 'hashchange', _updateChartFromIri);
-        $(window).trigger( 'hashchange' );
-    });
+//Make jquery Deferred objects for all the events we need to wait for: Loading Google Charts, initializing chart, document.ready
+var _chartload_deferred = new $.Deferred();
+google.load('visualization', '1', {packages:['orgchart'], 'callback': _chartload_deferred.resolve});
+var _chart_ready_deferred = _chartload_deferred.then(function() {
+  _initChart();
+});
+var _doc_ready_deferred = new $.Deferred();
+$( document ).ready( function() {
+  _doc_ready_deferred.resolve();
 });
 
-function _updateFromIri(iri) {
-    jQuery.bbq.pushState({'iri' : iri});
-}
+//Bind AJAX data load to hashchange event
+$(window).bind( 'hashchange', function( event ) {
+  _updateChartFromHashchangeEvent( event );
+});
 
-function _updateChartFromIri(event) {
+function _updateChartFromHashchangeEvent(event) {
     var iri = event.getState( 'iri' );
     sparql("ownerchart",
             [
@@ -45,29 +47,31 @@ function _updateChartFromIri(event) {
             //TODO Add paging
            ],
            iri,
-           _updateChartFromJson
+           _docReady_updateChartFromJson
     );
-    removeAllNodesFromChart();
-    updateChart();        
 }
 
+function _docReady_updateChartFromJson(response) {
+  $.when(_chart_ready_deferred, _doc_ready_deferred).done(function() {
+    _updateChartFromJson(response)
+  });
+}
+  
 function _updateChartFromJson(response) {
-    removeAllNodesFromChart();
     $.each(response.results.bindings, function(index, binding){
       values = _valuesOfSparqlBinding(binding);
       //Add owned always
-      addNodeToChart(values.owned, values.ownedlabel, values.owner, 'owns');
+      _addNodeToChart(values.owned, values.ownedlabel, values.owner, 'owns');
       //Add owner if not there
-      addNodeToChartIfNotThere(values.owner, values.ownerlabel, '', '');
+      _addNodeToChartIfNotThere(values.owner, values.ownerlabel, '', '');
     });
-    updateChart();        
+    _updateChart();        
 }
 
 //TODO: Wrap this functionality as an object http://www.phpied.com/3-ways-to-define-a-javascript-class/
 var tbl;
 var chart;
-var clickHandler = function( id ){};//Dummy click-handler
-function initChart() {
+function _initChart() {
     //Initialize tbl (internal data table drawn on the chart) and chart
     tbl = new google.visualization.DataTable();
     tbl.addColumn('string', 'UrlAndLabel');
@@ -75,25 +79,24 @@ function initChart() {
     tbl.addColumn('string', 'ToolTip');//Not used but specified by orgchart
     chart = new google.visualization.OrgChart(document.getElementById('chartPanel'));//TODO: replace chart_panel by parameter
     //Get a call to selectHandler() when chart is clicked
-    google.visualization.events.addListener(chart, 'select', selectHandler);
+    google.visualization.events.addListener(chart, 'select', function () {
+      var rowIndex = chart.getSelection()[0].row;//This may work badly if more than one node is selected
+      var rowId = tbl.getValue(rowIndex, 0);
+      _removeAllNodesFromChart();
+      _updateChart();        
+      jQuery.bbq.pushState({'iri' : rowId});
+    });
 }
-function setClickHandler( callback ){
-  clickHandler = callback;
-}
-function selectHandler() {
-  var rowIndex = chart.getSelection()[0].row;//This may work badly if more than one node is selected
-  var rowId = tbl.getValue(rowIndex, 0);
-  clickHandler( rowId );
-}
-function updateChart() {
+
+function _updateChart() {
     chart.draw(tbl, {allowHtml:true, size:'large'});
 }
-function addNodeToChartIfNotThere( id, label, parentId, relation) {
+function _addNodeToChartIfNotThere( id, label, parentId, relation) {
   if ($.inArray( id, tbl.getDistinctValues(0)) === -1) {
-    addNodeToChart( id, label, parentId, relation);
+    _addNodeToChart( id, label, parentId, relation);
   }
 }
-function addNodeToChart( id, label, parentId, _relation) {
+function _addNodeToChart( id, label, parentId, _relation) {
   tbl.addRow(
     [ { v: id, //v is the URL that child nodes can point to
         f: '<p>' + label + '</p>'},
@@ -101,6 +104,6 @@ function addNodeToChart( id, label, parentId, _relation) {
         ""//No tooltip
     ]);
 }
-function removeAllNodesFromChart() {
+function _removeAllNodesFromChart() {
   tbl.removeRows(0, tbl.getNumberOfRows());
 }
