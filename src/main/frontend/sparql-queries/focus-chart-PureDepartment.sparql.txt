@@ -1,0 +1,12 @@
+BASE <http://dot.rural/sepake/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+CONSTRUCT {
+    ?focus <setlabel> ?focuslabel .
+    ?project <setlabel> ?projectlabel .
+    ?project <setparent> ?focus .
+}
+WHERE {
+    ?focus rdfs:label ?focuslabel .
+    ?focus <owns> ?project .
+    ?project rdfs:label ?projectlabel .
+}
