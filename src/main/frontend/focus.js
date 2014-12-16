@@ -52,7 +52,7 @@ var _predicate_to_action = {
 function _docReady_updateFocusFromJson(response) {
   $( document ).ready( function() {
     _updateFocusFromJson(response)
-  }
+  });
 }
 
 function _updateFocusFromJson(response) {
