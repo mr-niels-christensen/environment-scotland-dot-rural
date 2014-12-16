@@ -65,6 +65,7 @@ function _initChart() {
 }
 
 function _updateChart(parentMap, labelMap) {
+    _tbl.removeRows(0, _tbl.getNumberOfRows());
     $.each(labelMap, function (id, label){
         _tbl.addRow(
                 [ { v: id, //v is the URL that child nodes can point to
