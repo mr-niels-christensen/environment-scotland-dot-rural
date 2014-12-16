@@ -1,0 +1,12 @@
+BASE <http://dot.rural/sepake/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+CONSTRUCT {
+    ?focus <setlabel> ?focuslabel .
+    ?author <setlabel> ?authorlabel .
+    ?author <setparent> ?focus .
+}
+WHERE {
+    ?focus rdfs:label ?focuslabel .
+    ?focus <hasAuthor> ?author .
+    ?author rdfs:label ?authorlabel .
+}

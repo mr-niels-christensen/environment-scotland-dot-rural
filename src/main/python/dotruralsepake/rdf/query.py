@@ -29,6 +29,10 @@ class SPARQLQueryResolver(object):
         try:
             bindings = {key : URIRef(kwargs[key]) for key in kwargs}
             response = Graph(store = self._store).query(self._resolver.query(queryUrl), initBindings = bindings)
+            if response.type == 'CONSTRUCT':
+                g = Graph()
+                g += response
+                response = g.query("SELECT ?s ?p ?o WHERE {?s ?p ?o}")
             return response
         finally:
             self._store.flush_log(logging.DEBUG)
@@ -47,21 +51,3 @@ class _QueryPrepareAndCache(object):
         sparql_txt = urllib2.urlopen(full_url, timeout = 5).read()
         memcache.add(full_url, sparql_txt, 86400)
         return sparql_txt
-
-from rdflib.plugins.sparql.evaluate import evalPart
-
-def _x(ctx, part):
-    if part is None:
-        return None
-    if part.name == 'Project':
-        logging.debug(part.PV)
-        project = part
-        res = list(evalPart(ctx, project.p))
-        for row in res:
-            logging.debug(row)
-        return (row.project(project.PV) for row in res)
-    raise NotImplementedError
-
-from rdflib.plugins.sparql import CUSTOM_EVALS
-'''Register the above SPARQL query evaluator in rdflib'''
-CUSTOM_EVALS['x'] = _x

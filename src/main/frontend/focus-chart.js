@@ -16,8 +16,9 @@ $(window).bind( 'hashchange', function( event ) {
 
 function _updateChartFromHashchangeEvent(event) {
     var iri = event.getState( 'iri' );
+    var iriType = iri.match(/\/([^/]+)#/)[1];
     sparql_predefined(
-        "/sparql-queries/focus-chart.sparql.txt", 
+        "/sparql-queries/focus-chart-" + iriType + ".sparql.txt", 
         {'focus' : iri}, 
         _docReady_updateChartFromJson);
 }
@@ -29,14 +30,18 @@ function _docReady_updateChartFromJson(response) {
 }
   
 function _updateChartFromJson(response) {
+    var parentMap = {};
+    var labelMap = {}
     $.each(response.results.bindings, function(index, binding){
-      values = _valuesOfSparqlBinding(binding);
-      //Add owned always
-      _addNodeToChart(values.owned, values.ownedlabel, values.owner, 'owns');
-      //Add owner if not there
-      _addNodeToChartIfNotThere(values.owner, values.ownerlabel, '', '');
+      if (binding.p.value == 'http://dot.rural/sepake/setlabel') {
+          labelMap[binding.s.value] = binding.o.value;
+      } else if (binding.p.value == 'http://dot.rural/sepake/setparent') {
+          parentMap[binding.s.value] = binding.o.value;          
+      } else {
+          console.log('ERROR: p is ' + binding.p.value);
+      }
     });
-    _updateChart();        
+    _updateChart(parentMap, labelMap);        
 }
 
 //TODO: Wrap this functionality as an object http://www.phpied.com/3-ways-to-define-a-javascript-class/
@@ -53,28 +58,20 @@ function _initChart() {
     google.visualization.events.addListener(_chart, 'select', function () {
       var rowIndex = _chart.getSelection()[0].row;//This may work badly if more than one node is selected
       var rowId = _tbl.getValue(rowIndex, 0);
-      _removeAllNodesFromChart();
-      _updateChart();        
+      _tbl.removeRows(0, _tbl.getNumberOfRows());
+      _chart.draw(_tbl, {allowHtml:true, size:'large'});
       jQuery.bbq.pushState({'iri' : rowId});
     });
 }
 
-function _updateChart() {
+function _updateChart(parentMap, labelMap) {
+    $.each(labelMap, function (id, label){
+        _tbl.addRow(
+                [ { v: id, //v is the URL that child nodes can point to
+                    f: '<p>' + label + '</p>'},
+                    parentMap[id],
+                    ""//No tooltip
+                ]);
+    })
     _chart.draw(_tbl, {allowHtml:true, size:'large'});
-}
-function _addNodeToChartIfNotThere( id, label, parentId, relation) {
-  if ($.inArray( id, _tbl.getDistinctValues(0)) === -1) {
-    _addNodeToChart( id, label, parentId, relation);
-  }
-}
-function _addNodeToChart( id, label, parentId, _relation) {
-  _tbl.addRow(
-    [ { v: id, //v is the URL that child nodes can point to
-        f: '<p>' + label + '</p>'},
-        parentId,
-        ""//No tooltip
-    ]);
-}
-function _removeAllNodesFromChart() {
-  _tbl.removeRows(0, _tbl.getNumberOfRows());
 }
