@@ -69,19 +69,19 @@ function _updateChartFromJson(response) {
 }
 
 //TODO: Wrap this functionality as an object http://www.phpied.com/3-ways-to-define-a-javascript-class/
-var tbl;
-var chart;
+var _tbl;
+var _chart;
 function _initChart() {
-    //Initialize tbl (internal data table drawn on the chart) and chart
-    tbl = new google.visualization.DataTable();
-    tbl.addColumn('string', 'UrlAndLabel');
-    tbl.addColumn('string', 'ParentUrl');
-    tbl.addColumn('string', 'ToolTip');//Not used but specified by orgchart
-    chart = new google.visualization.OrgChart(document.getElementById('chartPanel'));//TODO: replace chart_panel by parameter
+    //Initialize _tbl (internal data table drawn on the chart) and _chart
+    _tbl = new google.visualization.DataTable();
+    _tbl.addColumn('string', 'UrlAndLabel');
+    _tbl.addColumn('string', 'ParentUrl');
+    _tbl.addColumn('string', 'ToolTip');//Not used but specified by orgchart
+    _chart = new google.visualization.OrgChart(document.getElementById('chartPanel'));//TODO: replace chart_panel by parameter
     //Get a call to selectHandler() when chart is clicked
-    google.visualization.events.addListener(chart, 'select', function () {
-      var rowIndex = chart.getSelection()[0].row;//This may work badly if more than one node is selected
-      var rowId = tbl.getValue(rowIndex, 0);
+    google.visualization.events.addListener(_chart, 'select', function () {
+      var rowIndex = _chart.getSelection()[0].row;//This may work badly if more than one node is selected
+      var rowId = _tbl.getValue(rowIndex, 0);
       _removeAllNodesFromChart();
       _updateChart();        
       jQuery.bbq.pushState({'iri' : rowId});
@@ -89,15 +89,15 @@ function _initChart() {
 }
 
 function _updateChart() {
-    chart.draw(tbl, {allowHtml:true, size:'large'});
+    _chart.draw(_tbl, {allowHtml:true, size:'large'});
 }
 function _addNodeToChartIfNotThere( id, label, parentId, relation) {
-  if ($.inArray( id, tbl.getDistinctValues(0)) === -1) {
+  if ($.inArray( id, _tbl.getDistinctValues(0)) === -1) {
     _addNodeToChart( id, label, parentId, relation);
   }
 }
 function _addNodeToChart( id, label, parentId, _relation) {
-  tbl.addRow(
+  _tbl.addRow(
     [ { v: id, //v is the URL that child nodes can point to
         f: '<p>' + label + '</p>'},
         parentId,
@@ -105,5 +105,5 @@ function _addNodeToChart( id, label, parentId, _relation) {
     ]);
 }
 function _removeAllNodesFromChart() {
-  tbl.removeRows(0, tbl.getNumberOfRows());
+  _tbl.removeRows(0, _tbl.getNumberOfRows());
 }
