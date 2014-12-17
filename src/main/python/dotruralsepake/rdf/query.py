@@ -29,7 +29,7 @@ class SPARQLQueryResolver(object):
         try:
             bindings = {key : URIRef(kwargs[key]) for key in kwargs}
             response = Graph(store = self._store).query(self._resolver.query(queryUrl), initBindings = bindings)
-            if response.type == 'CONSTRUCT':
+            if response.type == 'CONSTRUCT': #These cannot be JSON-serialized so we extract the data with a SELECT
                 g = Graph()
                 g += response
                 response = g.query("SELECT ?s ?p ?o WHERE {?s ?p ?o}")
