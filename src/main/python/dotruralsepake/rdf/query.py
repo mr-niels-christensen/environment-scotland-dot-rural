@@ -44,10 +44,11 @@ class _QueryPrepareAndCache(object):
         
     def query(self, queryUrl):
         full_url = '{}{}'.format(self._host_url, queryUrl)
-        sparql_txt = memcache.get(full_url)
+        memcache_key = '_QueryPrepareAndCache.{}'.format(full_url)
+        sparql_txt = memcache.get(memcache_key)
         self._log_object.log('Query {}: {}'.format(full_url, 'found in cache' if sparql_txt else 'not in cache, GETting...'))
         if sparql_txt is not None:
             return sparql_txt
         sparql_txt = urllib2.urlopen(full_url, timeout = 5).read()
-        memcache.add(full_url, sparql_txt, 86400)
+        memcache.add(memcache_key, sparql_txt, 86400)
         return sparql_txt
