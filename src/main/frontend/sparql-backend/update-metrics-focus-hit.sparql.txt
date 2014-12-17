@@ -1,0 +1,7 @@
+PREFIX sepakemetrics: <http://dot.rural/sepake/metrics/>
+INSERT {
+    ?focus sepakemetrics:focushit ?now .
+}
+WHERE {
+  BIND (NOW() AS ?now)
+}

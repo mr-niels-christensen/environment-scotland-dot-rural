@@ -16,6 +16,8 @@ handlers:
   static_dir: frontend/js
 - url: /sparql-queries
   static_dir: frontend/sparql-queries
+- url: /sparql-backend
+  static_dir: frontend/sparql-backend
 - url: /$
   static_files: frontend/search.html
   upload: frontend/search.html

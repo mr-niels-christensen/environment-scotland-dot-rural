@@ -51,6 +51,19 @@ function sparql(name, queryAsList, iri, callback) {
     });
 }
 
+function sparql_metrics(name, queryAsList, iri, callback) {
+  var q = _PREAMBLE.concat(queryAsList).join("\n").replace(/--IRI--/g, iri);
+  $.ajax({
+    url: "/sparql/metrics/dynamic.json",
+    data: {
+        "name" : name,
+      "query" : q},
+    dataType: 'json',
+    success: callback,
+    timeout: 19000 + 2000 * Math.random() //20 seconds +-1 
+  });
+}
+
 function _valuesOfSparqlBinding( sparqlBinding ) {
   var result = {};
   for (key in sparqlBinding) {

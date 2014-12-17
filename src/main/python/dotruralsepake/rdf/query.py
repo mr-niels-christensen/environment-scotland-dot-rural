@@ -6,13 +6,12 @@ Created on 15 Dec 2014
 from rdflib import Graph, URIRef
 from rdflib_appengine.ndbstore import NDBStore
 import logging
-import urllib2
-from google.appengine.api import memcache
+from dotruralsepake.metrics.metrics import register_query
 
-class SPARQLQueryResolver(object):
-    def __init__(self, host_url, graphid):
+class SPARQLQueryExecutor(object):
+    def __init__(self, resolver, graphid):
         self._store = NDBStore(identifier = graphid, configuration = {'log' : True})
-        self._resolver = _QueryPrepareAndCache(host_url, self._store)
+        self._resolver = resolver
         
     def dynamic(self, name = None, query = None):
         assert name is not None, 'name parameter required'
@@ -28,7 +27,8 @@ class SPARQLQueryResolver(object):
         assert queryUrl is not None, 'queryUrl parameter required'
         try:
             bindings = {key : URIRef(kwargs[key]) for key in kwargs}
-            response = Graph(store = self._store).query(self._resolver.query(queryUrl), initBindings = bindings)
+            response = Graph(store = self._store).query(self._resolver.resolve(queryUrl), initBindings = bindings)
+            register_query(queryUrl, bindings, self._resolver)
             if response.type == 'CONSTRUCT': #These cannot be JSON-serialized so we extract the data with a SELECT
                 g = Graph()
                 g += response
@@ -37,18 +37,3 @@ class SPARQLQueryResolver(object):
         finally:
             self._store.flush_log(logging.DEBUG)
             
-class _QueryPrepareAndCache(object):
-    def __init__(self, host_url, log_object):
-        self._host_url = host_url
-        self._log_object = log_object
-        
-    def query(self, queryUrl):
-        full_url = '{}{}'.format(self._host_url, queryUrl)
-        memcache_key = '_QueryPrepareAndCache.{}'.format(full_url)
-        sparql_txt = memcache.get(memcache_key)
-        self._log_object.log('Query {}: {}'.format(full_url, 'found in cache' if sparql_txt else 'not in cache, GETting...'))
-        if sparql_txt is not None:
-            return sparql_txt
-        sparql_txt = urllib2.urlopen(full_url, timeout = 5).read()
-        memcache.add(memcache_key, sparql_txt, 86400)
-        return sparql_txt

@@ -1,6 +1,14 @@
 $( document ).ready( function() {
-  $( '#sparqlForm .submitButton' ).on( 'click', function() {
+  $( '#sparqlForm .submitDefaultButton' ).on( 'click', function() {
     sparql("form",
+        [$( '#sparqlForm #sparqlQuery' ).val()
+        ],
+        "",
+        _updateQueryResponseFromJson
+    );
+  });
+  $( '#sparqlForm .submitMetricsButton' ).on( 'click', function() {
+    sparql_metrics("form",
         [$( '#sparqlForm #sparqlQuery' ).val()
         ],
         "",
