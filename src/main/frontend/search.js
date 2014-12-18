@@ -10,8 +10,12 @@ function _updateSearchFromJson(response) {
   }
   $.each(response.results, function(index, result){
     $( "#searchResults tr:last" ).after( "<tr class='searchResultRow dynamicrow'></tr>" );
-    $( "#searchResults tr:last" ).append( "<th><h1>" + result.label + "</h1></th>" );
-    $( "#searchResults tr:last th" ).append( "<p>" + (result.description || "Click for details") + "</p>" );
+    $( "#searchResults tr:last" ).append( "<td><h1>" + result.label + "</h1></td>" );
+    $( "#searchResults tr:last td" ).append( "<p>" + (result.description || "Click for details") + "</p>" );
+    if (result.rank == 1) {
+        result.rank = "0-1";
+    }
+    $( "#searchResults tr:last td" ).append( "<p class='small'>" + result.rank + " views by last status</p>" );
     $( "#searchResults tr:last" ).append( "<td class='sepakeUri hiddenColumn'>" + result.uri + "</td>" );
   });
   $( "#searchResults .searchResultRow" ).on( 'click', function() {
