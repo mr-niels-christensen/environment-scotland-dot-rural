@@ -22,7 +22,9 @@ def _document_from_sparql_result(sparql_result):
     fields = [search.HtmlField(name='label', value=sparql_result['label'])]
     if 'htmlDescription' in sparql_result:
         fields.append(search.HtmlField(name='description', value=sparql_result['htmlDescription']))
-    return search.Document(doc_id = sparql_result['sepakeuri'], fields = fields)
+    return search.Document(doc_id = sparql_result['sepakeuri'], 
+                           fields = fields,
+                           rank = len(fields))
     
 class Indexer(object):
     def __init__(self, graphid):

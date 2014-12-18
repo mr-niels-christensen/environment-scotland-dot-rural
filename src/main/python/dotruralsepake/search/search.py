@@ -9,6 +9,7 @@ from google.appengine.api import search
 def _dictify(scored_document):
     result = {'uri' : scored_document.doc_id,
               'label' : scored_document.field('label').value,
+              'rank' : scored_document.rank,
               }
     try:
         result['description'] = scored_document.field('description').value
