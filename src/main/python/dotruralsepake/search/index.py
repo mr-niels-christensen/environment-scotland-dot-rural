@@ -11,11 +11,14 @@ from google.appengine.api import search
 _DOCUMENTS = '''
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
 PREFIX sepake: <http://dot.rural/sepake/>
-SELECT *
+PREFIX sepakemetrics: <http://dot.rural/sepake/metrics/>
+SELECT ?sepakeuri ?label ?htmlDescription (COUNT(*) AS ?rank)
 WHERE {
     ?sepakeuri rdfs:label ?label .
     OPTIONAL { ?sepakeuri sepake:htmlDescription ?htmlDescription } .
+    OPTIONAL { ?sepakeuri sepakemetrics:focushit []} . 
 }
+GROUP BY ?sepakeuri
 '''
 
 def _document_from_sparql_result(sparql_result):
@@ -24,7 +27,7 @@ def _document_from_sparql_result(sparql_result):
         fields.append(search.HtmlField(name='description', value=sparql_result['htmlDescription']))
     return search.Document(doc_id = sparql_result['sepakeuri'], 
                            fields = fields,
-                           rank = len(fields))
+                           rank = sparql_result['rank'].value)
     
 class Indexer(object):
     def __init__(self, graphid):
