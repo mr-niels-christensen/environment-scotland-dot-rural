@@ -17,6 +17,9 @@ def route():
 
 class _HarvestHandler(webapp2.RequestHandler):
     def get(self, action):
+        if 'adminconsolecustompage' in self.request.GET:
+            logging.debug('Activated from Admin console')
+            del self.request.GET['adminconsolecustompage']
         _ACTIONS[action](**self.request.GET)
         self.response.headers['Content-Type'] = 'text/plain'
         self.response.write('OK')

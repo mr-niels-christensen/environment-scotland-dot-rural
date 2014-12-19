@@ -14,6 +14,9 @@ def route():
 
 class _DeleteHandler(webapp2.RequestHandler):
     def get(self, graphid):
+        if 'adminconsolecustompage' in self.request.GET:
+            logging.debug('Activated from Admin console')
+            del self.request.GET['adminconsolecustompage']
         _delete(graphid, **self.request.GET)
         self.response.headers['Content-Type'] = 'text/plain'
         self.response.write('OK')

@@ -30,6 +30,13 @@ handlers:
   script: dotruralsepake.httpserver.application
   login: admin
 
+admin_console:
+  pages:
+  - name: Delete all documents in the main dataset, add the new data
+    url: /delete/default?overwriteBy=newdata
+  - name: Index all documents in the main dataset
+    url: /index/default
+
 builtins:
   - appstats: on
   
