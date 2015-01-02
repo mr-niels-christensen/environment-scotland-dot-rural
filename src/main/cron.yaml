@@ -27,33 +27,13 @@ cron:
   url: /harvest/pure.details?graphid=newdata
   schedule: every 5 minutes from 10:00 to 11:30
   target: 0-7
-- description: Delete all documents in the main dataset, add the new data  
-  url: /delete/default?overwriteBy=newdata
-  schedule: every day 12:00
-  target: 0-7
+#- description: Delete all documents in the main dataset, add the new data  
+#  url: /delete/default?overwriteBy=newdata
+#  schedule: every day 12:00
+#  target: 0-7
 - description: Index all documents in the main dataset
   url: /index/default
   schedule: every day 12:02
-  target: 0-7
-- description: Harvest PURE Aberdeen papers 2014, afternoon
-  url: /harvest/pure.oai?graphid=newdata&location=pure.abdn.ac.uk:8080&pureset=publications:year2014
-  schedule: every day 12:10
-  target: 0-7
-- description: Harvest PURE Aberdeen papers 2013, afternoon
-  url: /harvest/pure.oai?graphid=newdata&location=pure.abdn.ac.uk:8080&pureset=publications:year2013
-  schedule: every day 12:20
-  target: 0-7
-- description: Harvest PURE Aberdeen papers 2012, afternoon
-  url: /harvest/pure.oai?graphid=newdata&location=pure.abdn.ac.uk:8080&pureset=publications:year2012
-  schedule: every day 12:30
-  target: 0-7
-- description: Harvest PURE Aberdeen papers 2011, afternoon
-  url: /harvest/pure.oai?graphid=newdata&location=pure.abdn.ac.uk:8080&pureset=publications:year2011
-  schedule: every day 12:40
-  target: 0-7
-- description: Harvest PURE details of found resources, afternoon 
-  url: /harvest/pure.details?graphid=newdata
-  schedule: every 5 minutes from 13:00 to 14:00
   target: 0-7
 #- description: Harvest UKEOF
 #  url: /harvest/ukeof?graphid=newdata

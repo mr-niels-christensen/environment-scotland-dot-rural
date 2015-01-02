@@ -10,7 +10,7 @@ from dotruralsepake.metrics.metrics import register_query
 
 class SPARQLQueryExecutor(object):
     def __init__(self, resolver, graphid):
-        self._store = NDBStore(identifier = graphid, configuration = {'log' : True})
+        self._store = NDBStore(identifier = graphid, configuration = {'log' : False})
         self._resolver = resolver
         
     def dynamic(self, name = None, query = None):
