@@ -82,10 +82,11 @@ WHERE {
 ''')
 
 class PureRESTPublicationHarvester(object):
-    def __init__(self, graph):
+    def __init__(self, graph, verbose = False):
         self._graph = graph
         self._queries = [prepareQuery(q) for q in _CONSTRUCTS]
-    
+        self._verbose = verbose
+        
     def __iter__(self):
         tasks = [task for task in self._graph.query(_TASKS)] #Minimize synchronization effects
         no_tasks = len(tasks)
@@ -93,7 +94,8 @@ class PureRESTPublicationHarvester(object):
         current_task = 0
         for task in tasks:
             current_task += 1
-            logging.debug('Task {} of {}: {}'.format(current_task, no_tasks, task['pureurl']))
+            if self._verbose:
+                logging.debug('Task {} of {}: {}'.format(current_task, no_tasks, task['pureurl']))
             xml_input = urllib2.urlopen(task['pureurl'], timeout=20)
             page = XMLGraph(xml_input)
             for query in _CONSTRUCTS:
