@@ -24,14 +24,14 @@ class _DeleteHandler(webapp2.RequestHandler):
 def _delete(graphid, overwriteBy = None):
     dest_graph = Graph(store = NDBStore(identifier = graphid))
     src_graph = None if overwriteBy is None else Graph(store = NDBStore(identifier = overwriteBy))
-    logging.info('Deleting {}'.format(graphid))
+    logging.info('Deleting {}, len={}'.format(graphid, len(dest_graph)))
     dest_graph.destroy(None)
     logging.info('Deleted {}'.format(graphid))
     _delete_all_in_index(graphid)
     logging.info('Deleted search index for {}'.format(graphid))
     if src_graph is not None:
         dest_graph += src_graph
-        logging.info('Copied {} to {}'.format(overwriteBy, graphid))
+        logging.info('Copied {} (len={}) to {}'.format(overwriteBy, len(src_graph), graphid))
 
 def _delete_all_in_index(index_name):
     """Delete all the docs in the given index."""
