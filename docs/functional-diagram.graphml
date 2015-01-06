@@ -52,7 +52,7 @@
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="312.5" width="54.0" x="780.0" y="505.5"/>
-          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:Fill color="#FF6600" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.1328125" modelName="custom" rotationAngle="90.0" textColor="#000000" visible="true" width="97.375" x="17.93359375" y="107.5625">UKEOF activities<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
@@ -461,7 +461,7 @@
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="163.05000000000007" width="54.0" x="642.0" y="-158.3"/>
-          <y:Fill color="#C0C0C0" transparent="false"/>
+          <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.1328125" modelName="custom" rotationAngle="90.0" textColor="#000000" visible="true" width="133.322265625" x="17.93359375" y="14.863867187500034">Per-tag landing pages<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
