@@ -55,13 +55,23 @@ function _docReady_updateFocusFromJson(response) {
   });
 }
 
+function _focus_is_org() {
+  var iri = jQuery.bbq.getState('iri');
+  if (iri) {
+    var iriType = iri.match(/\/([^/]+)#/)[1];
+    return (iriType == 'UKEOFOrganisation');
+  } else {
+    return false;
+  };
+}
+
 function _updateFocusFromJson(response) {
     try {
         var values = sparqlListToObject(response, "p", "y");
         $.each(_predicate_to_action, function( p, action ){
           action(values[p]);
         });
-        if (!values["http://dot.rural/sepake/htmlDescription"]) {
+        if (!values["http://dot.rural/sepake/htmlDescription"] && _focus_is_org()) {
           _set_html_from_dbpedia_description( "#descriptionOfFocus", values["http://www.w3.org/2000/01/rdf-schema#label"] );
         }
     } catch (err) {
