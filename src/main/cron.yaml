@@ -27,13 +27,13 @@ cron:
   url: /harvest/pure.details?graphid=newdata
   schedule: every 5 minutes from 10:00 to 11:30
   target: 0-7
-#- description: Delete all documents in the main dataset, add the new data  
-#  url: /delete/default?overwriteBy=newdata
-#  schedule: every day 12:00
-#  target: 0-7
+- description: Delete all documents in the main dataset, add the new data  
+  url: /delete/default?overwriteBy=newdata
+  schedule: every day 12:06
+  target: 0-7
 - description: Index all documents in the main dataset
   url: /index/default
-  schedule: every day 12:02
+  schedule: every day 12:08
   target: 0-7
 #- description: Harvest UKEOF
 #  url: /harvest/ukeof?graphid=newdata
