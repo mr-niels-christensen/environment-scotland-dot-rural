@@ -3,7 +3,7 @@ Created on 9 Dec 2014
 
 @author: Niels Christensen
 '''
-from rdflib import Graph
+from rdflib import Graph, Literal
 from rdflib_appengine.ndbstore import NDBStore
 from rdflib.plugins.sparql import prepareQuery
 from google.appengine.api import search
@@ -17,6 +17,7 @@ WHERE {
     ?sepakeuri rdfs:label ?label .
     OPTIONAL { ?sepakeuri sepake:htmlDescription ?htmlDescription } .
     OPTIONAL { ?sepakeuri sepakemetrics:focushit []} . 
+    FILTER (STRENDS(STR(?sepakeuri), ?suffix))
 }
 GROUP BY ?sepakeuri
 '''
@@ -33,14 +34,10 @@ class Indexer(object):
     def __init__(self, graphid):
         self._index = search.Index(name = graphid)
         self._graph = Graph(store = NDBStore(identifier = graphid))
-        self._offset = 0
-        self._more = True
-
+        
     def __iter__(self):
-        while self._more:
-            index_now = self._graph.query(_DOCUMENTS + 'LIMIT 200 OFFSET {}'.format(self._offset))
-            self._more = len(index_now) == 200
-            self._offset += 200
+        for suffix in [str(i) for i in range(10)] + [chr(i) for i in range(ord('a'), ord('g'))]:#Each of the 16 hex digits
+            index_now = self._graph.query(_DOCUMENTS.replace('?suffix', '"{}"'.format(suffix)))#initBindings do not work with FILTER
             documents = [_document_from_sparql_result(doc.asdict()) for doc in index_now]
             self._index.put(documents)
             yield len(index_now)
