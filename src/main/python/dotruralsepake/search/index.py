@@ -7,6 +7,7 @@ from rdflib import Graph, Literal
 from rdflib_appengine.ndbstore import NDBStore
 from rdflib.plugins.sparql import prepareQuery
 from google.appengine.api import search
+import logging
 
 _DOCUMENTS = '''
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
@@ -14,10 +15,11 @@ PREFIX sepake: <http://dot.rural/sepake/>
 PREFIX sepakemetrics: <http://dot.rural/sepake/metrics/>
 SELECT ?sepakeuri ?label ?htmlDescription (COUNT(*) AS ?rank)
 WHERE {
-    ?sepakeuri rdfs:label ?label .
+    { ?sepakeuri rdfs:label ?label .
+       FILTER (STRENDS(STR(?sepakeuri), ?suffix))
+    } .
     OPTIONAL { ?sepakeuri sepake:htmlDescription ?htmlDescription } .
     OPTIONAL { ?sepakeuri sepakemetrics:focushit []} . 
-    FILTER (STRENDS(STR(?sepakeuri), ?suffix))
 }
 GROUP BY ?sepakeuri
 '''
