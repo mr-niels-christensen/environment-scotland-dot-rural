@@ -24,9 +24,10 @@ PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 _TASKS = _PREFIXES + '''
 SELECT ?sepakeuri ?pureurl
 WHERE {
-    ?sepakeuri sepake:wasDetailedByCode sepakecode:PureRestPublication .
+    { ?sepakeuri sepake:wasDetailedByCode sepakecode:PureRestPublication .
+      FILTER NOT EXISTS {?sepakeuri sepake:wasDetailedAtTime ?sometime}
+    } .
     ?sepakeuri sepake:wasDetailedByData ?pureurl .
-    FILTER NOT EXISTS {?sepakeuri sepake:wasDetailedAtTime ?sometime}
 }
 LIMIT 20
 '''
