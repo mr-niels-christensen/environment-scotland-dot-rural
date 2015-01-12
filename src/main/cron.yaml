@@ -29,11 +29,11 @@ cron:
   target: 0-7
 - description: Delete all documents in the main dataset, add the new data  
   url: /delete/default?overwriteBy=newdata
-  schedule: every day 12:06
+  schedule: every day 12:00
   target: 0-7
 - description: Index all documents in the main dataset
   url: /index/default
-  schedule: every day 13:39
+  schedule: every day 12:03
   target: 0-7
 #- description: Harvest UKEOF
 #  url: /harvest/ukeof?graphid=newdata
