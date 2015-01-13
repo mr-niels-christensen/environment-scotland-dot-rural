@@ -11,6 +11,7 @@ from dotruralsepake.harvest.pure_oai import PUREOAIHarvester
 from dotruralsepake.harvest.pure_details import PureRESTPublicationHarvester
 from dotruralsepake.harvest.pure_projects import PureRESTProjectHarvester
 from dotruralsepake.harvest.ukeof import UKEOFActivityHarvester
+import urllib2
 
 def route():
     return webapp2.Route(r'/harvest/<action>', handler=_HarvestHandler, name='harvest')
@@ -20,46 +21,46 @@ class _HarvestHandler(webapp2.RequestHandler):
         if 'adminconsolecustompage' in self.request.GET:
             logging.debug('Activated from Admin console')
             del self.request.GET['adminconsolecustompage']
-        _ACTIONS[action](**self.request.GET)
+        self.graph = Graph(store = NDBStore(identifier = self.request.GET['graphid']))
+        del self.request.GET['graphid']
+        method = getattr(self, '_harvest_' + action)
+        method(**self.request.GET)
         self.response.headers['Content-Type'] = 'text/plain'
         self.response.write('OK')
-
-def _graph(graphid):
-    return Graph(store = NDBStore(identifier = graphid))
-
-def _harvest_pure_projects(graphid, location):
-    tmp = Graph()
-    for projectinfo in PureRESTProjectHarvester(location = location):
-        tmp += projectinfo
-        logging.debug('Found {} triples from PURE projects'.format(len(projectinfo)))
-    g = _graph(graphid)
-    g += tmp
     
-def _harvest_ukeof_activities(graphid):
-    tmp = Graph()
-    for activityinfo in UKEOFActivityHarvester():
-        tmp += activityinfo
-    logging.debug('Found {} triples from UKEOF'.format(len(tmp)))
-    g = _graph(graphid)
-    g += tmp
+    def _harvest_seed(self, path, host = None):
+        if host is None:
+            host = self.request.host_url
+        url = '{}{}'.format(host, path)
+        tmp = Graph()
+        sparql_txt = urllib2.urlopen(url, timeout = 10).read()
+        tmp.update(sparql_txt)
+        self.graph += tmp
+    
+    def _harvest_pure_projects(self, location):
+        tmp = Graph()
+        for projectinfo in PureRESTProjectHarvester(location = location):
+            tmp += projectinfo
+            logging.debug('Found {} triples from PURE projects'.format(len(projectinfo)))
+        self.graph += tmp
+        
+    def _harvest_ukeof_activities(self):
+        tmp = Graph()
+        for activityinfo in UKEOFActivityHarvester():
+            tmp += activityinfo
+        logging.debug('Found {} triples from UKEOF'.format(len(tmp)))
+        self.graph += tmp
+    
+    def _harvest_pure_oai(self, location, pureset):
+        tmp = Graph()
+        for papers in PUREOAIHarvester(location, pureset):
+            tmp += papers
+            logging.debug('Found {} triples from OAI'.format(len(papers)))
+        self.graph += tmp
+    
+    def _harvest_pure_details(self):
+        tmp = Graph()
+        for details in PureRESTPublicationHarvester(self.graph):
+            tmp += details
+        self.graph += tmp
 
-def _harvest_pure_oai(graphid, location, pureset):
-    tmp = Graph()
-    for papers in PUREOAIHarvester(location, pureset):
-        tmp += papers
-        logging.debug('Found {} triples from OAI'.format(len(papers)))
-    g = _graph(graphid)
-    g += tmp
-
-def _harvest_pure_details(graphid):
-    g = _graph(graphid)
-    tmp = Graph()
-    for details in PureRESTPublicationHarvester(g):
-        tmp += details
-    g += tmp
-
-_ACTIONS = { 'pure.projects' : _harvest_pure_projects,
-             'ukeof' :         _harvest_ukeof_activities,
-             'pure.oai' :      _harvest_pure_oai,
-             'pure.details' :  _harvest_pure_details,
-            }

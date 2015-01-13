@@ -1,0 +1,6 @@
+PREFIX sepake: <http://dot.rural/sepake/>
+PREFIX sepakecode: <http://dot.rural/sepake/code>
+INSERT DATA {
+    <http://pure.abdn.ac.uk:8080/ws/oai?verb=ListRecords&set=publications:year2014&metadataPrefix=oai_dc> sepake:wasDetailedByCode sepakecode:PureOaiPublicationSetHarvester .
+    <http://pure.abdn.ac.uk:8080/ws/oai?verb=ListRecords&set=publications:year2013&metadataPrefix=oai_dc> sepake:wasDetailedByCode sepakecode:PureOaiPublicationSetHarvester .
+}

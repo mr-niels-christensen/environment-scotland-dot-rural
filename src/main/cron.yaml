@@ -1,8 +1,12 @@
 cron:
 - description: Delete all documents in new data, load current stats
   url: /delete/newdata?overwriteBy=metrics
-  schedule: every day 09:00
+  schedule: every day 08:50
   target: 0-7
+- description: Load builtin seed graph
+  url: /harvest/seed?graphid=newdata&path=/sparql-backend/seed.sparql.txt
+  schedule: every day 09:00
+  target: 0-8
 - description: Harvest PURE projects Aberdeen
   url: /harvest/pure.projects?graphid=newdata&location=pure.abdn.ac.uk:8080
   schedule: every day 09:01
