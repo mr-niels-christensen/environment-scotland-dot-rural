@@ -12,7 +12,7 @@ cron:
   schedule: every 10 minutes from 08:05 to 09:45
   target: 0-8
 - description: Harvest PURE projects
-  url: /harvest/pure.projects?graphid=newdata&location=pure.abdn.ac.uk:8080
+  url: /harvest/pure.projects?graphid=newdata
   schedule: every day 09:55
   target: 0-7
 - description: Harvest PURE details

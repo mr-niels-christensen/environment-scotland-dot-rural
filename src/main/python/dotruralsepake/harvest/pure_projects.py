@@ -13,12 +13,29 @@ from rdflib import RDF, RDFS
 from dotruralsepake.rdf.xml_to_rdf import XMLGraph
 import urllib2
 
+def iterator(graph):
+    try:
+        task = graph.query(_TASK).__iter__().next()
+        return PureRESTProjectHarvester(url = task['pureurl'])
+    except StopIteration:
+        return []
+
+_TASK = '''
+PREFIX sepake: <http://dot.rural/sepake/>
+PREFIX sepakecode: <http://dot.rural/sepake/code>
+SELECT ?pureurl
+WHERE {
+    ?pureurl sepake:wasDetailedByCode sepakecode:PureRESTProjectHarvester .
+    FILTER NOT EXISTS {?pureurl sepake:wasDetailedAtTime ?sometime}
+}
+LIMIT 1
+'''
+
 class PureRESTProjectHarvester(object):
-    def __init__(self, xml_input = None, location = None):
+    def __init__(self, xml_input = None, url = None):
         if xml_input is None:
-            assert location is not None, 'Need xml_input or location'
-            xml_input = urllib2.urlopen('http://pure.abdn.ac.uk:8080/ws/rest/getprojectrequest?rendering=xml_long'.format(location), 
-                                        timeout=20)
+            assert url is not None, 'Need xml_input or url'
+            xml_input = urllib2.urlopen(url, timeout = 30)
         self._xml_as_rdf = _slimmed_xml_as_rdf(xml_input)
         self._queries = [_prep(_CONSTRUCT_PROJECT), _prep(_CONSTRUCT_PEOPLE)]
 

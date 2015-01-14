@@ -9,7 +9,7 @@ import logging
 import webapp2
 from dotruralsepake.harvest.pure_oai import pureOaiPublicationSetHarvester
 from dotruralsepake.harvest.pure_details import PureRESTPublicationHarvester
-from dotruralsepake.harvest.pure_projects import PureRESTProjectHarvester
+from dotruralsepake.harvest.pure_projects import iterator
 from dotruralsepake.harvest.ukeof import UKEOFActivityHarvester
 import urllib2
 
@@ -37,9 +37,9 @@ class _HarvestHandler(webapp2.RequestHandler):
         tmp.update(sparql_txt)
         self.graph += tmp
     
-    def _harvest_pure_projects(self, location):
+    def _harvest_pure_projects(self):
         tmp = Graph()
-        for projectinfo in PureRESTProjectHarvester(location = location):
+        for projectinfo in iterator(self.graph):
             tmp += projectinfo
             logging.debug('Found {} triples from PURE projects'.format(len(projectinfo)))
         self.graph += tmp
