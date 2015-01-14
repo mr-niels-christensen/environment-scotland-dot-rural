@@ -85,6 +85,6 @@ class PUREOAIHarvester(object):
             self._url = 'http://{}/ws/oai?verb=ListRecords&resumptionToken={}'.format(self._location, resumptionToken[0])
                     
     def __iter__(self):
+        yield [(URIRef(self._original_url), SEPAKE.wasDetailedAtTime, Literal(datetime.utcnow()))]
         while (self._more):
             yield self._next()
-        yield [(URIRef(self._original_url), SEPAKE.wasDetailedAtTime, Literal(datetime.utcnow()))]

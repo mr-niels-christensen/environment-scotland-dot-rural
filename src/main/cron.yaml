@@ -1,29 +1,29 @@
 cron:
-- description: Delete all documents in new data, load current stats
+- description: Clear newdata
   url: /delete/newdata?overwriteBy=metrics
-  schedule: every day 08:50
+  schedule: every day 08:00
   target: 0-7
-- description: Load builtin seed graph
+- description: Add seed graph to newdata
   url: /harvest/seed?graphid=newdata&path=/sparql-backend/seed.sparql.txt
-  schedule: every day 09:00
+  schedule: every day 08:02
   target: 0-8
-- description: Harvest PURE projects Aberdeen
-  url: /harvest/pure.projects?graphid=newdata&location=pure.abdn.ac.uk:8080
-  schedule: every day 09:01
-  target: 0-7
-- description: Harvest PURE Aberdeen papers 
+- description: Harvest papers 
   url: /harvest/pure.oai?graphid=newdata
-  schedule: every day 09:10
+  schedule: every 10 minutes from 08:05 to 09:45
   target: 0-8
-- description: Harvest PURE details of found resources
-  url: /harvest/pure.details?graphid=newdata
-  schedule: every 5 minutes from 10:00 to 11:30
+- description: Harvest PURE projects
+  url: /harvest/pure.projects?graphid=newdata&location=pure.abdn.ac.uk:8080
+  schedule: every day 09:55
   target: 0-7
-- description: Delete all documents in the main dataset, add the new data  
+- description: Harvest PURE details
+  url: /harvest/pure.details?graphid=newdata
+  schedule: every 5 minutes from 10:00 to 11:55
+  target: 0-7
+- description: Overwrite default by newdata  
   url: /delete/default?overwriteBy=newdata
   schedule: every day 12:00
   target: 0-7
-- description: Index all documents in the main dataset
+- description: Index default
   url: /index/default
   schedule: every day 12:03
   target: 0-7
