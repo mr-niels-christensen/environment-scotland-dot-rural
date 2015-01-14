@@ -7,7 +7,7 @@ from rdflib import Graph
 from rdflib_appengine.ndbstore import NDBStore
 import logging
 import webapp2
-from dotruralsepake.harvest.pure_oai import PUREOAIHarvester
+from dotruralsepake.harvest.pure_oai import pureOaiPublicationSetHarvester
 from dotruralsepake.harvest.pure_details import PureRESTPublicationHarvester
 from dotruralsepake.harvest.pure_projects import PureRESTProjectHarvester
 from dotruralsepake.harvest.ukeof import UKEOFActivityHarvester
@@ -23,7 +23,7 @@ class _HarvestHandler(webapp2.RequestHandler):
             del self.request.GET['adminconsolecustompage']
         self.graph = Graph(store = NDBStore(identifier = self.request.GET['graphid']))
         del self.request.GET['graphid']
-        method = getattr(self, '_harvest_' + action)
+        method = getattr(self, '_harvest_' + action.replace('.', '_'))
         method(**self.request.GET)
         self.response.headers['Content-Type'] = 'text/plain'
         self.response.write('OK')
@@ -51,9 +51,9 @@ class _HarvestHandler(webapp2.RequestHandler):
         logging.debug('Found {} triples from UKEOF'.format(len(tmp)))
         self.graph += tmp
     
-    def _harvest_pure_oai(self, location, pureset):
+    def _harvest_pure_oai(self):
         tmp = Graph()
-        for papers in PUREOAIHarvester(location, pureset):
+        for papers in pureOaiPublicationSetHarvester(self.graph):
             tmp += papers
             logging.debug('Found {} triples from OAI'.format(len(papers)))
         self.graph += tmp

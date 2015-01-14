@@ -5,8 +5,22 @@ Created on 2 Dec 2014
 '''
 from dotruralsepake.rdf.xml_to_rdf import XMLGraph
 import urllib2
-from rdflib.term import URIRef
+from rdflib.term import URIRef, Literal
 from rdflib.plugins.sparql import prepareQuery
+from urlparse import urlparse
+from dotruralsepake.rdf.ontology import SEPAKE
+from datetime import datetime
+
+_TASK = '''
+PREFIX sepake: <http://dot.rural/sepake/>
+PREFIX sepakecode: <http://dot.rural/sepake/code>
+SELECT ?pureurl
+WHERE {
+    ?pureurl sepake:wasDetailedByCode sepakecode:PureOaiPublicationSetHarvester .
+    FILTER NOT EXISTS {?pureurl sepake:wasDetailedAtTime ?sometime}
+}
+LIMIT 1
+'''
 
 _PATH_TO_RESUMPTION_TOKEN = URIRef(u'http://www.openarchives.org/OAI/2.0/#resumptionToken') / URIRef(u'http://www.w3.org/1999/02/22-rdf-syntax-ns#value')
 
@@ -38,10 +52,19 @@ WHERE {
 }
 '''
 
+def pureOaiPublicationSetHarvester(graph):
+    try:
+        task = graph.query(_TASK).__iter__().next()
+        return PUREOAIHarvester(task['pureurl'])
+    except StopIteration:
+        return []
+
 class PUREOAIHarvester(object):
-    def __init__(self, location, pureset):
-        self._location = location
-        self._url = 'http://{}/ws/oai?verb=ListRecords&set={}&metadataPrefix=oai_dc'.format(self._location, pureset)
+    def __init__(self, url):
+        self._url = url
+        self._original_url = url
+        url_parsed = urlparse(url)
+        self._location = url_parsed.netloc
         self._more = True
         self._query = prepareQuery(_CONSTRUCT_PAPERS, initNs={'puredomain' : URIRef('http://{}/'.format(self._location))})
         
@@ -64,3 +87,4 @@ class PUREOAIHarvester(object):
     def __iter__(self):
         while (self._more):
             yield self._next()
+        yield [(URIRef(self._original_url), SEPAKE.wasDetailedAtTime, Literal(datetime.utcnow()))]
