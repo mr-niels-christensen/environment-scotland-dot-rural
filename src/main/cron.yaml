@@ -8,15 +8,15 @@ cron:
   schedule: every day 08:02
   target: 0-8
 - description: Harvest papers 
-  url: /harvest/pure.oai?graphid=newdata
+  url: /harvest/pure_oai?graphid=newdata
   schedule: every 10 minutes from 08:05 to 09:45
   target: 0-8
 - description: Harvest PURE projects
-  url: /harvest/pure.projects?graphid=newdata
+  url: /harvest/pure_projects?graphid=newdata
   schedule: every day 09:55
   target: 0-7
 - description: Harvest PURE details
-  url: /harvest/pure.details?graphid=newdata
+  url: /harvest/pure_details?graphid=newdata
   schedule: every 5 minutes from 10:00 to 11:55
   target: 0-7
 - description: Overwrite default by newdata  
