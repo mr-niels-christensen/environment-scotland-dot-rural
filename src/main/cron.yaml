@@ -7,18 +7,10 @@ cron:
   url: /harvest/seed?graphid=newdata&path=/sparql-backend/seed.sparql.txt
   schedule: every day 08:02
   target: 0-8
-- description: Harvest papers 
-  url: /harvest/pure_oai?graphid=newdata
-  schedule: every 10 minutes from 08:05 to 09:45
+- description: Harvest 
+  url: /harvest/external?graphid=newdata
+  schedule: every 10 minutes from 08:05 to 11:55
   target: 0-8
-- description: Harvest PURE projects
-  url: /harvest/pure_projects?graphid=newdata
-  schedule: every day 09:55
-  target: 0-7
-- description: Harvest PURE details
-  url: /harvest/pure_details?graphid=newdata
-  schedule: every 5 minutes from 10:00 to 11:55
-  target: 0-7
 - description: Overwrite default by newdata  
   url: /delete/default?overwriteBy=newdata
   schedule: every day 12:00

@@ -7,18 +7,14 @@ from rdflib import Graph
 from rdflib_appengine.ndbstore import NDBStore
 import logging
 import webapp2
-from dotruralsepake.harvest.pure_oai import pureOaiPublicationSetHarvester
-from dotruralsepake.harvest.pure_details import PureRESTPublicationHarvester
-from dotruralsepake.harvest.pure_projects import iterator
+from dotruralsepake.harvest.pure_oai import oai_iterator_generator
+from dotruralsepake.harvest.pure_details import details_iterator_generator
+from dotruralsepake.harvest.pure_projects import rest_iterator_generator
 from dotruralsepake.harvest.ukeof import UKEOFActivityHarvester
 import urllib2
 
 def route():
     return webapp2.Route(r'/harvest/<action>', handler=_HarvestHandler, name='harvest')
-
-_ACTIONS = {f.__module__.split('.')[-1] : f for f in [pureOaiPublicationSetHarvester,
-                                                      PureRESTPublicationHarvester,
-                                                      iterator]}
 
 class _HarvestHandler(webapp2.RequestHandler):
     def get(self, action):
@@ -27,19 +23,30 @@ class _HarvestHandler(webapp2.RequestHandler):
             del self.request.GET['adminconsolecustompage']
         self.graph = Graph(store = NDBStore(identifier = self.request.GET['graphid']))
         del self.request.GET['graphid']
-        if action in _ACTIONS:
-            self._harvest(action, _ACTIONS[action])
+        assert action in ['seed', 'external']
+        if action == 'seed':
+            self._harvest_seed(**self.request.GET)
         else:
-            method = getattr(self, '_harvest_' + action.replace('.', '_'))
-            method(**self.request.GET)
+            iterator = self._get_iterator()
+            self._harvest(iterator)
         self.response.headers['Content-Type'] = 'text/plain'
         self.response.write('OK')
     
-    def _harvest(self, action, f):
+    def _get_iterator(self):
+        for iterator_builder in [rest_iterator_generator,
+                                 oai_iterator_generator,
+                                 details_iterator_generator,
+                                 ]:
+            iterator = iterator_builder(self.graph)
+            if iterator is not None:
+                return iterator
+        return []
+    
+    def _harvest(self, iterator):
         tmp = Graph()
-        for triples in f(self.graph):
+        for triples in iterator:
             tmp += triples
-            logging.debug('Found {} triples from {}'.format(len(triples), action))
+            logging.debug('Found {} triples'.format(len(triples)))
         self.graph += tmp
         
     def _harvest_seed(self, path, host = None):

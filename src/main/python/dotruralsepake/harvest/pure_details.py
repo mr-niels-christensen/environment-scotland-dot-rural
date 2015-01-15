@@ -29,7 +29,7 @@ WHERE {
     } .
     ?sepakeuri sepake:wasDetailedByData ?pureurl .
 }
-LIMIT 20
+LIMIT 30
 '''
 
 _CONSTRUCTS = list()
@@ -82,18 +82,25 @@ WHERE {
 }
 ''')
 
+def details_iterator_generator(graph):
+    tasks = [task for task in graph.query(_TASKS)]
+    if len(tasks) > 0:
+        return PureRESTPublicationHarvester(graph, tasks)
+    else:
+        return None
+    
 class PureRESTPublicationHarvester(object):
-    def __init__(self, graph, verbose = False):
+    def __init__(self, graph, tasks, verbose = False):
         self._graph = graph
+        self._tasks = tasks
         self._queries = [prepareQuery(q) for q in _CONSTRUCTS]
         self._verbose = verbose
         
     def __iter__(self):
-        tasks = [task for task in self._graph.query(_TASKS)] #Minimize synchronization effects
-        no_tasks = len(tasks)
-        logging.debug('{} tasks found'.format(no_tasks))
+        no_tasks = len(self._tasks)
+        logging.debug('{} detail URLs found'.format(no_tasks))
         current_task = 0
-        for task in tasks:
+        for task in self._tasks:
             current_task += 1
             if self._verbose:
                 logging.debug('Task {} of {}: {}'.format(current_task, no_tasks, task['pureurl']))

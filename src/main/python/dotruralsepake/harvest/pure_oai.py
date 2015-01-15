@@ -10,6 +10,7 @@ from rdflib.plugins.sparql import prepareQuery
 from urlparse import urlparse
 from dotruralsepake.rdf.ontology import SEPAKE
 from datetime import datetime
+import logging
 
 _TASK = '''
 PREFIX sepake: <http://dot.rural/sepake/>
@@ -52,17 +53,18 @@ WHERE {
 }
 '''
 
-def pureOaiPublicationSetHarvester(graph):
+def oai_iterator_generator(graph):
     try:
         task = graph.query(_TASK).__iter__().next()
         return PUREOAIHarvester(task['pureurl'])
     except StopIteration:
-        return []
+        return None
 
 class PUREOAIHarvester(object):
     def __init__(self, url):
         self._url = url
         self._original_url = url
+        logging.debug(url)
         url_parsed = urlparse(url)
         self._location = url_parsed.netloc
         self._more = True

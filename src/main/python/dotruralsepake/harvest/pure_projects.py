@@ -9,16 +9,19 @@ Created on 20 Oct 2014
 from rdflib.plugins.sparql import prepareQuery
 from rdflib.namespace import FOAF, XSD, Namespace
 from dotruralsepake.rdf.ontology import SEPAKE, PROV
-from rdflib import RDF, RDFS
+from rdflib import RDF, RDFS, URIRef, Literal
 from dotruralsepake.rdf.xml_to_rdf import XMLGraph
+from datetime import datetime
 import urllib2
+import logging
 
-def iterator(graph):
+def rest_iterator_generator(graph):
     try:
         task = graph.query(_TASK).__iter__().next()
+        logging.debug(task['pureurl'])
         return PureRESTProjectHarvester(url = task['pureurl'])
     except StopIteration:
-        return []
+        return None
 
 _TASK = '''
 PREFIX sepake: <http://dot.rural/sepake/>
@@ -33,13 +36,17 @@ LIMIT 1
 
 class PureRESTProjectHarvester(object):
     def __init__(self, xml_input = None, url = None):
+        self._timestamp_triple = None
         if xml_input is None:
             assert url is not None, 'Need xml_input or url'
+            self._timestamp_triple = (URIRef(url), SEPAKE.wasDetailedAtTime, Literal(datetime.utcnow()))
             xml_input = urllib2.urlopen(url, timeout = 30)
         self._xml_as_rdf = _slimmed_xml_as_rdf(xml_input)
         self._queries = [_prep(_CONSTRUCT_PROJECT), _prep(_CONSTRUCT_PEOPLE)]
 
     def __iter__(self):
+        if self._timestamp_triple is not None:
+            yield [self._timestamp_triple]
         for q in self._queries:
             yield self._xml_as_rdf.query(q)
 
