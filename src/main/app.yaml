@@ -24,7 +24,7 @@ handlers:
 - url: /(.*\.(html|js|css|gif))$
   static_files: frontend/\1
   upload: frontend/.*\.(html|js|css|gif)$
-- url: /(sparql|search)/.*
+- url: /(sparql|search|ask)/.*
   script: dotruralsepake.httpserver.application
 - url: /(harvest|index|delete)/.*
   script: dotruralsepake.httpserver.application
