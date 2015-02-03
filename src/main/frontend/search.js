@@ -1,6 +1,12 @@
 var _NEXT_PAGE_HTML = '<button type="button" class="moreLink btn btn-default btn-lg"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Next page</button>';
 _NEXT_PAGE_HTML = "<tr class='dynamicrow'><td><p align='right'>" + _NEXT_PAGE_HTML + "</p></td></tr>";
 
+$( "#searchForm" ).submit(function( event ) {
+  event.preventDefault();
+  var link_url = jQuery.param.fragment( '/search.html', {'query' : $( '#search' ).val()} );
+  document.location.href = link_url; 
+});
+
 function _updateSearchFromJson(response) {
   window.scrollTo(0, 0);
   $ ( "#searchResults .dynamicrow" ).remove();
