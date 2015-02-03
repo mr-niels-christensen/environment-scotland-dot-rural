@@ -5,6 +5,12 @@ $(document).on({
      ajaxStop: function() { $body.removeClass("loading"); }    
 });
 
+$( "#searchForm" ).submit(function( event ) {
+  event.preventDefault();
+  var link_url = jQuery.param.fragment( '/search.html', {'query' : $( '#search' ).val()} );
+  document.location.href = link_url; 
+});
+
 $( document ).ajaxError(function( event, request, settings ) {
     if ($( "#myAjaxAlert" ).queue( "fx" ).length == 0) {
         //NOTE: Without parameters, show() and hide() do not queue nicely

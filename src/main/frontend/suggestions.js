@@ -34,11 +34,6 @@ function _initSearchFromPolishedData(data) {
           var link_url = jQuery.param.fragment( '/focus.html', {'iri' : suggestionObject.id} );
           document.location.href = link_url;  
       });
-  $( "#searchForm" ).submit(function( event ) {
-    event.preventDefault();
-    var link_url = jQuery.param.fragment( '/search.html', {'query' : $( '#search' ).val()} );
-    document.location.href = link_url; 
-  });
 }
 
 var substringMatcher = function(projs) {
