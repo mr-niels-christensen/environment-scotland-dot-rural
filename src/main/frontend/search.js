@@ -44,10 +44,11 @@ function _updateSearchFromHashChange(event) {
   var cursor_websafe =  event.getState( 'cursor_websafe' ) || null;
   search(query, cursor_websafe, _docReady_updateSearchFromJson);
   if (event.getState( 'query' )) {
-    var search_history = $.localStorage.getItem('search_history') || "";
-    search_history += event.getState( 'query' );
+    var search_history = JSON.parse($.localStorage.getItem('search_history')) || [];
+    search_history.push(event.getState( 'query' ));
     console.log(search_history);
-    $.localStorage.setItem('search_history', search_history);
+    $.localStorage.setItem('search_history', JSON.stringify(search_history));
+    console.log($.localStorage.getItem('search_history'));
   };
 }
 
