@@ -5,9 +5,10 @@ Created on 17 Dec 2014
 '''
 from rdflib import Graph
 from rdflib_appengine.ndbstore import NDBStore
+from dotruralsepake.store import connect
 
 _METRICS_GRAPH_ID = 'metrics'
-_METRICS_GRAPH = Graph(NDBStore(identifier = _METRICS_GRAPH_ID, configuration = {'log' : False}))
+_METRICS_GRAPH = Graph(connect(_METRICS_GRAPH_ID))
 
 def register_query(queryUrl, bindings, resolver):
     if queryUrl == '/sparql-queries/focus.sparql.txt':

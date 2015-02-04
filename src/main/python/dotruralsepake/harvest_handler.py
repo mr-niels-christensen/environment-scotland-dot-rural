@@ -12,6 +12,7 @@ from dotruralsepake.harvest.pure_details import details_iterator_generator
 from dotruralsepake.harvest.pure_projects import rest_iterator_generator
 from dotruralsepake.harvest.ukeof import UKEOFActivityHarvester
 import urllib2
+from dotruralsepake.store import connect
 
 def route():
     return webapp2.Route(r'/harvest/<action>', handler=_HarvestHandler, name='harvest')
@@ -21,7 +22,7 @@ class _HarvestHandler(webapp2.RequestHandler):
         if 'adminconsolecustompage' in self.request.GET:
             logging.debug('Activated from Admin console')
             del self.request.GET['adminconsolecustompage']
-        self.graph = Graph(store = NDBStore(identifier = self.request.GET['graphid']))
+        self.graph = Graph(store = connect(identifier = self.request.GET['graphid']))
         del self.request.GET['graphid']
         assert action in ['seed', 'external']
         if action == 'seed':
