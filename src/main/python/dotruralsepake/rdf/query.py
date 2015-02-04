@@ -7,10 +7,11 @@ from rdflib import Graph, URIRef
 from rdflib_appengine.ndbstore import NDBStore
 import logging
 from dotruralsepake.metrics.metrics import register_query
+from dotruralsepake.store import connect
 
 class SPARQLQueryExecutor(object):
     def __init__(self, resolver, graphid):
-        self._store = NDBStore(identifier = graphid, configuration = {'log' : False})
+        self._store = connect(graphid)
         self._resolver = resolver
         
     def dynamic(self, name = None, query = None):
