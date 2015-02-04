@@ -40,7 +40,7 @@ class Indexer(object):
     def __iter__(self):
         for suffix in [str(i) for i in range(10)] + [chr(i) for i in range(ord('a'), ord('g'))]:#Each of the 16 hex digits
             index_now = self._graph.query(_DOCUMENTS.replace('?suffix', '"{}"'.format(suffix)))#initBindings do not work with FILTER
-            documents = [_document_from_sparql_result(doc.asdict()) for doc in index_now]
+            documents = [_document_from_sparql_result(doc.asdict()) for doc in index_now if 'label' in doc]
             self._index.put(documents)
             yield len(index_now)
 
