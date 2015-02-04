@@ -12,3 +12,4 @@ repos/
 *.pyc
 src/main/python/MANIFEST
 src/main/python/*.egg-info/
+*workspace*
