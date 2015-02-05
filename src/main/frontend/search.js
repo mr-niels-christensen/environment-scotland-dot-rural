@@ -50,7 +50,7 @@ function _updateSearchFromHashChange(event) {
       recent.pop();
     };
     console.log(recent);
-    $.localStorage.setItem('search_history', JSON.stringify(recent));
+    $.localStorage.setItem('search_history_recent_list', JSON.stringify(recent));
     console.log($.localStorage.getItem('search_history_recent_list'));
   };
 }
