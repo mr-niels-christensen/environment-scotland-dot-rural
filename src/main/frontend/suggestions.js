@@ -80,6 +80,12 @@ function _updateHistoryFromHashChange(event) {
       $( "#historyTable tr:last" ).after( "<tr class='searchTermRow dynamicrow'></tr>" );
       $( "#historyTable tr:last" ).append( "<td>" + term + "</td>" );
     });
+    $( "#historyTable .searchTermRow" ).on( 'click', function() {
+      var term = $( this ).find( 'td' ).text();
+      var link_url = jQuery.param.fragment( '/search.html', {'query' : term} );
+      document.location.href = link_url;
+  });
+
   });
 }
 
