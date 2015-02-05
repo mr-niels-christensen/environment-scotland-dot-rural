@@ -149,16 +149,13 @@
           <div id="myAjaxAlert" class="alert alert-danger" style="display: none" role="alert">
             We failed to load some of your data. Please try reloading this page, or send an angry email to the developer.
           </div>
-          <div id="askPanel" class="smallRightColumnBox">
+          <div id="historyPanel" class="smallRightColumnBox">
             <p></p>
-            <h2>Ask an expert</h2>
-            <p>Ask about
-              <i class="labelOfFocus" id="questionText"></i>
-            </p>
+            <h2>Recent search terms</h2>
+            <table id="historyTable" class="table table-hover table-condensed">
+              <tr class="hiddenRow"></tr>
+            </table>
             <p></p>
-            <a role="button" id="askButton" target="_blank" class="btn btn-primary btn-lg btn-block">
-               Open question form &nbsp; <span class="glyphicon glyphicon-arrow-right"></span>
-            </a>
           </div>
         </div>
 
@@ -208,7 +205,7 @@
 <!-- Styling for typeahead and data visualization widgets -->
 <link href="dot-rural-sepake.css" rel="stylesheet">
 
-<!-- Typeahead - temporarily disabled, see https://github.com/mr-niels-christensen/environment-scotland-dot-rural/issues/54   <script src="js/typeahead.bundle.min.js"></script> --> 
+<script src="js/typeahead.bundle.min.js"></script>
 
 <!-- Jquery BBQ --> 
 <script src="js/jquery.ba-bbq.min.js"></script>
@@ -219,9 +216,11 @@
 <!-- This application --> 
 <script src="ajax.js"></script>
 <script src="search.js"></script>
-<!-- Suggestions - temporarily disabled, see https://github.com/mr-niels-christensen/environment-scotland-dot-rural/issues/54 <script src="suggestions.js"></script> -->
-<script src="ask.js"></script>
-
+<script src="suggestions.js"></script>
+<!-- <script src="ask.js"></script> -->
+<script>
+  $(window).trigger( 'hashchange' );//Start loading AJAX data
+</script>
 <!-- ----------------------------------- END app-specific code --------------------------------------------------------------------- -->
 
 <!-- SmartMenus jQuery plugin --> 

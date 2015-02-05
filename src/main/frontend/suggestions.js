@@ -1,4 +1,5 @@
-sparql("suggestions",
+function _initSearchWithRequest() {
+  sparql("suggestions",
             [
             "SELECT * WHERE {",//TODO: Get type, but only one record per id, maybe using #3
             "    {?id rdfs:label ?label} .",
@@ -6,7 +7,8 @@ sparql("suggestions",
            ],
            "",
            _initSearchFromJson
-);
+  );
+}
 
 function _initSearchFromJson(response) {
     _initSearchFromPolishedData( {items: $.map( response.results.bindings, function(binding, index) {
@@ -63,3 +65,22 @@ var substringMatcher = function(projs) {
   };
 };
 
+function _updateHistoryFromHashChange(event) {
+  var recent = JSON.parse($.localStorage.getItem('search_history_recent_list')) || [];
+  if (event.getState( 'query' )) {
+    var new_len = recent.unshift(event.getState( 'query' ));
+    if (new_len > 10) {
+      recent.pop();
+    };
+    $.localStorage.setItem('search_history_recent_list', JSON.stringify(recent));
+  };
+  $( document ).ready( function() {
+    $ ( "#historyTable .dynamicrow" ).remove();
+    $.each(recent, function(index, term){
+      $( "#historyTable tr:last" ).after( "<tr class='searchTermRow dynamicrow'></tr>" );
+      $( "#historyTable tr:last" ).append( "<td>" + term + "</td>" );
+    });
+  });
+}
+
+$(window).bind( 'hashchange', _updateHistoryFromHashChange);

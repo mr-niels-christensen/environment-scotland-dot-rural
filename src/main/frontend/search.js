@@ -43,17 +43,7 @@ function _updateSearchFromHashChange(event) {
   var query = event.getState( 'query' ) || 'environment';
   var cursor_websafe =  event.getState( 'cursor_websafe' ) || null;
   search(query, cursor_websafe, _docReady_updateSearchFromJson);
-  if (event.getState( 'query' )) {
-    var recent = JSON.parse($.localStorage.getItem('search_history_recent_list')) || [];
-    var new_len = recent.unshift(event.getState( 'query' ));
-    if (new_len > 10) {
-      recent.pop();
-    };
-    console.log(recent);
-    $.localStorage.setItem('search_history_recent_list', JSON.stringify(recent));
-    console.log($.localStorage.getItem('search_history_recent_list'));
-  };
 }
 
 $(window).bind( 'hashchange', _updateSearchFromHashChange);
-$(window).trigger( 'hashchange' );
+
