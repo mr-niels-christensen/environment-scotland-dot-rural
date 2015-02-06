@@ -60,6 +60,12 @@ test: .python.test.made
 	source .venv.for.use/bin/activate && pip install $(DISTFILE) && pip install --force-reinstall --no-deps --upgrade $(DISTFILE)
 	touch .pip.for.use.made
 
+.PHONY: deploy
+deploy: gaebuild
+	@head -2 $(GAEDIR)/app.yaml
+	@read -p "Press RETURN to deploy the above, CTRL+C to cancel"
+	appcfg.py update $(GAEDIR)
+
 .PHONY: build
 build: $(DISTFILE)
 
