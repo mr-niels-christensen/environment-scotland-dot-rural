@@ -4,16 +4,16 @@
 		{
 			"follow_symlinks": true,
 			"path": ".",
-                        "folder_exclude_patterns" : ["bin", "build", ".*"],
-                        "file_exclude_patterns" : [".*"]
+			"folder_exclude_patterns" : ["bin", "build", ".*"],
+			"file_exclude_patterns" : [".*"]
 		},
 		{
 			"follow_symlinks": true,
 			"path": ".venv.for.ide"
 		},
-                {
-                        "follow_symlinks": true,
-                        "path": "/Applications/GoogleAppEngineLauncher.app/Contents/Resources/GoogleAppEngine-default.bundle/Contents/Resources/google_appengine"
-                }
+		{
+			"follow_symlinks": true,
+			"path": "/Applications/GoogleAppEngineLauncher.app/Contents/Resources/GoogleAppEngine-default.bundle/Contents/Resources/google_appengine/google/"
+		}
 	]
 }
