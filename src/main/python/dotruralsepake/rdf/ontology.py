@@ -27,6 +27,7 @@ class SEPAKE(object):
 @namespace('http://dot.rural/sepake/code', separator = '/')
 class SEPAKECODE(object):
     PureRestPublication = RDF_NAME
+    NercRSS             = RDF_NAME
     
 @namespace('http://www.w3.org/ns/prov')
 class PROV(object):
