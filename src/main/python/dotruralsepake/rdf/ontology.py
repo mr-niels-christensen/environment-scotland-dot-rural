@@ -17,6 +17,7 @@ class SEPAKE(object):
     PureDepartment    = RDF_NAME
     PurePublication   = RDF_NAME
     PurePerson        = RDF_NAME
+    NERCDataSet       = RDF_NAME
     owns              = RDF_NAME
     ownedBy           = RDF_NAME
     htmlDescription   = RDF_NAME
