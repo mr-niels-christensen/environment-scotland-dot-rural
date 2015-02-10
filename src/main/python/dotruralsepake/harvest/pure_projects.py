@@ -15,24 +15,7 @@ from datetime import datetime
 import urllib2
 import logging
 
-def rest_iterator_generator(graph):
-    try:
-        task = graph.query(_TASK).__iter__().next()
-        logging.debug(task['pureurl'])
-        return PureRESTProjectHarvester(url = task['pureurl'])
-    except StopIteration:
-        return None
-
-_TASK = '''
-PREFIX sepake: <http://dot.rural/sepake/>
-PREFIX sepakecode: <http://dot.rural/sepake/code>
-SELECT ?pureurl
-WHERE {
-    ?pureurl sepake:wasDetailedByCode sepakecode:PureRESTProjectHarvester .
-    FILTER NOT EXISTS {?pureurl sepake:wasDetailedAtTime ?sometime}
-}
-LIMIT 1
-'''
+PURE_PROJECTS_CODE_URI = 'http://dot.rural/sepake/codePureRESTProjectHarvester'
 
 class PureRESTProjectHarvester(object):
     def __init__(self, xml_input = None, url = None):
