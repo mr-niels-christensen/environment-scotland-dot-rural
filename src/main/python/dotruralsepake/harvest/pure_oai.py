@@ -12,16 +12,7 @@ from dotruralsepake.rdf.ontology import SEPAKE
 from datetime import datetime
 import logging
 
-_TASK = '''
-PREFIX sepake: <http://dot.rural/sepake/>
-PREFIX sepakecode: <http://dot.rural/sepake/code>
-SELECT ?pureurl
-WHERE {
-    ?pureurl sepake:wasDetailedByCode sepakecode:PureOaiPublicationSetHarvester .
-    FILTER NOT EXISTS {?pureurl sepake:wasDetailedAtTime ?sometime}
-}
-LIMIT 1
-'''
+PURE_OAI_CODE_URI = 'http://dot.rural/sepake/codePureOaiPublicationSetHarvester'
 
 _PATH_TO_RESUMPTION_TOKEN = URIRef(u'http://www.openarchives.org/OAI/2.0/#resumptionToken') / URIRef(u'http://www.w3.org/1999/02/22-rdf-syntax-ns#value')
 
@@ -52,13 +43,6 @@ WHERE {
     FILTER ( CONTAINS ( LCASE ( ?subject ), "environment" ) ) 
 }
 '''
-
-def oai_iterator_generator(graph):
-    try:
-        task = graph.query(_TASK).__iter__().next()
-        return PUREOAIHarvester(task['pureurl'])
-    except StopIteration:
-        return None
 
 class PUREOAIHarvester(object):
     def __init__(self, url):

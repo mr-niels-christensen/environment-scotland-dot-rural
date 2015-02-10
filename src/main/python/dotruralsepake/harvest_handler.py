@@ -7,9 +7,9 @@ from rdflib import Graph
 from rdflib_appengine.ndbstore import NDBStore
 import logging
 import webapp2
-from dotruralsepake.harvest.pure_oai import oai_iterator_generator
+from dotruralsepake.harvest.pure_oai import PURE_OAI_CODE_URI, PUREOAIHarvester
 from dotruralsepake.harvest.pure_details import details_iterator_generator
-from dotruralsepake.harvest.pure_projects import PURE_PROJECTS_CODE_URI, PureRESTProjectHarvester
+from dotruralsepake.harvest.pure_projects import PURE_PROJECTS_CODE_URI, pure_projects_task_from_url
 from dotruralsepake.harvest.nerc import NERC_CODE_URI, nerc_task_from_url
 from dotruralsepake.harvest.ukeof import UKEOFActivityHarvester
 import urllib2
@@ -38,7 +38,7 @@ class _HarvestHandler(webapp2.RequestHandler):
     def _get_iterator(self):
         for iterator_builder in [_NERC_TASK_BUILDER.build,
                                  _PURE_PROJECTS_TASK_BUILDER.build,
-                                 oai_iterator_generator,
+                                 _PURE_OAI_TASK_BUILDER.build,
                                  details_iterator_generator,
                                  ]:
             iterator = iterator_builder(self.graph)
@@ -95,4 +95,5 @@ LIMIT 1
 '''
 
 _NERC_TASK_BUILDER = SingleUriTaskBuilder(NERC_CODE_URI, nerc_task_from_url)
-_PURE_PROJECTS_TASK_BUILDER = SingleUriTaskBuilder(PURE_PROJECTS_CODE_URI, PureRESTProjectHarvester)
+_PURE_PROJECTS_TASK_BUILDER = SingleUriTaskBuilder(PURE_PROJECTS_CODE_URI, pure_projects_task_from_url)
+_PURE_OAI_TASK_BUILDER = SingleUriTaskBuilder(PURE_OAI_CODE_URI, PUREOAIHarvester)

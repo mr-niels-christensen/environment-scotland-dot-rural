@@ -17,6 +17,9 @@ import logging
 
 PURE_PROJECTS_CODE_URI = 'http://dot.rural/sepake/codePureRESTProjectHarvester'
 
+def pure_projects_task_from_url(url):
+    return PureRESTProjectHarvester(url = url)
+
 class PureRESTProjectHarvester(object):
     def __init__(self, xml_input = None, url = None):
         self._timestamp_triple = None
