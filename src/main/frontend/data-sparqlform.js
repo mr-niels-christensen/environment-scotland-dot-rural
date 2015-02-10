@@ -7,8 +7,20 @@ $( document ).ready( function() {
         _updateQueryResponseFromJson
     );
   });
+  $( '#sparqlForm .submitNewdataButton' ).on( 'click', function() {
+    sparql_nondefault_graph(
+        "newdata",
+        "form",
+        [$( '#sparqlForm #sparqlQuery' ).val()
+        ],
+        "",
+        _updateQueryResponseFromJson
+    );
+  });
   $( '#sparqlForm .submitMetricsButton' ).on( 'click', function() {
-    sparql_metrics("form",
+    sparql_nondefault_graph(
+        "metrics",
+        "form",
         [$( '#sparqlForm #sparqlQuery' ).val()
         ],
         "",

@@ -57,10 +57,10 @@ function sparql(name, queryAsList, iri, callback) {
     });
 }
 
-function sparql_metrics(name, queryAsList, iri, callback) {
+function sparql_nondefault_graph(graph_id, name, queryAsList, iri, callback) {
   var q = _PREAMBLE.concat(queryAsList).join("\n").replace(/--IRI--/g, iri);
   $.ajax({
-    url: "/sparql/metrics/dynamic.json",
+    url: "/sparql/" + graph_id + "/dynamic.json",
     data: {
         "name" : name,
       "query" : q},
