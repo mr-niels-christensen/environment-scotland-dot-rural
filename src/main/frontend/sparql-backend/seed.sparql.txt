@@ -1,6 +1,7 @@
 PREFIX sepake: <http://dot.rural/sepake/>
 PREFIX sepakecode: <http://dot.rural/sepake/code>
 INSERT DATA {
+    <http://data-search.nerc.ac.uk/search/full/catalogue?c=200&a=GBS&Graticule=Graticule&q=environment&t=co&OpenLayers.Control.LayerSwitcher_45_baseLayers=Bathymetry+-+GEBCO%26copy%3B&Select+a+UK+river+catchment....=Select+a+UK+river+catchment....&Select+a+UK+river+catchment....=Select+a+UK+river+catchment....&bbox=-8.65%2C54.63%2C-0.73%2C60.86> sepake:wasDetailedByCode sepakecode:NercRSS .
     <http://pure.abdn.ac.uk:8080/ws/rest/getprojectrequest?rendering=xml_long> sepake:wasDetailedByCode sepakecode:PureRESTProjectHarvester .
     <http://pure.abdn.ac.uk:8080/ws/oai?verb=ListRecords&set=publications:year2014&metadataPrefix=oai_dc> sepake:wasDetailedByCode sepakecode:PureOaiPublicationSetHarvester .
     <http://pure.abdn.ac.uk:8080/ws/oai?verb=ListRecords&set=publications:year2013&metadataPrefix=oai_dc> sepake:wasDetailedByCode sepakecode:PureOaiPublicationSetHarvester .

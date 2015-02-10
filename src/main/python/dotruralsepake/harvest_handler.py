@@ -10,6 +10,7 @@ import webapp2
 from dotruralsepake.harvest.pure_oai import oai_iterator_generator
 from dotruralsepake.harvest.pure_details import details_iterator_generator
 from dotruralsepake.harvest.pure_projects import rest_iterator_generator
+from dotruralsepake.harvest.nerc import build_nerc_iterator_from_graph
 from dotruralsepake.harvest.ukeof import UKEOFActivityHarvester
 import urllib2
 from dotruralsepake.store import connect
@@ -34,7 +35,8 @@ class _HarvestHandler(webapp2.RequestHandler):
         self.response.write('OK')
     
     def _get_iterator(self):
-        for iterator_builder in [rest_iterator_generator,
+        for iterator_builder in [build_nerc_iterator_from_graph,
+                                 rest_iterator_generator,
                                  oai_iterator_generator,
                                  details_iterator_generator,
                                  ]:
