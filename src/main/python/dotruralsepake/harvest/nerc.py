@@ -7,12 +7,10 @@ Created on 20 Oct 2014
 '''
 
 from dotruralsepake.rdf.ontology import SEPAKECODE
-from rdflib import RDF, RDFS, URIRef, Literal
 import logging
 from dotruralsepake.rdf.ontology import PROV
 
-
-from rdflib.namespace import RDF
+from rdflib.namespace import RDF, RDFS, DC
 from rdflib import URIRef, Literal
 from dotruralsepake.rdf.ontology import SEPAKE
 from dotruralsepake.rdf.xml_to_rdf import XMLGraph
@@ -29,5 +27,19 @@ def nerc_task_from_url(url):
         yield _triples_for(item, xml_graph)
 
 def _triples_for(item, xml_graph):
-    link = xml_graph.value(subject = item, predicate = URIRef('#link')/RDF.value)
-    return [(link, RDF.type, SEPAKE.NERCDataSet)]
+    link = URIRef(xml_graph.value(subject = item, predicate = URIRef('#link') / RDF.value))
+    triples = [(link, RDF.type, SEPAKE.NERCDataSet)]
+    triples.append((link, 
+                    RDFS.label, 
+                    xml_graph.value(subject = item, 
+                                    predicate = URIRef('#title') / RDF.value)))
+    triples.append((link, 
+                    SEPAKE.htmlDescription, 
+                    xml_graph.value(subject = item, 
+                                    predicate = URIRef('#description') / RDF.value)))
+    pubDate = datetime.strptime(xml_graph.value(subject = item, 
+                                predicate = URIRef('#pubDate') / RDF.value), '%a, %d %b %Y %X GMT')
+    triples.append((link, 
+                    DC.issued, 
+                    Literal(pubDate)))
+    return triples
