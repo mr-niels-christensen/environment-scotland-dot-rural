@@ -38,6 +38,7 @@ class PROV(object):
     startedAtTime   = RDF_NAME
     endedAtTime     = RDF_NAME
     wasInfluencedBy = RDF_NAME
+    wasDerivedFrom  = RDF_NAME
     memberOf        = RDF_NAME
     hadMember       = RDF_NAME
     generatedAtTime = RDF_NAME

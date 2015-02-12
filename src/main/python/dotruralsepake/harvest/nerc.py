@@ -10,7 +10,7 @@ from dotruralsepake.rdf.ontology import SEPAKECODE
 
 from rdflib.namespace import RDF, RDFS, DC, FOAF
 from rdflib import URIRef, Literal
-from dotruralsepake.rdf.ontology import SEPAKE
+from dotruralsepake.rdf.ontology import SEPAKE, PROV
 from dotruralsepake.rdf.xml_to_rdf import XMLGraph
 from datetime import datetime
 import urllib2
@@ -33,10 +33,11 @@ def nerc_task_from_url(url):
         text_link = xml_graph.value(subject = item, predicate = URIRef('#link') / RDF.value)
         id = URIRef('{}#{}'.format(SEPAKE.NERCDataSet, _sha1(text_link)))
         url_link = URIRef(text_link)
-        yield list(_triples_for_rss_item(item, id, url_link, xml_graph))
+        yield list(_triples_for_rss_item(item, id, url_link, xml_graph, URIRef(url)))
 
-def _triples_for_rss_item(item, id, link, xml_graph):
+def _triples_for_rss_item(item, id, link, xml_graph, orig_url):
     yield (id, RDF.type, SEPAKE.NERCDataSet)
+    yield (id, PROV.wasDerivedFrom, orig_url)
     yield (id, FOAF.homepage, link)
     yield (id, RDFS.label, 
            xml_graph.value(subject = item, 

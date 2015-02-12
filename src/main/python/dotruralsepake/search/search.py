@@ -10,12 +10,16 @@ def _dictify(scored_document):
     result = {'uri' : scored_document.doc_id,
               'label' : scored_document.field('label').value,
               'rank' : scored_document.rank,
-              'logo' : '/images/aberdeenunilogo.gif',#TODO: Make this data, not static! The current link is for demo-purposes in the beta version
+              'logo' : '/images/aberdeenunilogo.gif',#TODO: Avoid needing default value
               }
     try:
         result['description'] = scored_document.field('description').value
         if len(result['description']) > 500:
             result['description'] = result['description'][:497] + "..."
+    except Exception:
+        pass
+    try:
+        result['logo'] = scored_document.field('logo').value
     except Exception:
         pass
     return result

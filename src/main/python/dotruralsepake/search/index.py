@@ -14,12 +14,15 @@ _DOCUMENTS = '''
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
 PREFIX sepake: <http://dot.rural/sepake/>
 PREFIX sepakemetrics: <http://dot.rural/sepake/metrics/>
-SELECT ?sepakeuri ?label ?htmlDescription (COUNT(*) AS ?rank)
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+SELECT ?sepakeuri ?label ?htmlDescription ?logo (COUNT(*) AS ?rank)
 WHERE {
     { ?sepakeuri rdfs:label ?label .
        FILTER (STRENDS(STR(?sepakeuri), ?suffix))
     } .
     OPTIONAL { ?sepakeuri sepake:htmlDescription ?htmlDescription } .
+    OPTIONAL { ?sepakeuri prov:wasDerivedFrom / foaf:logo ?logo } .
     OPTIONAL { ?sepakeuri sepakemetrics:focushit []} . 
 }
 GROUP BY ?sepakeuri
@@ -29,6 +32,8 @@ def _document_from_sparql_result(sparql_result):
     fields = [search.HtmlField(name='label', value=sparql_result['label'])]
     if 'htmlDescription' in sparql_result:
         fields.append(search.HtmlField(name='description', value=sparql_result['htmlDescription']))
+    if 'logo' in sparql_result:
+        fields.append(search.AtomField(name='logo', value=sparql_result['logo']))
     return search.Document(doc_id = sparql_result['sepakeuri'], 
                            fields = fields,
                            rank = sparql_result['rank'].value)
