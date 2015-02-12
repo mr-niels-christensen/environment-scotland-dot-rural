@@ -15,6 +15,7 @@ from dotruralsepake.rdf.xml_to_rdf import XMLGraph
 from datetime import datetime
 import urllib2
 import logging
+import hashlib
 
 NERC_CODE_URI = 'http://dot.rural/sepake/codeNercRSS'
 
@@ -30,10 +31,7 @@ def nerc_task_from_url(url):
     #Loop over each item in the RSS feed:
     for item in xml_graph.objects(URIRef('#rss/channel'), URIRef('#item')):
         text_link = xml_graph.value(subject = item, predicate = URIRef('#link') / RDF.value)
-        if not text_link.endswith('.xml'):
-            logging.info('Skipping {} from NERC because it does not end with XML as expected'.format(text_link))
-            continue
-        id = URIRef(text_link[:-4]) #Strip '.xml' to end with a more or less random digit
+        id = URIRef('{}#{}'.format(SEPAKE.NERCDataSet, _sha1(text_link)))
         url_link = URIRef(text_link)
         yield list(_triples_for_rss_item(item, id, url_link, xml_graph))
 
@@ -51,3 +49,11 @@ def _triples_for_rss_item(item, id, link, xml_graph):
                                 predicate = URIRef('#pubDate') / RDF.value)
     python_datetime = datetime.strptime(text_date, '%a, %d %b %Y %X GMT')
     yield (id, DC.issued, Literal(python_datetime))
+
+def _sha1(node):
+    '''@param node: Some basestring or rdflib.term, encodable in UTF-8
+       @return: The hex SHA1 of the given string
+    '''
+    m = hashlib.sha1()
+    m.update(node.encode('utf-8'))
+    return m.hexdigest()
