@@ -2,8 +2,6 @@ SHELL := /bin/bash
 
 MAJORMINOR := 1.0
 
-RDFLIBAPPENGINEVERSION := 1.2
-
 PYTHON_FILES := $(shell find src -name "*.py")
 FRONTEND_FILES := $(shell find src/main/frontend -name "*.*")
 VERSION := $(MAJORMINOR)
@@ -28,8 +26,7 @@ gaebuild: .gaebuild.made
 	touch .gaebuild.made
 
 .gaebuild.pip.made: .gaedir.made
-	curl --location https://github.com/mr-niels-christensen/rdflib-appengine/releases/download/$(RDFLIBAPPENGINEVERSION)/rdflib-appengine-$(RDFLIBAPPENGINEVERSION).tar.gz > build/rdflib-appengine-$(RDFLIBAPPENGINEVERSION).tar.gz
-	pip install -t $(GAEDIR) build/rdflib-appengine-$(RDFLIBAPPENGINEVERSION).tar.gz
+	pip install -t $(GAEDIR) rdflib-appengine
 	touch .gaebuild.pip.made
 
 .gaebuild.python.made: $(PYTHON_FILES) .gaedir.made
