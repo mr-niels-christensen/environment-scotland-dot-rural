@@ -2,41 +2,81 @@ $(window).bind( 'hashchange', _updateFocusFromIri);
 
 function _updateFocusFromIri(event) {
     var iri = event.getState( 'iri' );
-    $( '.optionalField' ).hide();
+    $( '#focusPanel' ).empty();
     sparql_predefined(
         "/sparql-queries/focus.sparql.txt", 
         {'focus' : iri}, 
         _docReady_updateFocusFromJson);    
 }
 
-var _predicate_to_action = {
-  "http://www.w3.org/2000/01/rdf-schema#label" : 
-    function( y ){ $( ".labelOfFocus" ).html(y) },
-  "http://dot.rural/sepake/htmlDescription" : 
-    function( y ){ $( "#descriptionOfFocus" ).html(y || "(No summary)") },
-  "http://xmlns.com/foaf/0.1/homepage" : 
-    function( y ){ 
-      if (y) {
-          $( "#homepageOfFocus .dataGoesHere" ).text(y);
-          $( "#homepageOfFocus .dataGoesHere" ).attr("href", y);
-          $( "#homepageOfFocus" ).show();
-      }
-  },
-  "http://www.w3.org/ns/prov#startedAtTime" : 
-    function( y ){ 
-      if (y) {
-          $( "#startedAtTime .dataGoesHere" ).text(y);
-          $( "#startedAtTime" ).show();          
-      };
-  },
-  "http://www.w3.org/ns/prov#endedAtTime" : 
-    function( y ){ 
-      if (y) {
-          $( "#endedAtTime .dataGoesHere" ).text(y) 
-          $( "#endedAtTime" ).show()          
-      };
-  },
-};
+function _rdfs_label(parsed) {
+  return parsed['http://www.w3.org/2000/01/rdf-schema#label'][0]
+}
+
+function _first_or_undefined(parsed, iri) {
+  var sent = parsed[iri];
+  if (sent) {
+    return sent[0];
+  } else {
+    return undefined;
+  }  
+}
+
+function _sepake_htmlDescription(parsed) {
+  return _first_or_undefined(
+    parsed, 
+    'http://dot.rural/sepake/htmlDescription');
+}
+
+function _prov_startedAtTime(parsed) {
+  return _first_or_undefined(
+    parsed,
+    'http://www.w3.org/ns/prov#startedAtTime');
+}
+
+function _prov_endedAtTime(parsed) {
+  return _first_or_undefined(
+    parsed,
+    'http://www.w3.org/ns/prov#endedAtTime');
+}
+
+function _foaf_homepage(parsed) {
+  return parsed['http://xmlns.com/foaf/0.1/homepage'] || [];
+}
+
+function _updateFocusFromJson(response) {
+    try {
+        var parsed = sparqlListToObject(response, "p", "y");
+        $( '#focusPanel' ).append('<h2 class="focusLabel"></h2>');
+        $( '#focusPanel .focusLabel' ).html(_rdfs_label(parsed));
+        $( '#focusPanel' ).append('<p class="focusDescription"></p>');
+        $( '#focusPanel .focusDescription' ).html(_sepake_htmlDescription(parsed) || "(No summary)");
+        if (!_sepake_htmlDescription(parsed) && _focus_is_org()) {
+          _set_html_from_dbpedia_description( '#focusPanel .focusDescription', _rdfs_label(parsed) );
+        }
+        var startedAtTime = _prov_startedAtTime(parsed);
+        if (startedAtTime) {
+          $( '#focusPanel' ).append('<p class="focusStart"></p>');
+          $( '#focusPanel .focusStart' ).append('<strong>Started</strong>      ');
+          $( '#focusPanel .focusStart' ).append(startedAtTime);
+        };
+        var endedAtTime = _prov_endedAtTime(parsed);
+        if (endedAtTime) {
+          $( '#focusPanel' ).append('<p class="focusEnd"></p>');
+          $( '#focusPanel .focusEnd' ).append('<strong>Ended</strong>      ');
+          $( '#focusPanel .focusEnd' ).append(endedAtTime);
+        };
+        $.each(_foaf_homepage(parsed), function(index, homepage){
+          $( '#focusPanel' ).append('<p class="focusHomepage"></p>');
+          $( '#focusPanel .focusHomepage:last' ).append('<strong>Homepage</strong>      ');
+          $( '#focusPanel .focusHomepage:last' ).append('<a target="_blank"></a>');
+          $( '#focusPanel .focusHomepage:last a' ).text(homepage);
+          $( '#focusPanel .focusHomepage:last a' ).attr("href", homepage);
+        });
+    } catch (err) {
+      console.log( err );
+    }
+}
 
 function _docReady_updateFocusFromJson(response) {
   $( document ).ready( function() {
@@ -54,19 +94,6 @@ function _focus_is_org() {
   };
 }
 
-function _updateFocusFromJson(response) {
-    try {
-        var values = sparqlListToObject(response, "p", "y");
-        $.each(_predicate_to_action, function( p, action ){
-          action(values[p]);
-        });
-        if (!values["http://dot.rural/sepake/htmlDescription"] && _focus_is_org()) {
-          _set_html_from_dbpedia_description( "#descriptionOfFocus", values["http://www.w3.org/2000/01/rdf-schema#label"] );
-        }
-    } catch (err) {
-      console.log( err );
-    }
-}
 
 function _set_html_from_dbpedia_description(selector, search_for) {
   $.ajax({

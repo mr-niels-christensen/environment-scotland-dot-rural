@@ -82,7 +82,9 @@ function sparqlListToObject( sparqlResponse, keyName, valueName ) {
   var result = {};
   $.each(sparqlResponse.results.bindings, function( index, binding ){
     values = _valuesOfSparqlBinding(binding);
-    result[values[keyName]] = values[valueName];
+    var arrayForThisKey = result[values[keyName]] || [];
+    result[values[keyName]] = arrayForThisKey;
+    arrayForThisKey.push(values[valueName]);
   });
   return result;
 }
