@@ -14,6 +14,7 @@ from dotruralsepake.harvest.nerc import NERC_CODE_URI, nerc_task_from_url
 from dotruralsepake.harvest.ukeof import UKEOFActivityHarvester
 import urllib2
 from dotruralsepake.store import connect
+from random import shuffle
 
 def route():
     return webapp2.Route(r'/harvest/<action>', handler=_HarvestHandler, name='harvest')
@@ -36,11 +37,12 @@ class _HarvestHandler(webapp2.RequestHandler):
         self.response.write('OK')
 
     def _get_iterator(self):
-        for iterator_builder in [_NERC_TASK_BUILDER.build,
-                                 _PURE_PROJECTS_TASK_BUILDER.build,
-                                 _PURE_OAI_TASK_BUILDER.build,
-                                 details_iterator_generator,
-                                 ]:
+        tasks = [_NERC_TASK_BUILDER.build,
+                 _PURE_PROJECTS_TASK_BUILDER.build,
+                 _PURE_OAI_TASK_BUILDER.build,
+                 details_iterator_generator]
+        shuffle(tasks) #Shuffle randomly to avoid running a single failing task repeatedly
+        for iterator_builder in tasks:
             iterator = iterator_builder(self.graph)
             if iterator is not None:
                 return iterator
