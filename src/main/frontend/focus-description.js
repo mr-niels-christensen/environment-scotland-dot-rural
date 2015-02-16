@@ -1,26 +1,15 @@
 $(window).bind( 'hashchange', _updateFocusFromIri);
 
-$( document ).ready( function() {
-    $( "#labelOfOwner" ).on( 'click', function() {
-        var iri = $( "#labelOfOwner" ).data( 'iri');
-        if (iri) {
-            jQuery.bbq.pushState({'iri' : iri});  
-        };
-    });
-});
-
 function _updateFocusFromIri(event) {
     var iri = event.getState( 'iri' );
     $( '.optionalField' ).hide();
     sparql_predefined(
         "/sparql-queries/focus.sparql.txt", 
         {'focus' : iri}, 
-        _updateFocusFromJson);    
+        _docReady_updateFocusFromJson);    
 }
 
 var _predicate_to_action = {
-  "http://dot.rural/sepake/ownedBy" :
-    _updateOwnerFromIri,
   "http://www.w3.org/2000/01/rdf-schema#label" : 
     function( y ){ $( ".labelOfFocus" ).html(y) },
   "http://dot.rural/sepake/htmlDescription" : 
@@ -78,31 +67,6 @@ function _updateFocusFromJson(response) {
       console.log( err );
     }
 }
-
-function _updateOwnerFromIri(iri) {
-  if (!iri) {
-    return;
-  };
-  $( "#labelOfOwner" ).data( 'iri', iri);
-  sparql("owner",
-          [
-           "SELECT ?y WHERE {",
-           "    BIND (<--IRI--> AS ?owner) .",
-           "    { ?owner rdfs:label ?y } .",
-           "}",
-          ],
-         iri,
-         _updateOwnerFromJson
-  );    
-}
-
-function _updateOwnerFromJson(response) {
-  $.each(response.results.bindings, function(index, binding){
-    values = _valuesOfSparqlBinding(binding);
-    $( "#labelOfOwner .dataGoesHere" ).text( values.y );
-    $( "#labelOfOwner" ).show();
-  });
-};
 
 function _set_html_from_dbpedia_description(selector, search_for) {
   $.ajax({
