@@ -23,7 +23,7 @@
     visibility: hidden;
     min-height: 40px;
     width:      100%;
-    background: url('./ajax-loader.gif') 
+    background: url('./common-ajax-loader.gif') 
                 50% 30% 
                 no-repeat;
 }
