@@ -44,6 +44,12 @@ function _foaf_homepage(parsed) {
   return parsed['http://xmlns.com/foaf/0.1/homepage'] || [];
 }
 
+function _dc_issued(parsed) {
+  return _first_or_undefined(
+    parsed,
+    'http://purl.org/dc/elements/1.1/issued');
+}
+
 function _updateFocusFromJson(response) {
     try {
         var parsed = sparqlListToObject(response, "p", "y");
@@ -54,17 +60,20 @@ function _updateFocusFromJson(response) {
         if (!_sepake_htmlDescription(parsed) && _focus_is_org()) {
           _set_html_from_dbpedia_description( '#focusPanel .focusDescription', _rdfs_label(parsed) );
         }
-        var startedAtTime = _prov_startedAtTime(parsed);
-        if (startedAtTime) {
+        if (_prov_startedAtTime(parsed)) {
           $( '#focusPanel' ).append('<p class="focusStart"></p>');
           $( '#focusPanel .focusStart' ).append('<strong>Started</strong>      ');
-          $( '#focusPanel .focusStart' ).append(startedAtTime);
+          $( '#focusPanel .focusStart' ).append(_prov_startedAtTime(parsed));
         };
-        var endedAtTime = _prov_endedAtTime(parsed);
-        if (endedAtTime) {
+        if (_prov_endedAtTime(parsed)) {
           $( '#focusPanel' ).append('<p class="focusEnd"></p>');
           $( '#focusPanel .focusEnd' ).append('<strong>Ended</strong>      ');
-          $( '#focusPanel .focusEnd' ).append(endedAtTime);
+          $( '#focusPanel .focusEnd' ).append(_prov_endedAtTime(parsed));
+        };
+        if (_dc_issued(parsed)) {
+          $( '#focusPanel' ).append('<p class="focusIssued"></p>');
+          $( '#focusPanel .focusIssued' ).append('<strong>Published</strong>      ');
+          $( '#focusPanel .focusIssued' ).append(new Date(Date.parse(_dc_issued(parsed))).toDateString());
         };
         $.each(_foaf_homepage(parsed), function(index, homepage){
           $( '#focusPanel' ).append('<p class="focusHomepage"></p>');
