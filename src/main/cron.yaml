@@ -14,4 +14,7 @@ cron:
 - description: Index default
   url: /index/default
   schedule: every day 04:03
+- description: Set as default
+  url: /harvest/seed?graphid=newdata&path=/sparql-backend/make-default.sparql.txt
+  schedule: every day 04:06
   

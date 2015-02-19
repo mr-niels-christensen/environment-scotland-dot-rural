@@ -1,0 +1,9 @@
+PREFIX sepake: <http://dot.rural/sepake/>
+PREFIX sepakecode: <http://dot.rural/sepake/code>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+INSERT {
+    sepake:ThisGraph sepake:graphSetAsDefault ?now
+}
+WHERE {
+    BIND (NOW() AS ?now)    
+}
