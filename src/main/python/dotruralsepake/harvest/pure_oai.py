@@ -6,7 +6,7 @@ Created on 2 Dec 2014
 from dotruralsepake.rdf.xml_to_rdf import XMLGraph
 import urllib2
 from rdflib.term import URIRef, Literal
-from rdflib.plugins.sparql import prepareQuery
+from dotruralsepake.rdf.utils import prepareQuery
 from urlparse import urlparse
 from dotruralsepake.rdf.ontology import SEPAKE
 from datetime import datetime
@@ -58,7 +58,10 @@ class PUREOAIHarvester(object):
         xml_input = urllib2.urlopen(self._url, timeout=20)
         page = XMLGraph(xml_input)
         self._handle_resumption_token(page)
-        return page.query(self._query, initNs={'puredomain' : URIRef('http://{}/'.format(self._location))})
+        puredomain = URIRef('http://{}/'.format(self._location))
+        prepd = prepareQuery(self._query, 
+                             initNs={'puredomain' : puredomain})
+        return page.query(prepd)
 
     def _handle_resumption_token(self, page):
         resumptionToken = list(page.objects(predicate = _PATH_TO_RESUMPTION_TOKEN))

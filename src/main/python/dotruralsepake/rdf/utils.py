@@ -5,6 +5,21 @@ Created on 20 Oct 2014
 '''
 
 from rdflib import URIRef
+from threading import Lock
+from rdflib.plugins import sparql
+
+_SPARQL_PARSER_LOCK = Lock()
+
+def prepareQuery(queryString, initNs={}, base=None):
+    '''Thread-safe wrapper around rdflib.plugins.sparql.prepareQuery()
+       This should always be used for parsing SPARQL queries;
+       otherwise you may encounter surprising parser errors,
+       see https://github.com/mr-niels-christensen/environment-scotland-dot-rural/issues/59
+    '''
+    if isinstance(queryString, sparql.sparql.Query):
+      return queryString # It has already been parsed
+    with _SPARQL_PARSER_LOCK:
+        return sparql.prepareQuery(queryString, initNs, base)
 
 '''Used as a marker for members that are to be treated as RDF names.'''
 RDF_NAME = object()

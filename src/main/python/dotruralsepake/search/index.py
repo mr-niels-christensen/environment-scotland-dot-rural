@@ -9,6 +9,7 @@ from rdflib.plugins.sparql import prepareQuery
 from google.appengine.api import search
 import logging
 from dotruralsepake.store import connect
+from dotruralsepake.rdf.utils import prepareQuery
 
 _DOCUMENTS = '''
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
@@ -45,7 +46,7 @@ class Indexer(object):
         
     def __iter__(self):
         for suffix in [str(i) for i in range(10)] + [chr(i) for i in range(ord('a'), ord('g'))]:#Each of the 16 hex digits
-            index_now = self._graph.query(_DOCUMENTS.replace('?suffix', '"{}"'.format(suffix)))#initBindings do not work with FILTER
+            index_now = self._graph.query(prepareQuery(_DOCUMENTS.replace('?suffix', '"{}"'.format(suffix))))#initBindings do not work with FILTER
             dicts = [doc.asdict() for doc in index_now]
             documents = [_document_from_sparql_result(d) for d in dicts if 'label' in d]
             self._index.put(documents)

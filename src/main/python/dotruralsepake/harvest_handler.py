@@ -15,6 +15,7 @@ from dotruralsepake.harvest.ukeof import UKEOFActivityHarvester
 import urllib2
 from dotruralsepake.store import connect
 from random import shuffle
+from dotruralsepake.rdf.utils import prepareQuery
 
 def route():
     return webapp2.Route(r'/harvest/<action>', handler=_HarvestHandler, name='harvest')
@@ -78,7 +79,7 @@ class SingleUriTaskBuilder(object):
 
     def build(self, graph):
         try:
-            result = graph.query(self._query)
+            result = graph.query(prepareQuery(self._query))
             task = result.__iter__().next()
             logging.debug(task['pureurl'])
             return self._url_to_iterator_fun(task['pureurl'])

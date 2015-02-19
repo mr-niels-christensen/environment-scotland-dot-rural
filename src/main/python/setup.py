@@ -11,8 +11,10 @@ setup(name='dot.rural.sepake',
                 'dotruralsepake.rdf',
                 'dotruralsepake.harvest',
                 'dotruralsepake.search',
+                'dotruralsepake.metrics',
                 ],
       install_requires=[
+          'rdflib-appengine',
           'rdflib',
           'lxml'
       ],
