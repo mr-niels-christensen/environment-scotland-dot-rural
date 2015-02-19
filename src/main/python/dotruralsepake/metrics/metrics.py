@@ -4,7 +4,6 @@ Created on 17 Dec 2014
 @author: Niels Christensen
 '''
 from rdflib import Graph
-from rdflib_appengine.ndbstore import NDBStore
 from dotruralsepake.store import connect
 
 _METRICS_GRAPH_ID = 'metrics'

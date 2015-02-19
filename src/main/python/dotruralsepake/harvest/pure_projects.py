@@ -6,7 +6,7 @@ Created on 20 Oct 2014
 
 '''
 
-from rdflib.plugins.sparql import prepareQuery
+from dotruralsepake.rdf.utils import prepareQuery
 from rdflib.namespace import FOAF, XSD, Namespace
 from dotruralsepake.rdf.ontology import SEPAKE, PROV
 from rdflib import RDF, RDFS, URIRef, Literal
@@ -34,7 +34,7 @@ class PureRESTProjectHarvester(object):
         if self._timestamp_triple is not None:
             yield [self._timestamp_triple]
         for q in self._queries:
-            yield self._xml_as_rdf.query(q)
+            yield self._xml_as_rdf.query(prepareQuery(q))
 
 def _slimmed_xml_as_rdf(fileob):
     return XMLGraph(fileob, 

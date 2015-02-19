@@ -6,7 +6,7 @@ Created on 4 Dec 2014
 from dotruralsepake.rdf.xml_to_rdf import XMLGraph
 import urllib2
 import logging
-from rdflib.plugins.sparql import prepareQuery
+from dotruralsepake.rdf.utils import prepareQuery
 
 _PREFIXES = '''
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -83,7 +83,7 @@ WHERE {
 ''')
 
 def details_iterator_generator(graph):
-    tasks = [task for task in graph.query(_TASKS)]
+    tasks = [task for task in graph.query(prepareQuery(_TASKS))]
     if len(tasks) > 0:
         return PureRESTPublicationHarvester(graph, tasks)
     else:
@@ -106,6 +106,6 @@ class PureRESTPublicationHarvester(object):
                 logging.debug('Task {} of {}: {}'.format(current_task, no_tasks, task['pureurl']))
             xml_input = urllib2.urlopen(task['pureurl'], timeout=20)
             page = XMLGraph(xml_input)
-            for query in _CONSTRUCTS:
+            for query in self._queries:
                 yield page.query(query, initBindings = {'sepakeuri' : task['sepakeuri']})
             
