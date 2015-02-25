@@ -45,10 +45,19 @@ class Indexer(object):
         self._graph = Graph(store = connect(identifier = graphid))
         
     def __iter__(self):
+        #Step 1: Delete documents in index, in batches of 100
+        while True:
+            # Get up to 100 document ids
+            document_ids = [document.doc_id
+                            for document in self._index.get_range(ids_only=True)]
+            if not document_ids:
+                break
+            # Delete the documents for the given ids from the Index.
+            self._index.delete(document_ids)
+        #Step 2: Add documents from self._graph, in 16 batches
         for suffix in [str(i) for i in range(10)] + [chr(i) for i in range(ord('a'), ord('g'))]:#Each of the 16 hex digits
             index_now = self._graph.query(prepareQuery(_DOCUMENTS.replace('?suffix', '"{}"'.format(suffix))))#initBindings do not work with FILTER
             dicts = [doc.asdict() for doc in index_now]
             documents = [_document_from_sparql_result(d) for d in dicts if 'label' in d]
             self._index.put(documents)
             yield len(documents)
-

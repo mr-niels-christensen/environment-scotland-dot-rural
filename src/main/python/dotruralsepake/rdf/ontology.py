@@ -18,12 +18,14 @@ class SEPAKE(object):
     PurePublication   = RDF_NAME
     PurePerson        = RDF_NAME
     NERCDataSet       = RDF_NAME
+    ThisGraph         = RDF_NAME
     owns              = RDF_NAME
     ownedBy           = RDF_NAME
     htmlDescription   = RDF_NAME
     wasDetailedByData = RDF_NAME
     wasDetailedByCode = RDF_NAME
     wasDetailedAtTime = RDF_NAME
+    graphSetAsDefault = RDF_NAME
     
 @namespace('http://dot.rural/sepake/code', separator = '/')
 class SEPAKECODE(object):
