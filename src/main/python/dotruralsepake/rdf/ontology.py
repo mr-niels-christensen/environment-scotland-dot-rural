@@ -32,6 +32,10 @@ class SEPAKECODE(object):
     PureRestPublication = RDF_NAME
     NercRSS             = RDF_NAME
     
+@namespace('http://dot.rural/sepake/metrics', separator = '/')
+class SEPAKEMETRICS(object):
+    focushit = RDF_NAME
+
 @namespace('http://www.w3.org/ns/prov')
 class PROV(object):
     Activity        = RDF_NAME

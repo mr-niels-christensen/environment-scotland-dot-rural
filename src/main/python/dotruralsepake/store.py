@@ -5,11 +5,12 @@ Created on 4 Feb 2015
 '''
 from rdflib_appengine.ndbstore import NDBStore
 from rdflib import Graph
-from dotruralsepake.rdf.ontology import SEPAKE
+from dotruralsepake.rdf.ontology import SEPAKE, SEPAKEMETRICS
 import logging
 from datetime import datetime
 
-_STANDARD_CONFIGURATION = {'no_of_shards_per_predicate_dict': {SEPAKE.htmlDescription: 16}}
+_STANDARD_CONFIGURATION = {'no_of_shards_per_predicate_dict': {SEPAKE.htmlDescription: 16,
+                                                               SEPAKEMETRICS.focushit: 16},}
 
 _A = NDBStore(identifier = 'A', configuration = _STANDARD_CONFIGURATION)
 _B = NDBStore(identifier = 'B', configuration = _STANDARD_CONFIGURATION)
