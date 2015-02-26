@@ -1,5 +1,6 @@
 $( document ).ready( function() {
   $( '#sparqlForm .submitDefaultButton' ).on( 'click', function() {
+    clearResultTable();
     sparql("form",
         [$( '#sparqlForm #sparqlQuery' ).val()
         ],
@@ -8,6 +9,7 @@ $( document ).ready( function() {
     );
   });
   $( '#sparqlForm .submitNewdataButton' ).on( 'click', function() {
+    clearResultTable();
     sparql_nondefault_graph(
         "newdata",
         "form",
@@ -18,6 +20,7 @@ $( document ).ready( function() {
     );
   });
   $( '#sparqlForm .submitMetricsButton' ).on( 'click', function() {
+    clearResultTable();
     sparql_nondefault_graph(
         "metrics",
         "form",
@@ -30,12 +33,15 @@ $( document ).ready( function() {
 });
 
 function _updateQueryResponseFromJson(response) {
-    $( "#sparqlResponse .datarow" ).remove();
     $( "#sparqlResponse th" ).attr('colspan' , response.head.vars.length);
     $( "#sparqlResponse tr:last" ).after( "<tr class='datarow'></tr>" );
     for (index in response.head.vars) {
         $( "#sparqlResponse tr:last" ).append( "<th>" + response.head.vars[index] + "</th>" );
     }
+	if(response.results.bindings.length == 0){
+      $( "#sparqlResponse" ).append( "<p class='datarow'>Empty set</p>" );
+	  return;
+	}
     $.each(response.results.bindings, function(index, binding){
       $( "#sparqlResponse tr:last" ).after( "<tr class='datarow'></tr>" );
       for (index in response.head.vars) {
@@ -45,3 +51,8 @@ function _updateQueryResponseFromJson(response) {
       }
     });
 };
+
+function clearResultTable(){
+  $( "#sparqlResponse .datarow" ).remove();
+  $( "#ExceptionMessage" ).remove();
+}
