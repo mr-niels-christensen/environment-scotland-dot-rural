@@ -103,3 +103,11 @@ body.loading .ajaxloading {
 .tt-suggestion p {
     margin: 0;
 }
+
+span.metricsLink {
+	color: grey;
+	cursor: pointer;
+}
+span.metricsLink:hover {
+	color: green;
+}
