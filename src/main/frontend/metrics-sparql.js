@@ -62,15 +62,16 @@ function _updateMetricPanelFromJson_iriHits(response) {
 // Request
 sparql("metrics_monthHits",
         ["PREFIX met: <http://dot.rural/sepake/metrics/>", 
-		 "SELECT ?pref (COUNT(*) AS ?count) WHERE{",
+		 "SELECT ?display_date  ?sorting_date (COUNT(*) AS ?count) WHERE{",
 		"BIND ( " + iri + " AS ?x).",
-		"{?x met:focushit ?y  BIND ( SUBSTR(str(?y), 1, 7) AS ?pref)}.",
+		"{?x met:focushit ?y  BIND ( SUBSTR(str(?y), 1, 7) AS ?sorting_date) BIND ( (CONCAT(SUBSTR(?sorting_date, 6, 7),'-',SUBSTR(?sorting_date, 1, 4))) AS ?display_date)}.",
 		"{?x rdfs:label ?name }.",
-		"} GROUP BY ?pref ORDER BY DESC(?pref)"
+		"} GROUP BY ?sorting_date ORDER BY DESC(?sorting_date)"
         ],
         "",
         _updateMetricPanelFromJson_monthHits
     );
+	// BIND ( (CONCAT(STR(MONTH(?y)),'-',STR(YEAR(?y)))) AS ?display_date)
 // Callback
 function _updateMetricPanelFromJson_monthHits(response) {
   var arrayLength = response.results.bindings.length;
@@ -86,7 +87,8 @@ function _updateMetricPanelFromJson_monthHits(response) {
     var sparqlBinding = response.results.bindings[i];
     var parsed = _valuesOfSparqlBinding( sparqlBinding );
 	$( "#metricsPanel tr:last" ).after( "<tr class=''></tr>" );
-    $( "#metricsPanel tr:last" ).append( "<td>" + parsed.pref + "</td>" );
+    $( "#metricsPanel tr:last" ).append( "<td>" + parsed.display_date + "</td>" );
+    //$( "#metricsPanel tr:last" ).append( "<td>" + parsed.sorting_date + "</td>" );
     $( "#metricsPanel tr:last" ).append( "<td>" + parsed.count + "</td>" );
   }
 };
