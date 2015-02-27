@@ -201,7 +201,7 @@ Python 2.7<y:LabelModel>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="46.3984375" modelName="custom" textColor="#000000" visible="true" width="311.9453125" x="55.27734375" y="8.05078125">From https://www.python.org/downloads/windows/
-At the time of writing, current version is 2.7.9
+At the time of writing, most recent version is 2.7.9
 Take care not to install Python 3<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
@@ -254,8 +254,8 @@ GAE SDK for Python<y:LabelModel>
           <y:Geometry height="40.0" width="176.25" x="-463.25" y="-292.5"/>
           <y:Fill color="#00FF00" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="32.265625" modelName="custom" textColor="#000000" visible="true" width="163.0" x="6.625" y="3.8671875">Deploy "Discover Research"
-from scratch<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="32.265625" modelName="custom" textColor="#000000" visible="true" width="144.373046875" x="15.9384765625" y="3.8671875">Set up tools for
+GitHub, Python and GAE<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -326,8 +326,9 @@ From your home, select "GitHub\environment-scotland\src\main"<y:LabelModel>
           <y:Geometry height="62.5" width="422.5" x="-156.0" y="367.75"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="32.265625" modelName="custom" textColor="#000000" visible="true" width="353.587890625" x="34.4560546875" y="15.1171875">In GoogleAppEngineLanucher, select environment-scotland,
-the press "Deploy"<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="46.3984375" modelName="custom" textColor="#000000" visible="true" width="366.267578125" x="28.1162109375" y="8.05078125">In GoogleAppEngineLanucher, select environment-scotland,
+the press "Deploy".
+The system will require username+password for GAE account.<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
