@@ -11,11 +11,16 @@ $( "#searchForm" ).submit(function( event ) {
   document.location.href = link_url; 
 });
 
-$( document ).ajaxError(function( event, request, settings ) {
+$( document ).ajaxError(function( event, jqxhr, settings, thrownError ) {
     if ($( "#myAjaxAlert" ).queue( "fx" ).length == 0) {
         //NOTE: Without parameters, show() and hide() do not queue nicely
-        $( "#myAjaxAlert" ).show(400).delay(2500).hide(400);        
-    } 
+        $( "#myAjaxAlert" ).show(400).delay(2500).hide(400);
+    }
+	// display the Exception message for the query form page data.html
+	var exceptionText = getException(jqxhr.responseText)
+	if(typeof exceptionText == 'undefined')
+		exceptionText = "Error with no exception raised";
+	$( "#sparqlResponse" ).append( "<p id='ExceptionMessage'>" + exceptionText + "</p>" );
 });
 
 function search(query, cursor_websafe, callback) {
@@ -97,3 +102,21 @@ _PREAMBLE = [
              "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
              ];
 
+ /**
+ * UTILS
+ **/
+// returns the substring starting with "Exception:" and finishing with "</pre>"
+function getException(str){
+  var start = "Exception:";
+  var end = "</pre>";
+  var startindex = str.indexOf(start);
+  var endindex = str.indexOf(end, startindex);
+  if (startindex !=-1 && endindex !=-1 &&  endindex  > startindex )
+	return decodeHtml(str.substring(startindex , endindex ));	
+}
+
+function decodeHtml(html) {
+    var txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
+}

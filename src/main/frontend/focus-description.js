@@ -82,6 +82,13 @@ function _updateFocusFromJson(response) {
           $( '#focusPanel .focusHomepage:last a' ).text(homepage);
           $( '#focusPanel .focusHomepage:last a' ).attr("href", homepage);
         });
+		//metrics link
+		$( '#focusPanel' ).append('<span class="metricsLink">Viewing metrics</span>');
+		$( "#focusPanel .metricsLink" ).on( 'click', function() {
+		  var iri = jQuery.bbq.getState('iri');
+	      var link_url = jQuery.param.fragment( '/metrics.html', {'iri' : iri}  );
+          document.location.href = link_url;
+        });
     } catch (err) {
       console.log( err );
     }
