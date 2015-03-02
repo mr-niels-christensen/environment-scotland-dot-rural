@@ -2,7 +2,7 @@ PREFIX sepake: <http://dot.rural/sepake/>
 PREFIX sepakecode: <http://dot.rural/sepake/code>
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 INSERT DATA {
-    <http://data-search.nerc.ac.uk/search/full/catalogue.rss?c=200&a=GBS&Graticule=Graticule&q=environment&t=co&OpenLayers.Control.LayerSwitcher_45_baseLayers=Bathymetry+-+GEBCO%26copy%3B&Select+a+UK+river+catchment....=Select+a+UK+river+catchment....&Select+a+UK+river+catchment....=Select+a+UK+river+catchment....&bbox=-8.65%2C54.63%2C-0.73%2C60.86> 
+    <http://data-search.nerc.ac.uk/search/full/catalogue.rss?c=1000&a=GBS&Graticule=Graticule&q=environment&t=co&OpenLayers.Control.LayerSwitcher_45_baseLayers=Bathymetry+-+GEBCO%26copy%3B&Select+a+UK+river+catchment....=Select+a+UK+river+catchment....&Select+a+UK+river+catchment....=Select+a+UK+river+catchment....&bbox=-8.65%2C54.63%2C-0.73%2C60.86> 
       sepake:wasDetailedByCode sepakecode:NercRSS ;
       foaf:logo <http://www.nerc.ac.uk/nerc-fb-logo.jpg> .
 

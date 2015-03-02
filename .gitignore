@@ -13,3 +13,4 @@ repos/
 src/main/python/MANIFEST
 src/main/python/*.egg-info/
 *workspace*
+*.DS_Store
