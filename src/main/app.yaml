@@ -1,5 +1,5 @@
-application: mayacs-test
-version: escot
+application: environment-scotland
+version: beta
 
 runtime: python27
 api_version: 1

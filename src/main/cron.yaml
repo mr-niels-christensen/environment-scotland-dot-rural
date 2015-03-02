@@ -1,17 +1,17 @@
 cron:
 - description: Clear newdata
   url: /delete/newdata?overwriteBy=metrics
-  schedule: every day 00:00
+  schedule: every day 16:00
 - description: Add seed graph to newdata
   url: /harvest/seed?graphid=newdata&path=/sparql-backend/seed.sparql.txt
-  schedule: every day 00:02
+  schedule: every day 16:02
 - description: Harvest 3rd-party data 
   url: /harvest/external?graphid=newdata
-  schedule: every 10 minutes from 00:05 to 03:55
+  schedule: every 10 minutes from 16:05 to 19:55
 - description: Switch default and newdata
   url: /harvest/seed?graphid=newdata&path=/sparql-backend/make-default.sparql.txt
-  schedule: every day 04:00
+  schedule: every day 20:00
 - description: Delete search index and rebuild from default
   url: /index/default
-  schedule: every day 04:03
+  schedule: every day 20:03
   
