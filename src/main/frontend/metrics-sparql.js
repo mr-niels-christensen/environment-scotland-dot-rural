@@ -5,7 +5,8 @@
 *
 **/
 
-var iri = "<" + jQuery.bbq.getState('iri') + ">";
+var iri = jQuery.bbq.getState('iri');
+var iri_wrapped = "<" + jQuery.bbq.getState('iri') + ">";
 
 var AUTHOR_MODE = true; // true if Author related metrics are to be displayed. false otherwise.
 if (iri.indexOf("PurePerson") == -1)
@@ -25,7 +26,7 @@ if (iri.indexOf("PurePerson") == -1)
 sparql("metrics_iriName",
         ["PREFIX met: <http://dot.rural/sepake/metrics/>", 
 		 "SELECT ?name WHERE{",
-		"{BIND ( " + iri + " AS ?x)}.",
+		"{BIND ( " + iri_wrapped + " AS ?x)}.",
 		"{?x rdfs:label ?name }.",
 		"}"
         ],
@@ -35,7 +36,7 @@ sparql("metrics_iriName",
 sparql("metrics_iriHits",
         ["PREFIX met: <http://dot.rural/sepake/metrics/>", 
 		 "SELECT ?name (COUNT(*) AS ?count) WHERE{",
-		"{BIND ( " + iri + " AS ?x)}.",
+		"{BIND ( " + iri_wrapped + " AS ?x)}.",
 		"{?x met:focushit ?y }.",
 		"{?x rdfs:label ?name }.",
 		"} GROUP BY ?x"
@@ -47,7 +48,11 @@ sparql("metrics_iriHits",
 function _updateMetricPanelFromJson_iriName(response) {
   var sparqlBinding = response.results.bindings[0];
   var parsed = _valuesOfSparqlBinding( sparqlBinding );
-  $('#metricsPanelTitle').prepend("<p><h2>" + parsed.name + "</h2></p>");
+  $('#metricsPanelTitle').prepend("<p><h2 class='metricsLink'>" + parsed.name + "</h2></p>");
+  $( "#metricsPanelTitle .metricsLink" ).on( 'click', function() {
+	var link_url = jQuery.param.fragment( '/focus.html', {'iri' : iri}  );
+	document.location.href = link_url;
+  });
 };
 // Callback
 function _updateMetricPanelFromJson_iriHits(response) {
@@ -63,7 +68,7 @@ function _updateMetricPanelFromJson_iriHits(response) {
 sparql("metrics_monthHits",
         ["PREFIX met: <http://dot.rural/sepake/metrics/>", 
 		 "SELECT ?display_date  ?sorting_date (COUNT(*) AS ?count) WHERE{",
-		"BIND ( " + iri + " AS ?x).",
+		"BIND ( " + iri_wrapped + " AS ?x).",
 		"{?x met:focushit ?y  BIND ( SUBSTR(str(?y), 1, 7) AS ?sorting_date) BIND ( (CONCAT(SUBSTR(?sorting_date, 6, 7),'-',SUBSTR(?sorting_date, 1, 4))) AS ?display_date)}.",
 		"{?x rdfs:label ?name }.",
 		"} GROUP BY ?sorting_date ORDER BY DESC(?sorting_date)"
@@ -106,7 +111,7 @@ if(AUTHOR_MODE)
 sparql("metrics_paperHits_author",
         ["PREFIX met: <http://dot.rural/sepake/metrics/>", 
 		 "SELECT ?title ?name ?paperiri (COUNT(*) AS ?count) WHERE{",
-		"{BIND ( " + iri +" AS ?x)}.",
+		"{BIND ( " + iri_wrapped +" AS ?x)}.",
 		"{?x rdfs:label ?name }.",
 		"{?paperiri <http://dot.rural/sepake/hasAuthor> ?x }.",
 		"{?paperiri rdfs:label ?title }.",
@@ -132,8 +137,12 @@ function _updateMetricPanelFromJson_paperHits_author(response) {
   for (var i = 0; i < arrayLength; i++) {
     var sparqlBinding = response.results.bindings[i];
     var parsed = _valuesOfSparqlBinding( sparqlBinding );
-	$( "#metricsPanel tr:last" ).after( "<tr class=''></tr>" );
-    $( "#metricsPanel tr:last" ).append( "<td>" + parsed.title + "</td>" );
+	$( "#metricsPanel tr:last" ).after( "<tr></tr>" );
+    $( "#metricsPanel tr:last" ).append( "<td class='metricsLink'>" + parsed.title + "</td>" );
     $( "#metricsPanel tr:last" ).append( "<td>" + parsed.count + "</td>" );
+	$( "#metricsPanel .metricsLink" ).on( 'click', function() {
+	  var link_url = jQuery.param.fragment( '/focus.html', {'iri' : parsed.paperiri}  );
+	  document.location.href = link_url;
+    });
   }
 };
