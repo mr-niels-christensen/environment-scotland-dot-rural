@@ -104,10 +104,9 @@ body.loading .ajaxloading {
     margin: 0;
 }
 
-span.metricsLink {
-	color: grey;
+.metricsLink {
 	cursor: pointer;
 }
-span.metricsLink:hover {
+.metricsLink:hover {
 	color: green;
 }
