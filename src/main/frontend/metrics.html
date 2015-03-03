@@ -49,24 +49,19 @@
     <!-- Header Start -->
     <div class="container"> 
       <!-- Header -->
-      <div id="header">
-        <div id="logo"><a title="Scotland's Environment Web" href="http://www.environment.scotland.gov.uk">Scotland's Environment Web - The gateway to everything you need to know about Scotland's environment</a></div>
-        <div id="lifeIconMobileText">
-          <p>In <br>
-            partnership <br>
-            with</p>
-        </div>
-        <div id="lifeIconText">
-          <p>In partnership with &nbsp;</p>
-        </div>
-        <div id="lifeIcon"><a target="_blank" title="In partnership with LIFE+ Project" href="http://ec.europa.eu/environment/life/funding/lifeplus.htm">In partnership with LIFE+ Project</a></div>
-        <div id="youtubeIcon"><a target="_blank" title="Watch us on YouTube" href="https://www.youtube.com/channel/UCiZ305I-CzNGXAswk9rnamA">Watch us on YouTube</a></div>
-        <div id="instagramIcon"><a target="_blank" title="Share your images with us on Instagram" href="http://instagram.com/scotlandsenvironment">Share your images with us on Instagram</a></div>
-        <div id="linkedinIcon"><a target="_blank" title="Connect with us on Google+" href="https://plus.google.com/117242049756518586216/posts">Connect with us on Gogle+</a></div>
-        <div id="twitterIcon"><a target="_blank" title="Follow us on Twitter" href="https://twitter.com/ScotEnvironment">Follow us on Twitter</a></div>
-        <div id="facebookIcon"><a target="_blank" title="Join us on Facebook" href="https://www.facebook.com/pages/Scotlands-Environment-Web/504094719673549">Join us on Facebook</a></div>
-      </div>
-      <!-- / Header --> 
+          <div id="header">
+            <div id="logo"><a href="/" title="Scotland's Environment Web" >Scotland's Environment Web - The gateway to everything you need to know about Scotland's environment</a></div>
+            <div id="lifeIconMobileText"><p>In <br/>partnership <br/>with</p></div>
+            <div id="lifeIconText"><p>In partnership with &nbsp;</p></div>
+            <div id="lifeIcon"><a href="http://ec.europa.eu/environment/life/funding/lifeplus.htm" title="In partnership with LIFE+ Project" target="_blank">In partnership with LIFE+ Project</a></div>
+      		<div id="scotlandSoilsIcon"><a href="http://www.soils.scotland.gov.uk/" title="Visit Scotland's Soils" target="_blank">Visit Scotlands Soils</a></div>
+	  		<div id="scotlandAquacultureIcon"><a href="http://www.aquaculture.scotland.gov.uk/" title="Visit Scotland's Aquaculture" target="_blank">Visit Scotlands Aquaculture</a></div>
+	  		<div id="youtubeIcon"><a href="https://www.youtube.com/channel/UCiZ305I-CzNGXAswk9rnamA" title="Watch us on YouTube" target="_blank">Watch us on YouTube</a></div>
+            <div id="instagramIcon"><a href="http://instagram.com/scotlandsenvironment" title="Share your images with us on Instagram" target="_blank">Share your images with us on Instagram</a></div>
+	  		<div id="twitterIcon"><a href="https://twitter.com/ScotEnvironment" title="Follow us on Twitter" target="_blank">Follow us on Twitter</a></div>
+            <div id="facebookIcon"><a href="https://www.facebook.com/pages/Scotlands-Environment-Web/504094719673549" title="Join us on Facebook" target="_blank">Join us on Facebook</a></div>
+          </div>
+          <!-- / Header -->
       <!-- Top Nav Start -->
       <div class="navbar navbar-default">
         <div class="navbar-header">
@@ -78,6 +73,7 @@
             <li><a title="Get Informed" href="http://www.environment.scotland.gov.uk/get-informed/">Get Informed</a></li>
             <li><a title="Get Interactive" href="http://www.environment.scotland.gov.uk/get-interactive/">Get Interactive</a></li>
             <li><a title="Get Involved" href="http://www.environment.scotland.gov.uk/get-involved/">Get Involved</a></li>
+            <!--li><a title="Get Learning" href="http://www.environment.scotland.gov.uk/get-learning/">Get Learning</a></li-->
             <li><a title="Get Communicating" href="http://www.environment.scotland.gov.uk/get-communicating/">Get Communicating</a></li>
             <li><a title="About us" href="http://www.environment.scotland.gov.uk/about-us/">About us</a></li>
           </ul>
@@ -106,6 +102,7 @@
           <li><a title="Get Involved" href="/get-involved/">Get Involved</a></li>
           <li>Using your information</li>-->
         </ul> <!-- / #breadcrumb -->        
+        
       </div>
 
 <!-- ----------------------------------- BEGIN mixed portal/app code ------------------------------------------------------------------- -->
@@ -184,12 +181,12 @@
 </footer>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
-<script async src="http://www.google-analytics.com/analytics.js"></script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+<script async src="//www.google-analytics.com/analytics.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 
 <!-- Include all compiled plugins (below), or include individual files as needed --> 
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap.min.js"></script>
 
 <!-- ----------------------------------- BEGIN app-specific code ------------------------------------------------------------------- -->
 
@@ -212,27 +209,27 @@
 <!-- ----------------------------------- END app-specific code --------------------------------------------------------------------- -->
 
 <!-- SmartMenus jQuery plugin --> 
-<script src="js/jquery.smartmenus.js" type="text/javascript"></script>
+<script src="/js/jquery.smartmenus.js" type="text/javascript"></script>
 
 <!-- SmartMenus jQuery init --> 
 <script type="text/javascript">
-  $(function() {
-    $('#main-menu').smartmenus({
-      subMenusSubOffsetX: 1,
-      subMenusSubOffsetY: -8
-    });
-    
-  });
+	$(function() {
+		$('#main-menu').smartmenus({
+			subMenusSubOffsetX: 1,
+			subMenusSubOffsetY: -8
+		});
+		
+	});
 </script> 
 
 <!-- Sub Menu --> 
-<script src="js/jquery.toolbar.min.js" type="text/javascript"></script> 
+<script src="/js/SubMenu/jquery.toolbar.min.js" type="text/javascript"></script> 
 <script type="text/javascript">
 $(function(){
   $('#editmenu').toolbar({
-    content: '#user-options',
-    position: 'bottom',
-    hideOnClick: true
+	  content: '#user-options',
+	  position: 'bottom',
+	  hideOnClick: true
   });
   $('#editmenu').on('toolbarItemClick', function(event){
     // when the user clicks an icon we call this function
