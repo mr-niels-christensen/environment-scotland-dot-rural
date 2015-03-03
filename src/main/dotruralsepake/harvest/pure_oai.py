@@ -31,6 +31,7 @@ CONSTRUCT {
     ?sepakeuri sepake:htmlDescription ?description .
     ?sepakeuri sepake:wasDetailedByData ?pureurl .
     ?sepakeuri sepake:wasDetailedByCode sepakecode:PureRestPublication .
+    ?sepakeuri prov:wasDerivedFrom ?test
 }
 WHERE {
     ?record oai_hash:header / oai_hash:identifier / rdf:value ?identifier .
@@ -39,6 +40,7 @@ WHERE {
     BIND ( ( STRAFTER ( ?identifier, "/" ) ) AS ?uuid )
     BIND ( URI ( CONCAT (str ( sepake:PurePublication ), "#", ENCODE_FOR_URI( ?uuid ) ) ) AS ?sepakeuri )
     BIND ( puredomain: AS ?pd)
+    BIND ( test: AS ?test)
     BIND ( ( URI ( CONCAT ( STR( ?pd ), "ws/rest/publication?uuids.uuid=", ?uuid) ) ) AS ?pureurl )
     FILTER ( CONTAINS ( LCASE ( ?subject ), "environment" ) ) 
 }
@@ -52,7 +54,9 @@ class PUREOAIHarvester(object):
         url_parsed = urlparse(url)
         self._location = url_parsed.netloc
         self._more = True
-        self._query = prepareQuery(_CONSTRUCT_PAPERS, initNs={'puredomain' : URIRef('http://{}/'.format(self._location))})
+        self._query = prepareQuery(_CONSTRUCT_PAPERS, 
+                                   initNs={'puredomain' : URIRef('http://{}/'.format(self._location)),
+                                           'test' : URIRef(url)})
         
     def _next(self):
         xml_input = urllib2.urlopen(self._url, timeout=20)
