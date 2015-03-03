@@ -104,6 +104,10 @@ body.loading .ajaxloading {
     margin: 0;
 }
 
+.searchResultRow{
+	cursor: pointer;
+}
+
 .metricsLink {
 	cursor: pointer;
 }
