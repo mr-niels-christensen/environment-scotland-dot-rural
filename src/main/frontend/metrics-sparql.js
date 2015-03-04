@@ -148,10 +148,11 @@ function _updateMetricPanelFromJson_paperHits_author(response) {
     var sparqlBinding = response.results.bindings[i];
     var parsed = _valuesOfSparqlBinding( sparqlBinding );
 	$( "#metricsPanel tr:last" ).after( "<tr></tr>" );
-    $( "#metricsPanel tr:last" ).append( "<td class='metricsLink'>" + parsed.title + "</td>" );
+    $( "#metricsPanel tr:last" ).append( "<td class='metricsLink'>" + parsed.title + "<span class='paperiri' style='visibility: hidden'>" + parsed.paperiri + "</span>" + "</td>" );
     $( "#metricsPanel tr:last" ).append( "<td>" + parsed.count + "</td>" );
 	$( "#metricsPanel .metricsLink" ).on( 'click', function() {
-	  var link_url = jQuery.param.fragment( '/focus.html', {'iri' : parsed.paperiri}  );
+	  var iri = $( this ).find( 'span' ).text();
+	  var link_url = jQuery.param.fragment( '/focus.html', {'iri' : iri}  );
 	  document.location.href = link_url;
     });
   }
