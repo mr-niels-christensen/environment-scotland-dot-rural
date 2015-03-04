@@ -17,7 +17,7 @@ function _updateSearchFromJson(response) {
     }
     $( "#searchResults tr:last td" ).append( "<p class='small'>" + result.rank + " views by last status</p>" );
     $( "#searchResults tr:last" ).append( "<td class='sepakeUri hiddenColumn'>" + result.uri + "</td>" );
-    $( "#searchResults tr:last" ).append( "<td style='text-align: right'><img height='100px' width='200px' src='" + result.logo + "'></td>" );
+    $( "#searchResults tr:last" ).append( "<td style='text-align: right'><img height='100px' width='200px' src='" + (result.logo || "/images/missing-logo.png") + "'></td>" );
   });
   $( "#searchResults .searchResultRow" ).on( 'click', function() {
     var iri = $( this ).find( '.sepakeUri' ).text();
