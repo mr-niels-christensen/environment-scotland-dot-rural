@@ -18,23 +18,39 @@ import logging
 PURE_PROJECTS_CODE_URI = 'http://dot.rural/sepake/codePureRESTProjectHarvester'
 
 def pure_projects_task_from_url(url):
+    '''Use this function to harvest projects from a PURE URL.
+       @param url Link to a PURE project search, rendered in the xml_long format.
+                  Example: http://pure.abdn.ac.uk:8080/ws/rest/getprojectrequest?rendering=xml_long
+       @return An iterator. Each item in the iterator is a sequence of triples.
+    '''
     return PureRESTProjectHarvester(url = url)
 
 class PureRESTProjectHarvester(object):
+    '''A PureRESTProjectHarvester wraps XML or a URL returning XML
+       and acts as an iterator over sequences of triples
+       for the projects in that XML.
+    '''
     def __init__(self, xml_input = None, url = None):
+        '''Specify either xml_input or url
+           @param xml_input An XML string
+           @param url A URL string referring to an XML document
+        '''
         self._timestamp_triple = None
         if xml_input is None:
+            #Load XML from URL into xml_input
             assert url is not None, 'Need xml_input or url'
             self._timestamp_triple = (URIRef(url), SEPAKE.wasDetailedAtTime, Literal(datetime.utcnow()))
             xml_input = urllib2.urlopen(url, timeout = 30)
+        #Transform XML to a an RDF graph, removing unnecessary parts in the process
         self._xml_as_rdf = _slimmed_xml_as_rdf(xml_input)
-        self._queries = [_prep(_CONSTRUCT_PROJECT), _prep(_CONSTRUCT_PEOPLE)]
+        #Parse the two queries used to create triples from self._xml_as_rdf
+        self._queries = [prepareQuery(_CONSTRUCT_PROJECT), prepareQuery(_CONSTRUCT_PEOPLE)]
 
     def __iter__(self):
         if self._timestamp_triple is not None:
             yield [self._timestamp_triple]
         for q in self._queries:
-            yield self._xml_as_rdf.query(prepareQuery(q))
+            yield self._xml_as_rdf.query(q)
 
 def _slimmed_xml_as_rdf(fileob):
     return XMLGraph(fileob, 
@@ -56,23 +72,16 @@ def _slimmed_xml_as_rdf(fileob):
                                'person-template' : 'http://atira.dk/schemas/pure4/model/template/abstractperson/stable',
                                'organisation-template' : 'http://atira.dk/schemas/pure4/model/template/abstractorganisation/stable',
                                'extensions-core' : 'http://atira.dk/schemas/pure4/model/core/extensions/stable'})
-_NS = dict(xsd = XSD,
-           rdf = RDF, 
-           rdfs = RDFS, 
-           prov = PROV, 
-           foaf = FOAF,
-           sepake = SEPAKE,
-           core = Namespace('http://atira.dk/schemas/pure4/model/core/stable#'),
-           project = Namespace('http://atira.dk/schemas/pure4/model/template/abstractproject/stable#'),
-           extensionscore = Namespace('http://atira.dk/schemas/pure4/model/core/extensions/stable#'),
-           organisationtemplate = Namespace('http://atira.dk/schemas/pure4/model/template/abstractorganisation/stable#'),
-           persontemplate = Namespace('http://atira.dk/schemas/pure4/model/template/abstractperson/stable#'),
-           )
-
-def _prep(query):
-    return prepareQuery(query, initNs = _NS)
 
 _CONSTRUCT_PEOPLE = '''
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX sepake: <http://dot.rural/sepake/>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX core: <http://atira.dk/schemas/pure4/model/core/stable#>
+PREFIX project: <http://atira.dk/schemas/pure4/model/template/abstractproject/stable#>
+PREFIX persontemplate: <http://atira.dk/schemas/pure4/model/template/abstractperson/stable#>
 CONSTRUCT {
     ?personuri rdf:type        sepake:PurePerson .
     ?personuri prov:memberOf   ?projecturi .
@@ -94,6 +103,17 @@ WHERE {
 '''
 
 _CONSTRUCT_PROJECT = '''
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX sepake: <http://dot.rural/sepake/>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX core: <http://atira.dk/schemas/pure4/model/core/stable#>
+PREFIX project: <http://atira.dk/schemas/pure4/model/template/abstractproject/stable#>
+PREFIX extensionscore: <http://atira.dk/schemas/pure4/model/core/extensions/stable#>
+PREFIX organisationtemplate: <http://atira.dk/schemas/pure4/model/template/abstractorganisation/stable#>
+PREFIX persontemplate: <http://atira.dk/schemas/pure4/model/template/abstractperson/stable#>
 CONSTRUCT {
     ?projecturi rdf:type sepake:PureProject .
     ?projecturi rdfs:label ?title .
