@@ -10,7 +10,6 @@ def _dictify(scored_document):
     result = {'uri' : scored_document.doc_id,
               'label' : scored_document.field('label').value,
               'rank' : scored_document.rank,
-              'logo' : '/images/aberdeenunilogo.gif',#TODO: Avoid needing default value
               }
     try:
         result['description'] = scored_document.field('description').value

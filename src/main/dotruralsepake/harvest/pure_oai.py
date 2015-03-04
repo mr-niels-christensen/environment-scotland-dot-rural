@@ -24,14 +24,14 @@ PREFIX dc: <http://purl.org/dc/elements/1.1/>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX sepake: <http://dot.rural/sepake/>
 PREFIX sepakecode: <http://dot.rural/sepake/code>
-PREFIX prov: <http://www.w3.org/ns/prov/>
+PREFIX prov: <http://www.w3.org/ns/prov#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
 CONSTRUCT {
     ?sepakeuri rdf:type prov:Entity .
     ?sepakeuri sepake:htmlDescription ?description .
     ?sepakeuri sepake:wasDetailedByData ?pureurl .
     ?sepakeuri sepake:wasDetailedByCode sepakecode:PureRestPublication .
-    ?sepakeuri prov:wasDerivedFrom ?test
+    ?sepakeuri prov:wasDerivedFrom ?oai_url
 }
 WHERE {
     ?record oai_hash:header / oai_hash:identifier / rdf:value ?identifier .
@@ -40,7 +40,7 @@ WHERE {
     BIND ( ( STRAFTER ( ?identifier, "/" ) ) AS ?uuid )
     BIND ( URI ( CONCAT (str ( sepake:PurePublication ), "#", ENCODE_FOR_URI( ?uuid ) ) ) AS ?sepakeuri )
     BIND ( puredomain: AS ?pd)
-    BIND ( test: AS ?test)
+    BIND ( oai_url: AS ?oai_url)
     BIND ( ( URI ( CONCAT ( STR( ?pd ), "ws/rest/publication?uuids.uuid=", ?uuid) ) ) AS ?pureurl )
     FILTER ( CONTAINS ( LCASE ( ?subject ), "environment" ) ) 
 }
@@ -56,7 +56,7 @@ class PUREOAIHarvester(object):
         self._more = True
         self._query = prepareQuery(_CONSTRUCT_PAPERS, 
                                    initNs={'puredomain' : URIRef('http://{}/'.format(self._location)),
-                                           'test' : URIRef(url)})
+                                           'oai_url' : URIRef(url)})
         
     def _next(self):
         xml_input = urllib2.urlopen(self._url, timeout=20)
