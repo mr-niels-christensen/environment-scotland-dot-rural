@@ -104,13 +104,18 @@ body.loading .ajaxloading {
     margin: 0;
 }
 
-.searchResultRow{
+.searchResultRow {
+	cursor: pointer;
+}
+
+.searchTermRow{
 	cursor: pointer;
 }
 
 .metricsLink {
 	cursor: pointer;
 }
+
 .metricsLink:hover {
 	color: green;
 }
