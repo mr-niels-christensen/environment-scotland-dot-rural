@@ -41,10 +41,14 @@ class PureRESTProjectHarvester(object):
             assert url is not None, 'Need xml_input or url'
             self._timestamp_triple = (URIRef(url), SEPAKE.wasDetailedAtTime, Literal(datetime.utcnow()))
             xml_input = urllib2.urlopen(url, timeout = 30)
+        if url is None:
+            #Dummy URL for internal data
+            url = 'file:///'
         #Transform XML to a an RDF graph, removing unnecessary parts in the process
         self._xml_as_rdf = _slimmed_xml_as_rdf(xml_input)
         #Parse the two queries used to create triples from self._xml_as_rdf
-        self._queries = [prepareQuery(_CONSTRUCT_PROJECT), prepareQuery(_CONSTRUCT_PEOPLE)]
+        self._queries = [prepareQuery(_CONSTRUCT_PROJECT, initNs = {'rest_url' : URIRef(url)}), 
+                         prepareQuery(_CONSTRUCT_PEOPLE, initNs = {'rest_url' : URIRef(url)})]
 
     def __iter__(self):
         if self._timestamp_triple is not None:
@@ -89,6 +93,7 @@ CONSTRUCT {
     ?personuri foaf:givenName  ?givenName .
     ?personuri foaf:familyName ?familyName .
     ?personuri rdfs:label ?label .
+    ?personuri prov:wasDerivedFrom ?rest_url .
 }
 WHERE {
     ?wrapper persontemplate:person ?person .
@@ -99,6 +104,7 @@ WHERE {
     BIND ( URI ( CONCAT (str ( sepake:PurePerson ), "#", ENCODE_FOR_URI( ?personuuid ) ) ) AS ?personuri )
     BIND ( URI ( CONCAT (str ( sepake:PureProject ), "#", ENCODE_FOR_URI( ?projectuuid ) ) ) AS ?projecturi )
     BIND ( CONCAT ( ?familyName, ", ", ?givenName ) AS ?label )
+    BIND ( rest_url: AS ?rest_url)
 }
 '''
 
@@ -122,10 +128,12 @@ CONSTRUCT {
     ?projecturi prov:startedAtTime ?startdate .
     ?projecturi prov:endedAtTime ?enddate .
     ?projecturi sepake:ownedBy ?depturi .
+    ?projecturi prov:wasDerivedFrom ?rest_url .
     ?depturi    sepake:owns ?projecturi .
     ?depturi    rdf:type sepake:PureDepartment .
     ?depturi    rdfs:label ?deptname .
     ?depturi    foaf:homepage ?depthomepage .
+    ?depturi    prov:wasDerivedFrom ?rest_url .
 }
 WHERE {
     ?coreresult core:content ?corecontent .
@@ -147,6 +155,7 @@ WHERE {
     BIND ( URI ( ?depthomepagestr ) AS ?depthomepage )
     BIND ( STRDT ( ?startdatestr, xsd:date ) AS ?startdate )
     BIND ( STRDT ( ?enddatestr, xsd:date ) AS ?enddate )
+    BIND ( rest_url: AS ?rest_url)
 }
 '''
 
