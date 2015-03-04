@@ -28,6 +28,9 @@ Remember to deactivate the virtual environment when working on other projects.
 
     deactivate
 
+To run the unit test suit, go into the src/main directory and run
+    python -m unittest discover -s ../../src/test/python/dot/
+    
 To run the system locally, type
 
     dev_appserver.py --log_level=debug src/main/
