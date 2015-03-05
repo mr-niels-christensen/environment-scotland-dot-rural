@@ -49,22 +49,3 @@ class PROV(object):
     hadMember       = RDF_NAME
     generatedAtTime = RDF_NAME
 
-class SEPAKEOntologyGraph(Graph):
-    '''Class for creating RDF triples for this project's ontology.
-    '''
-    def __init__(self):
-        super(SEPAKEOntologyGraph, self).__init__()
-        self.add((SEPAKE.PureProject, RDFS.subClassOf, PROV.Organization))
-        self.add((SEPAKE.PureProject, RDFS.subClassOf, FOAF.Organization))
-        self.add((SEPAKE.PureProject, RDFS.subClassOf, PROV.Activity))
-        self.add((SEPAKE.PureDepartment, RDFS.subClassOf, PROV.Organization))
-        self.add((SEPAKE.PureDepartment, RDFS.subClassOf, FOAF.Organization))
-        self.add((SEPAKE.PurePerson, RDFS.subClassOf, PROV.Person))
-        self.add((SEPAKE.PurePerson, RDFS.subClassOf, FOAF.Person))
-        self.add((SEPAKE.UKEOFActivity, RDFS.subClassOf, PROV.Activity))
-        self.add((SEPAKE.UKEOFOrganisation, RDFS.subClassOf, PROV.Organization))
-        self.add((SEPAKE.UKEOFOrganisation, RDFS.subClassOf, FOAF.Organization))
-        self.add((SEPAKE.wasDetailedByData, RDFS.subPropertyOf, PROV.wasInfluencedBy))
-        self.add((SEPAKE.wasDetailedByCode, RDFS.subPropertyOf, PROV.wasInfluencedBy))
-        self.add((SEPAKE.wasDetailedAtTime, RDFS.subPropertyOf, PROV.generatedAtTime))
-        
