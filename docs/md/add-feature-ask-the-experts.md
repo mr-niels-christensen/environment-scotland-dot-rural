@@ -53,7 +53,7 @@ So far so good. If you test the updated application locally (as described in the
 
 I want the button to open a partially filled question form on `http://earthscience.stackexchange.com/`. I want the title of paper on the focus page to be filled in, and I want the question to be tagged "environment" and "scotland". Through trial and error I have established that for a paper named "Sunshine", the URL should be `http://earthscience.stackexchange.com/questions/ask?tags=environment scotland&title=Sunshine`
 
-Create a new JavaScript file `src\main\frontend\focus-ask.js`. The convention for our JavaScript files is to indicate the "owning" HTML page before the hyphen. In this case the code supports `focus.html` so I put `focus` before `ask`. Shared JacaScript files begin with `common`.
+Create a new JavaScript file `src\main\frontend\focus-ask.js`. The convention for our JavaScript files is to indicate the "owning" HTML page before the hyphen. In this case the code supports `focus.html` so I put `focus` before `ask`. Shared JavaScript files begin with `common`.
 
 Put the following code in the file:
 ```javascript
