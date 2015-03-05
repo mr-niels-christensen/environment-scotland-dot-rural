@@ -4,6 +4,7 @@ _NEXT_PAGE_HTML = "<tr class='dynamicrow'><td><p align='right'>" + _NEXT_PAGE_HT
 function _updateSearchFromJson(response) {
   window.scrollTo(0, 0);
   $ ( "#searchResults .dynamicrow" ).remove();
+  $ ( "#searchResultsNavigation .dynamicrow" ).remove();
   var query = jQuery.bbq.getState( 'query' );
   if ( query ) {
     $( "#searchResults tr:last" ).after( "<tr class='dynamicrow'><td class='small'>Found " + response.number_found + " results for '" + query + "'</td></tr>" );
@@ -25,9 +26,9 @@ function _updateSearchFromJson(response) {
     document.location.href = link_url;
   });
   if (response.next_cursor_websafe) {
-    $( "#searchResults tr:last" ).after( _NEXT_PAGE_HTML );
+    $( "#searchResultsNavigation").append( _NEXT_PAGE_HTML );
     var more_url = jQuery.param.fragment( '/search.html', {'query' : response.query, 'cursor_websafe' : response.next_cursor_websafe} );
-    $( "#searchResults .moreLink" ).on( 'click', function() {
+    $( "#searchResultsNavigation .moreLink" ).on( 'click', function() {
       document.location.href = more_url;
     });
   }
