@@ -1,15 +1,21 @@
+#This SPARQL update files is used to "seed" an RDF graph with its initial configuration
+#It contains two sections: 1. Data sources to harvest 2. Ontology of the data model
 PREFIX sepake: <http://dot.rural/sepake/>
 PREFIX sepakecode: <http://dot.rural/sepake/code>
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 INSERT DATA {
+#1. Data sources to harvest
+#1.a NERC
     <http://data-search.nerc.ac.uk/search/full/catalogue.rss?c=1000&a=GBS&Graticule=Graticule&q=environment&t=co&OpenLayers.Control.LayerSwitcher_45_baseLayers=Bathymetry+-+GEBCO%26copy%3B&Select+a+UK+river+catchment....=Select+a+UK+river+catchment....&Select+a+UK+river+catchment....=Select+a+UK+river+catchment....&bbox=-8.65%2C54.63%2C-0.73%2C60.86> 
       sepake:wasDetailedByCode sepakecode:NercRSS ;
       foaf:logo <http://www.nerc.ac.uk/nerc-fb-logo.jpg> .
 
+#1.b Uni Aberdeen PURE projects
     <http://pure.abdn.ac.uk:8080/ws/rest/getprojectrequest?rendering=xml_long>
       sepake:wasDetailedByCode sepakecode:PureRESTProjectHarvester ;
       foaf:logo "/images/aberdeenunilogo.gif"  .
 
+#1.c Uni Aberdeen PURE papers 2008-2014
     <http://pure.abdn.ac.uk:8080/ws/oai?verb=ListRecords&set=publications:year2014&metadataPrefix=oai_dc>
       sepake:wasDetailedByCode sepakecode:PureOaiPublicationSetHarvester ;
       foaf:logo "/images/aberdeenunilogo.gif" .
@@ -37,4 +43,6 @@ INSERT DATA {
     <http://pure.abdn.ac.uk:8080/ws/oai?verb=ListRecords&set=publications:year2008&metadataPrefix=oai_dc>
       sepake:wasDetailedByCode sepakecode:PureOaiPublicationSetHarvester ;
       foaf:logo "/images/aberdeenunilogo.gif"  .
+#2. Ontology of the data model
+
 }
