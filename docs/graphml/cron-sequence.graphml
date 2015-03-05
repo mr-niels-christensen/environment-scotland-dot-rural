@@ -15,7 +15,6 @@
   <graph edgedefault="directed" id="G">
     <data key="d7"/>
     <node id="n0">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="410.0" width="970.0" x="145.00000000000023" y="544.7316284179691"/>
@@ -28,7 +27,6 @@ The task will be on one of the four below types.</y:NodeLabel>
       </data>
     </node>
     <node id="n1">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="241.99999999999991" width="629.9999999999998" x="-524.9999999999995" y="1355.3162841796902"/>
@@ -40,7 +38,6 @@ The task will be on one of the four below types.</y:NodeLabel>
       </data>
     </node>
     <node id="n2">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="241.99999999999991" width="629.9999999999998" x="-517.4999999999995" y="-393.9999999999996"/>
@@ -52,7 +49,6 @@ The task will be on one of the four below types.</y:NodeLabel>
       </data>
     </node>
     <node id="n3">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="40.0" width="105.0" x="-324.49999999999955" y="-244.49999999999986"/>
@@ -75,7 +71,6 @@ The task will be on one of the four below types.</y:NodeLabel>
       </data>
     </node>
     <node id="n4">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="40.0" width="105.0" x="-324.49999999999955" y="-273.99999999999966"/>
@@ -98,13 +93,12 @@ The task will be on one of the four below types.</y:NodeLabel>
       </data>
     </node>
     <node id="n5">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="68.00000000000006" width="105.0" x="-324.49999999999955" y="-331.49999999999955"/>
           <y:Fill color="#00FFFF" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.1328125" modelName="custom" textColor="#000000" visible="true" width="89.93359375" x="7.533203125" y="24.93359375000003">3rd-party data<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.1328125" modelName="custom" textColor="#000000" visible="true" width="89.93359375" x="7.533203125" y="24.93359375">3rd-party data<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -121,7 +115,6 @@ The task will be on one of the four below types.</y:NodeLabel>
       </data>
     </node>
     <node id="n6">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="40.0" width="105.0" x="-198.9999999999991" y="-244.49999999999986"/>
@@ -144,7 +137,6 @@ The task will be on one of the four below types.</y:NodeLabel>
       </data>
     </node>
     <node id="n7">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="40.0" width="105.0" x="-198.9999999999991" y="-273.99999999999966"/>
@@ -167,7 +159,6 @@ The task will be on one of the four below types.</y:NodeLabel>
       </data>
     </node>
     <node id="n8">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="50.0" width="105.0" x="-198.9999999999991" y="-313.4999999999995"/>
@@ -190,7 +181,6 @@ The task will be on one of the four below types.</y:NodeLabel>
       </data>
     </node>
     <node id="n9">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="40.0" width="105.0" x="-73.49999999999864" y="-244.49999999999986"/>
@@ -213,7 +203,6 @@ The task will be on one of the four below types.</y:NodeLabel>
       </data>
     </node>
     <node id="n10">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="78.0" width="105.0" x="-450.0" y="-282.4999999999999"/>
@@ -231,7 +220,6 @@ default graph</y:NodeLabel>
       </data>
     </node>
     <node id="n11">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="50.0" width="152.0" x="-278.49999999999966" y="-113.26837158203034"/>
@@ -244,7 +232,6 @@ Clear newdata</y:NodeLabel>
       </data>
     </node>
     <node id="n12">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="127.0" x="-337.9999999999991" y="-380.4999999999992"/>
@@ -262,7 +249,6 @@ Clear newdata</y:NodeLabel>
       </data>
     </node>
     <node id="n13">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="127.0" x="-198.9999999999991" y="-380.4999999999992"/>
@@ -281,7 +267,6 @@ ago<y:LabelModel>
       </data>
     </node>
     <node id="n14">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="241.99999999999991" width="629.9999999999998" x="-517.4999999999995" y="-24.536743164060994"/>
@@ -293,7 +278,6 @@ ago<y:LabelModel>
       </data>
     </node>
     <node id="n15">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="40.0" width="105.0" x="-324.49999999999955" y="124.96325683593878"/>
@@ -316,7 +300,6 @@ ago<y:LabelModel>
       </data>
     </node>
     <node id="n16">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="40.0" width="105.0" x="-324.49999999999955" y="95.46325683593895"/>
@@ -339,7 +322,6 @@ ago<y:LabelModel>
       </data>
     </node>
     <node id="n17">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="68.00000000000006" width="105.0" x="-324.49999999999955" y="37.96325683593906"/>
@@ -362,7 +344,6 @@ ago<y:LabelModel>
       </data>
     </node>
     <node id="n18">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="40.0" width="105.0" x="-198.9999999999991" y="124.96325683593878"/>
@@ -385,7 +366,6 @@ ago<y:LabelModel>
       </data>
     </node>
     <node id="n19">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="40.0" width="105.0" x="-73.49999999999864" y="124.96325683593878"/>
@@ -408,7 +388,6 @@ ago<y:LabelModel>
       </data>
     </node>
     <node id="n20">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="78.0" width="105.0" x="-450.0" y="86.96325683593875"/>
@@ -426,7 +405,6 @@ default graph</y:NodeLabel>
       </data>
     </node>
     <node id="n21">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="127.0" x="-337.9999999999991" y="-11.036743164060596"/>
@@ -444,7 +422,6 @@ default graph</y:NodeLabel>
       </data>
     </node>
     <node id="n22">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="127.0" x="-198.9999999999991" y="-11.036743164060596"/>
@@ -463,7 +440,6 @@ metrics graph<y:LabelModel>
       </data>
     </node>
     <node id="n23">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="50.0" width="167.0" x="-285.99999999999966" y="256.1948852539083"/>
@@ -476,19 +452,17 @@ Add seed graph to newdata</y:NodeLabel>
       </data>
     </node>
     <node id="n24">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="241.99999999999991" width="629.9999999999998" x="-517.4999999999995" y="331.4265136718773"/>
           <y:Fill color="#FFFFFF" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.1328125" modelName="internal" modelPosition="b" textColor="#000000" visible="true" width="438.3203125" x="95.83984374999989" y="219.86718749999991">Search index          default graph         newdata graph           metrics graph</y:NodeLabel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.1328125" modelName="internal" modelPosition="b" textColor="#000000" visible="true" width="438.3203125" x="95.83984374999989" y="219.8671874999999">Search index          default graph         newdata graph           metrics graph</y:NodeLabel>
           <y:Shape type="rectangle"/>
         </y:ShapeNode>
       </data>
     </node>
     <node id="n25">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="40.0" width="105.0" x="-324.49999999999955" y="480.92651367187705"/>
@@ -511,7 +485,6 @@ Add seed graph to newdata</y:NodeLabel>
       </data>
     </node>
     <node id="n26">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="40.0" width="105.0" x="-324.49999999999955" y="451.4265136718772"/>
@@ -534,13 +507,12 @@ Add seed graph to newdata</y:NodeLabel>
       </data>
     </node>
     <node id="n27">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="68.00000000000006" width="105.0" x="-324.49999999999955" y="393.92651367187733"/>
           <y:Fill color="#00FFFF" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.1328125" modelName="custom" textColor="#000000" visible="true" width="89.93359375" x="7.533203125" y="24.93359375000003">3rd-party data<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.1328125" modelName="custom" textColor="#000000" visible="true" width="89.93359375" x="7.533203125" y="24.933593750000057">3rd-party data<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -557,7 +529,6 @@ Add seed graph to newdata</y:NodeLabel>
       </data>
     </node>
     <node id="n28">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="40.0" width="105.0" x="-198.9999999999991" y="480.92651367187705"/>
@@ -580,7 +551,6 @@ Add seed graph to newdata</y:NodeLabel>
       </data>
     </node>
     <node id="n29">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="40.0" width="105.0" x="-73.49999999999864" y="480.92651367187705"/>
@@ -603,7 +573,6 @@ Add seed graph to newdata</y:NodeLabel>
       </data>
     </node>
     <node id="n30">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="78.0" width="105.0" x="-450.0" y="442.92651367187705"/>
@@ -621,7 +590,6 @@ default graph</y:NodeLabel>
       </data>
     </node>
     <node id="n31">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="127.0" x="-337.9999999999991" y="344.9265136718777"/>
@@ -639,7 +607,6 @@ default graph</y:NodeLabel>
       </data>
     </node>
     <node id="n32">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="127.0" x="-198.9999999999991" y="344.9265136718777"/>
@@ -658,7 +625,6 @@ from seed SPARQL<y:LabelModel>
       </data>
     </node>
     <node id="n33">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="40.0" width="105.0" x="-198.9999999999991" y="451.4265136718772"/>
@@ -681,7 +647,6 @@ from seed SPARQL<y:LabelModel>
       </data>
     </node>
     <node id="n34">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="50.0" width="279.50000000000057" x="-342.24999999999994" y="598.6581420898461"/>
@@ -694,7 +659,6 @@ Harvest 3rd-party data </y:NodeLabel>
       </data>
     </node>
     <node id="n35">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="241.99999999999991" width="629.9999999999998" x="-517.4999999999995" y="673.8897705078151"/>
@@ -706,7 +670,6 @@ Harvest 3rd-party data </y:NodeLabel>
       </data>
     </node>
     <node id="n36">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="40.0" width="105.0" x="-324.49999999999955" y="823.3897705078149"/>
@@ -729,7 +692,6 @@ Harvest 3rd-party data </y:NodeLabel>
       </data>
     </node>
     <node id="n37">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="40.0" width="105.0" x="-324.49999999999955" y="793.889770507815"/>
@@ -752,13 +714,12 @@ Harvest 3rd-party data </y:NodeLabel>
       </data>
     </node>
     <node id="n38">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="68.00000000000006" width="105.0" x="-324.49999999999955" y="736.3897705078152"/>
           <y:Fill color="#00FFFF" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.1328125" modelName="custom" textColor="#000000" visible="true" width="89.93359375" x="7.533203125" y="24.933593750000057">3rd-party data<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.1328125" modelName="custom" textColor="#000000" visible="true" width="89.93359375" x="7.533203125" y="24.93359375">3rd-party data<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -775,7 +736,6 @@ Harvest 3rd-party data </y:NodeLabel>
       </data>
     </node>
     <node id="n39">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="40.0" width="105.0" x="-73.49999999999864" y="823.3897705078149"/>
@@ -798,7 +758,6 @@ Harvest 3rd-party data </y:NodeLabel>
       </data>
     </node>
     <node id="n40">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="78.0" width="105.0" x="-450.0" y="785.3897705078149"/>
@@ -816,7 +775,6 @@ default graph</y:NodeLabel>
       </data>
     </node>
     <node id="n41">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="127.0" x="-337.9999999999991" y="687.3897705078155"/>
@@ -834,7 +792,6 @@ default graph</y:NodeLabel>
       </data>
     </node>
     <node id="n42">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="127.0" x="-198.9999999999991" y="687.3897705078155"/>
@@ -852,7 +809,6 @@ default graph</y:NodeLabel>
       </data>
     </node>
     <node id="n43">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="40.0" width="105.0" x="-198.9999999999991" y="823.3897705078149"/>
@@ -875,7 +831,6 @@ default graph</y:NodeLabel>
       </data>
     </node>
     <node id="n44">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="40.0" width="105.0" x="-198.9999999999991" y="793.889770507815"/>
@@ -898,7 +853,6 @@ default graph</y:NodeLabel>
       </data>
     </node>
     <node id="n45">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="78.00000000000006" width="105.0" x="-198.9999999999991" y="726.3897705078152"/>
@@ -921,7 +875,6 @@ default graph</y:NodeLabel>
       </data>
     </node>
     <node id="n46">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="50.0" width="279.50000000000057" x="-349.0000000000001" y="941.121398925784"/>
@@ -934,19 +887,17 @@ Switch default and newdata</y:NodeLabel>
       </data>
     </node>
     <node id="n47">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="241.99999999999991" width="629.9999999999998" x="-522.5" y="1016.353027343753"/>
           <y:Fill color="#FFFFFF" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.1328125" modelName="internal" modelPosition="b" textColor="#000000" visible="true" width="438.3203125" x="95.83984374999989" y="219.8671874999999">Search index          default graph         newdata graph           metrics graph</y:NodeLabel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.1328125" modelName="internal" modelPosition="b" textColor="#000000" visible="true" width="438.3203125" x="95.83984374999989" y="219.8671875">Search index          default graph         newdata graph           metrics graph</y:NodeLabel>
           <y:Shape type="rectangle"/>
         </y:ShapeNode>
       </data>
     </node>
     <node id="n48">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="40.0" width="105.0" x="-329.5" y="1165.8530273437527"/>
@@ -969,7 +920,6 @@ Switch default and newdata</y:NodeLabel>
       </data>
     </node>
     <node id="n49">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="40.0" width="105.0" x="-329.5" y="1136.3530273437527"/>
@@ -992,7 +942,6 @@ Switch default and newdata</y:NodeLabel>
       </data>
     </node>
     <node id="n50">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="78.00000000000006" width="105.0" x="-329.5" y="1068.8530273437532"/>
@@ -1015,7 +964,6 @@ Switch default and newdata</y:NodeLabel>
       </data>
     </node>
     <node id="n51">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="40.0" width="105.0" x="-78.49999999999909" y="1165.8530273437527"/>
@@ -1038,7 +986,6 @@ Switch default and newdata</y:NodeLabel>
       </data>
     </node>
     <node id="n52">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="78.0" width="105.0" x="-455.00000000000045" y="1127.8530273437527"/>
@@ -1056,7 +1003,6 @@ newdata graph</y:NodeLabel>
       </data>
     </node>
     <node id="n53">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="127.0" x="-342.99999999999955" y="1029.8530273437532"/>
@@ -1074,7 +1020,6 @@ newdata graph</y:NodeLabel>
       </data>
     </node>
     <node id="n54">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="127.0" x="-203.99999999999955" y="1029.8530273437532"/>
@@ -1092,7 +1037,6 @@ newdata graph</y:NodeLabel>
       </data>
     </node>
     <node id="n55">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="40.0" width="105.0" x="-203.99999999999955" y="1165.8530273437527"/>
@@ -1115,7 +1059,6 @@ newdata graph</y:NodeLabel>
       </data>
     </node>
     <node id="n56">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="40.0" width="105.0" x="-203.99999999999955" y="1136.3530273437527"/>
@@ -1138,7 +1081,6 @@ newdata graph</y:NodeLabel>
       </data>
     </node>
     <node id="n57">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="68.00000000000006" width="105.0" x="-203.99999999999955" y="1078.8530273437532"/>
@@ -1161,7 +1103,6 @@ newdata graph</y:NodeLabel>
       </data>
     </node>
     <node id="n58">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="50.0" width="279.50000000000057" x="-351.49999999999966" y="1280.0846557617213"/>
@@ -1174,7 +1115,6 @@ Delete search index and rebuild from default</y:NodeLabel>
       </data>
     </node>
     <node id="n59">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="68.00000000000006" width="105.0" x="-206.4999999999991" y="1417.8162841796905"/>
@@ -1197,7 +1137,6 @@ Delete search index and rebuild from default</y:NodeLabel>
       </data>
     </node>
     <node id="n60">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="40.0" width="105.0" x="-206.4999999999991" y="1475.31628417969"/>
@@ -1220,7 +1159,6 @@ Delete search index and rebuild from default</y:NodeLabel>
       </data>
     </node>
     <node id="n61">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="40.0" width="105.0" x="-206.4999999999991" y="1504.81628417969"/>
@@ -1243,7 +1181,6 @@ Delete search index and rebuild from default</y:NodeLabel>
       </data>
     </node>
     <node id="n62">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="127.0" x="-206.4999999999991" y="1368.8162841796905"/>
@@ -1261,7 +1198,6 @@ Delete search index and rebuild from default</y:NodeLabel>
       </data>
     </node>
     <node id="n63">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="127.0" x="-345.4999999999991" y="1368.8162841796905"/>
@@ -1279,7 +1215,6 @@ Delete search index and rebuild from default</y:NodeLabel>
       </data>
     </node>
     <node id="n64">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="86.0" width="105.0" x="-457.5" y="1458.81628417969"/>
@@ -1297,7 +1232,6 @@ default graph</y:NodeLabel>
       </data>
     </node>
     <node id="n65">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="40.0" width="105.0" x="-80.99999999999864" y="1504.81628417969"/>
@@ -1320,7 +1254,6 @@ default graph</y:NodeLabel>
       </data>
     </node>
     <node id="n66">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="78.00000000000006" width="105.0" x="-331.99999999999955" y="1407.8162841796905"/>
@@ -1343,7 +1276,6 @@ default graph</y:NodeLabel>
       </data>
     </node>
     <node id="n67">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="40.0" width="105.0" x="-331.99999999999955" y="1475.31628417969"/>
@@ -1366,7 +1298,6 @@ default graph</y:NodeLabel>
       </data>
     </node>
     <node id="n68">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.bpmn.Artifact.withShadow">
           <y:Geometry height="40.0" width="105.0" x="-331.99999999999955" y="1504.81628417969"/>
@@ -1389,7 +1320,6 @@ default graph</y:NodeLabel>
       </data>
     </node>
     <node id="n69">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="50.0" width="202.50000000000057" x="-809.1666666666665" y="1451.3162841796902"/>
@@ -1402,7 +1332,6 @@ until the following night</y:NodeLabel>
       </data>
     </node>
     <node id="n70">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="501.0" x="135.00000000000023" y="266.1948852539083"/>
@@ -1421,7 +1350,6 @@ It defines the 3rd-party sources to harvest in the next cron job<y:LabelModel>
       </data>
     </node>
     <node id="n71">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="35.0" width="297.50000000000057" x="247.75" y="596.3897705078152"/>
@@ -1439,7 +1367,6 @@ It defines the 3rd-party sources to harvest in the next cron job<y:LabelModel>
       </data>
     </node>
     <node id="n72">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="35.0" width="297.50000000000057" x="247.75" y="661.3897705078152"/>
@@ -1458,7 +1385,6 @@ It defines the 3rd-party sources to harvest in the next cron job<y:LabelModel>
       </data>
     </node>
     <node id="n73">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="55.0" width="297.50000000000057" x="247.75" y="726.3897705078152"/>
@@ -1479,7 +1405,6 @@ Only IDs are collected.
       </data>
     </node>
     <node id="n74">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="55.0" width="297.50000000000057" x="247.75" y="823.0479125976614"/>
@@ -1497,7 +1422,6 @@ Only IDs are collected.
       </data>
     </node>
     <node id="n75">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="501.0" x="557.2500000000006" y="596.3897705078152"/>
@@ -1516,7 +1440,6 @@ http://data-search.nerc.ac.uk/search/full/catalogue.rss?...options<y:LabelModel>
       </data>
     </node>
     <node id="n76">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="501.0" x="557.2500000000007" y="661.3897705078152"/>
@@ -1535,7 +1458,6 @@ http://pure.abdn.ac.uk:8080/ws/rest/getprojectrequest?rendering=xml_long<y:Label
       </data>
     </node>
     <node id="n77">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="55.0" width="501.0" x="557.2500000000007" y="726.3897705078152"/>
@@ -1555,7 +1477,6 @@ http://pure.abdn.ac.uk:8080/ws/oai
       </data>
     </node>
     <node id="n78">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="55.0" width="501.0" x="557.2500000000007" y="823.0479125976614"/>
@@ -1574,8 +1495,47 @@ http://pure.abdn.ac.uk:8080/ws/rest/publication
         </y:ShapeNode>
       </data>
     </node>
+    <node id="n79">
+      <data key="d5"/>
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="78.00000000000011" width="455.4935897435905" x="145.00000000000023" y="1266.084655761721"/>
+          <y:Fill color="#FFFFFF" transparent="false"/>
+          <y:BorderStyle color="#000000" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="32.265625" modelName="custom" textColor="#000000" visible="true" width="398.5" x="28.49679487179526" y="22.8671875">04:00-04:05 the search index is out of sync with the default graph,
+causing search results to be incosistent with the actual data.<y:LabelModel>
+              <y:SmartNodeLabelModel distance="4.0"/>
+            </y:LabelModel>
+            <y:ModelParameter>
+              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+            </y:ModelParameter>
+          </y:NodeLabel>
+          <y:Shape type="rectangle"/>
+        </y:ShapeNode>
+      </data>
+    </node>
+    <node id="n80">
+      <data key="d5"/>
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="78.00000000000011" width="455.4935897435905" x="135.00000000000023" y="-331.49999999999955"/>
+          <y:Fill color="#FFFFFF" transparent="false"/>
+          <y:BorderStyle color="#000000" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="60.53125" modelName="custom" textColor="#000000" visible="true" width="423.841796875" x="15.82589643429526" y="8.734375000000057">"Search index" is used to return search results
+"default graph" is used to show details and diagrams
+"newdata graph" and "metrics graph" are not queried by the live system,
+but user activity is logged in the "metrics graph"<y:LabelModel>
+              <y:SmartNodeLabelModel distance="4.0"/>
+            </y:LabelModel>
+            <y:ModelParameter>
+              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+            </y:ModelParameter>
+          </y:NodeLabel>
+          <y:Shape type="rectangle"/>
+        </y:ShapeNode>
+      </data>
+    </node>
     <edge id="e0" source="n11" target="n11">
-      <data key="d9"/>
       <data key="d10">
         <y:ArcEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -1588,7 +1548,6 @@ http://pure.abdn.ac.uk:8080/ws/rest/publication
       </data>
     </edge>
     <edge id="e1" source="n2" target="n11">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -1599,7 +1558,6 @@ http://pure.abdn.ac.uk:8080/ws/rest/publication
       </data>
     </edge>
     <edge id="e2" source="n11" target="n14">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -1610,7 +1568,6 @@ http://pure.abdn.ac.uk:8080/ws/rest/publication
       </data>
     </edge>
     <edge id="e3" source="n23" target="n23">
-      <data key="d9"/>
       <data key="d10">
         <y:ArcEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -1623,7 +1580,6 @@ http://pure.abdn.ac.uk:8080/ws/rest/publication
       </data>
     </edge>
     <edge id="e4" source="n14" target="n23">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -1634,7 +1590,6 @@ http://pure.abdn.ac.uk:8080/ws/rest/publication
       </data>
     </edge>
     <edge id="e5" source="n23" target="n24">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -1645,7 +1600,6 @@ http://pure.abdn.ac.uk:8080/ws/rest/publication
       </data>
     </edge>
     <edge id="e6" source="n34" target="n34">
-      <data key="d9"/>
       <data key="d10">
         <y:ArcEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -1658,7 +1612,6 @@ http://pure.abdn.ac.uk:8080/ws/rest/publication
       </data>
     </edge>
     <edge id="e7" source="n34" target="n35">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -1669,7 +1622,6 @@ http://pure.abdn.ac.uk:8080/ws/rest/publication
       </data>
     </edge>
     <edge id="e8" source="n24" target="n34">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -1680,7 +1632,6 @@ http://pure.abdn.ac.uk:8080/ws/rest/publication
       </data>
     </edge>
     <edge id="e9" source="n46" target="n46">
-      <data key="d9"/>
       <data key="d10">
         <y:ArcEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -1693,7 +1644,6 @@ http://pure.abdn.ac.uk:8080/ws/rest/publication
       </data>
     </edge>
     <edge id="e10" source="n46" target="n47">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -1704,7 +1654,6 @@ http://pure.abdn.ac.uk:8080/ws/rest/publication
       </data>
     </edge>
     <edge id="e11" source="n35" target="n46">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -1715,7 +1664,6 @@ http://pure.abdn.ac.uk:8080/ws/rest/publication
       </data>
     </edge>
     <edge id="e12" source="n58" target="n58">
-      <data key="d9"/>
       <data key="d10">
         <y:ArcEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -1728,7 +1676,6 @@ http://pure.abdn.ac.uk:8080/ws/rest/publication
       </data>
     </edge>
     <edge id="e13" source="n58" target="n1">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -1739,7 +1686,6 @@ http://pure.abdn.ac.uk:8080/ws/rest/publication
       </data>
     </edge>
     <edge id="e14" source="n47" target="n58">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="4.249999999999261" ty="-23.08465576172125"/>
@@ -1750,7 +1696,6 @@ http://pure.abdn.ac.uk:8080/ws/rest/publication
       </data>
     </edge>
     <edge id="e15" source="n69" target="n69">
-      <data key="d9"/>
       <data key="d10">
         <y:ArcEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -1763,7 +1708,6 @@ http://pure.abdn.ac.uk:8080/ws/rest/publication
       </data>
     </edge>
     <edge id="e16" source="n1" target="n69">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -1774,7 +1718,6 @@ http://pure.abdn.ac.uk:8080/ws/rest/publication
       </data>
     </edge>
     <edge id="e17" source="n69" target="n2">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -1787,7 +1730,6 @@ http://pure.abdn.ac.uk:8080/ws/rest/publication
       </data>
     </edge>
     <edge id="e18" source="n23" target="n70">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -1798,7 +1740,6 @@ http://pure.abdn.ac.uk:8080/ws/rest/publication
       </data>
     </edge>
     <edge id="e19" source="n34" target="n0">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -1809,7 +1750,6 @@ http://pure.abdn.ac.uk:8080/ws/rest/publication
       </data>
     </edge>
     <edge id="e20" source="n71" target="n71">
-      <data key="d9"/>
       <data key="d10">
         <y:ArcEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -1822,7 +1762,6 @@ http://pure.abdn.ac.uk:8080/ws/rest/publication
       </data>
     </edge>
     <edge id="e21" source="n72" target="n72">
-      <data key="d9"/>
       <data key="d10">
         <y:ArcEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -1835,7 +1774,6 @@ http://pure.abdn.ac.uk:8080/ws/rest/publication
       </data>
     </edge>
     <edge id="e22" source="n73" target="n73">
-      <data key="d9"/>
       <data key="d10">
         <y:ArcEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -1848,7 +1786,6 @@ http://pure.abdn.ac.uk:8080/ws/rest/publication
       </data>
     </edge>
     <edge id="e23" source="n74" target="n74">
-      <data key="d9"/>
       <data key="d10">
         <y:ArcEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -1858,6 +1795,30 @@ http://pure.abdn.ac.uk:8080/ws/rest/publication
           <y:Arrows source="none" target="standard"/>
           <y:Arc height="0.0" ratio="1.0" type="fixedRatio"/>
         </y:ArcEdge>
+      </data>
+    </edge>
+    <edge id="e24" source="n79" target="n46">
+      <data key="d9"/>
+      <data key="d10">
+        <y:ArcEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
+            <y:Point x="153.92391967773438" y="1011.6783447265625"/>
+          </y:Path>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:Arc height="-143.41075134277344" ratio="-0.8517208695411682" type="fixedRatio"/>
+        </y:ArcEdge>
+      </data>
+    </edge>
+    <edge id="e25" source="n79" target="n58">
+      <data key="d9"/>
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
       </data>
     </edge>
   </graph>
