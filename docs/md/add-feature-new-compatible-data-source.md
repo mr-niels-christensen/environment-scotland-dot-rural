@@ -28,3 +28,8 @@ To add the projects from a new university (with a compatible version of PURE), y
 ```
 
 Nothing more is required.
+
+## A note about the logo
+
+Did you notice? The Aarhus logo was a proper URL while the Aberdeen logo was just a path? University of Aberdeen does not allow external sites to embed their logo. If you try, the image shown will actually be a stop sign. To solve this problem, save a copy of the logo in `src\main\frontend\images` and use a path like `"/images/aberdeenunilogo.gif"` in the SPARQL file. The image will then be loaded from the Discover Research application itself.
+
