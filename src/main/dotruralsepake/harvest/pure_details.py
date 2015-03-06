@@ -38,11 +38,13 @@ CONSTRUCT {
     ?sepakeuri rdf:type sepake:PurePublication .
     ?sepakeuri dc:title ?title .
     ?sepakeuri rdfs:label ?title .
+    ?sepakeuri sepake:publicationYear ?publicationYear .
     ?sepakeuri sepake:wasDetailedAtTime ?now .
 }
 WHERE {
     [] publication-base_uk_hash:includedOnStaffPages / rdf:value "true" .
     [] publication-base_uk_hash:title                / rdf:value ?title .
+    [] publication-base_uk_hash:publicationDate / core_hash:year / rdf:value ?publicationYear . 
     BIND ( ( ?sepakeuri ) AS ?sepakeuri )
     BIND ( ( NOW() ) AS ?now )
 }
