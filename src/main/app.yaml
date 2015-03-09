@@ -32,9 +32,9 @@ handlers:
 
 admin_console:
   pages:
-  - name: Switch default <---> newdata
+  - name: Switch default/newdata
     url: /harvest/seed?graphid=newdata&path=/sparql-backend/make-default.sparql.txt
-  - name: Rebuild search index from default
+  - name: Rebuild search index
     url: /index/default
 
 builtins:
