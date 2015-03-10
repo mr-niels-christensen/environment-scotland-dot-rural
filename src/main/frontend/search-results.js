@@ -1,7 +1,7 @@
 var _NEXT_PAGE_HTML = '<button type="button" class="moreLink btn btn-default btn-lg"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Next page</button>';
 _NEXT_PAGE_HTML = "<tr class='dynamicrow'><td><p align='right'>" + _NEXT_PAGE_HTML + "</p></td></tr>";
 
-function _updateSearchFromJson(response) {
+function _updateSearchFromJson(response, isRefined) {
   window.scrollTo(0, 0);
   $ ( "#searchResults .dynamicrow" ).remove();
   $ ( "#searchResultsNavigation .dynamicrow" ).remove();
@@ -32,18 +32,48 @@ function _updateSearchFromJson(response) {
       document.location.href = more_url;
     });
   }
+  
+  // refine search content
+  if(!isRefined){
+    $ ( "#refineSearchTable .dynamicrow" ).remove();
+    $.each(response.facets, function(facetName, facetValues){
+	  if(facetValues.length > 0){
+        $( "#refineSearchTable tr:last" ).after( "<tr class='facetNameRow dynamicrow'></tr>" );
+        $( "#refineSearchTable tr:last" ).append( "<td>" + facetName + "</td>" );
+	    $.each(facetValues, function(index, facetValue){
+          $( "#refineSearchTable tr:last" ).after( "<tr class='facetValueRow dynamicrow'></tr>" );
+          $( "#refineSearchTable tr:last" ).append( "<td>" + facetValue.label + "</td>" );
+          $( "#refineSearchTable tr:last" ).append( "<td>" + facetValue.count + "</td>" );
+          $( "#refineSearchTable tr:last" ).append( "<td class='refinementToken hiddenColumn'>" + facetValue.refinement_token + "</td>" );
+        });
+	  }
+	});
+    $( "#refineSearchTable .facetValueRow" ).on( 'click', function() {
+      //var refinement_tokens = [];
+	  //refinement_tokens.push($( this ).find( 'td.refinementToken' ).text());
+	  var refinement_token = $( this ).find( 'td.refinementToken' ).text();
+	  search_terms = jQuery.bbq.getState( 'query' ) || 'environment';
+	  search(search_terms, refinement_token, null, _docReady_updateSearchFromJsonWithRefinement);
+    });
+  }
+}
+
+function _docReady_updateSearchFromJsonWithRefinement(response) {
+  $( document ).ready( function (){
+    _updateSearchFromJson(response, true);
+  });
 }
 
 function _docReady_updateSearchFromJson(response) {
   $( document ).ready( function (){
-    _updateSearchFromJson(response);
+    _updateSearchFromJson(response, false);
   });
 }
 
 function _updateSearchFromHashChange(event) {
   var query = event.getState( 'query' ) || 'environment';
   var cursor_websafe =  event.getState( 'cursor_websafe' ) || null;
-  search(query, cursor_websafe, _docReady_updateSearchFromJson);
+  search(query, null, cursor_websafe, _docReady_updateSearchFromJson);
 }
 
 $(window).bind( 'hashchange', _updateSearchFromHashChange);

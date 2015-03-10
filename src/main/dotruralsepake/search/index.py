@@ -32,22 +32,17 @@ GROUP BY ?sepakeuri
 
 def _document_from_sparql_result(sparql_result):
     fields = [search.HtmlField(name='label', value=sparql_result['label'])]
-    has_publication_year = False;
+    facets = []
     if 'htmlDescription' in sparql_result:
         fields.append(search.HtmlField(name='description', value=sparql_result['htmlDescription']))
-    if 'publicationYear' in sparql_result:
+    if 'publicationYear' in sparql_result: # for papers
         fields.append(search.TextField(name='publicationYear', value=sparql_result['publicationYear']))
-        has_publication_year = True;
+        facets.append(search.AtomFacet(name='publicationYear', value=sparql_result['publicationYear']))
     if 'logo' in sparql_result:
         fields.append(search.AtomField(name='logo', value=sparql_result['logo']))
-    if has_publication_year: # typically for papers or projects
-        return search.Document(doc_id = sparql_result['sepakeuri'], 
+    return search.Document(doc_id = sparql_result['sepakeuri'], 
                            fields = fields,
-                           facets = [search.AtomFacet(name='publicationYear', value=sparql_result['publicationYear'])],
-                           rank = sparql_result['rank'].value)
-    else: # the rest with no publication year associated : author, department
-        return search.Document(doc_id = sparql_result['sepakeuri'], 
-                           fields = fields,
+                           facets = facets,
                            rank = sparql_result['rank'].value)
     
 class Indexer(object):
