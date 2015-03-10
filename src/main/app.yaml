@@ -38,7 +38,7 @@ admin_console:
     url: /index/default
 
 builtins:
-  - appstats: on
+  - appstats: off
   
 libraries:
 - name: webapp2
