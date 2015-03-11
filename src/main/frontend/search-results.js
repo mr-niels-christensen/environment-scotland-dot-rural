@@ -1,3 +1,5 @@
+var facetLabel = {'publicationYear': 'Year of publication'};
+
 var _NEXT_PAGE_HTML = '<button type="button" class="moreLink btn btn-default btn-lg"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Next page</button>';
 _NEXT_PAGE_HTML = "<tr class='dynamicrow'><td><p align='right'>" + _NEXT_PAGE_HTML + "</p></td></tr>";
 
@@ -37,11 +39,11 @@ function _updateSearchFromJson(response, isRefined) {
   if(!isRefined){
 	var displayRefineSearchPanel = false;
     $ ( "#refineSearchTable .dynamicrow" ).remove();
-    $.each(response.facets, function(facetName, facetValues){
+    $.each(response.facets, function(facetKey, facetValues){
 	  if(facetValues.length > 0){
 	    displayRefineSearchPanel = true;
         $( "#refineSearchTable tr:last" ).after( "<tr class='facetNameRow dynamicrow'></tr>" );
-        $( "#refineSearchTable tr:last" ).append( "<td>" + facetName + "</td>" );
+        $( "#refineSearchTable tr:last" ).append( "<td><h3>" + facetLabel[facetKey] + "</h3></td>" );
 	    $.each(facetValues, function(index, facetValue){
           $( "#refineSearchTable tr:last" ).after( "<tr class='facetValueRow dynamicrow'></tr>" );
           $( "#refineSearchTable tr:last" ).append( "<td>" + facetValue.label + "</td>" );
