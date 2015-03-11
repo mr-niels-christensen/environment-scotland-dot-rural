@@ -16,6 +16,7 @@ import urllib2
 from dotruralsepake.store import connect
 from random import shuffle
 from dotruralsepake.rdf.utils import prepareQuery
+import datetime
 
 def route():
     return webapp2.Route(r'/harvest/<action>', handler=_HarvestHandler, name='harvest')
@@ -29,13 +30,14 @@ class _HarvestHandler(webapp2.RequestHandler):
         self.graph = Graph(store = connect(identifier = self.request.GET['graphid']))
         del self.request.GET['graphid']
         assert action in ['seed', 'external']
+        self.response.headers['Content-Type'] = 'text/plain'
+        self.response.write('{} working on /harvest/{} ...\n'.format(datetime.datetime.utcnow(), action))
         if action == 'seed':
             self._harvest_seed(**self.request.GET)
         else:
             iterator = self._get_iterator()
             self._harvest(iterator)
-        self.response.headers['Content-Type'] = 'text/plain'
-        self.response.write('OK')
+        self.response.write('{} OK, action completed\n'.format(datetime.datetime.utcnow()))
 
     def _get_iterator(self):
         tasks = [_NERC_TASK_BUILDER.build,

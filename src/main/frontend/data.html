@@ -179,6 +179,25 @@ LIMIT 20</textarea>
           <div id="myAjaxAlert" class="alert alert-danger" style="display: none" role="alert">
             We failed to load some of your data. Please try reloading this page.
           </div>
+          <div class="smallRightColumnBox">
+            <p></p>
+            <h2>Admin actions</h2>
+            <p></p>
+            <a role="button" target="output" href="/harvest/seed?graphid=newdata&path=/sparql-backend/make-default.sparql.txt" class="btn btn-warning btn-lg btn-block">
+               Switch default/newdata &nbsp; <span class="glyphicon glyphicon-transfer"></span>
+            </a>
+            <p></p>
+            <a role="button" target="output" href="/index/default" class="btn btn-warning btn-lg btn-block">
+               Rebuild search index &nbsp; <span class="glyphicon glyphicon-flash"></span>
+            </a>
+          </div>
+          <div class="smallRightColumnBox">
+            <p></p>
+            <h2>Output from admin actions</h2>
+            <p></p>
+            <iframe name="output" style="overflow-y:auto" width="95%"></iframe>
+          </div>
+
         </div>
 
 <!-- ----------------------------------- END app-specific code --------------------------------------------------------------------- -->
