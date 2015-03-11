@@ -35,17 +35,6 @@ class Indexer(object):
         for (s, o) in self._graph.subject_objects(SEPAKEMETRICS.focushit):
             self._hits[s] += 1
     
-    def _dict_to_gae(self, d):
-        '''
-        '''
-        fields = [search.HtmlField(name='label', value=d['label'])]
-        fields.append(search.HtmlField(name='description', value=d['htmlDescription']))
-        if 'logo' in d:
-            fields.append(search.AtomField(name='logo', value=d['logo']))
-        return search.Document(doc_id = d['sepakeuri'], 
-                               fields = fields,
-                               rank = self._hits[d['sepakeuri']])
-
     def _delete_index(self):
         '''Delete documents in index, in batches of 100
         '''
