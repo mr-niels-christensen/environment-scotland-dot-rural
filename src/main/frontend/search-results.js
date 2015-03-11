@@ -35,9 +35,11 @@ function _updateSearchFromJson(response, isRefined) {
   
   // refine search content
   if(!isRefined){
+	var displayRefineSearchPanel = false;
     $ ( "#refineSearchTable .dynamicrow" ).remove();
     $.each(response.facets, function(facetName, facetValues){
 	  if(facetValues.length > 0){
+	    displayRefineSearchPanel = true;
         $( "#refineSearchTable tr:last" ).after( "<tr class='facetNameRow dynamicrow'></tr>" );
         $( "#refineSearchTable tr:last" ).append( "<td>" + facetName + "</td>" );
 	    $.each(facetValues, function(index, facetValue){
@@ -48,6 +50,13 @@ function _updateSearchFromJson(response, isRefined) {
         });
 	  }
 	});
+	// hide / show the refine search panel 
+	if(displayRefineSearchPanel){
+	  $ ( "#refineSearchPanel" ).show();
+	}
+	else{ // none of the facet returned has got data
+	  $ ( "#refineSearchPanel" ).hide();
+	}
     $( "#refineSearchTable .facetValueRow" ).on( 'click', function() {
       //var refinement_tokens = [];
 	  //refinement_tokens.push($( this ).find( 'td.refinementToken' ).text());
