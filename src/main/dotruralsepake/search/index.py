@@ -88,5 +88,11 @@ class Indexer(object):
         for (doc_id, doc) in id_to_doc.iteritems():
             label = self._graph.value(subject = doc_id, predicate = RDFS.label, default = '')
             id_to_doc[doc_id].fields.append(search.HtmlField(name='label', value=label))
+        #Add publicationYear if possible
+        for (doc_id, doc) in id_to_doc.iteritems():
+            year = self._graph.value(subject = doc_id, predicate = SEPAKE.publicationYear)
+            if year is not None:
+                id_to_doc[doc_id].fields.append(search.TextField(name='publicationYear', value=year))
+                id_to_doc[doc_id].facets.append(search.AtomFacet(name='publicationYear', value=year))
         #Return the search.Documents as a list
         return id_to_doc.values()
