@@ -26,6 +26,7 @@ class SEPAKE(object):
     wasDetailedByCode = RDF_NAME
     wasDetailedAtTime = RDF_NAME
     graphSetAsDefault = RDF_NAME
+    publicationYear   = RDF_NAME
     
 @namespace('http://dot.rural/sepake/code', separator = '/')
 class SEPAKECODE(object):

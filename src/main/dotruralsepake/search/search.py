@@ -7,7 +7,7 @@ from rdflib_appengine.ndbstore import NDBStore
 from google.appengine.api import search
 import logging
 
-facetNames = ['publicationYear', 'label'];
+facetNames = ['publicationYear'];
 
 def _dictify(scored_document):
     result = {'uri' : scored_document.doc_id,
