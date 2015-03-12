@@ -3,11 +3,13 @@ var facetLabel = {'publicationYear': 'Year of publication'};
 var _NEXT_PAGE_HTML = '<button type="button" class="moreLink btn btn-default btn-lg"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Next page</button>';
 _NEXT_PAGE_HTML = "<tr class='dynamicrow'><td><p align='right'>" + _NEXT_PAGE_HTML + "</p></td></tr>";
 
-function _updateSearchFromJson(response, isRefined) {
+function _updateSearchFromJson(response) {
   window.scrollTo(0, 0);
   $ ( "#searchResults .dynamicrow" ).remove();
   $ ( "#searchResultsNavigation .dynamicrow" ).remove();
   var query = jQuery.bbq.getState( 'query' );
+  var state = jQuery.bbq.getState( 'refinement_token' ) ;
+  var isRefined = (state != null);
   if ( query ) {
     $( "#searchResults tr:last" ).after( "<tr class='dynamicrow'><td class='small'>Found " + response.number_found + " results for '" + query + "'</td></tr>" );
   }
@@ -62,29 +64,33 @@ function _updateSearchFromJson(response, isRefined) {
     $( "#refineSearchTable .facetValueRow" ).on( 'click', function() {
       //var refinement_tokens = [];
 	  //refinement_tokens.push($( this ).find( 'td.refinementToken' ).text());
+	  var terms = jQuery.bbq.getState( 'query' );
 	  var refinement_token = $( this ).find( 'td.refinementToken' ).text();
-	  search_terms = jQuery.bbq.getState( 'query' ) || 'environment';
-	  search(search_terms, refinement_token, null, _docReady_updateSearchFromJsonWithRefinement);
+      var link_url = jQuery.param.fragment( '/search.html', {'query' : terms, 'refinement_token' : refinement_token} );
+      document.location.href = link_url;
+	  //search_terms = jQuery.bbq.getState( 'query' ) || 'environment';
+	  //search(search_terms, refinement_token, null, _docReady_updateSearchFromJsonWithRefinement);
     });
   }
 }
 
-function _docReady_updateSearchFromJsonWithRefinement(response) {
+/*function _docReady_updateSearchFromJsonWithRefinement(response) {
   $( document ).ready( function (){
     _updateSearchFromJson(response, true);
   });
-}
+}*/
 
 function _docReady_updateSearchFromJson(response) {
   $( document ).ready( function (){
-    _updateSearchFromJson(response, false);
+    _updateSearchFromJson(response);
   });
 }
 
 function _updateSearchFromHashChange(event) {
   var query = event.getState( 'query' ) || 'environment';
   var cursor_websafe =  event.getState( 'cursor_websafe' ) || null;
-  search(query, null, cursor_websafe, _docReady_updateSearchFromJson);
+  var refinement_token = event.getState( 'refinement_token' ) || null;
+  search(query, refinement_token, cursor_websafe, _docReady_updateSearchFromJson);
 }
 
 $(window).bind( 'hashchange', _updateSearchFromHashChange);
