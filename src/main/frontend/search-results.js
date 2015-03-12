@@ -8,6 +8,7 @@ function _updateSearchFromJson(response) {
   $ ( "#searchResults .dynamicrow" ).remove();
   $ ( "#searchResultsNavigation .dynamicrow" ).remove();
   var query = jQuery.bbq.getState( 'query' );
+  var refinement_token = jQuery.bbq.getState( 'refinement_token' );
   if ( query ) {
     $( "#searchResults tr:last" ).after( "<tr class='dynamicrow'><td class='small'>Found " + response.number_found + " results for '" + query + "'</td></tr>" );
   }
@@ -29,13 +30,13 @@ function _updateSearchFromJson(response) {
   });
   if (response.next_cursor_websafe) {
     $( "#searchResultsNavigation").append( _NEXT_PAGE_HTML );
-    var more_url = jQuery.param.fragment( '/search.html', {'query' : response.query, 'cursor_websafe' : response.next_cursor_websafe} );
+    var more_url = jQuery.param.fragment( '/search.html', {'query' : response.query, 'refinement_token' : refinement_token, 'cursor_websafe' : response.next_cursor_websafe} );
     $( "#searchResultsNavigation .moreLink" ).on( 'click', function() {
       document.location.href = more_url;
     });
   }
   // build refine search panel
-  updateRefineSearchPanel(response, jQuery.bbq.getState( 'refinement_token' ) != null);
+  updateRefineSearchPanel(response, refinement_token != null);
 }
 
 // populate refine search panel
@@ -73,22 +74,12 @@ function updateRefineSearchPanel(response, isRefined){
 	$ ( "#refineSearchPanel" ).hide();
   }
   $( "#refineSearchTable .facetValueRow" ).on( 'click', function() {
-    //var refinement_tokens = [];
-	//refinement_tokens.push($( this ).find( 'td.refinementToken' ).text());
 	var terms = jQuery.bbq.getState( 'query' );
 	var refinement_token = $( this ).find( 'td.refinementToken' ).text();
     var link_url = jQuery.param.fragment( '/search.html', {'query' : terms, 'refinement_token' : refinement_token} );
     document.location.href = link_url;
-	//search_terms = jQuery.bbq.getState( 'query' ) || 'environment';
-	//search(search_terms, refinement_token, null, _docReady_updateSearchFromJsonWithRefinement);
   });
 }
-
-/*function _docReady_updateSearchFromJsonWithRefinement(response) {
-  $( document ).ready( function (){
-    _updateSearchFromJson(response, true);
-  });
-}*/
 
 function _docReady_updateSearchFromJson(response) {
   $( document ).ready( function (){
