@@ -8,8 +8,6 @@ function _updateSearchFromJson(response) {
   $ ( "#searchResults .dynamicrow" ).remove();
   $ ( "#searchResultsNavigation .dynamicrow" ).remove();
   var query = jQuery.bbq.getState( 'query' );
-  var state = jQuery.bbq.getState( 'refinement_token' ) ;
-  var isRefined = (state != null);
   if ( query ) {
     $( "#searchResults tr:last" ).after( "<tr class='dynamicrow'><td class='small'>Found " + response.number_found + " results for '" + query + "'</td></tr>" );
   }
@@ -36,42 +34,54 @@ function _updateSearchFromJson(response) {
       document.location.href = more_url;
     });
   }
-  
-  // refine search content
-  if(!isRefined){
-	var displayRefineSearchPanel = false;
-    $ ( "#refineSearchTable .dynamicrow" ).remove();
-    $.each(response.facets, function(facetKey, facetValues){
-	  if(facetValues.length > 0){
-	    displayRefineSearchPanel = true;
-        $( "#refineSearchTable tr:last" ).after( "<tr class='facetNameRow dynamicrow'></tr>" );
-        $( "#refineSearchTable tr:last" ).append( "<td><h3>" + facetLabel[facetKey] + "</h3></td>" );
-	    $.each(facetValues, function(index, facetValue){
-          $( "#refineSearchTable tr:last" ).after( "<tr class='facetValueRow dynamicrow'></tr>" );
-          $( "#refineSearchTable tr:last" ).append( "<td>" + facetValue.label + "</td>" );
-          $( "#refineSearchTable tr:last" ).append( "<td>" + facetValue.count + "</td>" );
-          $( "#refineSearchTable tr:last" ).append( "<td class='refinementToken hiddenColumn'>" + facetValue.refinement_token + "</td>" );
-        });
-	  }
-	});
-	// hide / show the refine search panel 
-	if(displayRefineSearchPanel){
-	  $ ( "#refineSearchPanel" ).show();
-	}
-	else{ // none of the facet returned has got data
-	  $ ( "#refineSearchPanel" ).hide();
-	}
-    $( "#refineSearchTable .facetValueRow" ).on( 'click', function() {
-      //var refinement_tokens = [];
-	  //refinement_tokens.push($( this ).find( 'td.refinementToken' ).text());
-	  var terms = jQuery.bbq.getState( 'query' );
-	  var refinement_token = $( this ).find( 'td.refinementToken' ).text();
-      var link_url = jQuery.param.fragment( '/search.html', {'query' : terms, 'refinement_token' : refinement_token} );
-      document.location.href = link_url;
-	  //search_terms = jQuery.bbq.getState( 'query' ) || 'environment';
-	  //search(search_terms, refinement_token, null, _docReady_updateSearchFromJsonWithRefinement);
-    });
+  // build refine search panel
+  updateRefineSearchPanel(response, jQuery.bbq.getState( 'refinement_token' ) != null);
+}
+
+// populate refine search panel
+function updateRefineSearchPanel(response, isRefined){
+  var facets = {};
+  if(isRefined){
+    // use local storage
+	facets = JSON.parse($.localStorage.getItem('search_refine_facets')) || {};
   }
+  else{
+    // overwrite local storage with the new facets
+    facets = response.facets;
+	$.localStorage.setItem('search_refine_facets', JSON.stringify(facets));
+  }
+  var displayRefineSearchPanel = false;
+  $ ( "#refineSearchTable .dynamicrow" ).remove();
+  $.each(facets, function(facetKey, facetValues){
+	if(facetValues.length > 0){
+	  displayRefineSearchPanel = true;
+      $( "#refineSearchTable tr:last" ).after( "<tr class='facetNameRow dynamicrow'></tr>" );
+      $( "#refineSearchTable tr:last" ).append( "<td><h3>" + facetLabel[facetKey] + "</h3></td>" );
+	  $.each(facetValues, function(index, facetValue){
+        $( "#refineSearchTable tr:last" ).after( "<tr class='facetValueRow dynamicrow'></tr>" );
+        $( "#refineSearchTable tr:last" ).append( "<td>" + facetValue.label + "</td>" );
+        $( "#refineSearchTable tr:last" ).append( "<td>" + facetValue.count + "</td>" );
+        $( "#refineSearchTable tr:last" ).append( "<td class='refinementToken hiddenColumn'>" + facetValue.refinement_token + "</td>" );
+      });
+    }
+  });
+  // hide / show the refine search panel 
+  if(displayRefineSearchPanel){
+	$ ( "#refineSearchPanel" ).show();
+  }
+  else{ // none of the facet returned has got data
+	$ ( "#refineSearchPanel" ).hide();
+  }
+  $( "#refineSearchTable .facetValueRow" ).on( 'click', function() {
+    //var refinement_tokens = [];
+	//refinement_tokens.push($( this ).find( 'td.refinementToken' ).text());
+	var terms = jQuery.bbq.getState( 'query' );
+	var refinement_token = $( this ).find( 'td.refinementToken' ).text();
+    var link_url = jQuery.param.fragment( '/search.html', {'query' : terms, 'refinement_token' : refinement_token} );
+    document.location.href = link_url;
+	//search_terms = jQuery.bbq.getState( 'query' ) || 'environment';
+	//search(search_terms, refinement_token, null, _docReady_updateSearchFromJsonWithRefinement);
+  });
 }
 
 /*function _docReady_updateSearchFromJsonWithRefinement(response) {
