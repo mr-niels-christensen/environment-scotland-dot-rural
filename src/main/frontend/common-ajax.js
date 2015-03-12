@@ -23,12 +23,16 @@ $( document ).ajaxError(function( event, jqxhr, settings, thrownError ) {
 	$( "#sparqlResponse" ).append( "<p id='ExceptionMessage'>" + exceptionText + "</p>" );
 });
 
-function search(query, cursor_websafe, callback) {
+function search(query, refinement_token, cursor_websafe, callback) {
+  var data = {};
+  data["query"] = query;
+  data["cursor_websafe"] = cursor_websafe;
+  if(refinement_token != null){
+    data["refinement_token"] = refinement_token;	
+  }
   $.ajax({
     url: "/search/default",
-    data: {
-      "query" : query,
-      "cursor_websafe" : cursor_websafe},
+    data: data,
     dataType: 'json',
     success: callback,
     timeout: 19000 + 2000 * Math.random() //20 seconds +-1 
