@@ -65,6 +65,8 @@ _Adding a feature: New, fully compatible data source_: This is an example of how
 
 _Extending the refined search_: Explained in https://github.com/mr-niels-christensen/environment-scotland-dot-rural/blob/master/docs/md/add-item-refine-search.md
 
+`reset-metrics`: How to remove all existing metrics and start from scratch. This may be useful when going from a test phase into a production phase, in case the test metrics are not desirable.
+
 ### Development blog
 
 Some of the underlying technologies have been discussed in blog posts on https://semanticwebrecipes.wordpress.com/
