@@ -46,6 +46,8 @@ The other three diagrams describe important parts of that process.
 
 `apis-and-protocols.pdf` describes the data exchanges that the applications takes part of (with the user and with 3rd-party data sources).
 
+`functional-diagram.pdf` is an overview of implemented and planned functionalities.
+
 ### Guides
 
 We have created a number of guides on development and operational tasks.
