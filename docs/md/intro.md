@@ -48,6 +48,8 @@ The other three diagrams describe important parts of that process.
 
 `functional-diagram.pdf` is an overview of implemented and planned functionalities.
 
+`functional-diagram-annotated.pdf` is the above with each functionality annotated with the best file to start with when revising the feature. A "map to the code", so to speak.
+
 ### Guides
 
 We have created a number of guides on development and operational tasks.
