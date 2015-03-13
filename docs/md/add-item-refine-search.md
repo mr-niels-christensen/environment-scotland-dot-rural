@@ -3,7 +3,7 @@ Refine Search - Adding an item
 
 It is assumed that the item to add exists in the database.
 
-In function _search_documents_from_pairs add the following line right after the statement with id_to_doc[doc_id].fields.append… for the corresponding data.
+In index.py (src\main\dotruralsepake\search) in the function `_search_documents_from_pairs` add the following line right after the statement with id_to_doc[doc_id].fields.append… for the corresponding data.
 `id_to_doc[doc_id].facets.append(search.AtomFacet(name='<facet-name>', value=<value>))`
 
 Note: indexing needs to be run at this point for these changes to take effect.
@@ -13,3 +13,5 @@ In search.py (src\main\dotruralsepake\search) add the new facet name to the arra
 
 in search-results.js (src\main\frontend) add the label for this new facet (the name that will be displayed on the page) by adding it to the array at the top of the file:
 `var facetLabel = {'publicationYear': 'Year of publication', '<facet-name>': '<facet-label>'};`
+
+To learn more about Google App Engine Faceted Search: https://cloud.google.com/appengine/docs/python/search/faceted_search
